@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  shipping_address_id: 1
+  shipping_address_type: MyString
+  billing_address_id: 1
+  billing_address_type: MyString
+  user_id: 1
+  status_constant: 1
+
+two:
+  shipping_address_id: 1
+  shipping_address_type: MyString
+  billing_address_id: 1
+  billing_address_type: MyString
+  user_id: 1
+  status_constant: 1

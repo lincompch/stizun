@@ -1,0 +1,17 @@
+<h2>Add component</h2>
+
+Product: <%= @product.to_s %>
+
+<%= render :partial => 'product_sets', :object => @product.product_sets %>
+
+
+<% form_tag :controller => 'admin/components', :action => 'create' do |f| %>
+
+
+
+  <%= text_field_tag :quantity, 1, :size => 3 %> x 
+  <%= text_field_tag :component_id, nil, :size => 10 %>
+
+  <%= submit_tag "Add component" %>
+
+<% end %>

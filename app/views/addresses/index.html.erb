@@ -1,0 +1,10 @@
+<h3>Your addresses</h3>
+
+<%= link_to 'Add new address', new_address_path %>
+
+<% @addresses.each do |a| %>
+
+   <%= render :partial => 'address_box', :object => a %>
+
+
+<% end %>

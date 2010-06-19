@@ -1,0 +1,17 @@
+Hi there.
+
+This is an e-mail message. Maybe you already guessed that.
+
+Pay us lots of money for stuff. This is the stuff:
+
+<% @invoice.invoice_lines.each do |il| %>
+<%= "#{il.quantity.to_s}x #{il.text}. #{pretty_price(il.rounded_price)}" %>
+<% end %>
+
+Total: <%= pretty_price(@invoice.rounded_price) %>
+
+Come on. You know you'd love to pay. Here's a link for payment details:
+
+http://www.lincomp.org<%= url_for :controller => 'invoices', :action => 'uuid', :uuid => @invoice.uuid %>
+
+Lincomp

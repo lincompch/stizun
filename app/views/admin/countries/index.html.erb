@@ -1,0 +1,14 @@
+<h2>Countries</h2>
+
+<% @countries.each do |c| %>
+
+<p><%= c.to_s %>
+<br />
+<%= link_to "Edit", edit_admin_country_path(c) %>
+<%= link_to "Destroy", admin_country_path(c), :confirm => 'Are you sure?', :method => :delete %>
+
+</p>
+
+<% end %>
+
+<%= link_to "Create new", new_admin_country_path %>

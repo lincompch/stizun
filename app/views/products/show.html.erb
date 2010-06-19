@@ -1,0 +1,16 @@
+<p>The product:</p>
+
+<h3><%= @product.name %></h3>
+
+<p><%= @product.description %></p>
+
+<p>Price: <%= product_rounded_price(p)%></p>
+
+<p><%= @product.stock %> pcs. in stock.</p>
+
+
+<% form_tag "/carts/add_product", :method => 'get' do -%>
+  <%= text_field_tag "quantity", 1, :size => 3 %>
+  <%= hidden_field_tag "product_id", @product.id %>
+  <%= submit_tag "Add to cart" %>
+<% end -%>

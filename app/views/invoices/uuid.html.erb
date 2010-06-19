@@ -1,0 +1,11 @@
+<h3>Billing address</h3>
+
+<%= simple_format @invoice.billing_address.block_summary %>
+
+<h3>Shipping address</h3>
+
+<%= (simple_format @invoice.shipping_address.block_summary) if @invoice.shipping_address%>
+
+<h3>Items</h3>
+
+<%= render :partial => 'invoice_table', :object => @invoice %>

@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" > 
+ 
+<head> 
+ 
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+  <title>ADMIN: Lincomp</title> 
+  <%= stylesheet_link_tag "general" %>
+  <%= stylesheet_link_tag "modal" %>
+  <%= javascript_include_tag :defaults %>
+
+  <%= include_fancy_box %>
+
+ <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+          $("a.fancy").fancybox({
+            'hideOnContentClick': false,
+            'autoScale' : true,            
+            'type' : 'iframe'
+          });
+        });
+    </script>
+
+</head> 
+ 
+<body>
+  <div id="modal_wrapper">
+
+  
+    <div id="modal_content"> 
+      <% if flash[:notice] -%>
+        <div id="notice" ><%= flash[:notice] %></div>
+      <% end -%>
+      <% if flash[:error] -%>
+        <div id="error" ><%= flash[:error] %></div>
+      <% end -%>
+
+    <%= yield %>
+    </div> 
+  
+  </div>     
+    
+</body> 
+</html> 

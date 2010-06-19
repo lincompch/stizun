@@ -1,0 +1,19 @@
+<h1>Editing shipping_rate</h1>
+
+<% form_for(@shipping_rate) do |f| %>
+  <%= f.error_messages %>
+
+  <table>
+   <tr>
+      <td><%= f.label :name, "Name" %> </td>
+      <td><%= f.text_field :name %></td>
+    </tr>
+  </table>  
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', admin_shipping_rate_path(@shipping_rate) %> |
+<%= link_to 'Back', admin_shipping_rates_path %>

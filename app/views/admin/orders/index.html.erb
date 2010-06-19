@@ -1,0 +1,36 @@
+<h2>Orders</h2>
+
+
+<table>
+  <tr>
+    <th>
+      Document ID
+    </th>
+    <th>
+      Date
+    </th>
+    <th>
+      Billing
+    </th>
+    <th>
+      Shipping
+    </th>
+    <th>
+      Total
+    </th>
+    <th>
+      Status
+    </th>
+    <th>
+      Actions
+    </th>
+  </tr>
+
+<% @orders.each do |o| %>
+
+<%= render :partial => 'detail_row', :object => o %>
+
+<% end %>
+
+
+</table>

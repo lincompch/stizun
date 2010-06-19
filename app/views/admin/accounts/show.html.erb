@@ -1,0 +1,28 @@
+
+<h1>Account details</h1>
+<h2><%= @account.name %></h2>
+
+<table>
+
+  <tr>
+    <th>Date</th>
+    <th>Note</th>
+    <th>Credit</th>
+    <th>Debit</th>
+  </tr>
+
+
+<% @account.transactions.each do |t| %>
+  <tr>
+    <td><%= short_date(t[0]) %></td>
+    <td><%= "#{t[3]}" %></td>
+    <td><%= pretty_price(t[1]) if t[2] == "credit" %></td>
+    <td><%= pretty_price(t[1]) if t[2] == "debit" %></td>
+  </tr>
+  
+
+<% end %> 
+ 
+</table>      
+
+<p>Balance: <%= pretty_price(@account.balance) %></p>

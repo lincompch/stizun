@@ -1,0 +1,40 @@
+  <tr class="<%= cycle('odd','even') %>">
+    <td><%= product_line.id %></td>
+    <td>
+      <%= "[LOSS LEADER] " if product_line.is_loss_leader? %>
+      <%= " [UNPROFITABLE] " if !product_line.profitable? %>
+
+      <%= product_line.name %>
+    </td>
+    <td class="price">
+      <table style="width: 250px">
+        <tr>
+          <td>Purchase price</td><td class="price"><%= sprintf "%.2f", product_line.purchase_price %></td>
+        </tr>
+        <tr>
+          <td>Calculated margin</td><td class="price"><%= product_line.pretty_margin %></td>
+        </tr>
+        <tr>
+          <td>Taxes</td><td class="price"><%= product_line.pretty_taxes %></td>
+        </tr>
+        <% if product_line.on_sale? %>
+
+          <tr>
+            <td><em>Subtotal</em></td><td class="price"><%= pretty_price(product_line.price_before_rebate) %></td>
+          </tr>
+
+          <tr>
+            <td>Rebate</td><td class="price">./. <%= pretty_price(product_line.rebate) %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <td>Total</td><td class="price"><%= pretty_price( product_line.price ) %></td>
+        </tr>
+      </table>
+    
+    </td>
+    <td>
+      <%= link_to_box "Edit", edit_admin_product_path(product_line) %>
+      <%= link_to "Delete", admin_product_path(product_line), :confirm => 'Are you sure?', :method => 'delete' unless product_line.in_a_document?  %>
+    </td>
+  </tr>

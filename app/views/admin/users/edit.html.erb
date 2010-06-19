@@ -1,0 +1,25 @@
+<h3>Edit user</h3>
+
+<%= error_messages_for(:user) %>
+
+<% form_for [:admin, @user] do |f| %>
+
+<table class="dataentry">
+  <tr>
+    <td>E-Mail</td>
+    <td><%= @user.email %></td>
+  </tr>
+    <td><%= f.label :payment_method_ids, "Authorized payment methods" %></td>
+    <td><%= f.collection_select :payment_method_ids, 
+            PaymentMethod.find(:all), 
+            :id, :name, 
+            { :selected => @user.payment_method_ids }, 
+            { :multiple => true, :name => 'user[payment_method_ids][]' }  %></td>
+  </tr>
+</table>
+<p>Hold CTRL to select multiple.</p>
+
+
+<%= f.submit "Submit" %>
+
+<% end %>

@@ -1,0 +1,189 @@
+<h3>Edit product</h3>
+
+<%= error_messages_for(:product) %>
+
+
+<% if @product.componentized? %>
+
+<p>This product is priced based on its components. You will not be able to edit some items in this form, because they are automatically calculated based on component pricing and desired margin percentage.</p>
+
+<% end %>
+
+<% form_for [:admin, @product] do |f| %>
+
+<table class="dataentry">
+  <tr>
+    <td><%= f.label :name, "Name" %></td>
+    <td><%= f.text_field :name %></td>
+  </tr>
+
+  <tr>
+    <td><%= f.label :description, "Description" %></td>
+    <td><%= f.text_area :description %></td>
+  </tr>
+
+  <tr>
+    <td><%= f.label :tax_class_id, "Tax Class" %></td>
+    <td><%= f.collection_select(:tax_class_id, TaxClass.find(:all, :order => 'name ASC'), :id, :name, {:prompt => true}) %></td>
+  </tr>
+
+
+  <% if @product.componentized? %>
+    <tr>
+      <td><%= f.label :purchase_price, "Purchase price" %></td>
+      <td><%= pretty_price(@product.purchase_price) %></td>
+    </tr>
+
+  <% else %>
+    <tr>
+      <td><%= f.label :purchase_price, "Purchase price" %></td>
+      <td><%= f.text_field :purchase_price, :size => 8 %></td>
+    </tr>
+
+  <% end %>
+
+
+  <tr>
+    <td><%= f.label :margin_percentage, "Profit margin (in percent)" %></td>
+    <td><%= f.text_field :margin_percentage, :size => 4 %></td>
+  </tr>
+
+  <% if @product.componentized? %>
+    <tr>
+      <td><%= f.label :sales_price, "Sales price" %></td>
+      <td><%= pretty_price(@product.rounded_price) %></td>
+    </tr>
+  <% else %>
+
+    <tr>
+      <td><%= f.label :sales_price, "Sales price" %></td>
+      <td><%= f.text_field :sales_price, :size => 8 %> (Leave empty to make the system auto-calculate the sales price based on margin)</td>
+    </tr>
+  <% end %>
+
+
+  <tr>
+    <td><%= f.label :percentage_rebate, "Rebate in %" %></td>
+    <td><%= f.text_field :percentage_rebate, :size => 8 %> (Takes precedence over rebate in CHF)</td>
+  </tr>  
+
+  <tr>
+    <td><%= f.label :absolute_rebate, "Rebate in CHF" %></td>
+    <td><%= f.text_field :absolute_rebate, :size => 8 %></td>
+  </tr>  
+
+  <tr>
+    <td><%= f.label :rebate_until, "Rebate end date/time" %></td>
+    <td><%= f.datetime_select :rebate_until %></td>
+  </tr>  
+
+  <tr>
+    <td> </td>
+    <td><%= f.check_box :is_loss_leader %> Loss leader. This product's sales price may go below its purchase price, either through negative margins, a fixed sales price or large rebates.</td>
+  </tr>  
+
+
+  <% if @product.componentized? %>
+
+    <tr>
+      <td><%= f.label :weight, "Weight in kg" %></td>
+      <td><%= @product.weight %> kg</td>
+    </tr>
+  <% else %>
+    <tr>
+      <td><%= f.label :weight, "Weight in kg" %></td>
+      <td><%= f.text_field :weight, :size => 5 %></td>
+    </tr>
+  <% end %>
+
+
+
+  <tr>
+    <td><%= f.label :supplier_id, "Supplier" %></td>
+    <td><%= f.select(:supplier_id, options_from_collection_for_select(Supplier.all, :id, :name, @product.supplier_id)) %></td>
+  </tr>
+
+  <tr>
+    <td><%= f.label :supplier_product_code, "Supplier's product code" %></td>
+    <td><%= f.text_field :supplier_product_code, :size => 15 %></td>
+  </tr>
+
+  <% unless @product.supply_item.nil? %>
+  <tr>
+    <td>Related supply item</td>
+    <td><%= @product.supply_item.to_s %><br />
+        Supplier: <%= link_to(@product.supply_item.supplier.name,  admin_supplier_supply_items_path(@product.supplier),{ :target => '_top' }) %>
+        </td>
+  </tr> 
+  <% end %>
+
+</table>
+
+
+<hr />
+
+<h3>Components</h3>
+
+<p><%= link_to "Edit components", admin_product_components_path(@product) %></p>
+
+<% if @product.componentized? %>
+
+  <%= render :partial => 'product_sets', :object => @product.product_sets %>
+
+<% else %>
+
+<p>This product has no components.</p>
+
+<% end %>
+
+<hr />
+
+<h3>Extended properties</h3>
+
+<table>
+
+  <% if @product.componentized? %>
+
+    <tr>
+      <td><%= f.label :stock, "Stock level (max.)" %></td>
+      <td><%= @product.stock %></td>
+    </tr>
+  <% else %>
+    <tr>
+      <td><%= f.label :stock, "Stock level" %></td>
+      <td><%= f.text_field :stock, :size => 4 %></td>
+    </tr>
+  <% end %>
+
+
+
+  <tr>
+    <td><%= f.check_box :direct_shipping %> </td>
+    <td>Ship directly to customer (this has no effect on products with components)</td>
+  </tr>
+  
+  <tr>
+    <td><%= f.check_box :is_available %> </td>
+    <td>Is available for sale at Lincomp</td>
+  </tr>
+
+</table>
+
+<p><%= f.label :category_ids, "Categories" %></p>
+<p>
+<%= f.collection_select :category_ids, 
+            Category.find(:all), 
+            :id, :fully_qualified_name, 
+            { :selected => @product.category_ids }, 
+            { :multiple => true, :name => 'product[category_ids][]' } 
+%>
+</p>
+<p>Hold CTRL to select multiple.</p>
+
+<%= f.hidden_field :supply_item_id %>
+<%= f.hidden_field :manufacturer_product_code %>
+
+
+
+<%= f.submit 'Save' %>
+<% end %>

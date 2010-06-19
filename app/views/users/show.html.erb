@@ -1,0 +1,73 @@
+<h2>Account information</h2>
+
+<p>
+  <b>E-mail (= login):</b>
+  <%=h @user.email %>
+</p>
+
+<h3>Your pending orders</h3>
+
+<table>
+
+  <% @orders_awaiting_payment.each do |o| %>
+  <%= render :partial => 'orders/order', :object => o %>
+  <% end %>
+
+  <% @orders_processing.each do |o| %>
+  <%= render :partial => 'orders/order', :object => o %>
+  <% end %>
+
+  <% @orders_to_ship.each do |o| %>
+  <%= render :partial => 'orders/order', :object => o %>
+  <% end %>
+
+</table>
+
+<%= link_to "View all orders", user_orders_path(@user) %>
+
+
+<h3>Your unpaid invoices</h3>
+
+<table>
+  <tr>
+    <th>No.</th>
+    <th>Date</th>
+    <th>Status</th>
+    <th>Total</th>
+    <th></th>
+  </tr>
+
+  <% @invoices.each do |i| %>
+    <%= render :partial => 'invoices/invoice', :object => i %>
+  <% end %>
+</table>
+
+<%= link_to "View all invoices", user_invoices_path(@user) %>
+
+
+<hr />
+
+<h2>Addresses</h2>
+
+<%= link_to 'Add new address', new_address_path %>
+
+<% if @addresses.count > 0 %>
+  <p>You have saved the following addresses during previous orders:</p>
+
+  <% @addresses.each do |a| %>
+
+    <%= render :partial => 'addresses/address_box', :object => a %>
+
+  <% end %>
+
+<% else %>
+
+<p>You have no saved addresses at this time. Please add an address using the link above or simply save your address the next time you order.</p>
+
+<% end %>
+
+<hr />
+
+ 
+<%= link_to("Log out", { :controller => 'user_sessions', :action => 'destroy'}) if current_user %> | 
+<%= link_to 'Edit', edit_account_path %>

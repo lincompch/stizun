@@ -1,0 +1,40 @@
+<p>The products</p>
+
+<%= render :partial => 'carts/sidebar' unless @cart.cart_lines.count == 0 %>
+
+
+<%= will_paginate @products %>
+
+<% @products.each do |p| %>
+
+<% if p.on_sale? %>
+  <div class="on_sale_product">
+<% end %>
+
+<h4><%= p.name %></h4>
+<p><%= p.description %></p>
+<p>Price: <%= product_rounded_price(p)%></p>
+
+<p><%= p.stock %> pcs. in stock.</p>
+
+<p>
+<%= link_to "Details", :action => 'show', :id => p %>
+
+<% form_tag :controller => 'carts', :action => 'add_product', :method => 'get' do -%>
+  <%= text_field_tag "quantity", 1, :size => 3 %>
+  <%= hidden_field_tag "product_id", p.id %>
+  <%= submit_tag "Add to cart" %>
+<% end -%>
+
+</p>
+
+
+<% if p.on_sale? %>
+  </div>
+<% end %>
+
+
+<hr />
+<% end %>
+
+<%= will_paginate @products %>

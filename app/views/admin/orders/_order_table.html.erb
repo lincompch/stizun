@@ -1,0 +1,50 @@
+<table>
+
+      <tr>
+        <th>Qty</th>
+        <th>Product</th>
+        <th>Supplier</th>
+        <th>VAT</th>
+        <th>Sales Price</th>
+        <th>Line Total</th>
+      </tr>
+      <% order_table.order_lines.each do |ol| %>
+        <%= render :partial => 'order_line', :object => ol %>
+      <% end %>
+      
+      <tr>
+        <td> </td>
+        <td>Shipping (incoming)</td>
+        <td><%=order_table.shipping_rate.incoming_package_count%> pkg(s) </td>
+        <td> </td>
+        <td> </td>
+        <td class="price"><%= pretty_price(order_table.shipping_rate.incoming_cost) %></td>
+      </tr>
+
+      <tr>
+        <td> </td>
+        <td>Shipping (outgoing)</td>
+        <td><%=order_table.shipping_rate.outgoing_package_count%> pkg(s)</td>
+        <td> </td>
+        <td> </td>
+        <td class="price"><%= pretty_price(order_table.shipping_rate.outgoing_cost) %></td>
+      </tr>
+
+      <tr>
+        <td> </td>
+        <td><em>Shipping (total)</em></td>
+        <td><%= order_table.weight.to_s%>kg</td>
+        <td>incl. <%= pretty_price(order_table.shipping_rate.total_taxes)%> VAT</td>
+        <td> </td>
+        <td class="price"><em><%= pretty_price(order_table.shipping_rate.total_cost) %></em></td>
+      </tr>
+      
+      <tr>
+        <td></td>
+        <td><strong>Total</strong></td>
+        <td> </td>
+        <td></td>
+        <td> </td>        
+        <td class="price"><strong><%= pretty_price(order_table.rounded_price) %></strong></td>
+     </tr>
+</table>

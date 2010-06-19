@@ -1,0 +1,12 @@
+<h3>New address</h3>
+
+<%= error_messages_for(:address) %>
+
+<% form_for @address do |f| %>
+ 
+  <%= render :partial => 'form', :object => f %>
+
+  <%= f.submit 'Save address' %>
+
+
+<% end %>

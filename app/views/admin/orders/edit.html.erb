@@ -1,0 +1,34 @@
+<h2>Edit Order</h2>
+
+<h4>Shipping address</h4>
+
+<%= if @order.shipping_address
+      simple_format @order.shipping_address.block_summary
+    else
+      "Same as billing address."
+    end %>
+
+<h4>Billing address</h4>
+
+<%= simple_format @order.billing_address.block_summary %>
+
+
+<h4>Items ordered</h4>
+
+<%= render :partial => 'order_table', :object => @order %>
+
+<% form_for [:admin, @order] do |f| %>
+<table>
+  <tr>
+    <td>Status</td>
+    <td><%= f.select :status_constant, options_for_select(Order::status_hash_for_select, @order.status_constant) %></td>
+  </tr>
+</table>
+
+<%= f.submit "Submit" %>
+
+<% end %>
+
+<p>
+<%= link_to("Generate invoice", create_from_order_admin_invoices_path(:order_id => @order), :method => :post) if @order.invoice.blank? %>
+</p>

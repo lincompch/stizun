@@ -1,0 +1,19 @@
+class DocumentLine < ActiveRecord::Base
+  belongs_to :product
+  
+  validates_inclusion_of :quantity, :in => 1..1000, :message => "must be between 1 and 1000" 
+
+  
+  def price
+    self.quantity * self.product.price
+  end
+  
+  def rounded_price
+    self.quantity * self.product.rounded_price
+  end
+  
+  def taxes
+    self.quantity * self.product.taxes
+  end
+  
+end

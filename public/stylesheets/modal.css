@@ -1,0 +1,11 @@
+
+#modal_content {
+  float: left;
+  width: 720px;
+}
+
+#modal_wrapper {
+  margin: 0;
+  width: 780px;
+  border: 0;
+}

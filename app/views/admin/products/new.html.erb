@@ -1,0 +1,98 @@
+<p>Create new product</p>
+
+<%= error_messages_for(:product) %>
+
+<% form_for [:admin, @product] do |f| %>
+
+<table class="dataentry">
+  <tr>
+    <td><%= f.label :name, "Name" %></td>
+    <td><%= f.text_field :name %></td>
+  </tr>
+
+  <tr>
+    <td><%= f.label :description, "Description" %></td>
+    <td><%= f.text_area :description %></td>
+  </tr>
+
+  <tr>
+    <td><%= f.label :tax_class_id, "Tax Class" %></td>
+    <td><%= f.collection_select(:tax_class_id, TaxClass.find(:all, :order => 'name ASC'), :id, :name, {:prompt => true}) %></td>
+  </tr>
+
+
+  <tr>
+    <td><%= f.label :purchase_price, "Purchase price" %></td>
+    <td><%= f.text_field :purchase_price, :size => 8 %></td>
+  </tr>
+
+  <tr>
+    <td><%= f.label :margin_percentage, "Profit margin (in percent)" %></td>
+    <td><%= f.text_field :margin_percentage, :size => 4 %></td>
+  </tr>
+
+  <tr>
+    <td><%= f.label :sales_price, "Sales price" %></td>
+    <td><%= f.text_field :sales_price, :size => 8, :value => '' %> (Leave empty to make the system auto-calculate the sales price based on margin)</td>
+  </tr>
+  
+  <tr>
+    <td><%= f.label :weight, "Weight in kg" %></td>
+    <td><%= f.text_field :weight, :size => 5 %></td>
+  </tr>
+
+  <tr>
+    <td><%= f.label :supplier_id, "Supplier" %></td>
+    <td><%= f.select(:supplier_id, options_from_collection_for_select(Supplier.all, :id, :name, @product.supplier_id)) %></td>
+  </tr>
+
+  <tr>
+    <td><%= f.label :supplier_product_code, "Supplier's product code" %></td>
+    <td><%= f.text_field :supplier_product_code, :size => 15 %></td>
+  </tr>
+
+</table>
+
+<hr />
+
+<h3>Extended properties</h3>
+
+<table>
+
+  <tr>
+    <td><%= f.label :stock, "Stock level" %></td>
+    <td><%= f.text_field :stock, :size => 4 %></td>
+  </tr>
+
+  <tr>
+    <td><%= f.check_box :direct_shipping %> </td>
+    <td>Ship directly to customer</td>
+  </tr>
+  
+  <tr>
+    <td><%= f.check_box :is_available %> </td>
+    <td>Is available for sale at Lincomp</td>
+  </tr>
+
+</table>
+
+<p><%= f.label :category_ids, "Categories" %></p>
+<p>
+<%= f.collection_select :category_ids, 
+            Category.find(:all), 
+            :id, :fully_qualified_name, 
+            { :selected => @product.category_ids }, 
+            { :multiple => true, :name => 'product[category_ids][]' } 
+%>
+</p>
+<p>Hold CTRL to select multiple.</p>
+
+<%= f.hidden_field :supply_item_id unless @product.supply_item_id.blank? %>
+<%= f.hidden_field :manufacturer_product_code unless @product.manufacturer_product_code.blank? %>
+
+
+<%= f.submit 'Create' %>
+<%= link_to 'Close', :onclick => '$.fancybox.close();' %>
+<% end %>
+
+<p>Note: This form only allows creation of prodcuts using the most basic product information. Additional items such as categories etc. are assigned in a later step.</p>

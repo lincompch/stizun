@@ -1,0 +1,23 @@
+<tr class="<%= cycle('odd','even') %>">
+
+  <td>
+  <%= invoice_line.quantity %>
+  </td>
+
+  <td>
+  <%= invoice_line.text %>
+  </td>
+
+  <td class="price">
+  <%= invoice_line.tax_percentage %>%
+  </td>  
+
+  <td class="price">
+  <%= pretty_price(invoice_line.single_rounded_price) %>
+  </td>
+  
+  <td class="price">
+  <%= pretty_price(invoice_line.rounded_price) %>
+  </td>
+
+</tr>

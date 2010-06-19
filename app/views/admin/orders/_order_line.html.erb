@@ -1,0 +1,26 @@
+<tr class="<%= cycle('odd','even') %>">
+  <td>
+  <%= order_line.quantity %>
+  </td>
+
+  <td>
+  <%= link_to_box order_line.product.name, edit_admin_product_path(order_line.product) %>
+  </td>
+    
+  <td>
+  <%= order_line.product.supplier.name %>
+  </td>
+
+  <td>
+  <%= order_line.product.tax_class.percentage %>%
+  </td>
+  
+  <td class="price">
+  <%= pretty_price(order_line.product.rounded_price) %>
+  </td>
+  
+  <td class="price">
+  <%= pretty_price(order_line.rounded_price) %>
+  </td>
+
+</tr>

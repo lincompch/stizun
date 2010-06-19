@@ -1,0 +1,12 @@
+<h1>Editing shipping_cost</h1>
+
+<% form_for(@shipping_cost) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @shipping_cost %> |
+<%= link_to 'Back', admin_shipping_costs_path %>

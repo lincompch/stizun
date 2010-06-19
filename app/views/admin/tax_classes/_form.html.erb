@@ -1,0 +1,16 @@
+<% form_for [:admin, @tax_class] do |f| %>
+
+<table class="dataentry">
+  <tr>
+    <td><%= f.label :name, "Name" %></td>
+    <td><%= f.text_field :name %></td>
+  </tr>
+
+  <tr>
+    <td><%= f.label :percentage, "Percentage" %></td>
+    <td><%= f.text_field :percentage, :size => 4 %></td>
+  </tr>
+
+</table>
+<%= f.submit 'Go' %>
+<% end %>

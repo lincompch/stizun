@@ -1,0 +1,8 @@
+development:
+  :address: localhost
+  :port: 25
+  :domain: lincomp.org
+production:
+  :address: localhost
+  :port: 25
+  :domain: lincomp.org

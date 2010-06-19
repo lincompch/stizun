@@ -1,0 +1,18 @@
+<h1>Listing shipping_costs</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @shipping_costs.each do |shipping_cost| %>
+  <tr>
+    <td><%= link_to 'Show', admin_shipping_cost_path(shipping_cost) %></td>
+    <td><%= link_to 'Edit', edit_admin_shipping_cost_path(shipping_cost) %></td>
+    <td><%= link_to 'Destroy',  admin_shipping_cost_path(shipping_cost), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New shipping_cost', new_admin_shipping_cost_path %>

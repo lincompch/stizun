@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  quantity: 1
+  price: 9.99
+  tax: 9.99
+  product_id: 1
+  note: MyString
+  type: MyString
+
+two:
+  quantity: 1
+  price: 9.99
+  tax: 9.99
+  product_id: 1
+  note: MyString
+  type: MyString

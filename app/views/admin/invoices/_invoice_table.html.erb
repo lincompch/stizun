@@ -1,0 +1,27 @@
+<table>
+      <% invoice_table.invoice_lines.each do |il| %>
+        <%= render :partial => 'invoice_line', :object => il %>
+      <% end %>
+      
+           
+      <tr>
+        <td> </td>
+        <td><em>Shipping (total)</em></td>
+        <td><%= invoice_table.weight.to_s%>kg</td>
+        <td>incl. <%=  pretty_price(invoice_table.shipping_rate.total_taxes)%> VAT</td>
+        <td class="price"><em><%= pretty_price(invoice_table.shipping_cost) %></em></td>
+      </tr>
+ 
+      <tr>
+        <td> </td>
+        <td><strong>Total</strong></td>
+        <td></td>
+        <td> </td>
+        <td class="price"><strong><%= pretty_price(invoice_table.rounded_price) %></strong></td>
+      </tr>
+      
+</table>
+
+<p>
+VAT included: <%= pretty_price(invoice_table.taxes)%>
+</p>

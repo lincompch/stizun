@@ -1,0 +1,21 @@
+<h1>Listing users</h1>
+
+
+<%= will_paginate @users %>
+
+<table>
+  <tr>
+  <th>ID</th>
+  <th>Login/E-Mail</th>
+  </tr>
+
+<% @users.each do |u| %>
+  <tr>
+    <td><%= u.id %></td>
+    <td><%= u.email %></td>
+    <td><%= link_to_box "Edit", edit_admin_user_path(u) %> <%= link_to "Accounts", admin_user_accounts_path(u) if u.accounts.count > 0 %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= will_paginate @users %>

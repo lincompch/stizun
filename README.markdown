@@ -1,0 +1,47 @@
+General information
+===================
+
+Stizun is a deliberately simplistic e-commerce solution written
+in Ruby on Rails.
+
+Main features:
+
+ * Built-in miniature double-entry accounting system.
+ * High degree of automation. Invoices are booked automatically.
+ * Unique shipping calculation system for stores that don't have
+   their own warehouses but ship directly from suppliers to their
+   customers (just-in-time). Can also calculate shipping for a mix
+   of various suppliers in one order.
+ * UUID-based invoice generator: Users don't need to remember their
+   login details just to follow a link from an e-mail to their
+   invoice.
+
+It's not quite ready for production yet, but we're getting there!
+
+
+Copryight and licensing statement
+=================================
+
+Stizun, (C) 2010 Ramón Cahenzli
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+Licenses of included works
+==========================
+
+It is possible that this source code distribution includes code (libraries,
+plugins, extensions, samples, etc.) that belong to other owners than the one
+stated above. In such a case, the license included with the code in question
+has precedence over the GNU Affero General Public License.

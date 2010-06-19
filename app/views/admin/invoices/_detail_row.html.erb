@@ -1,0 +1,27 @@
+<tr>
+
+  <td>
+    <%= detail_row.document_id %>
+  </td>
+  <td>
+    <%= short_date(detail_row.created_at) %>
+  </td>
+  <td>
+    <%= short_address(detail_row.billing_address) %>
+  </td>
+  <td>
+    <%= short_address(detail_row.shipping_address) if detail_row.shipping_address %>
+  </td>
+  <td class="price">
+    <%= pretty_price(detail_row.rounded_price) %>
+  </td>
+  <td>
+    <%= detail_row.status_human %>
+  </td>
+  <td>
+    <%= link_to "Edit", edit_admin_invoice_path(detail_row) %>
+    <!-- We don't want to allow deleting for now, for reasons of bookkeeping. -->
+    <!--<%= link_to "Destroy", admin_invoice_path(detail_row), :confirm => 'Are you sure?', :method => :delete %>-->
+  </td>
+  
+</tr>

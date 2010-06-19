@@ -1,0 +1,22 @@
+<h1>Listing suppliers</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Address ID</th>
+  </tr>
+
+<% @suppliers.each do |supplier| %>
+  <tr>
+    <td><%=h supplier.name %></td>
+    <td><%=h supplier.address_id %></td>
+    <td><%= link_to 'Show', admin_supplier_path(supplier) %></td>
+    <td><%= link_to 'Edit', edit_admin_supplier_path(supplier) %></td>
+    <td><%= link_to 'Supply Items', admin_supplier_supply_items_path(supplier) %> (<%= supplier.supply_items.count %>)</td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New supplier', new_admin_supplier_path %>

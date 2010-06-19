@@ -1,0 +1,36 @@
+<h2>Edit Invoice</h2>
+
+<%= error_messages_for 'invoice' %>
+
+<h4>Shipping address</h4>
+
+<%= if @invoice.shipping_address
+      simple_format @invoice.shipping_address.block_summary
+    else
+      "Same as billing address."
+    end %>
+
+<h4>Billing address</h4>
+
+<%= simple_format @invoice.billing_address.block_summary %>
+
+
+<h4>Items invoiced</h4>
+
+<%= render :partial => 'invoice_table', :object => @invoice %>
+
+<% form_for [:admin, @invoice] do |f| %>
+<table>
+  <tr>
+    <td>Status</td>
+    <td><%= f.select :status_constant, options_for_select(Invoice::status_hash_for_select, @invoice.status_constant) %></td>
+  </tr>
+  
+  <tr>
+    <td>Autobooking</td>
+    <td><%= f.check_box :autobook %><br />Invoices marked for autobooking will automatically be booked into the accounting system when they are switched from status 'unpaid' to 'paid'. The transfer used is 'Bank/Accounts Receivable for user', where 'Accounts receivable for user' is a personalized account created for the user or billing address related to this invoice.</td>
+</table>
+
+<%= f.submit "Submit" %>
+
+<% end %>

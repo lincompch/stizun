@@ -1,0 +1,16 @@
+<% form_for [:admin, @country] do |f| %>
+
+<table class="dataentry">
+  <tr>
+    <td><%= f.label :name, "Name" %></td>
+    <td><%= f.text_field :name %></td>
+  </tr>
+
+  <tr>
+    <td><%= f.label :sortorder, "Sort order (lowest comes first)" %></td>
+    <td><%= f.text_field :sortorder, :size => 4 %></td>
+  </tr>
+
+</table>
+<%= f.submit 'Go' %>
+<% end %>

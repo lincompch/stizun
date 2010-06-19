@@ -1,0 +1,32 @@
+
+
+
+<%= will_paginate @histories %>
+
+<table>
+
+  <% @histories.each do |h| %>
+  
+    <% if params[:day] %>
+    <tr>
+      <td><%= h.created_at.to_s %></td>
+      <td><%= h.text %></td>
+    </tr>
+    <% else %>
+    <tr>
+      <td></td>
+      <td><%= link_to(h.created_at.to_date.to_s, admin_histories_path(:day => h.created_at.to_date.to_s) ) %></td>
+    </tr>
+    
+    <% end %>
+  
+ 
+
+
+  <% end %>
+
+</table>
+
+
+
+<%= will_paginate @histories %>

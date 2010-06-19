@@ -1,0 +1,2 @@
+module ShippingCostsHelper
+end

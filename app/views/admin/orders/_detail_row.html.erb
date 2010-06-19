@@ -1,0 +1,31 @@
+<tr>
+
+  <td>
+    <%= detail_row.document_id %>
+  </td>
+  <td>
+    <%= short_date(detail_row.created_at) %>
+  </td>
+  <td>
+    <%= short_address(detail_row.billing_address) %>
+  </td>
+  <td>
+    <%= short_address(detail_row.shipping_address) if detail_row.shipping_address %>
+  </td>
+  <td class="price">
+    <%= pretty_price(detail_row.rounded_price) %>
+  </td>
+  <td>
+    <%= detail_row.status_human %>
+  </td>
+  <td>
+    <% if detail_row.invoice.blank? %>
+      <%= link_to "Generate invoice", create_from_order_admin_invoices_path(:order_id => detail_row), :method => :post %>
+    <% else %>
+      <%= link_to "Edit invoice", edit_admin_invoice_path(detail_row.invoice) %>
+    <% end %>
+    <%= link_to "Edit", edit_admin_order_path(detail_row) %>
+    <%= link_to("Destroy", admin_order_path(detail_row), :confirm => 'Are you sure?', :method => :delete) unless detail_row.locked? %>
+  </td>
+  
+</tr>

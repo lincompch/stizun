@@ -1,0 +1,15 @@
+<h1>Listing payment methods</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @payment_methods.each do |pm| %>
+  <tr>
+    <td><%= pm.id %></td>
+    <td><%= pm.name %></td>
+    <td>Allows direct shipping: <%= pm.allows_direct_shipping %></td>
+    
+  </tr>
+<% end %>
+</table>

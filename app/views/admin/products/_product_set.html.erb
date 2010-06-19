@@ -1,0 +1,20 @@
+
+<tr>
+
+  <td>
+  <%= product_set.quantity %>
+  </td>
+
+  <td>
+  <%= product_set.component.name %>
+  </td>
+
+  <td class="price">
+  <%= pretty_price(product_set.component.purchase_price) %>
+  </td>
+
+  <td class="price">
+  <%= pretty_price( product_set.purchase_price ) %>
+  </td>
+
+</tr>

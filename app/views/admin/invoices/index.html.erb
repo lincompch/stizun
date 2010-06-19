@@ -1,0 +1,35 @@
+<h2>Invoices</h2>
+
+<table>
+  <tr>
+    <th>
+    Document ID
+    </th>
+    <th>
+      Date
+    </th>
+    <th>
+      Billing
+    </th>
+    <th>
+      Shipping
+    </th>
+    <th>
+      Total
+    </th>
+    <th>
+      Status
+    </th>
+    <th>
+      Actions
+    </th>
+  </tr>
+
+<% @invoices.each do |i| %>
+
+<%= render :partial => 'detail_row', :object => i %>
+
+<% end %>
+
+
+</table>

@@ -1,0 +1,35 @@
+<h2>Products</h2>
+
+<% form_tag({:controller => 'admin/products', :action => 'index'}, {:method => 'get'}) do %>
+<p>Search by name: <%= text_field :search, :keyword, :size => 15 %> <%= submit_tag 'Search' %>
+<% end %>
+
+
+<% unless params[:search].blank? %>
+<p>Search results for: <%= params[:search][:keyword] %></p>
+<% end %>
+
+<%= will_paginate @products %>
+
+<table>
+<tr>
+  <th>ID</th>
+  <th>Name</th>
+  <th>Price calculation</th>
+  <th>Actions</th>
+</tr>
+
+<% @products.each do |p| %>
+
+        <%= render :partial => 'product_line', :object => p %>
+
+
+
+<% end %>
+
+</table>
+
+<%= will_paginate @products %>
+
+
+<%= link_to_box "Create new product", new_admin_product_path %>

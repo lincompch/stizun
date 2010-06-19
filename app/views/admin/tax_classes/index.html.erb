@@ -1,0 +1,14 @@
+<h2>Tax Classes</h2>
+
+<% @tax_classes.each do |t| %>
+
+<p><%= t.to_s %>
+<br />
+<%= link_to "Edit", edit_admin_tax_class_path(t) %>
+<%= link_to "Destroy", admin_tax_class_path(t), :confirm => 'Are you sure?', :method => :delete %>
+
+</p>
+
+<% end %>
+
+<%= link_to "Create new", new_admin_tax_class_path %>

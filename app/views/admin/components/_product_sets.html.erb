@@ -1,0 +1,29 @@
+
+<table>
+  <tr>
+    <th>Qty</th>
+    <th>Name</th>
+    <th>Single</th>
+    <th>Total</th>
+    <td></td>
+
+  </tr>
+  
+  <% product_sets.each do |ps| %>
+  <%= render :partial => 'product_set', :object => ps %>
+
+  <% end %>
+
+<tr>
+  <td></td>
+  <td>
+  Total
+  </td>
+  <td></td>
+  <td class="price">
+  <%= pretty_price(@product.rounded_price) %>
+  </td>
+  <td></td>
+</tr>
+
+</table>

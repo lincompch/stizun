@@ -1,0 +1,26 @@
+
+<tr>
+
+  <td>
+  <%= product_set.quantity %>
+  </td>
+
+  <td>
+  <%= product_set.component.name %>
+  </td>
+
+  <td class="price">
+  <%= pretty_price(product_set.component.purchase_price) %>
+  </td>
+
+  <td class="price">
+  <%= pretty_price( product_set.purchase_price ) %>
+  </td>
+
+  <td>
+  <%= link_to "Remove", :controller => 'admin/components', :action => 'destroy',
+                        :product_id => @product.id, :component_id => product_set.component.id, 
+                        :quantity => product_set.quantity %>
+  </td>
+
+</tr>

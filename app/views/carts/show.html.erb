@@ -1,0 +1,22 @@
+<div id="cart" class="standalone">
+<h2>Shopping cart</h2>
+<ul>
+  <% if @cart.cart_lines.count == 0 %>
+    Your cart is empty.
+  <% else %>
+
+    <% @cart.cart_lines.each do |ci| %>
+      <li>
+        <%= render :partial => "cart_item", :object => ci %>
+      </li>
+    <% end %>
+ 
+</ul>
+
+<p>
+<%= link_to "Continue to checkout", new_order_path %>
+</p>
+
+<% end %>
+
+</div>

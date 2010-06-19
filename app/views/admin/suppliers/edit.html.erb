@@ -1,0 +1,24 @@
+<h1>Editing supplier</h1>
+
+<% form_for([:admin, @supplier]) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :address_id %><br />
+    <%= f.text_field :address_id %>
+  </p>
+  <p>
+    <%= f.label :shipping_rate_id %><br />
+    <%= f.text_field :shipping_rate_id %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', admin_supplier_path(@supplier) %> |
+<%= link_to 'Back', admin_suppliers_path %>

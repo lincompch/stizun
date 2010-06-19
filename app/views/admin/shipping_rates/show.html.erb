@@ -1,0 +1,21 @@
+
+
+<p><%= @shipping_rate.name %></p>
+
+
+<h4>Attached shipping rates</h4>
+
+<table>
+<tr>
+  <th>Min weight</th>
+  <th>Max weight</th>
+  <th>Cost</th>
+</tr>
+
+<% @shipping_rate.shipping_costs.each do |sc| %>
+    <%= render :partial => 'shipping_cost', :object => sc %>
+<% end %>
+</table>
+
+<p><%= link_to 'Edit', edit_admin_shipping_rate_path(@shipping_rate) %> |
+<%= link_to 'Back', admin_shipping_rates_path %></p>

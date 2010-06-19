@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" > 
+ 
+<head> 
+ 
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+  <title>ADMIN: Lincomp</title> 
+  <%= stylesheet_link_tag "general" %>
+  <%= stylesheet_link_tag "general_admin" %>
+
+  <%= javascript_include_tag :defaults %>
+  <%= include_fancy_box %>
+
+ <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+          $("a.fancy").fancybox({
+            'hideOnContentClick': false,
+            'autoScale' : true,
+            'width': 1000,
+            'height':700,            
+            'type' : 'iframe'
+          });
+        });
+    </script>
+
+</head> 
+ 
+<body>
+  <%= render :partial => "shared/devheader" %>
+
+  <div id="wrapper">
+
+
+    <div id="header"> 
+      <h1>Lincomp</h1> 
+      <h2>Linux Computers, Linux Compatibility</h2> 
+    </div> 
+
+    <div id="primarynav">
+    <h4>Administration</h4>
+    <ul>
+      <li><%= link_to "Products", admin_products_path %></li>
+      <li><%= link_to "Orders", admin_orders_path %></li>
+      <li><%= link_to "Invoices", admin_invoices_path %></li>
+      <li><%= link_to "Users", admin_users_path %></li>
+      <li><%= link_to "Tax Classes", admin_tax_classes_path %></li>
+      <li><%= link_to "System history", admin_histories_path %></li>
+      <li><%= link_to "Suppliers", admin_suppliers_path %></li>
+      <li><%= link_to "Accounts", admin_accounts_path %></li>
+            <ul>
+            <li><%= link_to "Journal Entries", admin_journal_entries_path %></li>
+            <li><%= link_to "Manual transaction", new_admin_account_transaction_path %></li>
+
+            </ul>
+
+      <li><%= link_to "Payment methods", admin_payment_methods_path %></li>
+      <li><%= link_to "Shipping rates", admin_shipping_rates_path %></li>
+
+    <ul>
+    </div>
+  
+    <div id="content"> 
+      <% if flash[:notice] -%>
+        <div id="notice" ><%= flash[:notice] %></div>
+      <% end -%>
+      <% if flash[:error] -%>
+        <div id="error" ><%= flash[:error] %></div>
+      <% end -%>
+
+    <%= yield %>
+    </div> 
+  
+    <div id="secondarynav"> 
+    <h3>Products</h3>
+      <ul>
+        <li><%= link_to 'All products', admin_products_path %></li>
+        <li><%= link_to_box 'Create product', new_admin_product_path %></li>
+      </ul>
+      <% categories = Category.find(:all)%>
+      <%= tree_recursive(categories, nil, true) %>
+    </div> 
+
+    <div id="footer">
+    &copy; 2010 Lincomp GmbH
+    </div>
+  </div>     
+    
+</body> 
+</html> 

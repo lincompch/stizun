@@ -1,0 +1,30 @@
+
+
+
+<%= will_paginate @journal_entries %>
+
+<table>
+
+  <tr>
+    <th>Date</th>
+    <th>Credit account</th>
+    <th>Debit account</th>
+    <th>Text</th>
+  </tr>
+
+  <% @journal_entries.each do |j| %>
+  
+    <tr>
+      <td><%= j.created_at.to_s %></td>
+      <td><%= j.credit_account_name %></td>
+      <td><%= j.debit_account_name %></td>
+      <td><%= j.text %></td>
+    </tr>
+       
+  <% end %>
+
+</table>
+
+
+
+<%= will_paginate @journal_entries %>

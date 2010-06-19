@@ -1,0 +1,54 @@
+<h2>Admin Dashboard</h2>
+
+<h3>Orders to ship</h3>
+
+<% if @orders_to_ship.count > 0 %>
+  <table>
+  <% @orders_to_ship.each do |o| %>
+    <%= render :partial => 'admin/orders/detail_row', :object => o %>
+  <% end %>
+  </table>
+<% else %>
+  There are no orders to ship at this time.
+<% end %>
+
+
+<h3>Unprocessed Orders</h3>
+
+<% if @orders.count > 0 %>
+  <table>
+  <% @orders.each do |o| %>
+    <%= render :partial => 'admin/orders/detail_row', :object => o %>
+  <% end %>
+  </table>
+<% else %>
+  There are no unprocessed orders at this time.
+<% end %>
+
+
+<h3>Unpaid Invoices</h3>
+
+<% if @invoices.count > 0 %>
+  <table>
+  <% @invoices.each do |i| %>
+    <%= render :partial => 'admin/invoices/detail_row', :object => i %>
+  <% end %>
+  </table>
+<% else %>
+  There are no unpaid invoices at this time.
+
+<% end %>
+
+
+<h3>Orders awaiting payment</h3>
+
+<% if @orders_to_be_paid.count > 0 %>
+  <table>
+  <% @orders_to_be_paid.each do |o| %>
+    <%= render :partial => 'admin/orders/detail_row', :object => o %>
+  <% end %>
+  </table>
+<% else %>
+  There are no orders awaiting payment at this time.
+<% end %>
+
