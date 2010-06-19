@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100605183115) do
+ActiveRecord::Schema.define(:version => 20100619072535) do
 
   create_table "account_transactions", :force => true do |t|
     t.string   "note"
@@ -80,6 +80,15 @@ ActiveRecord::Schema.define(:version => 20100605183115) do
 
   add_index "categories_products", ["category_id"], :name => "index_categories_products_on_category_id"
   add_index "categories_products", ["product_id"], :name => "index_categories_products_on_product_id"
+
+  create_table "configuration_items", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "key"
+    t.string   "value"
+    t.string   "name"
+    t.string   "description"
+  end
 
   create_table "countries", :force => true do |t|
     t.string   "name"

@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
 
+
   # The priority is based  order of creation: first created -> highest priority.
 
   map.resources :addresses
@@ -57,6 +58,8 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :shipping_rates
     admin.resources :histories
     admin.resources :payment_methods
+    admin.resources :configuration_items
+
     admin.resources :users do |us|
       us.resources :accounts
     end
@@ -73,6 +76,7 @@ ActionController::Routing::Routes.draw do |map|
       sup.resources :supply_items
       sup.resources :shipping_rates
     end
+
   end
 
 
