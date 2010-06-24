@@ -1,0 +1,24 @@
+
+<h3>Configuration Items</h3>
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Key</th>
+    <th>Value</th>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+
+
+  <% @configuration_items.each do |ci| %>
+    <tr>
+      <td><%= ci.id %></td>
+      <td><%= ci.key %></td>
+      <td><%= ci.value %></td>
+      <td><%= ci.name %></td>
+      <td><%= ci.description %></td>
+    </tr>
+  <% end %>
+
+</table>
