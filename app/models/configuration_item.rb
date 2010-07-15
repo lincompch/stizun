@@ -1,4 +1,7 @@
 class ConfigurationItem < ActiveRecord::Base
+
+  
+  validates_uniqueness_of :key
   
   # Get the configuration item as stored in the database under that key.
   def self.get(key)

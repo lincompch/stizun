@@ -52,12 +52,5 @@ Rails::Initializer.run do |config|
 #    :domain => "lincomp.org"
 # }
   
-  
-  # This is needed so customer money accounts created automatically are 
-  # assigned to the right part of the account tree.
-  # This should be the ID of "accounts receivable" or "invoices" node in
-  # the account tree.
-  ACCOUNTS_RECEIVABLE_ID = 4
-
 
 end
