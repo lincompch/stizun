@@ -25,8 +25,8 @@ class Account < ActiveRecord::Base
   # Returns an account whose name is linked to an address
   def self.get_anonymous_account(address)
     account = self.find_or_create_by_name(address.one_line_summary)
-                                        # set in environment.rb
-    account.parent = Account.find_by_id(ACCOUNTS_RECEIVABLE_ID)
+                                        # set in Configuration Items
+    account.parent = Account.find_by_id(ConfigurationItem.get("accounts_receivable_id").value)
     account.save
     return account
   end

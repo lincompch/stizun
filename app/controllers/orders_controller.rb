@@ -55,8 +55,10 @@ class OrdersController < ApplicationController
     if @order.direct_shipping? == true
       invoice = Invoice.new
       invoice.clone_from_order(@order)
-      @order.status_constant = Order::TO_SHIP
-      invoice.save
+      if invoice.save
+        @order.status_constant = Order::TO_SHIP
+      end
+
     end
     
  

@@ -23,8 +23,7 @@ class User < ActiveRecord::Base
       account = Account.new
       account.user = self
       account.name = self.email
-                                         # set in environment.rb
-      account.parent = Account.find_by_id(ACCOUNTS_RECEIVABLE_ID)
+      account.parent = Account.find_by_id(ConfigurationItem.get("accounts_receivable_id").value)
       self.accounts << account
       account.save
     else
