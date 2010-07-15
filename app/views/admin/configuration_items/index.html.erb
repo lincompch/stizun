@@ -8,6 +8,7 @@
     <th>Value</th>
     <th>Name</th>
     <th>Description</th>
+    <th></th>
   </tr>
 
 
@@ -18,6 +19,7 @@
       <td><%= ci.value %></td>
       <td><%= ci.name %></td>
       <td><%= ci.description %></td>
+      <td><%= link_to "Edit", edit_admin_configuration_item_path(ci) %></td>
     </tr>
   <% end %>
 
