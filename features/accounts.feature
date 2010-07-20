@@ -10,5 +10,12 @@ Feature: Accounting system
     |Income|Account::INCOME|none|
     |Expense|Account::EXPENSE|none|
     |Bank|inherited|Assets|
+    |Accounts Receivable|inherited|Assets|
+    |Accounts Payable|inherited|Liabilities|
+    |Product Sales|inherited|Income|
+    |Marketing Expense|inherited|Expense|
 
-  Scenario: Transfer from assets to expenses
+  Scenario: Sell a product
+    When the amount 100.00 is transferred from account "Accounts Receivable" to account "Product Sales"
+    Then the balance of account "Accounts Receivable" is 100.00
+    And the balance of account "Product Sales" is 100.00
