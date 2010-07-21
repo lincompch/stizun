@@ -16,3 +16,13 @@ Given /^the following accounts exist:$/ do |table|
   end
 
 end
+
+
+When /^the amount 100\.00 is transferred from account "([^\"]*)" to account "([^\"]*)"$/ do |arg1, arg2|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^the balance of account "([^\"]*)" is 100\.00$/ do |arg1|
+  pending # express the regexp above with the code you wish you had
+end
+
