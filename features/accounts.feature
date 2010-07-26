@@ -16,6 +16,10 @@ Feature: Accounting system
     |Marketing Expense|inherited|Expense|
 
   Scenario: Sell a product
-    When the amount 100.00 is transferred from account "Accounts Receivable" to account "Product Sales"
+    When the amount 100.00 is credited to "Accounts Receivable" and debited to "Product Sales"
     Then the balance of account "Accounts Receivable" is 100.00
     And the balance of account "Product Sales" is 100.00
+    
+  Scenario: Attempt to use a root account for transfers and get an error
+    When the amount 99.00 is credited to "Assets" and debited to "Expense"
+    Then an exception of type "ArgumentError" is raised
