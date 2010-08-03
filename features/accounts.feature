@@ -14,12 +14,22 @@ Feature: Accounting system
     |Accounts Payable|inherited|Liabilities|
     |Product Sales|inherited|Income|
     |Marketing Expense|inherited|Expense|
+    |Product Stock|inherited|Assets|
+
 
   Scenario: Sell a product
     When the amount 100.00 is credited to "Accounts Receivable" and debited to "Product Sales"
     Then the balance of account "Accounts Receivable" is 100.00
     And the balance of account "Product Sales" is 100.00
     
-  Scenario: Attempt to use a root account for transfers and get an error
-    When the amount 99.00 is credited to "Assets" and debited to "Expense"
-    Then an exception of type "ArgumentError" is raised
+  Scenario: All sorts of positive-sum account transfers
+    When the amount 100.00 is credited to "Bank" and debited to "Product Sales"
+    And the amount 50.00 is credited to "Marketing Expense" and debited to "Bank"
+    And the amount 25.00 is credited to "Accounts Payable" and debited to "Bank"
+    And the amount 25.00 is credited to "Product Stock" and debited to "Accounts Payable"
+    Then the balance of account "Bank" is 25.00
+    And the balance of account "Product Sales" is 100.00
+    And the balance of account "Marketing Expense" is 50.00
+    And the balance of account "Accounts Payable" is 0.00
+    And the balance of account "Product Stock" is 25.00
+    
