@@ -28,6 +28,13 @@ Then /^the balance of account "([^\"]*)" is (\d+\.\d+)$/ do |account, balance|
   Account.find_by_name(account).balance.should == BigDecimal.new(balance.to_s)
 end
 
+Then /^the account "([^\"]*)" should be of type "([^\"]*)"$/ do |account, type|
+  Account.find_by_name(account).type_constant.should == type.constantize 
+end
+
+
+
+
 
 # These might be general-purpose, might make sense to refactor to a general
 # step definition file

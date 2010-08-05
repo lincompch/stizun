@@ -33,3 +33,8 @@ Feature: Accounting system
     And the balance of account "Accounts Payable" is 0.00
     And the balance of account "Product Stock" is 25.00
     
+  Scenario: Children accounts should have the same types as their parents
+    Then the account "Accounts Receivable" should be of type "Account::ASSETS"
+    And the account "Accounts Payable" should be of type "Account::LIABILITIES"
+    And the account "Product Sales" should be of type "Account::INCOME"
+    And the account "Marketing Expense" should be of type "Account::EXPENSE"
