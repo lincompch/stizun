@@ -188,12 +188,13 @@ class Invoice < ActiveRecord::Base
     # that way only one kind of account needs to be handled and we can introduce
     # a direct association between addresses and accounts.
     if self.user.blank?
-      account = Account.get_anonymous_account(self.billing_address)
+      user_account = Account.get_anonymous_account(self.billing_address)
     else
-      account = self.user.get_account
+      user_account = self.user.get_account
     end
-    AccountTransaction.transfer(account, Account.find_by_name("Warenertrag"), self.rounded_price, "Invoice #{self.document_id}", self)
-    History.add("Transaction for invoice #{self.document_id}. Credit: #{account.name} #{self.rounded_price}", self)
+    sales_income_account = Account.find(ConfigurationItem.get('sales_income_account_id').value)
+    AccountTransaction.transfer(user_account, sales_income_account, self.rounded_price, "Invoice #{self.document_id}", self)
+    History.add("Transaction for invoice #{self.document_id}. Credit: #{user_account.name} #{self.rounded_price}", self)
   end
   
 end
