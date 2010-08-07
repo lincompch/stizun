@@ -170,13 +170,17 @@ class Invoice < ActiveRecord::Base
     
     # Book the correct entries for payment of this invoice
     if self.user.blank?
-      account = Account.get_anonymous_account(self.billing_address)
+      user_account = Account.get_anonymous_account(self.billing_address)
     else
-      account = self.user.get_account
+      user_account = self.user.get_account
     end
     
-    AccountTransaction.transfer(Account.find_by_name("Bank"), account, self.rounded_price, "Invoice payment #{self.document_id}", self)
-    History.add("Payment transaction for invoice #{self.document_id}. Credit: Bank #{self.rounded_price}", self)    
+    cash_account = Account.find_by_id(ConfigurationItem.get("cash_account_id").value)
+    if AccountTransaction.transfer(cash_account, user_account, self.rounded_price, "Invoice payment #{self.document_id}", self)
+      History.add("Payment transaction for invoice #{self.document_id}. Credit: Cash account #{self.rounded_price}", self)                         
+    else
+      History.add("Failed creating transaction for #{self.document_id}. Credit: Cash account #{self.rounded_price}", self)                         
+    end
   end
   
   def after_create

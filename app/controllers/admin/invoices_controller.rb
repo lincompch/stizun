@@ -45,6 +45,9 @@ class Admin::InvoicesController <  Admin::BaseController
       # This can unfortunately not be done on model level as we
       # lose access to the immediate state of the autobook checkbox
       # there.
+      
+      # TODO: Refactor out of here, make sure invoices know to book their own
+      # transactions on save/update.
       if @invoice.autobook == true
         @invoice.record_payment_transaction
       end
