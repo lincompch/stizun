@@ -1,9 +1,4 @@
 
-
-
-<%= will_paginate @histories %>
-
-
 <%= calendar_for(@year, 
               @month, 
               {:calendar_class => "calendar",
@@ -29,6 +24,7 @@
 
 end %>
 
+<%= will_paginate @histories %>
 
 <h3>History for <%= @target_date.to_s %></h3>
 
