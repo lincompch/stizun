@@ -12,13 +12,13 @@ class Admin::HistoriesController <  Admin::BaseController
     params[:date] ? @target_date = Date.parse(params[:date]) : @target_date = Date.today
    
     if @target_date
-      @histories = History.for_day(@target_date).paginate(
+      @histories = History.for_day(@target_date).order("created_at DESC").paginate(
         :page => params[:page], 
         :per_page => History.per_page
       )
       
     else
-      @histories = History.all.paginate(:page => params[:page], :per_page => History.per_page)      
+      @histories = [] 
     end
   end
 
