@@ -1,7 +1,10 @@
 set :application, "lincomp"
-set :repository,  "http://code.zhdk.ch/svn-auth/lincomp/trunk"
-set :scm, :subversion
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
+
+set :scm, :git
+set :repository, "git://github.com/psy-q/stizun.git"
+set :branch, "master"
+set :deploy_via, :remote_cache
+
 
 set :use_sudo, false
 set :deploy_to, "/home/lincomp/test"
