@@ -34,16 +34,29 @@ Feature: Shipping rate calculation and package count
       And the order's incoming shipping price should be 0.0
       And the order's outgoing package count should be 1
 
-    Scenario: Calculate simple shipping for multiple products
+    Scenario: Calculate direct shipping for multiple products
+      Given an order with the following products:
+        |quantity|name  |weight|direct_shipping|supplier  |
+        |       1|Laptop|   0.9|           true|Alltron AG|
+        |       4|Fish  |   1.0|           true|Alltron AG|
+      And the order's payment method is "Invoice"
+      When I calculate the shipping rate for the order
+      Then the order's total weight should be 4.9
+      And the order's outgoing shipping price should be 53.80 
+      And the order's incoming shipping price should be 0.0
+      And the order's outgoing package count should be 1
+
+    Scenario: Calculate indirect shipping for multiple products
       Given an order with the following products:
         |quantity|name  |weight|direct_shipping|supplier  |
         |       1|Laptop|   0.9|           true|Alltron AG|
         |       4|Fish  |   1.0|           true|Alltron AG|
       When I calculate the shipping rate for the order
       Then the order's total weight should be 4.9
-      And the order's outgoing shipping price should be 10.76
-      And the order's incoming shipping price should be 0.0
+      And the order's outgoing shipping price should be 10.76 
+      And the order's incoming shipping price should be 53.80 
       And the order's outgoing package count should be 1
+
 
     Scenario: Calculate taxes on shipping for multiple products
       Given an order with the following products:
@@ -52,8 +65,8 @@ Feature: Shipping rate calculation and package count
         |       8|Fish  |   1.0|           true|Alltron AG|
       When I calculate the shipping rate for the order
       Then the order's total weight should be 9.8 
-      And the order's outgoing shipping price should be 10.76
-      And the order's incoming shipping price should be 0.0 
+      And the order's outgoing shipping price should be 13.988 
+      And the order's incoming shipping price should be 107.6
       And the order's outgoing package count should be 1
-      # TODO: tax part of this
-
+      And the order's incoming package count should be 2
+      And the order's taxes should be 8.588 
