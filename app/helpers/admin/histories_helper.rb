@@ -1,0 +1,6 @@
+module Admin::HistoriesHelper
+  
+  
+
+  
+end

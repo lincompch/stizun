@@ -25,7 +25,7 @@ Rails::Initializer.run do |config|
   config.gem "will_paginate"
   config.gem "uuidtools"
   config.gem "fastercsv", :version => '1.5.3'
-
+  config.gem "later_dude"
   
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named

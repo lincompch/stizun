@@ -12,4 +12,10 @@ class History < ActiveRecord::Base
     self.create(:text => text, :object_type => nil, :object_id => nil)
   end
   
+  
+  def self.for_day(date, order = "created_at DESC" )
+    self.find(:all, :conditions => { :created_at => date.midnight..date.midnight + 1.day },  :order => order)
+  end
+ 
+  
 end

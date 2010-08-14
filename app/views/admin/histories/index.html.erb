@@ -3,30 +3,51 @@
 
 <%= will_paginate @histories %>
 
-<table>
 
-  <% @histories.each do |h| %>
-  
-    <% if params[:day] %>
-    <tr>
-      <td><%= h.created_at.to_s %></td>
-      <td><%= h.text %></td>
-    </tr>
-    <% else %>
-    <tr>
-      <td></td>
-      <td><%= link_to(h.created_at.to_date.to_s, admin_histories_path(:day => h.created_at.to_date.to_s) ) %></td>
-    </tr>
-    
-    <% end %>
-  
- 
+<%= calendar_for(@year, 
+              @month, 
+              {:calendar_class => "calendar",
+              :first_day_of_week => 1,
+              :yield_surrounding_days => true,
+              :previous_month => 
+                lambda { |date| 
+                  link_to "&lt;&lt;", admin_histories_path(:month => date.month, :year => date.year, :date => @target_date) 
+                },
+              :next_month => 
+                lambda { |date| 
+                  link_to "&gt;&gt;", admin_histories_path(:month => date.month, :year => date.year, :date => @target_date) 
+                }
+              
+              } ) do |d| 
+
+    if History.for_day(d).count > 0
+      link_to d.mday, admin_histories_path(:date => d.to_s, :year => @year, :month => @month)
+    else
+      d.mday
+    end
 
 
+end %>
+
+
+<h3>History for <%= @target_date.to_s %></h3>
+
+  <% if @histories.count == 0 %>
+    No history entries for this day.
+  <% else %>
+    <table>
+
+      <% @histories.each do |h| %>
+      
+        <tr>
+          <td><%= h.created_at.to_s %></td>
+          <td><%= h.text %></td>
+        </tr>
+
+      <% end %>
+      
+    </table>  
   <% end %>
-
-</table>
-
 
 
 <%= will_paginate @histories %>
