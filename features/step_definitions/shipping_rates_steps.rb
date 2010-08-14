@@ -13,9 +13,6 @@ end
 
 Given /^an order with the following products:$/ do |table|  
   Numerator.create(:count => 0)
-  supplier = Supplier.new(:name => 'Some Supplier')
-  supplier.shipping_rate = @shipping_rate
-  supplier.save
   
   tax_class = TaxClass.create(:name => 'something', :percentage => 5.0)
   
@@ -27,11 +24,17 @@ Given /^an order with the following products:$/ do |table|
                                    :city => 'grarg', 
                                    :country => Country.create(:name => 'USAnia')
                                   )  
-  
+  user = User.new
+  user.addresses << billing_address
+  user.payment_methods << PaymentMethod.find_by_name("Invoice")   
+  user.payment_methods << PaymentMethod.find_by_name("Prepay")   
+  user.save
+
   @order = Order.new(:billing_address => billing_address)
   
   table.hashes.each do |prod|
     puts "adding product #{prod['name']} with weight #{prod['weight']}"
+    supplier = Supplier.find_by_name(prod['supplier'])
     product = Product.create(:name => prod['name'],
                              :description => 'foobar',
                              :weight => prod['weight'],
@@ -42,9 +45,18 @@ Given /^an order with the following products:$/ do |table|
    
     @order.order_lines << OrderLine.new(:quantity => prod['quantity'].to_i, :product => product)
   end
+  @order.user = user
   @order.save
 end                                                                                                
 
+Given /^there are the following suppliers:$/ do |table|  
+  table.hashes.each do |sup|
+    supplier = Supplier.find_or_create_by_name(sup['name'])
+    shipping_rate = ShippingRate.find_by_name(sup['shipping_rate_name'])
+    supplier.shipping_rate = shipping_rate
+    supplier.save
+ end
+end
 
 Given /^there is a payment method called "([^\"]*)" which does not allow direct shipping and is the default$/ do |name|  
   PaymentMethod.create(:name => name, :allows_direct_shipping => false, :default => true)
@@ -54,6 +66,10 @@ Given /^there is a payment method called "([^\"]*)" which allows direct shipping
   PaymentMethod.create(:name => name, :allows_direct_shipping => true, :default => false)
 end
 
+Given /^the order's payment method is "([^\"]*)"$/ do |name|  
+  @order.payment_method = PaymentMethod.find_by_name(name)
+  @order.save
+end
 
 When /^I calculate the shipping rate for the order$/ do
   @order.shipping_rate
@@ -70,3 +86,12 @@ end
 Then /^the order's outgoing package count should be (\d+)$/ do |num|
   @order.shipping_rate.outgoing_package_count.should == num.to_i
 end
+                                                                                                  
+Then /^the order's incoming shipping price should be (\d+\.\d+)$/ do |num|
+  
+  puts "rate is :" + @order.shipping_rate.incoming_cost.to_s
+  puts "direct shipping is: " + @order.direct_shipping?.to_s
+  @order.shipping_rate.incoming_cost.should == BigDecimal.new(num.to_s)
+end
+
+  
