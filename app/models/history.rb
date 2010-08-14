@@ -7,6 +7,11 @@ class History < ActiveRecord::Base
       }
   }
   
+  def self.exist_for_day?(date)
+    #self.first :conditions =>
+    !self.for_day(date).first.nil?
+  end
+  
   def self.per_page
     return 100
   end

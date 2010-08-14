@@ -15,7 +15,7 @@
               
               } ) do |d| 
 
-    if History.for_day(d).count > 0
+    if History.exist_for_day?(d)
       link_to d.mday, admin_histories_path(:date => d.to_s, :year => @year, :month => @month)
     else
       d.mday
