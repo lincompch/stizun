@@ -1,3 +1,8 @@
+# Most of the tax booking functionality is required here.
+require 'tax_bookers/tax_booker'
+  
+
+
 class Invoice < ActiveRecord::Base
 
   belongs_to :user
@@ -51,6 +56,7 @@ class Invoice < ActiveRecord::Base
     price
   end
   
+  # Refactor to use .sum("rounded_price")?
   def price
     total = 0
     self.invoice_lines.each do |il|
@@ -60,6 +66,16 @@ class Invoice < ActiveRecord::Base
     return total
   end
 
+  # Refactor to use .sum("gross_price")?
+  def gross_price
+    total = 0
+    self.invoice_lines.each do |il|
+      total += il.gross_price
+    end
+    return total
+  end
+
+  
   
   # Alias for order_lines so that generic order|invoice.lines works
   def lines
@@ -92,15 +108,16 @@ class Invoice < ActiveRecord::Base
     if order.invoiced?
       raise ArgumentError, "The supplied order is already invoiced."
     else      
-      
+       self.user_id = order.user_id
        self.order_id = order.id
        self.document_number = order.document_number
        self.payment_method_id = order.payment_method_id
+       
        self.billing_address_type = order.billing_address_type
        self.shipping_address_type = order.shipping_address_type
        self.billing_address = order.billing_address
        self.shipping_address = order.shipping_address
-       self.user_id = order.user_id
+       
        self.shipping_cost = order.shipping_rate.total_cost
        self.status_constant = Invoice::UNPAID
        self.invoice_lines_from_order(order)
@@ -117,6 +134,7 @@ class Invoice < ActiveRecord::Base
       il.quantity = ol.quantity
       il.text = ol.product.name
       il.rounded_price = ol.rounded_price
+      il.gross_price = ol.gross_price
       il.single_rounded_price = ol.product.rounded_price
       il.tax_percentage = ol.product.tax_class.percentage
       il.taxes = ol.taxes
@@ -196,11 +214,8 @@ class Invoice < ActiveRecord::Base
     AccountTransaction.transfer(user_account, sales_income_account, self.rounded_price, "Invoice #{self.document_id}", self)
     History.add("Transaction for invoice #{self.document_id}. Credit: #{user_account.name} #{self.rounded_price}", self)
 
-    
-  require 'tax_bookers/tax_booker'
-  require 'tax_bookers/dummy_tax_booker'
-  
-  TaxBookers::DummyTaxBooker.record_customer_payment_for(self)
+    # TODO: defer from TaxBooker to DummyTaxBooker etc. depending on ConfigurationItem
+    TaxBookers::DummyTaxBooker.record_customer_payment_for(self)
   
   end
 

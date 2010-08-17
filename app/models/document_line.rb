@@ -12,6 +12,10 @@ class DocumentLine < ActiveRecord::Base
     self.quantity * self.product.rounded_price
   end
   
+  def gross_price
+    self.quantity * self.product.gross_price
+  end
+  
   def taxes
     self.quantity * self.product.taxes
   end
