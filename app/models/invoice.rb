@@ -1,7 +1,5 @@
 # Most of the tax booking functionality is required here.
 require 'tax_bookers/tax_booker'
-  
-
 
 class Invoice < ActiveRecord::Base
 
@@ -210,12 +208,13 @@ class Invoice < ActiveRecord::Base
     else
       user_account = self.user.get_account
     end
-    sales_income_account = Account.find(ConfigurationItem.get('sales_income_account_id').value)
-    AccountTransaction.transfer(user_account, sales_income_account, self.rounded_price, "Invoice #{self.document_id}", self)
-    History.add("Transaction for invoice #{self.document_id}. Credit: #{user_account.name} #{self.rounded_price}", self)
-
-    # TODO: defer from TaxBooker to DummyTaxBooker etc. depending on ConfigurationItem
-    TaxBookers::DummyTaxBooker.record_customer_payment_for(self)
+    
+    self.transaction do
+      sales_income_account = Account.find(ConfigurationItem.get('sales_income_account_id').value)
+      AccountTransaction.transfer(user_account, sales_income_account, self.rounded_price, "Invoice #{self.document_id}", self)
+      History.add("Transaction for invoice #{self.document_id}. Credit: #{user_account.name} #{self.rounded_price}", self)
+      TaxBookers::TaxBooker.record_customer_payment_for(self)
+    end
   
   end
 

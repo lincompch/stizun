@@ -1,9 +1,11 @@
-class TaxBookers::DummyTaxBooker < TaxBookers::TaxBooker
-# This class just writes gross prices and taxes to STDOUT
+# This class just writes gross prices and taxes to the logger
 
+class TaxBookers::DummyTaxBooker
+  @logger = RAILS_DEFAULT_LOGGER
+  
   def self.record_customer_payment_for(document)
-    puts "DummyTaxBooker: document.gross_price = #{document.gross_price}"
-    puts "DummyTaxBooker: document.taxes = #{document.taxes}"
+    @logger.info "DummyTaxBooker: document.gross_price = #{document.gross_price}"
+    @logger.info "DummyTaxBooker: document.taxes = #{document.taxes}"
   end
 
 end
