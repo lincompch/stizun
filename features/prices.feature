@@ -4,6 +4,9 @@ Feature: Price calculation on products, orders, invoices
   As a customer
   I want to see correct prices for all products
 
+  Background: A system configuration needs to be here
+    Given there is a configuration item named "tax_booker_class_name" with value "TaxBookers::SwissTaxBooker"
+
     Scenario: Show price based on purchase price plus margin calculation and taxes
       Given a product
       And a tax class named "MwSt 7.6%" with the percentage 7.6%

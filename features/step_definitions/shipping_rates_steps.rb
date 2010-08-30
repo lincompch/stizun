@@ -14,7 +14,6 @@ end
 Given /^an order with the following products:$/ do |table|  
   Numerator.create(:count => 0)
   
-  tax_class = TaxClass.create(:name => 'something', :percentage => 5.0)
   
   billing_address = Address.create(:firstname => 'Elvis', 
                                    :lastname => 'Presley', 
@@ -34,6 +33,7 @@ Given /^an order with the following products:$/ do |table|
   
   table.hashes.each do |prod|
     puts "adding product #{prod['name']} with weight #{prod['weight']}"
+    tax_class = TaxClass.find_by_name(prod['tax_class']) 
     supplier = Supplier.find_by_name(prod['supplier'])
     product = Product.create(:name => prod['name'],
                              :description => 'foobar',
