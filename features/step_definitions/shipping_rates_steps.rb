@@ -14,7 +14,6 @@ end
 Given /^an order with the following products:$/ do |table|  
   Numerator.create(:count => 0)
   
-  
   billing_address = Address.create(:firstname => 'Elvis', 
                                    :lastname => 'Presley', 
                                    :street => 'XYZ', 
@@ -31,8 +30,14 @@ Given /^an order with the following products:$/ do |table|
 
   @order = Order.new(:billing_address => billing_address)
   
+
+  
   table.hashes.each do |prod|
-    puts "adding product #{prod['name']} with weight #{prod['weight']}"
+    purchase_price = 0
+    purchase_price = BigDecimal.new(prod['purchase_price'].to_s) if prod['purchase_price']
+    margin_percentage = 0.0
+    margin_percentage = prod['margin_percentage'].to_f if prod['margin_percentage']
+  
     tax_class = TaxClass.find_by_name(prod['tax_class']) 
     supplier = Supplier.find_by_name(prod['supplier'])
     product = Product.create(:name => prod['name'],
@@ -40,7 +45,9 @@ Given /^an order with the following products:$/ do |table|
                              :weight => prod['weight'],
                              :sales_price => BigDecimal('22.0'),
                              :supplier => supplier,
-                             :tax_class => tax_class)
+                             :tax_class => tax_class,
+                             :purchase_price => purchase_price,
+                             :margin_percentage => margin_percentage)
     
    
     @order.order_lines << OrderLine.new(:quantity => prod['quantity'].to_i, :product => product)
