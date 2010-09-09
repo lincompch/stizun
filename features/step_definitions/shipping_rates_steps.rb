@@ -37,13 +37,16 @@ Given /^an order with the following products:$/ do |table|
     purchase_price = BigDecimal.new(prod['purchase_price'].to_s) if prod['purchase_price']
     margin_percentage = 0.0
     margin_percentage = prod['margin_percentage'].to_f if prod['margin_percentage']
-  
+    sales_price = nil
+    sales_price = BigDecimal.new(prod['sales_price']) if prod['sales_price']
+    
+    
     tax_class = TaxClass.find_by_name(prod['tax_class']) 
     supplier = Supplier.find_by_name(prod['supplier'])
     product = Product.create(:name => prod['name'],
                              :description => 'foobar',
                              :weight => prod['weight'],
-                             :sales_price => BigDecimal('22.0'),
+                             :sales_price => sales_price,
                              :supplier => supplier,
                              :tax_class => tax_class,
                              :purchase_price => purchase_price,
