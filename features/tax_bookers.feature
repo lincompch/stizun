@@ -11,8 +11,19 @@ Feature: Book taxes on invoices to the right accounts
     And there is a shipping rate called "Alltron AG" with the following costs:
     |weight_min|weight_max|price|tax_percentage|
     |         0|      1000|    1|           7.6|
+    And the following accounts exist:
+    |name  |type|parent|
+    |Assets|Account::ASSETS|none|
+    |Liabilities|Account::LIABILITIES|none|
+    |Income|Account::INCOME|none|
+    |Expense|Account::EXPENSE|none|
+    |Bank|inherited|Assets|
+    |Accounts Receivable|inherited|Assets|
+    |Accounts Payable|inherited|Liabilities|
+    |Product Sales|inherited|Income|
+    |Marketing Expense|inherited|Expense|
+    |Product Stock|inherited|Assets|
     And there is a configuration item named "tax_booker_class_name" with value "TaxBookers::SwissTaxBooker"
-
 
     Scenario: Book Swiss tax on an invoice (test the SwitzerlandTaxBooker)
       Given an order with the following products:
@@ -23,4 +34,6 @@ Feature: Book taxes on invoices to the right accounts
       #                  40.90
       And the order's payment method is "Prepay"
       When I invoice the order
-      Then the invoice total should be 2647.42
+      Then the invoice total is 2647.42
+      And the balance of account "Kreditor MwSt." is 7.98
+      And the balance of the sales income account is 100.00
