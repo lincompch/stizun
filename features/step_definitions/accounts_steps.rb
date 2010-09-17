@@ -15,6 +15,11 @@ Given /^the following accounts exist:$/ do |table|
     
   end
 
+  ConfigurationItem.create(:name => "accounts_receivable_id", :key => "accounts_receivable_id", :value => Account.find_by_name("Accounts receivable"))
+  
+  ConfigurationItem.create(:name => "sales_income_account_id", :key => "sales_income_account_id", :value => Account.find_by_name("Product Sales"))
+
+   
 end
 
 

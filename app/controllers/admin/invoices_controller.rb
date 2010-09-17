@@ -7,7 +7,7 @@ class Admin::InvoicesController <  Admin::BaseController
     @order = Order.find(params[:order_id])
     
     if !@order.invoiced?
-      @invoice = Invoice.create_from_order(@order)
+      @invoice = Invoice.new_from_order(@order)
       if @invoice.save
       # redirect_to admin_invoice_path(@invoice)
         StoreMailer.deliver_invoice(@invoice)

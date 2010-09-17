@@ -23,7 +23,7 @@ Feature: Book taxes on invoices to the right accounts
     |Product Sales|inherited|Income|
     |Marketing Expense|inherited|Expense|
     |Product Stock|inherited|Assets|
-    And there is a configuration item named "tax_booker_class_name" with value "TaxBookers::SwissTaxBooker"
+    And there is a configuration item named "tax_booker_class_name" with value "TaxBookers::SwitzerlandTaxBooker"
 
     Scenario: Book Swiss tax on an invoice (test the SwitzerlandTaxBooker)
       Given an order with the following products:

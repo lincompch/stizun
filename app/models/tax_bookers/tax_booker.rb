@@ -1,4 +1,6 @@
 require 'tax_bookers/dummy_tax_booker'
+require 'tax_bookers/switzerland_tax_booker'
+
 
 class TaxBookers::TaxBooker
   if ConfigurationItem.get('tax_booker_class_name').blank?
@@ -8,8 +10,8 @@ class TaxBookers::TaxBooker
   end
   @tax_booker = delegate_class.constantize
   
-  def self.record_customer_payment_for(document)
-    @tax_booker.record_customer_payment_for(document)
+  def self.record_invoice(document)
+    @tax_booker.record_invoice(document)
   end
  
 

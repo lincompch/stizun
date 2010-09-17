@@ -95,6 +95,12 @@ class Invoice < ActiveRecord::Base
   # Static method, should be used whenever creating an invoice
   # based on a pre-existing order, e.g. during checkout
   def self.create_from_order(order)
+    invoice = self.new_from_order(order)
+    invoice.save
+    return invoice
+  end
+  
+  def self.new_from_order(order)
     invoice = self.new
     invoice.clone_from_order(order)
     return invoice

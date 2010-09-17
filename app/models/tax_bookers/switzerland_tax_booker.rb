@@ -12,12 +12,12 @@ class TaxBookers::SwitzerlandTaxBooker
     @logger.info "SwitzerlandTaxBooker: document.taxes = #{document.taxes}"
     #@logger.info "SwitzerlandTaxBooker: document.paid_taxes = #{document.taxes}"
 
-    AccountTransaction.transfer(@warenertrag, @mehrwertsteuer, document.taxes, "Taxes owed from creating invoice  #{self.document_id}", self)
+    AccountTransaction.transfer(@warenertrag, @mehrwertsteuer, document.taxes, "Taxes owed from creating invoice  #{document.document_id}", self)
 
   end
 
   
-  private
+ # private
   
   def self.pre_flight_check
     
@@ -36,17 +36,17 @@ class TaxBookers::SwitzerlandTaxBooker
     # Not used automatically -- actual purchase prices must be booked by the accountant
     unless @warenaufwand = Account.find_by_name("Warenaufwand")
       @warenaufwand = Account.create(:name => "Warenaufwand",
-                                  :parent => Account.find_by_name("Expense"))
+                                     :parent => Account.find_by_name("Expense"))
     end
    
     unless @mehrwertsteuer = Account.find_by_name("Kreditor MwSt.")
       @mehrwertsteuer = Account.create(:name => "Kreditor MwSt.",
-                                  :parent => Account.find_by_name("Liabilities"))
+                                       :parent => Account.find_by_name("Liabilities"))
     end
     
     unless @warenertrag = Account.find_by_name("Warenertrag")
       @warenertrag = Account.create(:name => "Warenertrag",
-                                  :parent => Account.find_by_name("Income"))
+                                    :parent => Account.find_by_name("Income"))
     end
     
   end

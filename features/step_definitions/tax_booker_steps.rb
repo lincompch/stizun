@@ -1,5 +1,6 @@
 Given /^there is a configuration item named "([^\"]*)" with value "([^\"]*)"$/ do |name, value|
-  ConfigurationItem.create(:name => name, :value => value)
+  ci = ConfigurationItem.new(:description => name,:name => name, :key => name, :value => value)
+  ci.save
 end
 
 When /^I invoice the order$/ do
