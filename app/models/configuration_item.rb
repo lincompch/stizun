@@ -21,4 +21,9 @@ class ConfigurationItem < ActiveRecord::Base
     end
   end
   
+  def to_s
+    return "Name: #{name}. K: #{key}, V: #{value}"
+  end
+  
+  
 end

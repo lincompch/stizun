@@ -23,10 +23,10 @@ Feature: Book taxes on invoices to the right accounts
     |Product Sales|inherited|Income|
     |Marketing Expense|inherited|Expense|
     |Product Stock|inherited|Assets|
-    And there is a configuration item named "tax_booker_class_name" with value "TaxBookers::SwitzerlandTaxBooker"
 
     Scenario: Book Swiss tax on an invoice (test the SwitzerlandTaxBooker)
-      Given an order with the following products:
+      Given there is a configuration item named "tax_booker_class_name" with value "TaxBookers::SwitzerlandTaxBooker"
+      And an order with the following products:
       |quantity|name  |weight|direct_shipping|tax_class |supplier  |purchase_price|margin_percentage|
       |       1|Laptop|   0.90|           true|MwSt 7.6%|Alltron AG|           100|              5.0|
       |       4|Fish  |   1.00|           true|MwSt 7.6%|Alltron AG|           100|              5.0|

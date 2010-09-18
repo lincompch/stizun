@@ -3,24 +3,19 @@ class TaxBookers::SwitzerlandTaxBooker
   
   
   def self.record_invoice(document)
-    self.pre_flight_check
-    
-    #AccountTransaction.transfer(document.taxes
-    
+
     @logger.info "SwitzerlandTaxBooker: document.gross_price = #{document.gross_price}"
     @logger.info "SwitzerlandTaxBooker: document.price = #{document.price}"
     @logger.info "SwitzerlandTaxBooker: document.taxes = #{document.taxes}"
-    #@logger.info "SwitzerlandTaxBooker: document.paid_taxes = #{document.taxes}"
 
     AccountTransaction.transfer(@warenertrag, @mehrwertsteuer, document.taxes, "Taxes owed from creating invoice  #{document.document_id}", self)
-
   end
 
   
  # private
   
   def self.pre_flight_check
-    
+        
     # TODO: This can be optimized by creating ConfigurationItems relevant
     # only to this TaxBooker, so that each of these accounts is configurable
     

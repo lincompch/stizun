@@ -217,9 +217,9 @@ class Invoice < ActiveRecord::Base
     
     self.transaction do
       sales_income_account = Account.find(ConfigurationItem.get('sales_income_account_id').value)
-      AccountTransaction.transfer(user_account, sales_income_account, self.rounded_price, "Invoice #{self.document_id}", self)
-      History.add("Transaction for invoice #{self.document_id}. Credit: #{user_account.name} #{self.rounded_price}", self)
+      res = AccountTransaction.transfer(user_account, sales_income_account, self.rounded_price, "Invoice #{self.document_id}", self)
       TaxBookers::TaxBooker.record_invoice(self)
+      History.add("Transaction for invoice #{self.document_id}. Credit: #{user_account.name} #{self.rounded_price}", self)
     end
   
   end
