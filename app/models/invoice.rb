@@ -198,6 +198,7 @@ class Invoice < ActiveRecord::Base
     end
     
     cash_account = Account.find_by_id(ConfigurationItem.get("cash_account_id").value)
+    
     if AccountTransaction.transfer(cash_account, user_account, self.rounded_price, "Invoice payment #{self.document_id}", self)
       History.add("Payment transaction for invoice #{self.document_id}. Credit: Cash account #{self.rounded_price}", self)                         
     else
@@ -214,15 +215,14 @@ class Invoice < ActiveRecord::Base
     else
       user_account = self.user.get_account
     end
-    
+        
     self.transaction do
       sales_income_account = Account.find(ConfigurationItem.get('sales_income_account_id').value)
+      
       res = AccountTransaction.transfer(user_account, sales_income_account, self.rounded_price, "Invoice #{self.document_id}", self)
       TaxBookers::TaxBooker.record_invoice(self)
       History.add("Transaction for invoice #{self.document_id}. Credit: #{user_account.name} #{self.rounded_price}", self)
     end
-  
   end
 
-  
 end

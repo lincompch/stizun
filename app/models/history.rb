@@ -16,12 +16,17 @@ class History < ActiveRecord::Base
     return 100
   end
   
-  def self.add(text, object)
-    self.create(:text => text, :object_type => object.class.to_s, :object_id => object.id)
+  def self.add(text, object = nil)
+    object_id = nil if object == nil
+    object_type = nil if object == nil
+    self.create(:text => text, :object_type => object_type, :object_id => object_id)
   end
   
+  # For backwards compatibility -- self.add was refactored to accept nil objects, therefore
+  # a separate add_text method is no longer really necessary. Remove after refactoring everything
+  # to use add instead of add_text
   def self.add_text(text)
-    self.create(:text => text, :object_type => nil, :object_id => nil)
+    self.create(:text => text)
   end
   
 end

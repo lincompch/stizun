@@ -3,7 +3,8 @@ class TaxBookers::SwitzerlandTaxBooker
   
   
   def self.record_invoice(document)
-
+    self.pre_flight_check
+    
     @logger.info "SwitzerlandTaxBooker: document.gross_price = #{document.gross_price}"
     @logger.info "SwitzerlandTaxBooker: document.price = #{document.price}"
     @logger.info "SwitzerlandTaxBooker: document.taxes = #{document.taxes}"
