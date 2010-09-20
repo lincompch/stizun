@@ -35,5 +35,5 @@ Feature: Book taxes on invoices to the right accounts
       And the order's payment method is "Prepay"
       When I invoice the order
       Then the invoice total is 2647.42
-      And the balance of account "Kreditor MwSt." is 184.0965
-      And the balance of the sales income account is 100.00
+      And the balance of account "Kreditor MwSt." is 183.54
+      And the balance of the sales income account is 2463.88

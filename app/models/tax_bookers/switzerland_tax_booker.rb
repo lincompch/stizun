@@ -10,6 +10,8 @@ class TaxBookers::SwitzerlandTaxBooker
     @logger.info "SwitzerlandTaxBooker: document.taxes = #{document.taxes}"
 
     AccountTransaction.transfer(@warenertrag, @mehrwertsteuer, document.taxes, "Taxes owed from creating invoice  #{document.document_id}", self)
+    #AccountTransaction.transfer(@warenertrag, @mehrwertsteuer, document.taxes, "Taxes owed from creating invoice  #{document.document_id}", self)
+    
   end
 
   
@@ -40,8 +42,8 @@ class TaxBookers::SwitzerlandTaxBooker
                                        :parent => Account.find_by_name("Liabilities"))
     end
     
-    unless @warenertrag = Account.find_by_name("Warenertrag")
-      @warenertrag = Account.create(:name => "Warenertrag",
+    unless @warenertrag = Account.find_by_name("Product Sales")
+      @warenertrag = Account.create(:name => "Product Sales",
                                     :parent => Account.find_by_name("Income"))
     end
     

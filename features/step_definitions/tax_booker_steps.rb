@@ -5,7 +5,7 @@ end
 
 When /^I invoice the order$/ do
   # TODO: This depends on these accounts actually being there. Create the accounts
-  # if they aren't.
+  # if they aren't. Find them, if they need to be found.
   ConfigurationItem.create(:name => "accounts_receivable_id", :key => "accounts_receivable_id", :value => Account.find_by_name("Accounts Receivable"))
   
   ConfigurationItem.create(:name => "sales_income_account_id", :key => "sales_income_account_id", :value => Account.find_by_name("Product Sales"))
