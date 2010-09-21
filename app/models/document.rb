@@ -45,6 +45,11 @@ class Document < ActiveRecord::Base
     return shipping_rate.total_cost
   end
   
+  def shipping_taxes
+    return shipping_rate.total_taxes
+  end
+  
+  
   # Note that this shipping_rate is only meant so that a shipping rate can be attached to 
   # a document. It does not actually return a ShippingRate object for this order, because
   # one order's products can come from any number of shipping partners and at any rates.

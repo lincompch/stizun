@@ -20,23 +20,12 @@ When /^the invoice is paid$/ do
   @invoice.record_payment_transaction
 end
 
-Then /^the invoice total is (\d+\.\d+)$/ do  |num|
-
-#    puts "total price is #{@invoice.rounded_price}"
-#    puts @invoice.inspect
-#    @invoice.lines.each do |line|
-#      puts "rounded [#{line.quantity}]x #{line.text} [#{line.single_rounded_price}] = [#{line.rounded_price}], tax #{line.taxes}"
-#      puts "gross line [#{line.gross_price}]"
-#      puts line.inspect.to_s
-#    end
-# 
-#    puts "--- ACCOUNTS ---"
-#    Account.all.each do |ac|
-#      puts ac.name.to_s
-#    end
-#    puts "--- END ACCTS ---"
-   
+Then /^the unrounded invoice total is (\d+\.\d+)$/ do  |num|   
    @invoice.price.should == BigDecimal.new(num.to_f.to_s)
+end
+
+Then /^the rounded invoice total is (\d+\.\d+)$/ do  |num|   
+   @invoice.rounded_price.should == BigDecimal.new(num.to_f.to_s)
 end
 
 Then /^the balance of the sales income account is (\d+\.\d+)$/ do |balance|

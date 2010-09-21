@@ -34,6 +34,11 @@ Feature: Book taxes on invoices to the right accounts
       #                  40.90
       And the order's payment method is "Prepay"
       When I invoice the order
-      Then the invoice total is 2647.42
-      And the balance of account "Kreditor MwSt." is 183.54
-      And the balance of the sales income account is 2463.88
+      # Total includes all products, all taxes, even shipping cost and taxes on shipping
+      Then the unrounded invoice total is 2647.42
+      # TODO: Rounding is not present yet on shipping rates, thus invoice totals
+      # may end up unrounded. Needs fixing.
+      And the rounded invoice total is 2647.42
+      # Includes only the raw taxes we owe to the country
+      And the balance of account "Kreditor MwSt." is 186.96
+      And the balance of the sales income account is 2460.46

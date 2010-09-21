@@ -45,7 +45,7 @@ class Order < Document
   named_scope :shipped, :conditions => { :status_constant => Order::SHIPPED }
   named_scope :to_ship, :conditions => { :status_constant => Order::TO_SHIP }
   
-  named_scope :pending_from_user_perspective, :conditions => "status_constant == ?"
+  named_scope :pending_from_user_perspective, :conditions => "status_constant == ?" # TODO: is this working yet?
   
   # TODO: Verify if this is working
   before_save { |record|

@@ -89,7 +89,8 @@ class Invoice < ActiveRecord::Base
   end
   
   def taxes
-    lines.sum('taxes')
+    product_taxes = lines.sum('taxes')
+    return product_taxes + shipping_taxes
   end
   
   # Static method, should be used whenever creating an invoice
@@ -123,6 +124,7 @@ class Invoice < ActiveRecord::Base
        self.shipping_address = order.shipping_address
        
        self.shipping_cost = order.shipping_rate.total_cost
+       self.shipping_taxes = order.shipping_rate.total_taxes
        self.status_constant = Invoice::UNPAID
        self.invoice_lines_from_order(order)
        order.update_attributes(:status_constant => Order::AWAITING_PAYMENT)
@@ -215,7 +217,7 @@ class Invoice < ActiveRecord::Base
     else
       user_account = self.user.get_account
     end
-        
+
     self.transaction do
       sales_income_account = Account.find(ConfigurationItem.get('sales_income_account_id').value)
       
