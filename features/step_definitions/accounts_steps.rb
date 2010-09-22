@@ -24,7 +24,7 @@ When /^the amount (\d+\.\d+) is credited to "([^\"]*)" and debited to "([^\"]*)"
   AccountTransaction.transfer(credit_account, debit_account, amount, "Testing account system")
 end
 
-Then /^the balance of account "([^\"]*)" is (\d+\.\d+)$/ do |account, balance|
+Then /^the balance of account "([^\"]*)" is (-?\d+\.\d+)$/ do |account, balance|
   Account.find_by_name(account).balance.should == BigDecimal.new(balance.to_s)
 end
 
