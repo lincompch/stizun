@@ -17,7 +17,6 @@ Given /^the following accounts exist:$/ do |table|
    
 end
 
-
 When /^the amount (\d+\.\d+) is credited to "([^\"]*)" and debited to "([^\"]*)"$/ do |amount, credit, debit|
   credit_account = Account.find_by_name(credit)
   debit_account = Account.find_by_name(debit)
@@ -31,9 +30,6 @@ end
 Then /^the account "([^\"]*)" should be of type "([^\"]*)"$/ do |account, type|
   Account.find_by_name(account).type_constant.should == type.constantize 
 end
-
-
-
 
 
 # These might be general-purpose, might make sense to refactor to a general
