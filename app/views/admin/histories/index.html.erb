@@ -24,6 +24,22 @@
 
 end %>
 
+
+<h3>Filters</h3>
+
+<% form_tag({:action => :index}, {:method => :get}) do %>
+  <% History::TYPE_CONST_HASH.each do |k, v| %>
+    <%= check_box_tag "filters[]", k, session[:history_filters].include?(k.to_s) %> <%= v %>
+  <% end %>
+  <%= submit_tag "Filter" %>
+  
+  <%= hidden_field_tag :date, @target_date %>
+  <%= hidden_field_tag :month, @month %>
+  <%= hidden_field_tag :year, @year %>
+  
+<% end %>
+
+
 <%= will_paginate @histories %>
 
 <h3>History for <%= @target_date.to_s %></h3>

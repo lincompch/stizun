@@ -17,13 +17,14 @@ class History < ActiveRecord::Base
   PRODUCT_CHANGE = 3
   SUPPLY_ITEM_CHANGE = 4
   
-  TYPE_HASH = { GENERAL      => 'General',
+  TYPE_CONST_HASH = { GENERAL      => 'General',
                 ACCOUNTING   => 'Accounting',
-                PRICE_CHANGE => 'Product change'}
+                PRODUCT_CHANGE => 'Product change',
+                SUPPLY_ITEM_CHANGE => 'Supply item change'}
   
   # Human-readable representation of the status
-  def self.type_to_human(status)
-    return STATUS_HASH[status]
+  def self.type_to_human(type)
+    return TYPE_CONST_HASH[type]
   end
   
   # === Methods
@@ -31,10 +32,6 @@ class History < ActiveRecord::Base
   def self.exist_for_day?(date)
     #self.first :conditions =>
     !self.for_day(date).first.nil?
-  end
-  
-  def self.per_page
-    return 100
   end
   
   def self.add(text, type = History::GENERAL, object = nil)
