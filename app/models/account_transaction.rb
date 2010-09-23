@@ -26,7 +26,7 @@ class AccountTransaction < ActiveRecord::Base
       at.target_object = target_object unless target_object.nil?
       if at.save
         JournalEntry.add(at.credit_account.name, at.debit_account.name, at.note, at.amount)
-        History.add("Account transfer: #{at.credit_account.name}/#{at.debit_account.name}, #{at.amount}. Note: #{at.note}")
+        History.add("Account transfer: #{at.credit_account.name}/#{at.debit_account.name}, #{at.amount}. Note: #{at.note}", History::ACCOUNTING)
         return true
       else
         return false

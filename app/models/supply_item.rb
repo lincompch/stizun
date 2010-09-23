@@ -42,9 +42,9 @@ class SupplyItem < ActiveRecord::Base
         si.stock = sp['Lagerbestand'].gsub("'","").to_i
         
         if si.save
-          History.add("Supply item added during sync: #{si.to_s}", si)
+          History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
         else
-          History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", si)
+          History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", History::SUPPLY_ITEM_CHANGE, si)
         end
         
       else
@@ -52,14 +52,14 @@ class SupplyItem < ActiveRecord::Base
           old_price = local_supply_item.purchase_price
           local_supply_item.purchase_price = BigDecimal(sp['Preis (exkl. MWSt)'].to_s)
           local_supply_item.save
-          History.add("Changed price for #{local_supply_item.to_s} from #{old_price} to #{local_supply_item.purchase_price}", local_supply_item)
+          History.add("Changed price for #{local_supply_item.to_s} from #{old_price} to #{local_supply_item.purchase_price}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
         end
         
         if local_supply_item.stock != sp['Lagerbestand'].gsub("'","").to_i
           old_stock = local_supply_item.stock
           local_supply_item.stock = sp['Lagerbestand'].gsub("'","").to_i
           local_supply_item.save
-          History.add("Changed stock for #{local_supply_item.to_s} from #{old_stock} to #{local_supply_item.stock}", local_supply_item)
+          History.add("Changed stock for #{local_supply_item.to_s} from #{old_stock} to #{local_supply_item.stock}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
         end
       end
       
@@ -84,9 +84,9 @@ class SupplyItem < ActiveRecord::Base
         ap.remove_component(td, 99999999)
         ap.is_available = false
         ap.save
-        History.add("Component #{td} was removed from product #{ap} because it has become unavailable.", ap)
+        History.add("Component #{td} was removed from product #{ap} because it has become unavailable.", History::PRODUCT_CHANGE, ap)
       end
-      History.add_text("Deleted Supply Item with supplier code #{td}")
+      History.add_text("Deleted Supply Item with supplier code #{td}", History::SUPPLY_ITEM_CHANGE)
     end
     
   end

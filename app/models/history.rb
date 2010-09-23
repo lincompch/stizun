@@ -1,11 +1,32 @@
 class History < ActiveRecord::Base
   
+  
+  # === Named scopes
+  
   named_scope :for_day, lambda { |date|
       { :conditions => { 
           :created_at => date.midnight..date.midnight + 1.day 
         }
       }
   }
+
+  # === Constants and associated methods
+  
+  GENERAL = 1
+  ACCOUNTING = 2
+  PRODUCT_CHANGE = 3
+  SUPPLY_ITEM_CHANGE = 4
+  
+  TYPE_HASH = { GENERAL      => 'General',
+                ACCOUNTING   => 'Accounting',
+                PRICE_CHANGE => 'Product change'}
+  
+  # Human-readable representation of the status
+  def self.type_to_human(status)
+    return STATUS_HASH[status]
+  end
+  
+  # === Methods
   
   def self.exist_for_day?(date)
     #self.first :conditions =>
@@ -16,17 +37,18 @@ class History < ActiveRecord::Base
     return 100
   end
   
-  def self.add(text, object = nil)
+  def self.add(text, type = History::GENERAL, object = nil)
     object_id = nil if object == nil
     object_type = nil if object == nil
-    self.create(:text => text, :object_type => object_type, :object_id => object_id)
+    self.create(:text => text, :object_type => object_type, :object_id => object_id, :type => type)
   end
   
   # For backwards compatibility -- self.add was refactored to accept nil objects, therefore
   # a separate add_text method is no longer really necessary. Remove after refactoring everything
   # to use add instead of add_text
-  def self.add_text(text)
+  def self.add_text(text, type = History::GENERAL)
     self.create(:text => text)
   end
+  
   
 end

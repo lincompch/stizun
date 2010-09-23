@@ -3,6 +3,8 @@ require 'tax_bookers/tax_booker'
 
 class Invoice < ActiveRecord::Base
 
+  # === Associations
+  
   belongs_to :user
   has_many :invoice_lines
   belongs_to :order
@@ -11,10 +13,14 @@ class Invoice < ActiveRecord::Base
   belongs_to :billing_address, :polymorphic => true
   belongs_to :payment_method
   
-    
+  
+  # === Validations
+  
   validates_presence_of :billing_address
   validates_associated :billing_address, :message => 'is incomplete'
 
+  
+  # === Constants and associated methods
     
   UNPAID = 1
   PAID = 2
@@ -22,11 +28,13 @@ class Invoice < ActiveRecord::Base
   STATUS_HASH = { UNPAID     => 'Unpaid',
                   PAID       => 'Paid'}
 
+  # === Named scopes
 
   named_scope :unpaid, :conditions => { :status_constant => Invoice::UNPAID }
   named_scope :paid, :conditions => { :status_constant => Invoice::PAID }
 
   
+  # === Methods
   
   def self.status_to_human(status)
     return STATUS_HASH[status]
@@ -92,7 +100,7 @@ class Invoice < ActiveRecord::Base
     product_taxes = lines.sum('taxes')
     return product_taxes + shipping_taxes
   end
-  
+
   # Static method, should be used whenever creating an invoice
   # based on a pre-existing order, e.g. during checkout
   def self.create_from_order(order)
@@ -202,9 +210,9 @@ class Invoice < ActiveRecord::Base
     cash_account = Account.find_by_id(ConfigurationItem.get("cash_account_id").value)
     
     if AccountTransaction.transfer(cash_account, user_account, self.rounded_price, "Invoice payment #{self.document_id}", self)
-      History.add("Payment transaction for invoice #{self.document_id}. Credit: Cash account #{self.rounded_price}", self)                         
+      History.add("Payment transaction for invoice #{self.document_id}. Credit: Cash account #{self.rounded_price}", History::ACCOUNTING, self)                         
     else
-      History.add("Failed creating transaction for #{self.document_id}. Credit: Cash account #{self.rounded_price}", self)                         
+      History.add("Failed creating transaction for #{self.document_id}. Credit: Cash account #{self.rounded_price}", History::ACCOUNTING,  self)                         
     end
   end
   

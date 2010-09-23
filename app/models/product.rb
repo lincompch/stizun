@@ -288,13 +288,13 @@ class Product < ActiveRecord::Base
       if p.supply_item.nil? and !p.supplier_id.blank?
         p.is_available = false
         p.save
-        History.add("Disabled product #{p.to_s} because it is no longer available at supplier.", p)
+        History.add("Disabled product #{p.to_s} because it is no longer available at supplier.", History::PRODUCT_CHANGE, p)
       else
         # Disabling product because we would be incurring a loss otherwise
         if (p.absolutely_priced? and p.supply_item.purchase_price > p.sales_price)
           p.is_available = false
           p.save
-          History.add("Disabled product #{p.to_s} because purchase price is higher than absolute sales price.", p)
+          History.add("Disabled product #{p.to_s} because purchase price is higher than absolute sales price.", History::PRODUCT_CHANGE,  p)
           
         # Nothing special to do to this product -- just update price and stock
         else
@@ -303,7 +303,7 @@ class Product < ActiveRecord::Base
           p.stock = p.supply_item.stock
           p.purchase_price = p.supply_item.purchase_price
           p.save
-          History.add("Product update: #{p.to_s} price from #{old_price} to #{p.purchase_price}, stock from #{old_stock} to #{p.stock}", p)
+          History.add("Product update: #{p.to_s} price from #{old_price} to #{p.purchase_price}, stock from #{old_stock} to #{p.stock}", History::PRODUCT_CHANGE, p)
         end
         
       end
