@@ -27,6 +27,14 @@ class History < ActiveRecord::Base
     return TYPE_CONST_HASH[type]
   end
   
+  def self.type_array
+    array = []
+    TYPE_CONST_HASH.each do |c|
+      array << c[0]
+    end
+    return array
+  end
+  
   # === Methods
   
   def self.exist_for_day?(date)

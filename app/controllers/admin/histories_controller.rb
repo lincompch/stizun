@@ -16,16 +16,25 @@ class Admin::HistoriesController <  Admin::BaseController
    
     if @target_date
       conditions = nil
-      session[:history_filters] = params[:filters]
-    
-      if session[:history_filters]
-        conditions = {:type_const => session[:history_filters]}
+      
+      if params[:filters]
+        session[:history_filters] = params[:filters]
+        @filters = session[:history_filters]
+      elsif session[:history_filters]
+        @filters = session[:history_filters]
+      else
+        # Use all filters that are available
+        @filters = History.type_array
+        session[:history_filters] = @filters
+      end
+      
+      if @filters
+        conditions = {:type_const => @filters}
       end
       
       @histories = History.for_day(@target_date)\
                           .find(:all, :conditions => conditions, :order => "created_at DESC")\
                           .paginate(:page => params[:page], :per_page => 100)
-      
     else
       @histories = [] 
     end
