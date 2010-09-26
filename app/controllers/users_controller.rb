@@ -12,6 +12,7 @@ class UsersController < ApplicationController
       flash[:notice] = "Account registered!"
       redirect_to new_user_session_path
     else
+      flash[:error] = "Account could not be created."
       render :action => :new
     end
   end

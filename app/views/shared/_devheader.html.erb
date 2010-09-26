@@ -9,10 +9,5 @@
 <%= (" | " + link_to("Log out", logout_path) ) if current_user %>
 <%= (" | " + link_to("My account", user_path(current_user) )) if current_user %>
 
- | 
-
- <em>Admin links:</em>
-
-  <%= link_to "Admin area", admin_path %>
-
+ |
 </div>

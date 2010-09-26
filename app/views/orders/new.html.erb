@@ -17,9 +17,9 @@
   <%= render :partial => "user_information" %>
   <% end %>
 
+  <% if current_user and current_user.payment_methods.count > 0 %>
   <h4>Payment method</h4>
   
-  <% if current_user and current_user.payment_methods.count > 0 %>
   <p>Select payment method:</p>
   <%= f.select(:payment_method_id, options_from_collection_for_select(current_user.payment_methods, :id, :name) ) %>
   <% end %>

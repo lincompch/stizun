@@ -9,6 +9,8 @@
     <td>E-Mail</td>
     <td><%= @user.email %></td>
   </tr>
+
+  <tr>
     <td><%= f.label :payment_method_ids, "Authorized payment methods" %></td>
     <td><%= f.collection_select :payment_method_ids, 
             PaymentMethod.find(:all), 
@@ -21,5 +23,19 @@
 
 
 <%= f.submit "Submit" %>
+
+<hr />
+
+<h3>This user's addresses</h3>
+
+
+<%= link_to 'Add new address', new_admin_user_address_path(@user) %>
+
+<% @addresses.each do |a| %>
+
+   <%= render :partial => 'admin/addresses/address_box', :object => a %>
+
+
+<% end %>
 
 <% end %>

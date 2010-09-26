@@ -60,8 +60,9 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :payment_methods
     admin.resources :configuration_items
 
-    admin.resources :users do |us|
-      us.resources :accounts
+    admin.resources :users do |user|
+      user.resources :accounts
+      user.resources :addresses
     end
     admin.resources :journal_entries
     admin.resources :account_transactions

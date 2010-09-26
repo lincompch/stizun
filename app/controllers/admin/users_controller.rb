@@ -6,6 +6,7 @@ class Admin::UsersController < Admin::BaseController
   
   def edit
     @user = User.find(params[:id])
+    @addresses = @user.addresses
     render :layout => 'admin_blank'
   end
   

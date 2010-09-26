@@ -16,7 +16,6 @@ class AddressesController < ApplicationController
   end
   
   def destroy
-    debugger
     if current_user
       @address = Address.find(params[:id])
       if current_user == @address.user
