@@ -14,19 +14,23 @@ class Admin::HistoriesController <  Admin::BaseController
     # Which date to scope for?
     params[:date] ? @target_date = Date.parse(params[:date]) : @target_date = Date.today
    
+    
+    if params[:filters]
+      @filters = []
+      params[:filters].each do |f| 
+        @filters << f.to_i unless @filters.include?(f.to_i)
+      end
+      session[:history_filters] = @filters
+    elsif session[:history_filters]
+      @filters = session[:history_filters]
+    else
+      # Use all filters that are available
+      @filters = History.type_array
+      session[:history_filters] = @filters
+    end
+  
     if @target_date
       conditions = nil
-      
-      if params[:filters]
-        session[:history_filters] = params[:filters]
-        @filters = session[:history_filters]
-      elsif session[:history_filters]
-        @filters = session[:history_filters]
-      else
-        # Use all filters that are available
-        @filters = History.type_array
-        session[:history_filters] = @filters
-      end
       
       if @filters
         conditions = {:type_const => @filters}
