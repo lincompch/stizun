@@ -42,16 +42,16 @@ class History < ActiveRecord::Base
     !self.for_day(date).first.nil?
   end
   
-  def self.add(text, type = History::GENERAL, object = nil)
+  def self.add(text, type_const = History::GENERAL, object = nil)
     object_id = nil if object == nil
     object_type = nil if object == nil
-    self.create(:text => text, :object_type => object_type, :object_id => object_id, :type => type)
+    self.create(:text => text, :object_type => object_type, :object_id => object_id, :type_const => type_const)
   end
   
   # For backwards compatibility -- self.add was refactored to accept nil objects, therefore
   # a separate add_text method is no longer really necessary. Remove after refactoring everything
   # to use add instead of add_text
-  def self.add_text(text, type = History::GENERAL)
+  def self.add_text(text, type_const = History::GENERAL)
     self.create(:text => text)
   end
   
