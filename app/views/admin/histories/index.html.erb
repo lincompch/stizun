@@ -48,11 +48,18 @@ end %>
   <% else %>
     <table>
 
+    <tr>
+      <th>Date</th>
+      <th>Text</th>
+      <th>Type</th>
+    </tr>
+
       <% @histories.each do |h| %>
       
         <tr>
           <td><%= h.created_at.to_s %></td>
           <td><%= h.text %></td>
+          <td><%= h.type_human %></td>
         </tr>
 
       <% end %>

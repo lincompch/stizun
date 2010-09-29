@@ -23,8 +23,9 @@ class History < ActiveRecord::Base
                 SUPPLY_ITEM_CHANGE => 'Supply item change'}
   
   # Human-readable representation of the status
-  def self.type_to_human(type)
-    return TYPE_CONST_HASH[type]
+  def type_human
+    return TYPE_CONST_HASH[type_const] || "Unknown"
+    #return self.type_to_human(self.type_const)  
   end
   
   def self.type_array
