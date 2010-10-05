@@ -34,10 +34,6 @@ class CreateAccountingSystem < ActiveRecord::Migration
     income = Account.create(:name => 'Income', :type_constant => Account::INCOME)
     expense = Account.create(:name => 'Expense', :type_constant => Account::EXPENSE)
     receivable = Account.create(:name => 'Accounts Receivable')
-    ConfigurationItem.create(:name => 'Accounts Receivable ID', 
-                             :key => 'accounts_receivable_id', 
-                             :value => receivable.id,
-                             :description => "The ID of the account under which additional accounts receivable are created when the system needs to automatically create them. This is extremely important, e.g. during the order process.")
     assets.children << receivable
     assets.save
     
