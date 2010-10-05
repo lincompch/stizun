@@ -1,8 +1,8 @@
 class AddIndexes < ActiveRecord::Migration
   def self.up
-    add_index :account_transactions, [:credit_account_id, :debit_account_id]
+    add_index :account_transactions, [:credit_account_id, :debit_account_id], :name => 'at_cid_did'
 
-    add_index :account_transactions, [:debit_account_id, :credit_account_id]
+    add_index :account_transactions, [:debit_account_id, :credit_account_id], :name => 'at_did_cid'
 
     add_index :account_transactions, :debit_account_id
     add_index :account_transactions, :credit_account_id
@@ -15,8 +15,8 @@ class AddIndexes < ActiveRecord::Migration
     add_index :categories, :parent_id
 
 
-    add_index :categories_products, [:product_id, :category_id]
-    add_index :categories_products, [:category_id, :product_id]
+    add_index :categories_products, [:product_id, :category_id], :name => 'cp_pid_cid'
+    add_index :categories_products, [:category_id, :product_id], :name => 'cp_cid_pid'
     #add_index :categories_products, :product_id
     #add_index :categories_products, :category_id
 
@@ -34,8 +34,8 @@ class AddIndexes < ActiveRecord::Migration
     add_index :invoices, :order_id
 
     add_index :orders, :user_id
-    add_index :payment_methods_users, [:user_id, :payment_method_id]
-    add_index :payment_methods_users, [:payment_method_id, :user_id]
+    add_index :payment_methods_users, [:user_id, :payment_method_id], :name => 'pmu_uid_pmid'
+    add_index :payment_methods_users, [:payment_method_id, :user_id], :name => 'pmu_pmid_uid'
     add_index :payment_methods_users, :payment_method_id
     add_index :payment_methods_users, :user_id
 
