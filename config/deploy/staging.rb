@@ -21,6 +21,8 @@ task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
   run "rm #{release_path}/config/database.yml"
   run "ln -s #{db_config} #{release_path}/config/database.yml"
+  rm_r "#{release_path}/test"
+  run "ln -s #{release_path}/public #{release_path}/test"
 end
 
 namespace :deploy do
