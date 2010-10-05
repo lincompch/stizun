@@ -7,15 +7,15 @@ set :deploy_via, :remote_cache
 
 
 set :use_sudo, false
-set :deploy_to, "/home/web/test.lincomp.org/test"
+set :deploy_to, "/home/lincomp/production"
 
 
-set :db_config, "/home/web/test.lincomp.org/database_test.yml"
+set :db_config, "/home/lincomp/database_production.yml"
 
 
-role :web, "lincomp@test.lincomp.org"                          # Your HTTP server, Apache/etc
-role :app, "lincomp@test.lincomp.org"                          # This may be the same as your `Web` server
-role :db,  "lincomp@test.lincomp.org", :primary => true # This is where Rails migrations will run
+role :web, "lincomp@www.lincomp.org"                          # Your HTTP server, Apache/etc
+role :app, "lincomp@www.lincomp.org"                          # This may be the same as your `Web` server
+role :db,  "lincomp@www.lincomp.org", :primary => true # This is where Rails migrations will run
 
 task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
