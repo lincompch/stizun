@@ -18,7 +18,7 @@ class Admin::UsersController < Admin::BaseController
     else
       flash[:error] = "Error updating user."
     end
-    render :action => 'edit', :layout => 'admin_blank'
+    render :action => 'admin/edit', :layout => 'admin_blank'
   end
   
 end

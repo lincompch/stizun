@@ -5,4 +5,15 @@ class Admin::AddressesController < Admin::BaseController
     render :layout => 'admin_blank'
   end
 
+  def update
+    @address = Address.find(params[:id])
+    @address.update_attributes(params[:address])
+    if @address.save
+      flash[:notice] = "Address saved."
+    else
+      flash[:error] = "Address could not be saved"
+    end
+    render :controller => 'admin/users', :action => 'edit', :id => @address.user, :layout => 'admin_blank'
+  end
+  
 end

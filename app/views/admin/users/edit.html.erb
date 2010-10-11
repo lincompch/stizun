@@ -28,9 +28,6 @@
 
 <h3>This user's addresses</h3>
 
-
-<%= link_to 'Add new address', new_admin_user_address_path(@user) %>
-
 <% @addresses.each do |a| %>
 
    <%= render :partial => 'admin/addresses/address_box', :object => a %>

@@ -1,8 +1,10 @@
 <h3>Edit address</h3>
 
+<p><%= link_to "Back to this user", edit_admin_user_path(@address.user) %></p>
+
 <%= error_messages_for(:address) %>
 
-<% form_for @address do |f| %>
+<% form_for([:admin, @address.user, @address], :method => :put) do |f| %>
  
   <%= render :partial => 'form', :object => f %>
 
