@@ -22,7 +22,7 @@ Rails::Initializer.run do |config|
 
   config.gem "authlogic", :version => '2.1.6'
   config.gem "searchlogic"
-  config.gem "will_paginate"
+  config.gem "will_paginate", :version => '2.3.15'
   config.gem "uuidtools"
   config.gem "fastercsv", :version => '1.5.3'
   config.gem "later_dude"
