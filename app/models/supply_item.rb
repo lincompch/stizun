@@ -13,6 +13,20 @@ class SupplyItem < ActiveRecord::Base
     product_sets.collect(&:product).uniq
   end
   
+  def self.new_from_csv_record(sp)
+    si = self.new
+    si.supplier_product_code = sp['Artikelnummer 2']
+    si.name = "#{sp['Bezeichung']} #{sp['Bezeichung 2']}"
+    si.weight = sp['Gewicht']
+    si.supplier_id = Supplier.find_by_name("Alltron AG").id
+    si.manufacturer_product_code = sp['Artikelnummer']
+    si.description = "#{sp['Webtext']} #{sp['Webtext 2']}"
+    si.purchase_price = BigDecimal.new(sp['Preis (exkl. MWSt)'].to_s) 
+    si.tax_class = TaxClass.find_by_percentage(7.6) or TaxClass.first
+    si.stock = sp['Lagerbestand'].gsub("'","").to_i
+    si
+  end
+  
   # Synchronize all supply items from a supplier's provided CSV file
   # Currently only one supplier is supported. This is enough for the
   # prototype developed as part of the dissertation, but in the final
@@ -29,24 +43,19 @@ class SupplyItem < ActiveRecord::Base
       received_codes << sp['Artikelnummer 2']
       # check if we have product too
       local_supply_item = SupplyItem.find_by_supplier_product_code(sp['Artikelnummer 2'])
+      
+      # We do not have that supply item yet
       if local_supply_item.nil?
-        si= SupplyItem.new
-        si.supplier_product_code = sp['Artikelnummer 2']
-        si.name = "#{sp['Bezeichung']} #{sp['Bezeichung 2']}"
-        si.weight = sp['Gewicht']
-        si.supplier_id = 1
-        si.manufacturer_product_code = sp['Artikelnummer']
-        si.description = "#{sp['Webtext']} #{sp['Webtext 2']}"
-        si.purchase_price = BigDecimal.new(sp['Preis (exkl. MWSt)'].to_s) # change to exkl. MwSt. once company is registered
-        si.tax_class = TaxClass.find_by_percentage(7.6) or TaxClass.first
-        si.stock = sp['Lagerbestand'].gsub("'","").to_i
+        si= SupplyItem.new_from_csv_record(sp)
         
         if si.save
           History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
         else
           History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", History::SUPPLY_ITEM_CHANGE, si)
         end
-        
+      
+      # We already have that supply item and need to update supply item
+      # and related product information
       else
         if local_supply_item.purchase_price != BigDecimal(sp['Preis (exkl. MWSt)'].to_s)
           old_price = local_supply_item.purchase_price
@@ -62,8 +71,6 @@ class SupplyItem < ActiveRecord::Base
           History.add("Changed stock for #{local_supply_item.to_s} from #{old_stock} to #{local_supply_item.stock}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
         end
       end
-      
-      
     end
 
     # Find out which items we need to delete locally
