@@ -18,7 +18,7 @@ require 'rubygems'
 require 'fastercsv'
 require 'iconv'
 require 'active_record'
-
+require 'alltron_util'
 
 class AlltronCSV
 
@@ -31,8 +31,6 @@ class AlltronCSV
     
     convert_file
 
-    #puts "Reading CSV"
-    #@products = FasterCSV.read(@outfile, :col_sep => "\t", :headers => :first_row ) if @products.nil?
   end
 
   def get_faster_csv_instance
