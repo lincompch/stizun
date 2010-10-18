@@ -18,10 +18,11 @@ class SupplyItem < ActiveRecord::Base
     si.supplier_product_code = sp['Artikelnummer 2']
     si.name = "#{sp['Bezeichung']} #{sp['Bezeichung 2']}"
     si.weight = sp['Gewicht']
-    si.supplier_id = Supplier.find_by_name("Alltron AG").id
+    si.supplier = Supplier.find_or_create_by_name("Alltron AG")
     si.manufacturer_product_code = sp['Artikelnummer']
     si.description = "#{sp['Webtext']} #{sp['Webtext 2']}"
-    si.purchase_price = BigDecimal.new(sp['Preis (exkl. MWSt)'].to_s) 
+    si.purchase_price = BigDecimal.new(sp['Preis (exkl. MWSt)'].to_s)
+    # TODO: Read actual tax percentage from import file and create class as needed
     si.tax_class = TaxClass.find_by_percentage(7.6) or TaxClass.first
     si.stock = sp['Lagerbestand'].gsub("'","").to_i
     si
@@ -32,7 +33,7 @@ class SupplyItem < ActiveRecord::Base
   # prototype developed as part of the dissertation, but in the final
   # product this needs to be modular and allow each supplier to provide
   # either files or an API to synchronize from.
-  def self.synchronize
+  def self.import
     require 'lib/alltron_csv'
     acsv = AlltronCSV.new
     fcsv = acsv.get_faster_csv_instance

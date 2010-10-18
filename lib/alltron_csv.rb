@@ -25,13 +25,9 @@ class AlltronCSV
   attr_reader :outfile
   attr_reader :class_directory
   
-  def initialize
-    @class_directory =  File.dirname(__FILE__)
-    
-    # These path concatenations only work on UNIXoid systems, better use
-    # Ruby's built-in platform-neutral directory joining functions in future
-    @infile = @class_directory + "/AL_Artikeldaten.txt"
-    @outfile = @class_directory + "/AL_Artikeldaten.converted.txt"
+  def initialize    
+    @infile = AlltronUtil.import_filename
+    @outfile = AlltronUtil.converted_filename
     
     convert_file
 
@@ -40,7 +36,7 @@ class AlltronCSV
   end
 
   def get_faster_csv_instance
-    return FasterCSV.new(File.open(@outfile), :col_sep => "\t", :headers => :first_row)
+    return @fastercsv ||= FasterCSV.new(File.open(@outfile), :col_sep => "\t", :headers => :first_row)
   end
   
   def convert_file
