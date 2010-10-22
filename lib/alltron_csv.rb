@@ -23,7 +23,6 @@ require 'alltron_util'
 class AlltronCSV
 
   attr_reader :outfile
-  attr_reader :class_directory
   
   def initialize    
     @infile = AlltronUtil.import_filename
@@ -43,7 +42,7 @@ class AlltronCSV
 
     puts "Trying to convert file"
     if File.exist?(@infile)
-      file = File.new(@infile)
+      file = File.open(@infile, "r")
       lines = file.readlines
       file.close
     else

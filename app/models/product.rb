@@ -275,48 +275,9 @@ class Product < ActiveRecord::Base
     return p
   end
 
-  # Compare all products that are related to a supply item with
-  # the supply item's current stock level and price. Make adjustments
-  # as necessary.
-  def self.update_price_and_stock
-    
-    self.supplied.each do |p|
-      # The supply item is no longer available, thus we need to
-      # make our own copy of it unavailable as well
-      
-      # The product has a supplier, but its supply item is gone
-      if p.supply_item.nil? and !p.supplier_id.blank?
-        p.is_available = false
-        p.save
-        History.add("Disabled product #{p.to_s} because it is no longer available at supplier.", History::PRODUCT_CHANGE, p)
-      else
-        # Disabling product because we would be incurring a loss otherwise
-        if (p.absolutely_priced? and p.supply_item.purchase_price > p.sales_price)
-          p.is_available = false
-          p.save
-          History.add("Disabled product #{p.to_s} because purchase price is higher than absolute sales price.", History::PRODUCT_CHANGE,  p)
-          
-        # Nothing special to do to this product -- just update price and stock
-        else
-          old_stock = p.stock
-          old_price = p.purchase_price.to_s
-          p.stock = p.supply_item.stock
-          p.purchase_price = p.supply_item.purchase_price
-          p.save
-          History.add("Product update: #{p.to_s} price from #{old_price} to #{p.purchase_price}, stock from #{old_stock} to #{p.stock}", History::PRODUCT_CHANGE, p)
-        end
-        
-      end
-
-    end
-    
-  end
-
   def to_s
     return "#{id} #{name}"
-  end
-
-  
+  end  
   
   # CSV export functions.
   
