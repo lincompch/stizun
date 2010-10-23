@@ -1,5 +1,6 @@
 class Order < Document
 
+  # === Associations
   belongs_to :user
   has_many :order_lines
   has_one :invoice 
@@ -7,6 +8,8 @@ class Order < Document
   belongs_to :shipping_address, :polymorphic => true
   belongs_to :billing_address, :polymorphic => true
   belongs_to :payment_method
+  
+  # === Validations
   
   validates_presence_of :billing_address
   
@@ -21,7 +24,8 @@ class Order < Document
   #accepts_nested_attributes_for :billing_address
 
   
-  # Status constants
+  # === Constants and associated methods
+
   # Rails 3.0 will have ActiveRecord.state_machine that will
   # take care of this better (with transitions), but we 
   # cannot use that in 2.3. We might want to look into has_states
@@ -38,6 +42,23 @@ class Order < Document
                   TO_SHIP          => 'To ship',
                   SHIPPED          => 'Shipped'}
 
+  def self.status_to_human(status)
+    return STATUS_HASH[status]
+  end
+  
+  def self.status_hash_for_select
+    hash = []
+    STATUS_HASH.each do |key,value|
+      hash << [value, key]
+    end 
+    return hash
+  end
+  
+  def status_human
+    return Order::status_to_human(status_constant)
+  end  
+  
+  # === Named scopes
   
   named_scope :unprocessed, :conditions => { :status_constant => Order::UNPROCESSED }
   named_scope :processing, :conditions => { :status_constant => Order::PROCESSING }
@@ -55,25 +76,10 @@ class Order < Document
   }
   
   
-  def self.status_to_human(status)
-    return STATUS_HASH[status]
-  end
-  
-  def self.status_hash_for_select
-    hash = []
-    STATUS_HASH.each do |key,value|
-      hash << [value, key]
-    end 
-    return hash
-
-  end
+  # === Methods
   
   def after_initialize
     self.payment_method ||= PaymentMethod.get_default
-  end
-  
-  def status_human
-    return Order::status_to_human(status_constant)
   end
   
   def invoiced?
@@ -102,7 +108,6 @@ class Order < Document
     end
     return order
   end
-  
     
   
   # This is used in validation.

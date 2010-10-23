@@ -80,10 +80,8 @@ class Invoice < ActiveRecord::Base
     end
     return total
   end
-
   
-  
-  # Alias for order_lines so that generic order|invoice.lines works
+  # Alias for order_lines so that generic (order|invoice).lines works
   def lines
     invoice_lines
   end
@@ -212,7 +210,7 @@ class Invoice < ActiveRecord::Base
     if AccountTransaction.transfer(cash_account, user_account, self.rounded_price, "Invoice payment #{self.document_id}", self)
       History.add("Payment transaction for invoice #{self.document_id}. Credit: Cash account #{self.rounded_price}", History::ACCOUNTING, self)                         
     else
-      History.add("Failed creating transaction for #{self.document_id}. Credit: Cash account #{self.rounded_price}", History::ACCOUNTING,  self)                         
+      History.add("Failed creating payment transaction for #{self.document_id}. Credit: Cash account #{self.rounded_price}", History::ACCOUNTING,  self)                         
     end
   end
   
