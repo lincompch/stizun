@@ -20,12 +20,8 @@ When /^the invoice is paid$/ do
   @invoice.record_payment_transaction
 end
 
-Then /^the unrounded invoice total is (\d+\.\d+)$/ do  |num|   
+Then /^the invoice total is (\d+\.\d+)$/ do  |num|   
    @invoice.price.should == BigDecimal.new(num.to_f.to_s)
-end
-
-Then /^the rounded invoice total is (\d+\.\d+)$/ do  |num|   
-   @invoice.rounded_price.should == BigDecimal.new(num.to_f.to_s)
 end
 
 Then /^the balance of the sales income account is (\d+\.\d+)$/ do |balance|

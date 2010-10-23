@@ -14,7 +14,7 @@
 
         <% f.fields_for "cart_lines[]", ci do |cl_fields| %>
           <%= cl_fields.text_field :quantity, :size => 3 %> x 
-          <%= ci.product.name %> (<%= pretty_price(ci.product.rounded_price) %>)
+          <%= ci.product.name %> (<%= pretty_price(ci.product.price.rounded) %>)
            <%= link_to "Remove", :controller => 'carts', :action => 'remove_all', :product_id => ci.product %>
 
         <% end %>

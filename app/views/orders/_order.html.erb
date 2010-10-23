@@ -10,7 +10,7 @@
     <tr>
       <td><%= l.quantity %></td>
       <td><%= l.product.name %></td>
-      <td class="price"><%= pretty_price(l.product.rounded_price) %></td>
+      <td class="price"><%= pretty_price(l.product.price.rounded) %></td>
     </tr>
     <% end %>
 
@@ -24,7 +24,7 @@
     <tr>
       <td></td>
       <td>Total</td>
-      <td class="price"><%= pretty_price(order.rounded_price) %></td>
+      <td class="price"><%= pretty_price(order.price.rounded) %></td>
     </tr>
 
     <% if order.invoice %>

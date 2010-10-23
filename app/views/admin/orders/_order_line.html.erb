@@ -16,11 +16,11 @@
   </td>
   
   <td class="price">
-  <%= pretty_price(order_line.product.rounded_price) %>
+  <%= pretty_price(order_line.product.price.rounded) %>
   </td>
   
   <td class="price">
-  <%= pretty_price(order_line.rounded_price) %>
+  <%= pretty_price(order_line.price.rounded) %>
   </td>
 
 </tr>

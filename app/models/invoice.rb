@@ -56,17 +56,12 @@ class Invoice < ActiveRecord::Base
   def document_id
     return "I-#{document_number}"
   end
-  
-  # Backwards compatibility alias -- to remove in refactoring.
-  def rounded_price
-    price
-  end
-  
-  # Refactor to use .sum("rounded_price")?
+
+  # Refactor to use .sum("price")?
   def price
     total = 0
     self.invoice_lines.each do |il|
-      total += il.rounded_price
+      total += il.price
     end
     total += shipping_cost
     return total
@@ -129,8 +124,8 @@ class Invoice < ActiveRecord::Base
        self.billing_address = order.billing_address
        self.shipping_address = order.shipping_address
        
-       self.shipping_cost = order.shipping_rate.total_cost
-       self.shipping_taxes = order.shipping_rate.total_taxes
+       self.shipping_cost = order.shipping_rate.total_cost.rounded
+       self.shipping_taxes = order.shipping_rate.total_taxes.rounded
        self.status_constant = Invoice::UNPAID
        self.invoice_lines_from_order(order)
        order.update_attributes(:status_constant => Order::AWAITING_PAYMENT)
@@ -145,11 +140,11 @@ class Invoice < ActiveRecord::Base
       il = InvoiceLine.new
       il.quantity = ol.quantity
       il.text = ol.product.name
-      il.rounded_price = ol.rounded_price
+      il.price = ol.price.rounded
       il.gross_price = ol.gross_price
-      il.single_rounded_price = ol.product.rounded_price
+      il.single_price = ol.product.price.rounded
       il.tax_percentage = ol.product.tax_class.percentage
-      il.taxes = ol.taxes
+      il.taxes = ol.taxes.rounded
       il.weight = ol.product.weight
       invoice.invoice_lines << il
     end
@@ -207,10 +202,10 @@ class Invoice < ActiveRecord::Base
     
     cash_account = Account.find_by_id(ConfigurationItem.get("cash_account_id").value)
     
-    if AccountTransaction.transfer(cash_account, user_account, self.rounded_price, "Invoice payment #{self.document_id}", self)
-      History.add("Payment transaction for invoice #{self.document_id}. Credit: Cash account #{self.rounded_price}", History::ACCOUNTING, self)                         
+    if AccountTransaction.transfer(cash_account, user_account, self.price, "Invoice payment #{self.document_id}", self)
+      History.add("Payment transaction for invoice #{self.document_id}. Credit: Cash account #{self.price}", History::ACCOUNTING, self)                         
     else
-      History.add("Failed creating payment transaction for #{self.document_id}. Credit: Cash account #{self.rounded_price}", History::ACCOUNTING,  self)                         
+      History.add("Failed creating payment transaction for #{self.document_id}. Credit: Cash account #{self.price}", History::ACCOUNTING,  self)                         
     end
   end
   
@@ -227,7 +222,7 @@ class Invoice < ActiveRecord::Base
     self.transaction do
       sales_income_account = Account.find(ConfigurationItem.get('sales_income_account_id').value)
       
-      res = AccountTransaction.transfer(user_account, sales_income_account, self.rounded_price, "Invoice #{self.document_id}", self)
+      res = AccountTransaction.transfer(user_account, sales_income_account, self.price, "Invoice #{self.document_id}", self)
       TaxBookers::TaxBooker.record_invoice(self)
     end
   end

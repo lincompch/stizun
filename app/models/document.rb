@@ -1,29 +1,14 @@
 class Document < ActiveRecord::Base
   self.abstract_class = true
-  
 
-  
-  def rounded_price
-    return products_rounded_price + shipping_rate.total_cost
-  end
-  
   def price
     return products_price + shipping_rate.total_cost
   end
-  
   
   def products_price
     total = BigDecimal("0.0")
     self.lines.each do |ol|
       total += ol.price
-    end
-    return total
-  end
-  
-  def products_rounded_price
-    total = BigDecimal("0.0")
-    self.lines.each do |line|
-      total += line.rounded_price
     end
     return total
   end

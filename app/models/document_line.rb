@@ -5,11 +5,7 @@ class DocumentLine < ActiveRecord::Base
 
   
   def price
-    self.quantity * self.product.price
-  end
-  
-  def rounded_price
-    self.quantity * self.product.rounded_price
+    self.quantity * self.product.price.rounded
   end
   
   def gross_price

@@ -12,7 +12,7 @@ class Product < ActiveRecord::Base
   # other products (e.g. a PC out of components)
   #
   # Calculate prices inside e.g.
-  # product.product_sets.first.rounded_price
+  # product.product_sets.first.price.rounded
   has_many :components, :through => :product_sets
   has_many :product_sets, :foreign_key => 'product_id', :class_name => 'ProductSet'
   
@@ -33,12 +33,6 @@ class Product < ActiveRecord::Base
     return 50
   end
   
-  def rounded_price
-    # Round to the nearest 0.5 because in our currency (CHF), 0.1 and 0.2 don't exist
-    rounded_price = ( price/BigDecimal("5") ).round(2) * BigDecimal("5")  
-    return rounded_price
-  end
-  
   def price
     if absolutely_priced?
       gross_price - calculate_rebate(gross_price)
@@ -53,11 +47,7 @@ class Product < ActiveRecord::Base
     if componentized?
       gross_price = component_gross_price
     else
-      if absolutely_priced?
-        gross_price = sales_price
-      else
-        gross_price = calculated_gross_price
-      end
+      absolutely_priced? ? gross_price = sales_price : gross_price = calculated_gross_price
     end
      
     return gross_price
@@ -117,7 +107,7 @@ class Product < ActiveRecord::Base
   end
   
   def rounded_price_before_rebate
-    return rounded_price + rebate
+    return price.rounded + rebate
   end
   
   
@@ -292,14 +282,14 @@ class Product < ActiveRecord::Base
   def to_csv_array
     c = Cart.new
     c.add_product(self)
-    shipped_price = (rounded_price + c.shipping_cost)
+    shipped_price = (price.rounded + c.shipping_cost)
     availability = "24h"
     if stock < 1
       availability = "ask"
     end
     # We use string interpolation notation (#{foo}) so that nil errors are already
     # handled gracefully without any extra work.
-    ["#{id}", "#{manufacturer_product_code}", "#{name}", "#{description}", "#{net_price}", "#{rounded_price}", "#{shipped_price}", "#{taxes}", "#{c.shipping_cost}", "#{stock}", "#{availability}", "#{weight}"]
+    ["#{id}", "#{manufacturer_product_code}", "#{name}", "#{description}", "#{net_price}", "#{price.rounded}", "#{shipped_price}", "#{taxes}", "#{c.shipping_cost}", "#{stock}", "#{availability}", "#{weight}"]
   end
   
   def calculated_margin_percentage

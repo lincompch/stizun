@@ -5,10 +5,10 @@ This is an e-mail message. Maybe you already guessed that.
 Pay us lots of money for stuff. This is the stuff:
 
 <% @invoice.invoice_lines.each do |il| %>
-<%= "#{il.quantity.to_s}x #{il.text}. #{pretty_price(il.rounded_price)}" %>
+<%= "#{il.quantity.to_s}x #{il.text}. #{pretty_price(il.price)}" %>
 <% end %>
 
-Total: <%= pretty_price(@invoice.rounded_price) %>
+Total: <%= pretty_price(@invoice.price) %>
 
 Come on. You know you'd love to pay. Here's a link for payment details:
 

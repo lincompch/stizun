@@ -14,9 +14,9 @@ module ProductsHelper
         rebate_string = product.percentage_rebate.to_s + "%"
       end
       
-      "<span class='sales_price'> #{pretty_price(product.rounded_price)}<span> (You save: #{rebate_string})"
+      "<span class='sales_price'> #{pretty_price(product.price.rounded)}<span> (You save: #{rebate_string})"
     else
-      pretty_price(product.rounded_price)
+      pretty_price(product.price.rounded)
     end
       
   end
