@@ -24,7 +24,10 @@ Feature: Book taxes on invoices to the right accounts
     |Marketing Expense|inherited|Expense|
     |Product Stock|inherited|Assets|
 
-    Scenario: Book Swiss tax on an invoice (test the SwitzerlandTaxBooker)
+    Scenario: Book really trivial Swiss tax on an invoice
+      pending
+
+    Scenario: Book Swiss tax on an invoice (more thoroughly test the SwitzerlandTaxBooker)
       Given there is a configuration item named "tax_booker_class_name" with value "TaxBookers::SwitzerlandTaxBooker"
       And an order with the following products:
       |quantity|name  |weight|direct_shipping|tax_class |supplier  |purchase_price|margin_percentage|
@@ -35,7 +38,9 @@ Feature: Book taxes on invoices to the right accounts
       And the order's payment method is "Prepay"
       When I invoice the order
       # Total includes all products, all taxes, even shipping cost and taxes on shipping
-      Then the invoice total is 2647.05
+      Then the invoice total is 2647.45
       # Includes only the raw taxes we owe to the country
-      And the balance of account "Kreditor MwSt." is 186.96
-      And the balance of the sales income account is 2460.46
+      And the balance of account "Kreditor MwSt." is 187.05
+      And the balance of the sales income account is 2460.40
+
+

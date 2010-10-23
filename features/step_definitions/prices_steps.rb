@@ -42,7 +42,7 @@ Then /^the absolute margin should be roughly (\d+\.\d+)$/ do |num|
 end
 
 Then /^the rounded price should be (\d+\.\d+)$/ do |num|
-  @product.rounded_price.should == BigDecimal.new(num)
+  @product.price.rounded.should == BigDecimal.new(num)
 end
 
 Then /^the taxes should be (\d+\.\d+)$/ do |num|
