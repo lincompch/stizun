@@ -40,7 +40,7 @@ Feature: Book taxes on invoices to the right accounts
       # Total includes all products, all taxes, even shipping cost and taxes on shipping
       Then the invoice total is 2647.45
       # Includes only the raw taxes we owe to the country
-      And the balance of account "Kreditor MwSt." is 187.05
-      And the balance of the sales income account is 2460.40
+      And the balance of account "Kreditor MwSt." is 186.96
+      And the balance of the sales income account is 2460.49
 
 

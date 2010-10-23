@@ -125,7 +125,7 @@ class Invoice < ActiveRecord::Base
        self.shipping_address = order.shipping_address
        
        self.shipping_cost = order.shipping_rate.total_cost.rounded
-       self.shipping_taxes = order.shipping_rate.total_taxes.rounded
+       self.shipping_taxes = order.shipping_rate.total_taxes
        self.status_constant = Invoice::UNPAID
        self.invoice_lines_from_order(order)
        order.update_attributes(:status_constant => Order::AWAITING_PAYMENT)
@@ -144,7 +144,7 @@ class Invoice < ActiveRecord::Base
       il.gross_price = ol.gross_price
       il.single_price = ol.product.price.rounded
       il.tax_percentage = ol.product.tax_class.percentage
-      il.taxes = ol.taxes.rounded
+      il.taxes = ol.taxes
       il.weight = ol.product.weight
       invoice.invoice_lines << il
     end
