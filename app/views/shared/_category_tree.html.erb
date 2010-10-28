@@ -11,7 +11,12 @@
 <script type="text/javascript">
 jQuery("#categorytree")
     .jstree({
-    "json_data" : {
+        "themes" : {
+            "theme" : "default"
+            "dots" : false,
+            "icons" : false
+        },
+        "json_data" : {
             "data" : [
                 {
                     "data" : "A node",
@@ -27,6 +32,7 @@ jQuery("#categorytree")
             ]
         },
         core : { /* core options go here */ },
+
         plugins : [ "themes", "json_data" ]
     });
 </script>
