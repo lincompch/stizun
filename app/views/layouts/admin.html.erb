@@ -33,32 +33,33 @@
 
 
     <div id="header"> 
-      <h1>Lincomp</h1> 
-      <h2>Linux Computers, Linux Compatibility</h2> 
+      <h1>Lincomp Admin</h1> 
     </div> 
 
     <div id="primarynav">
-    <h4>Administration</h4>
-    <ul>
-      <li><%= link_to "Products", admin_products_path %></li>
-      <li><%= link_to "Orders", admin_orders_path %></li>
-      <li><%= link_to "Invoices", admin_invoices_path %></li>
-      <li><%= link_to "Users", admin_users_path %></li>
-      <li><%= link_to "Tax Classes", admin_tax_classes_path %></li>
-      <li><%= link_to "System history", admin_histories_path %></li>
-      <li><%= link_to "Suppliers", admin_suppliers_path %></li>
-      <li><%= link_to "Accounts", admin_accounts_path %></li>
-            <ul>
-            <li><%= link_to "Journal Entries", admin_journal_entries_path %></li>
-            <li><%= link_to "Manual transaction", new_admin_account_transaction_path %></li>
+      <div class="admin-navigation">
+      <ul>
+        <li><%= link_to "Products", admin_products_path %></li>
+        <li><%= link_to "Orders", admin_orders_path %></li>
+        <li><%= link_to "Invoices", admin_invoices_path %></li>
+        <li><%= link_to "Users", admin_users_path %></li>
+        <li><%= link_to "Tax Classes", admin_tax_classes_path %></li>
+        <li><%= link_to "System history", admin_histories_path %></li>
+        <li><%= link_to "Suppliers", admin_suppliers_path %></li>
+        <li><%= link_to "Accounts", admin_accounts_path %></li>
+              <ul class="indent">
+              <li><%= link_to "Journal Entries", admin_journal_entries_path %></li>
+              <li><%= link_to "Manual transaction", new_admin_account_transaction_path %></li>
 
-            </ul>
+              </ul>
 
-      <li><%= link_to "Payment methods", admin_payment_methods_path %></li>
-      <li><%= link_to "Shipping rates", admin_shipping_rates_path %></li>
-      <li><%= link_to "Configuration items", admin_configuration_items_path %></li>
+        <li><%= link_to "Payment methods", admin_payment_methods_path %></li>
+        <li><%= link_to "Shipping rates", admin_shipping_rates_path %></li>
+        <li><%= link_to "Configuration items", admin_configuration_items_path %></li>
+        <li class="lastlink"></li>
 
-    <ul>
+      <ul>
+      </div>
     </div>
   
     <div id="content"> 
@@ -71,14 +72,14 @@
 
     <%= yield %>
     
-    <h3>Products</h3>
+    <!--<h3>Products</h3>
       <ul>
         <li><%= link_to 'All products', admin_products_path %></li>
         <li><%= link_to_box 'Create product', new_admin_product_path %></li>
       </ul>
       <% categories = Category.find(:all)%>
       <%= tree_recursive(categories, nil, true) %>
-
+    -->
     </div> 
 
     <div id="footer">
