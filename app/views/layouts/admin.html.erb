@@ -70,9 +70,7 @@
       <% end -%>
 
     <%= yield %>
-    </div> 
-  
-    <div id="secondarynav"> 
+    
     <h3>Products</h3>
       <ul>
         <li><%= link_to 'All products', admin_products_path %></li>
@@ -80,6 +78,7 @@
       </ul>
       <% categories = Category.find(:all)%>
       <%= tree_recursive(categories, nil, true) %>
+
     </div> 
 
     <div id="footer">

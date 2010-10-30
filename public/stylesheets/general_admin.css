@@ -1,2 +1,32 @@
 
-/* TODO: Wider everything for admins */
+#wrapper {
+  margin: 0 auto;
+  width: 100%;
+  border: 0;
+}
+
+#header {
+  padding: 0 10px 10px 10px;
+}
+
+#primarynav {
+  float: left;
+  width: 200px;
+}
+
+#content {
+  float: none;
+  margin-left: 220px;
+}
+
+#secondarynav {
+  display: none;
+}
+
+
+#footer {
+  clear: both;
+  background: #EADDB8;
+  border-top: 1px solid black;
+  padding: 5px 5px 5px 15px;
+}
