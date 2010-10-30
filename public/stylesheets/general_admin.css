@@ -11,12 +11,14 @@
 
 #primarynav {
   float: left;
+  padding-left: 20px;
   width: 200px;
 }
 
 #content {
   float: none;
-  margin-left: 240px;
+  margin-left: 260px;
+  width: auto;
 }
 
 #secondarynav {
@@ -29,6 +31,7 @@
   background: #EADDB8;
   border-top: 1px solid black;
   padding: 5px 5px 5px 15px;
+  margin-top: 40px;
 }
 
 
