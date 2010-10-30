@@ -16,7 +16,7 @@
 
 #content {
   float: none;
-  margin-left: 220px;
+  margin-left: 240px;
 }
 
 #secondarynav {
@@ -39,6 +39,7 @@
   padding: 0;
 }
 
+
 .admin-navigation li {
   background: #f1f1f1;
   border: 1px solid #ccc;
@@ -58,10 +59,21 @@
   padding-left: 2em;
 }
 
-
 .admin-navigation ul li a {
   display: block;
   padding: 0.4em 0.1em 0.4em 0.4em;
   text-decoration: none;
 }
 
+.admin-navigation a {
+  font-weight: bold;
+  color: #000;
+}
+
+.admin-navigation a:hover {
+  color: #669;
+}
+
+.admin-navigation li:hover {
+  background: #f6f6f9;
+}
