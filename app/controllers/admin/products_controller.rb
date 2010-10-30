@@ -5,21 +5,17 @@ class Admin::ProductsController <  Admin::BaseController
      # Resource was accessed in nested form through /admin/categories/n/products
     if params[:category_id]
       @category = Category.find params[:category_id]
+      search_object = @category.products
     end
+  
+    # Search inside a category if it is defined, otherwise all products.
+    search_object ||= Product
     
     if params[:search].blank? or params[:search][:keyword].blank?
-      if @category.nil?
-        @products = Product.search.all.paginate(:page => params[:page], :per_page => Product.per_page)
-      else
-        @products = @category.products.search.all.paginate(:page => params[:page], :per_page => Product.per_page)
-      end
+
+      @products = search_object.search.all.paginate(:page => params[:page], :per_page => Product.per_page)
     else
-      
-      if @category.nil?
-        @products = Product.name_like_or_supplier_product_code_is_or_manufacturer_product_code_is(params[:search][:keyword]).paginate(:page => params[:page], :per_page => Product.per_page)
-      else 
-        @products = @category.products.name_like_or_supplier_product_code_is_or_manufacturer_product_code_is(params[:search][:keyword]).paginate(:page => params[:page], :per_page => Product.per_page)
-      end
+      @products = search_object.name_like_or_supplier_product_code_is_or_manufacturer_product_code_is(params[:search][:keyword]).paginate(:page => params[:page], :per_page => Product.per_page)
     end
   end
   
