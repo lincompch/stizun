@@ -1,7 +1,17 @@
 <h2>Products</h2>
 
+<% if @category %>
+  <div id="admin_category_breadcrumb">
+  <%= categories_breadcrumb(@category) %>
+  </div>
+
+<% end %>
+
+  <%= render :partial => 'admin/categories/category_summary', :object => @categories %>
+
+
 <% form_tag({:controller => 'admin/products', :action => 'index'}, {:method => 'get'}) do %>
-<p>Search by name: <%= text_field :search, :keyword, :size => 15 %> <%= submit_tag 'Search' %>
+  <p>Search by name: <%= text_field :search, :keyword, :size => 15 %> <%= submit_tag 'Search' %>
 <% end %>
 
 
@@ -22,8 +32,6 @@
 <% @products.each do |p| %>
 
         <%= render :partial => 'product_line', :object => p %>
-
-
 
 <% end %>
 

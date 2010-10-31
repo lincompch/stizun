@@ -5,11 +5,15 @@ class Admin::ProductsController <  Admin::BaseController
      # Resource was accessed in nested form through /admin/categories/n/products
     if params[:category_id]
       @category = Category.find params[:category_id]
+      # Which categories to display on top of the product list for deeper
+      # navigation into the category tree.
+      @categories = @category.children
       search_object = @category.products
     end
   
     # Search inside a category if it is defined, otherwise all products.
     search_object ||= Product
+    @categories ||= Category.roots
     
     if params[:search].blank? or params[:search][:keyword].blank?
 
