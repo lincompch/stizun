@@ -28,15 +28,16 @@
         <div id="nav">
           <div id="nav_menu">
           <ul>
-            <li class="nav_menu_item">nav_menu_item</a></li>
-            <li class="nav_menu_item"><a href="my_account">my_account</a></li>
+            <li class="nav_menu_item"><%= link_to "Home", root_path %></a></li>            
             <% if current_user.nil? %>
-              <li class="nav_menu_item"><%= link_to "Log in", login_path %></li>
+              <li class="nav_menu_item"><%= link_to "Einloggen", login_path %></li>
+              <li class="nav_menu_item"><%= link_to "Konto erstellen", new_user_path %></li>
             <% else %>
-              <li class="nav_menu_item"><%= link_to "Log out", logout_path %></li>
+              <li class="nav_menu_item"><%= link_to "Ausloggen", logout_path %></li>
+              <li class="nav_menu_item"><%= link_to "Mein Konto", user_path(current_user) %></li>
             <% end %>
-            <li class="nav_menu_item"><a href="cart">cart</a></li>
-            <li class="nav_menu_item"><a href="checkout">checkout</a></li>
+            <li class="nav_menu_item"><a href="cart">Warenkorb</a></li>
+            <li class="nav_menu_item"><a href="checkout">Zur Kasse</a></li>
           </ul>
            
             
@@ -79,18 +80,11 @@
                   <div id="navColumnTwoWrapper">
                   <div class="box" id="languages"> 
                     <div class="box_hd"> 
-                        <h3 class="rightBoxHeading" id="languagesHeading">Sprachen</h3> 
+                        <h3 class="rightBoxHeading">Kategorien</h3> 
                     </div> 
                     <div class="box_ct"> 
-                      <div id="languagesContent" class="sideBoxContent centeredContent">
-                        <ul> 
-                          <li>
-                            <a href="http://lincomp.ch/shop/index.php?main_page=index&amp;sort=4&amp;language=de">Deutsch</a>
-                          </li>
-                          <li>
-                            <a href="http://lincomp.ch/shop/index.php?main_page=index&amp;sort=4&amp;language=en">English</a>
-                          </li>
-                        </ul>
+                      <div id="categoriesContent" class=" sideBoxContent centeredContent">
+                        <%= render :partial => 'shared/category_tree' %>
                       </div>
                       </div> 
                     <div class="box_ft"> 
