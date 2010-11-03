@@ -1,50 +1,140 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" > 
  
-<head> 
+  <head> 
+  
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+    <title>Lincomp</title> 
+    <%= stylesheet_link_tag "general" %>
+    <%= stylesheet_link_tag "templates/lincomp/stylesheet" %>
+    <%= javascript_include_tag :defaults %>
+    <%= javascript_include_tag "jquery.jstree/jquery.jstree.js" %>
+
+  </head> 
  
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
-  <title>Lincomp</title> 
-  <%= stylesheet_link_tag "general" %>
-  <%= javascript_include_tag :defaults %>
-  <%= javascript_include_tag "jquery.jstree/jquery.jstree.js" %>
+  <body id="indexHomeBody"> 
 
-</head> 
- 
-<body> 
-  <%= render :partial => "shared/devheader" %>
+    <div id="wrapper">
+      
+      <div id="page">
+      
+        
+        <div id="header">
+        <!-- This just contains the logo -->  
+        </div>
+        
+        <!-- #### NAV START #### -->
+        <div id="nav">
+          <div id="nav_menu">
+          <ul>
+            <li class="nav_menu_item">nav_menu_item</a></li>
+            <li class="nav_menu_item"><a href="my_account">my_account</a></li>
+            <% if current_user.nil? %>
+              <li class="nav_menu_item"><%= link_to "Log in", login_path %></li>
+            <% else %>
+              <li class="nav_menu_item"><%= link_to "Log out", logout_path %></li>
+            <% end %>
+            <li class="nav_menu_item"><a href="cart">cart</a></li>
+            <li class="nav_menu_item"><a href="checkout">checkout</a></li>
+          </ul>
+           
+            
+          </div>
+          <div id="nav_rightbox">
+         
+          </div>
+        </div>
+        <!-- #### NAV STOP #### -->     
+      
 
-  <div id="wrapper">
+        <div id="content">
 
-    <div id="header"> 
-      <h1>Lincomp</h1> 
-      <h2>Linux Computers, Linux Compatibility</h2> 
-    </div> 
+          <div id="ct_main">
+           
+           <!-- #### CONTENT START #### -->
 
-    <div id="primarynav">
-      <%= render :partial => 'shared/category_tree' %>
+            <!-- bof  breadcrumb -->
+            
+            <div id="navBreadCrumb">breadcrumb</div>
+        
+            <!-- eof breadcrumb -->
+
+            <% if flash[:notice] -%>
+              <div id="notice" ><%= flash[:notice] %></div>
+            <% end -%>
+            <% if flash[:error] -%>
+              <div id="error" ><%= flash[:error] %></div>
+            <% end -%>
+
+     
+            <%= yield %>
+           
+          </div>
+          <!-- #### /CONTENT MAIN #### -->
+  
+          <!-- RIGHT COLUMN -->
+          <div id="rightcolumn">
+          
+                  <div id="navColumnTwoWrapper">
+                  <div class="box" id="languages"> 
+                    <div class="box_hd"> 
+                        <h3 class="rightBoxHeading" id="languagesHeading">Sprachen</h3> 
+                    </div> 
+                    <div class="box_ct"> 
+                      <div id="languagesContent" class="sideBoxContent centeredContent">
+                        <ul> 
+                          <li>
+                            <a href="http://lincomp.ch/shop/index.php?main_page=index&amp;sort=4&amp;language=de">Deutsch</a>
+                          </li>
+                          <li>
+                            <a href="http://lincomp.ch/shop/index.php?main_page=index&amp;sort=4&amp;language=en">English</a>
+                          </li>
+                        </ul>
+                      </div>
+                      </div> 
+                    <div class="box_ft"> 
+                        &nbsp;
+                    </div> 
+                  </div> 
+  
+                </div>
+                  
+            <%= image_tag("templates/lincomp/gnu_and_pingu_small.png", :style => 'margin-left: 15px;') %>
+            
+             <div style="margin-top: 20px; margin-right: 20px; color: #ccc; text-align: right; font-size: 8pt;">Tux character &copy; Larry Ewing, Simon Budig and Anja Gerwinski</div>
+              
+          </div>
+          <!-- /RIGHT COLUMN -->
+
+       
+              
+         <!-- #### FOOTER START #### -->
+       
+          <div id="footer">
+              <div id="ft_top">Lincomp - Linux computers, Linux compatibility</div>
+              <div id="ft_btm">
+                  <div id="ft_left">
+                      
+                  </div>
+
+                  <div id="ft_val">
+                      &copy; 2007 - 2008 JM Cahenzli AG<br />
+                  </div>
+              </div>
+
+          </div>
+          
+          <!-- #### FOOTER STOP #### -->
+        
+        </div>
+        <!-- END CONTENT -->
+        
+      </div>
+      <!-- /PAGE -->
+      
     </div>
+    <!-- /WRAPPER -->
 
-    <div id="content"> 
-      <% if flash[:notice] -%>
-        <div id="notice" ><%= flash[:notice] %></div>
-      <% end -%>
-      <% if flash[:error] -%>
-        <div id="error" ><%= flash[:error] %></div>
-      <% end -%>
 
-      <%= yield %>
-    </div> 
-
-    <div id="secondarynav"> 
-    Sidebar stuff. Filters, special options. Maybe shopping cart?
-    </div> 
-
-    <div id="footer">
-    &copy; 2010 Lincomp GmbH
-    </div>
-
-  </div>          
- 
-</body> 
+  </body>
 </html> 
