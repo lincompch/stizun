@@ -36,8 +36,8 @@
               <li class="nav_menu_item"><%= link_to "Ausloggen", logout_path %></li>
               <li class="nav_menu_item"><%= link_to "Mein Konto", user_path(current_user) %></li>
             <% end %>
-            <li class="nav_menu_item"><a href="cart">Warenkorb</a></li>
-            <li class="nav_menu_item"><a href="checkout">Zur Kasse</a></li>
+            <li class="nav_menu_item"><%= link_to "Warenkorb", cart_path %></a></li>
+            <li class="nav_menu_item"><%= link_to "Zur Kasse", new_order_path %></a></li>
           </ul>
            
             
