@@ -149,3 +149,9 @@ de-CH:
         odd: "muss ungerade sein"
         even: "muss gerade sein"
         record_invalid: "Gültigkeitsprüfung ist fehlgeschlagen: %{errors}"
+        
+  stizun:
+    users:
+      account_not_created: "Das Konto konnte nicht erstellt werden."
+      account_created_successfully: "Ihr Konto ist erstellt worden."
+       

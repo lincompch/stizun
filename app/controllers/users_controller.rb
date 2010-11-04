@@ -9,10 +9,10 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if @user.save
-      flash[:notice] = "Account registered!"
+      flash[:notice] = t("stizun.users.account_created_successfully")
       redirect_to new_user_session_path
     else
-      flash[:error] = "Account could not be created."
+      flash[:error] = t("stizun.users.account_not_created")
       render :action => :new
     end
   end
