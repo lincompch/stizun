@@ -3,7 +3,6 @@ class User < ActiveRecord::Base
     c.login_field = 'email'
   end
 
-  
   has_many :carts
   has_many :orders
   has_many :addresses
@@ -12,7 +11,6 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :payment_methods
   has_and_belongs_to_many :usergroups
 
-  
   def self.find_by_login_or_email(login)
     User.find_by_login(login) || User.find_by_email(login)
   end
@@ -37,9 +35,11 @@ class User < ActiveRecord::Base
     return account
   end
   
+  # BUG: Below breaks user.save if the user hasn't existed before, it leads to
+  # a bizarre "primary key not unique" error even on empty tables
   # Make sure any new user has an account
-  def before_create
-    self.get_account
-  end
+#   def before_create
+#     get_account
+#   end
 
 end
