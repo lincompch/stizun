@@ -10,11 +10,16 @@ class User < ActiveRecord::Base
   has_many :accounts
   has_many :invoices
   has_and_belongs_to_many :payment_methods
+  has_and_belongs_to_many :usergroups
+
   
   def self.find_by_login_or_email(login)
     User.find_by_login(login) || User.find_by_email(login)
   end
 
+  def is_admin?
+    usergroups.collect(&:is_admin).include?(true)
+  end
   
   # At the moment we only deal with one account per
   # user. Multi-account support may be added in the future.
