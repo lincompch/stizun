@@ -2,6 +2,7 @@
  
 <% form_for @user_session, :url => user_sessions_path do |f| %>
   <%= f.error_messages %>
+  <br />
   <%= f.label :email %><br />
   <%= f.text_field :email %><br />
   <br />

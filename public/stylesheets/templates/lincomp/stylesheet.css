@@ -571,3 +571,27 @@ table.specs th {
 	padding-left: 20px;
 	padding-bottom: 20px;
 }
+
+
+
+/* Rails style elements */
+
+.fieldWithErrors {
+  background: #9AFFE7
+}
+
+
+#error {
+  background: #9E3434;
+  color: #fff;
+}
+
+#errorExplanation {
+  padding: 0.8em;
+  border: 2px solid #9E3434;
+  background: #E6E6E6;
+}
+
+#notice {
+  
+}

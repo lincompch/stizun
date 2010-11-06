@@ -124,7 +124,7 @@ de-CH:
     errors:
       template:
         header:
-          one:    "Konnte %{model} nicht speichern: ein Fehler."
+          one:    "Konnte %{model} nicht speichern: 1 Fehler."
           other:  "Konnte %{model} nicht speichern: %{count} Fehler."
         body: "Bitte überprüfen Sie die folgenden Felder:"
 
@@ -149,9 +149,16 @@ de-CH:
         odd: "muss ungerade sein"
         even: "muss gerade sein"
         record_invalid: "Gültigkeitsprüfung ist fehlgeschlagen: %{errors}"
-        
+
+
   stizun:
     users:
       account_not_created: "Das Konto konnte nicht erstellt werden."
       account_created_successfully: "Ihr Konto ist erstellt worden."
-       
+    user_sessions:
+      email_cant_be_blank: "Bitte füllen Sie das Feld 'E-Mail-Adresse' aus."
+      password_cant_be_blank: "Bitte füllen Sie das Feld 'Passwort' aus."
+
+
+  error_messages:
+    email_invalid: "E-Mail-Adresse ist ungültig."
