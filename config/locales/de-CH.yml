@@ -159,6 +159,11 @@ de-CH:
       email_cant_be_blank: "Bitte füllen Sie das Feld 'E-Mail-Adresse' aus."
       password_cant_be_blank: "Bitte füllen Sie das Feld 'Passwort' aus."
 
-
-  error_messages:
-    email_invalid: "E-Mail-Adresse ist ungültig."
+  authlogic:
+    error_messages:
+      email_invalid: "E-Mail-Adresse ist ungültig."
+      login_blank: "Bitte füllen Sie das Feld 'E-Mail-Adresse' aus."
+      password_blank: "Bitte füllen Sie das Feld 'Passwort' aus."
+      login_invalid: "Der Benutzername ist ungültig."
+      no_authentication_details: "Sie haben keine Login-Informationen eingegeben."
+    
