@@ -10,10 +10,13 @@
 
   <%= javascript_include_tag :defaults %>
   <%= javascript_include_tag "jquery.jstree/jquery.jstree.js" %>
-  <%= include_fancy_box %>
+  
+  
+  <%= #include_fancy_box 
+  %>
 
  <script type="text/javascript" charset="utf-8">
-        $(document).ready(function() {
+        /*$(document).ready(function() {
           $("a.fancy").fancybox({
             'hideOnContentClick': false,
             'autoScale' : true,
@@ -21,7 +24,24 @@
             'height':700,            
             'type' : 'iframe'
           });
+        });*/
+        
+      $(document).ready(function() {
+        var $dialog = $('<div></div>')
+          .html('This dialog will show every time!')
+          .dialog({
+            autoOpen: false,
+            title: 'Basic Dialog'
+          });
+
+        $('#opener').click(function() {
+          $dialog.dialog('open');
+          // prevent the default action, e.g., following a link
+          return false;
         });
+      });
+        
+        
     </script>
 
 </head> 
@@ -72,14 +92,7 @@
 
     <%= yield %>
     
-    <!--<h3>Products</h3>
-      <ul>
-        <li><%= link_to 'All products', admin_products_path %></li>
-        <li><%= link_to_box 'Create product', new_admin_product_path %></li>
-      </ul>
-      <% categories = Category.find(:all)%>
-      <%= tree_recursive(categories, nil, true) %>
-    -->
+   
     </div> 
 
     <div id="footer">

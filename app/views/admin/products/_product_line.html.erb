@@ -34,7 +34,7 @@
     
     </td>
     <td>
-      <%= link_to_box "Edit", edit_admin_product_path(product_line) %>
+      <%= link_to "Edit", edit_admin_product_path(product_line), :id => 'opener' %>
       <%= link_to "Delete", admin_product_path(product_line), :confirm => 'Are you sure?', :method => 'delete' unless product_line.in_a_document?  %>
     </td>
   </tr>
