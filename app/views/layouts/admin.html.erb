@@ -25,17 +25,13 @@
         });*/
         
       $(document).ready(function() {
-        var $dialog = $('<div></div>')
-          .html('This dialog will show every time!')
-          .dialog({
-            autoOpen: false,
-            title: 'Basic Dialog'
-          });
-
-        $('#opener').click(function() {
-          $dialog.dialog('open');
-          // prevent the default action, e.g., following a link
-          return false;
+        
+        $("a.fancybox").fancybox({
+          'hideOnContentClick': false,
+          'titlePosition'   : 'outside',
+          'overlayColor'    : '#000',
+          'overlayOpacity'  : 0.9,
+          'type'            : 'iframe'
         });
       });
         
@@ -45,10 +41,7 @@
 </head> 
  
 <body>
-  <%= render :partial => "shared/devheader" %>
-
   <div id="wrapper">
-
 
     <div id="header"> 
       <h1>Lincomp Admin</h1> 
