@@ -11,7 +11,7 @@
 <% @suppliers.each do |supplier| %>
   <tr>
     <td><%=h supplier.name %></td>
-    <td><%=h supplier.address_id %></td>
+    <td><%=h supplier.address.one_line_summary unless supplier.address.blank? %></td>
     <td><%= supplier.categories.count.to_s %></td>
     <td>
       <%= link_to 'Show', admin_supplier_path(supplier) %> 

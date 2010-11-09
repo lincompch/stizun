@@ -9,11 +9,11 @@
   </p>
   <p>
     <%= f.label :address_id %><br />
-    <%= f.text_field :address_id %>
+    <%= f.select :address_id, options_from_collection_for_select(Address.all, :id, :one_line_summary) %>
   </p>
   <p>
     <%= f.label :shipping_rate_id %><br />
-    <%= f.text_field :shipping_rate_id %>
+    <%= f.select :shipping_rate_id, options_from_collection_for_select(ShippingRate.all, :id, :name) %>
   </p>
   <p>
     <%= f.submit 'Update' %>
