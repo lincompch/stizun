@@ -1,8 +1,8 @@
 class Product < ActiveRecord::Base
 
   validates_uniqueness_of :name
-  validates_presence_of :name, :description, :tax_class_id
-  validates_numericality_of :purchase_price
+  validates_presence_of :name, :description, :weight, :tax_class_id
+  validates_numericality_of :purchase_price, :weight
   
   # Something's not right here when creating independent products
   #validates_uniqueness_of :supply_item_id
