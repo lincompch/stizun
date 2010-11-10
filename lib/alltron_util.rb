@@ -156,8 +156,16 @@ class AlltronUtil
         History.add("Component #{td} was removed from product #{ap} because it has become unavailable.", History::PRODUCT_CHANGE, ap)
       end
       
-      # TODO: Destroy the supply item relationship in case a product was based
-      # on it. This is different to above, above we only disable parts of _components_
+      # Destroy the supply item relationship in case a product was based on it. 
+      # This is different to above, above we only disable parts of _components_
+      unless supply_item.product.blank?
+        supply_item.product.supply_item = nil
+        if supply_item.product.save
+          History.add_text("Disassociated Supply Item with ID #{supply_item.id} (#{supply_item.to_s}) from its product because it's about to be destroyed.", History::SUPPLY_ITEM_CHANGE)
+        else
+          History.add_text("Failed to disassociate Supply Item with ID #{supply_item.id} (#{supply_item.to_s}) from its product, but it's about to be destroyed anyhow. Errors: #{supply_item.product.errors.full_messages.to_s}", History::SUPPLY_ITEM_CHANGE)
+        end
+      end
       supply_item.destroy
       History.add_text("Deleted Supply Item with supplier code #{td}", History::SUPPLY_ITEM_CHANGE)
     end
