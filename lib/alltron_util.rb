@@ -59,6 +59,15 @@ class AlltronUtil
     
   end
 
+  def self.disable_product(product)
+    p.is_available = false
+    if p.save
+      History.add("Disabled product #{p.to_s}.", History::PRODUCT_CHANGE, p)
+    else
+      History.add("Could not disable product #{p.to_s}.", History::PRODUCT_CHANGE, p)
+    end
+  end
+  
   # Compare all products that are related to a supply item with
   # the supply item's current stock level and price. Make adjustments
   # as necessary.
@@ -70,9 +79,7 @@ class AlltronUtil
       
       # The product has a supplier, but its supply item is gone
       if p.supply_item.nil? and !p.supplier_id.blank?
-        p.is_available = false
-        p.save
-        History.add("Disabled product #{p.to_s} because it is no longer available at supplier.", History::PRODUCT_CHANGE, p)
+        self.disable_product(p)
       else
         # Disabling product because we would be incurring a loss otherwise
         if (p.absolutely_priced? and p.supply_item.purchase_price > p.sales_price)
@@ -160,6 +167,7 @@ class AlltronUtil
       # This is different to above, above we only disable parts of _components_
       unless supply_item.product.blank?
         supply_item.product.supply_item = nil
+        self.disable_product(supply_item.product)
         if supply_item.product.save
           History.add_text("Disassociated Supply Item with ID #{supply_item.id} (#{supply_item.to_s}) from its product because it's about to be destroyed.", History::SUPPLY_ITEM_CHANGE)
         else
