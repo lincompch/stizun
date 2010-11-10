@@ -42,6 +42,7 @@ class TaxBookers::SwitzerlandTaxBooker
                                        :parent => Account.find_by_name("Liabilities"))
     end
     
+    # TODO: Move this to the ConfigItem named sales_income_account_id
     unless @warenertrag = Account.find_by_name("Product Sales")
       @warenertrag = Account.create(:name => "Product Sales",
                                     :parent => Account.find_by_name("Income"))

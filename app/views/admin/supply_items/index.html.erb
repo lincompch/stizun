@@ -32,8 +32,8 @@
     <td><%=h item.name %></td>
     <td class="price"><%= item.purchase_price %></td>
     <td>
-      <%= link_to_box 'Create Product', create_from_supply_item_admin_products_path(:supply_item_id => item)%>
-      <%= link_to_box 'Edit Product', edit_admin_product_path(item.product) unless item.product.nil? %>
+      <%= link_to 'Create Product', create_from_supply_item_admin_products_path(:supply_item_id => item), :class => 'fancybox' %>
+      <%= link_to 'Edit Product', edit_admin_product_path(item.product), :class => 'fancybox' unless item.product.nil? %>
     </td>
 
   </tr>
