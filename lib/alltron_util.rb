@@ -60,11 +60,11 @@ class AlltronUtil
   end
 
   def self.disable_product(product)
-    p.is_available = false
-    if p.save
-      History.add("Disabled product #{p.to_s}.", History::PRODUCT_CHANGE, p)
+    product.is_available = false
+    if product.save
+      History.add("Disabled product #{product.to_s}.", History::PRODUCT_CHANGE, product)
     else
-      History.add("Could not disable product #{p.to_s}.", History::PRODUCT_CHANGE, p)
+      History.add("Could not disable product #{product.to_s}.", History::PRODUCT_CHANGE, product)
     end
   end
   
