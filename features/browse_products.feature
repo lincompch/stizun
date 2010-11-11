@@ -3,16 +3,22 @@ Feature: Browse products
   So that a customer can buy something
   They need to be able to browse our products
 
+    Background: Log in as admin
+      Given there is a user with e-mail address "admin@example.com" and password "foo"
+      And I log in with e-mail address "admin@example.com" and password "foo"
+     
     Scenario: Create product
       Given a tax class named "MwSt 7.6%" with the percentage 7.6%
       When I create a product called "Lenovo T400"
       And fill in the product description "Some laptop"
       And I fill in the purchase price 100.0
       And I fill in the margin percentage 5.0
+      And I fill in the weight 5.0
       And I select the tax class "MwSt 7.6%"
       And I click the create button
       Then there should be a product called "Lenovo T400"
-      
+
+    @ignore 
     Scenario: Assign product to category
       Given a category named "Notebooks"
       And a product named "Lenovo T400"
@@ -23,6 +29,7 @@ Feature: Browse products
       When I create a product called "Lenovo T400"
       And fill in the product description "Some laptop"
       And I fill in the purchase price 100.0
+      And I fill in the weight 5.0
       And I fill in the margin percentage 5.0
       And I click the create button
       Then I should see an error message
