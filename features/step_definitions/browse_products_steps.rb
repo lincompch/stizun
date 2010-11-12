@@ -31,7 +31,6 @@ end
 
 
 When /^I create a product called "([^\"]*)"$/ do |arg1|
- pending
  # cannot do this because creating products is now in a fancybox and
  # webrat can't do javascript
  # visit admin_products_path
@@ -40,49 +39,42 @@ When /^I create a product called "([^\"]*)"$/ do |arg1|
 end
 
 When /^fill in the product description "([^\"]*)"$/ do |arg1|
-   pending
  # cannot do this because creating products is now in a fancybox and
  # webrat can't do javascript
  # fill_in "Description", :with => arg1
 end
 
 When /^I fill in the purchase price (\d+\.\d+)$/ do |arg1|
- pending
  # cannot do this because creating products is now in a fancybox and
  # webrat can't do javascript
 #   fill_in "Purchase price", :with => arg1
 end
 
 When /^I fill in the margin percentage (\d+\.\d+)$/ do |arg1|
-   pending
  # cannot do this because creating products is now in a fancybox and
  # webrat can't do javascript
 #   fill_in "Profit margin (in percent)", :with => arg1
 end
 
 When /^I fill in the weight (\d+\.\d+)$/ do |arg1|
-   pending
  # cannot do this because creating products is now in a fancybox and
  # webrat can't do javascript
 #   fill_in "Weight", :with => arg1
 end
 
 When /^I select the tax class "([^\"]*)"$/ do |arg1|
-   pending
  # cannot do this because creating products is now in a fancybox and
  # webrat can't do javascript
 #   select arg1, :from => "Tax Class"
 end
 
 When /^I click the create button$/ do
-   pending
  # cannot do this because creating products is now in a fancybox and
  # webrat can't do javascript
 #   click_button "Create"
 end
 
 When /^I assign the product to the category "([^\"]*)"$/ do |arg1|
-  pending
 #   visit edit_admin_product_path(@product)
 #   select arg1, :from => "Categories"
 #   click_button "Save"
