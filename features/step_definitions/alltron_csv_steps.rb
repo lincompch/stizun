@@ -1,21 +1,24 @@
 When /^I import the file "([^"]*)"$/ do |filename|
-  pending # express the regexp above with the code you wish you had
+  AlltronUtil.import_supply_items(RAILS_ROOT + "/" + filename)
 end
 
-Then /^there are (\d+) products in the database$/ do |num|
-  Product.all.count.should == num
+When /^I destroy all supply items$/ do
+  SupplyItem.destroy_all
+end
+
+Then /^there are (\d+) supply items in the database$/ do |num|
+  SupplyItem.all.count.should == num.to_i
+  puts SupplyItem.last.inspect
 end
 
 Then /^the following supply items exist:$/ do |table|
   
   table.hashes.each do |s|
-    si = SupplyItem.find(:first, :conditions => {
-                      :manufacturer_product_code => s['product_code'],
-                      :price => s['price'],
-                      :weight => s['weight'],
-                      :stock => s['stock']}
-                   )
+    si = SupplyItem.find(:all, :conditions => { :supplier_product_code => s['product_code'] })
     si.count.should == 1
+    si.first.supplier_product_code.should == s['product_code']
+    si.first.purchase_price.should == BigDecimal.new(s['price'].to_s)
+    si.first.weight.should == s['weight'].to_f
   end
   
 end

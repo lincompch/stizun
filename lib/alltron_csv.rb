@@ -24,8 +24,8 @@ class AlltronCSV
 
   attr_reader :outfile
   
-  def initialize    
-    @infile = AlltronUtil.import_filename
+  def initialize(import_filename = AlltronUtil.import_filename)    
+    @infile = import_filename
     @outfile = AlltronUtil.converted_filename
     
     convert_file

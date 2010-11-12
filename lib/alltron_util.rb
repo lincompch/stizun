@@ -2,15 +2,19 @@
 
 class AlltronUtil
   
+  DATA_DIRECTORY = RAILS_ROOT + "/lib"
+  
+  # This just sets a default import filename inside AlltronCSV in case the call to
+  # AlltronCSV.new doesn't pass one in.
   def self.import_filename
-    # Stupid place to store it? Yeah, you tell me.
-    class_directory =  File.dirname(__FILE__)
-    return @infile = class_directory + "/AL_Artikeldaten.txt"
+    return @infile = DATA_DIRECTORY + "/AL_Artikeldaten.txt"
   end
   
+  
+  # This makes sure the converted import filename is always overwritten with
+  # importfile.converted.txt. A more sophisticated way might be necessary one day.
   def self.converted_filename
-    class_directory =  File.dirname(__FILE__)
-    return @outfile = class_directory + "/AL_Artikeldaten.converted.txt"
+    return @outfile = DATA_DIRECTORY + "/importfile.converted.txt"
   end
       
   
@@ -105,9 +109,9 @@ class AlltronUtil
   # prototype developed as part of the dissertation, but in the final
   # product this needs to be modular and allow each supplier to provide
   # either files or an API to synchronize from.
-  def self.import_supply_items
+  def self.import_supply_items(filename = self.import_filename)
     require 'lib/alltron_csv'
-    acsv = AlltronCSV.new
+    acsv = AlltronCSV.new(filename)
     fcsv = acsv.get_faster_csv_instance
     received_codes = []
     fcsv.each do |sp|

@@ -13,6 +13,8 @@ class SupplyItem < ActiveRecord::Base
     product_sets.collect(&:product).uniq
   end
   
+  # TODO: Move this method to lib/alltron_util.rb since it is specific
+  # to supply items from this supplier.
   def self.new_from_csv_record(sp)
     si = self.new
     si.supplier_product_code = sp['Artikelnummer 2']
