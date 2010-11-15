@@ -52,5 +52,5 @@ Feature: Importing products and supply items from Alltron CSV files
     |8209|
     And the following history entries exist:
     |text                                       |type_const                 |
-    |Deleted Supply Item with supplier code|History::SUPPLY_ITEM_CHANGE|
-    |Deleted Supply Item with supplier code|History::SUPPLY_ITEM_CHANGE|
+    |Deleted Supply Item with supplier code 1227|History::SUPPLY_ITEM_CHANGE|
+    |Deleted Supply Item with supplier code 1510|History::SUPPLY_ITEM_CHANGE|
