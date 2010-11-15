@@ -151,11 +151,17 @@ class AlltronUtil
     end
     
     # Find out which items we need to delete locally
-    total_codes = SupplyItem.find(:all, :conditions => { :supplier_id => 1 }).collect(&:supplier_product_code)
+    total_codes = SupplyItem.find(:all, 
+                                  :conditions => 
+                                  { :supplier_id => Supplier.find_by_name("Alltron AG").id }) \
+                                  .collect(&:supplier_product_code)
     to_delete = total_codes - received_codes
     
     to_delete.each do |td|
       supply_item = SupplyItem.find_by_supplier_product_code(td)
+      
+      # If this supply item was used as a product component, remove it from the
+      # product, disable the product.
       affected_products = supply_item.component_of
       affected_products.each do |ap|
         # Tries to brute force removing all counts of this component by hardcoding
@@ -164,11 +170,13 @@ class AlltronUtil
         ap.remove_component(td, 99999999)
         ap.is_available = false
         ap.save
-        History.add("Component #{td} was removed from product #{ap} because it has become unavailable.", History::PRODUCT_CHANGE, ap)
+        History.add("Component #{td} was removed from product #{ap} because the supply item has become unavailable.", History::PRODUCT_CHANGE, ap)
+        # Just adding text here because the supply_item object will soon no longer exist
+        History.add_text("Component #{td} was removed from product #{ap} because the supply item has become unavailable.", History::SUPPLY_ITEM_CHANGE)
       end
       
       # Destroy the supply item relationship in case a product was based on it. 
-      # This is different to above, above we only disable parts of _components_
+      # This is different to above, above we only disable parts used as _components_
       unless supply_item.product.blank?
         supply_item.product.supply_item = nil
         self.disable_product(supply_item.product)

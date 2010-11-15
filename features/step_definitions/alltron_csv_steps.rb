@@ -8,7 +8,6 @@ end
 
 Then /^there are (\d+) supply items in the database$/ do |num|
   SupplyItem.all.count.should == num.to_i
-  puts SupplyItem.last.inspect
 end
 
 Then /^the following supply items exist:$/ do |table|
@@ -21,4 +20,11 @@ Then /^the following supply items exist:$/ do |table|
     si.first.weight.should == s['weight'].to_f
   end
   
+end
+
+Then /^the following supply items do not exist:$/ do |table|
+ table.hashes.each do |s|
+   si = SupplyItem.find(:first, :conditions => {:supplier_product_code => s['product_code']})
+   si.should == nil
+ end
 end
