@@ -151,12 +151,11 @@ class AlltronUtil
     end
     
     # Find out which items we need to delete locally
-    total_codes = SupplyItem.find(:all, 
-                                  :conditions => 
-                                  { :supplier_id => Supplier.find_by_name("Alltron AG").id }) \
-                                  .collect(&:supplier_product_code)
+    total_codes = Supplier.find_by_name("Alltron AG") \
+                          .supply_items \
+                          .collect(&:supplier_product_code)
     to_delete = total_codes - received_codes
-    
+        
     to_delete.each do |td|
       supply_item = SupplyItem.find_by_supplier_product_code(td)
       
@@ -172,7 +171,7 @@ class AlltronUtil
         ap.save
         History.add("Component #{td} was removed from product #{ap} because the supply item has become unavailable.", History::PRODUCT_CHANGE, ap)
         # Just adding text here because the supply_item object will soon no longer exist
-        History.add_text("Component #{td} was removed from product #{ap} because the supply item has become unavailable.", History::SUPPLY_ITEM_CHANGE)
+        History.add("Component #{td} was removed from product #{ap} because the supply item has become unavailable.", History::SUPPLY_ITEM_CHANGE)
       end
       
       # Destroy the supply item relationship in case a product was based on it. 
@@ -181,13 +180,13 @@ class AlltronUtil
         supply_item.product.supply_item = nil
         self.disable_product(supply_item.product)
         if supply_item.product.save
-          History.add_text("Disassociated Supply Item with ID #{supply_item.id} (#{supply_item.to_s}) from its product because it's about to be destroyed.", History::SUPPLY_ITEM_CHANGE)
+          History.add("Disassociated Supply Item with ID #{supply_item.id} (#{supply_item.to_s}) from its product because it's about to be destroyed.", History::SUPPLY_ITEM_CHANGE)
         else
-          History.add_text("Failed to disassociate Supply Item with ID #{supply_item.id} (#{supply_item.to_s}) from its product, but it's about to be destroyed anyhow. Errors: #{supply_item.product.errors.full_messages.to_s}", History::SUPPLY_ITEM_CHANGE)
+          History.add("Failed to disassociate Supply Item with ID #{supply_item.id} (#{supply_item.to_s}) from its product, but it's about to be destroyed anyhow. Errors: #{supply_item.product.errors.full_messages.to_s}", History::SUPPLY_ITEM_CHANGE)
         end
       end
       supply_item.destroy
-      History.add_text("Deleted Supply Item with supplier code #{td}", History::SUPPLY_ITEM_CHANGE)
+      History.add("Deleted Supply Item with supplier code #{td}", History::SUPPLY_ITEM_CHANGE)
     end
     
   end

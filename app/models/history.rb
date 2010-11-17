@@ -53,7 +53,7 @@ class History < ActiveRecord::Base
   # a separate add_text method is no longer really necessary. Remove after refactoring everything
   # to use add instead of add_text
   def self.add_text(text, type_const = History::GENERAL)
-    self.create(:text => text)
+    self.create(:text => text, :type_const => type_const)
   end
   
   

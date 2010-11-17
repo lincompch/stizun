@@ -31,7 +31,8 @@ Feature: Importing products and supply items from Alltron CSV files
     |        6591|  2.00|40.00|   18|        
   
   Scenario: Importing list with 15 missing products
-    When I import the file "features/data/485_products_utf8.csv"
+    When I import the file "features/data/500_products.csv"
+    And I import the file "features/data/485_products_utf8.csv"
     Then there are 485 supply items in the database
     And the following supply items do not exist:
     |product_code|
@@ -54,3 +55,7 @@ Feature: Importing products and supply items from Alltron CSV files
     |text                                       |type_const                 |
     |Deleted Supply Item with supplier code 1227|History::SUPPLY_ITEM_CHANGE|
     |Deleted Supply Item with supplier code 1510|History::SUPPLY_ITEM_CHANGE|
+    |Deleted Supply Item with supplier code 2180|History::SUPPLY_ITEM_CHANGE|
+    |Deleted Supply Item with supplier code 3220|History::SUPPLY_ITEM_CHANGE|
+    |Deleted Supply Item with supplier code 5862|History::SUPPLY_ITEM_CHANGE|
+    |Deleted Supply Item with supplier code 8209|History::SUPPLY_ITEM_CHANGE|    

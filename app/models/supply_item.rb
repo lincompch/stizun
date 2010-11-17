@@ -14,19 +14,19 @@ class SupplyItem < ActiveRecord::Base
   end
   
   # TODO: Move this method to lib/alltron_util.rb since it is specific
-  # to supply items from this supplier.
-  def self.new_from_csv_record(sp)
+  # to supply items from that supplier.
+  def self.new_from_csv_record(csv)
     si = self.new
-    si.supplier_product_code = sp['Artikelnummer 2']
-    si.name = "#{sp['Bezeichung']} #{sp['Bezeichung 2']}"
-    si.weight = sp['Gewicht']
+    si.supplier_product_code = csv['Artikelnummer 2']
+    si.name = "#{csv['Bezeichung']} #{csv['Bezeichung 2']}"
+    si.weight = csv['Gewicht']
     si.supplier = Supplier.find_or_create_by_name("Alltron AG")
-    si.manufacturer_product_code = sp['Artikelnummer']
-    si.description = "#{sp['Webtext']} #{sp['Webtext 2']}"
-    si.purchase_price = BigDecimal.new(sp['Preis (exkl. MWSt)'].to_s)
+    si.manufacturer_product_code = csv['Artikelnummer']
+    si.description = "#{csv['Webtext']} #{csv['Webtext 2']}"
+    si.purchase_price = BigDecimal.new(csv['Preis (exkl. MWSt)'].to_s)
     # TODO: Read actual tax percentage from import file and create class as needed
     si.tax_class = TaxClass.find_by_percentage(7.6) or TaxClass.first
-    si.stock = sp['Lagerbestand'].gsub("'","").to_i
+    si.stock = csv['Lagerbestand'].gsub("'","").to_i
     si
   end
   
