@@ -7,7 +7,7 @@
 
 unless ARGV.any? {|a| a =~ /^gems/} # Don't load anything when running the gems:* tasks
 
-vendored_cucumber_bin = Dir["#{RAILS_ROOT}/vendor/{gems,plugins}/cucumber*/bin/cucumber"].first
+vendored_cucumber_bin = Dir["#{Rails.root}/vendor/{gems,plugins}/cucumber*/bin/cucumber"].first
 $LOAD_PATH.unshift(File.dirname(vendored_cucumber_bin) + '/../lib') unless vendored_cucumber_bin.nil?
 
 begin
@@ -26,6 +26,12 @@ begin
       t.profile = 'wip'
     end
 
+    Cucumber::Rake::Task.new({:rerun => 'db:test:prepare'}, 'Record failing features and run only them if any exist') do |t|
+      t.binary = vendored_cucumber_bin
+      t.fork = true # You may get faster startup if you set this to false
+      t.profile = 'rerun'
+    end
+
     desc 'Run all features'
     task :all => [:ok, :wip]
   end
@@ -37,8 +43,6 @@ begin
   task :features => :cucumber do
     STDERR.puts "*** The 'features' task is deprecated. See rake -T cucumber ***"
   end
-
-
 rescue LoadError
   desc 'cucumber rake task not available (cucumber not installed)'
   task :cucumber do
@@ -47,22 +51,3 @@ rescue LoadError
 end
 
 end
-
-
-task :cucumber => 'db:test:prepare'
-task :cucumber => "cucumber:all"
-require 'cucumber/rake/task' #I have to add this -mischa
-
-namespace :cucumber do
-  Cucumber::Rake::Task.new(:all) do |t|
-    t.cucumber_opts = "--format pretty"
-  end
-  
-  Cucumber::Rake::Task.new(:rcov) do |t|    
-    t.rcov = true
-    t.rcov_opts = %w{--rails --exclude osx\/objc,gems\/,spec\/}
-    t.rcov_opts << %[-o "cucumber_rcov"]
-  end
-end
-
-

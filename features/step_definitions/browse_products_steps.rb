@@ -31,53 +31,39 @@ end
 
 
 When /^I create a product called "([^\"]*)"$/ do |arg1|
- # cannot do this because creating products is now in a fancybox and
- # webrat can't do javascript
- # visit admin_products_path
- # click_link "Create new product"
- # fill_in "Name", :with => arg1
+ visit admin_products_path
+ click_link "Create new product"
+ fill_in "Name", :with => arg1
 end
 
 When /^fill in the product description "([^\"]*)"$/ do |arg1|
- # cannot do this because creating products is now in a fancybox and
- # webrat can't do javascript
- # fill_in "Description", :with => arg1
+ fill_in "Description", :with => arg1
 end
 
 When /^I fill in the purchase price (\d+\.\d+)$/ do |arg1|
- # cannot do this because creating products is now in a fancybox and
- # webrat can't do javascript
-#   fill_in "Purchase price", :with => arg1
+  fill_in "Purchase price", :with => arg1
 end
 
 When /^I fill in the margin percentage (\d+\.\d+)$/ do |arg1|
- # cannot do this because creating products is now in a fancybox and
- # webrat can't do javascript
-#   fill_in "Profit margin (in percent)", :with => arg1
+  fill_in "Profit margin (in percent)", :with => arg1
 end
 
 When /^I fill in the weight (\d+\.\d+)$/ do |arg1|
- # cannot do this because creating products is now in a fancybox and
- # webrat can't do javascript
-#   fill_in "Weight", :with => arg1
+  fill_in "Weight", :with => arg1
 end
 
 When /^I select the tax class "([^\"]*)"$/ do |arg1|
- # cannot do this because creating products is now in a fancybox and
- # webrat can't do javascript
-#   select arg1, :from => "Tax Class"
+  select arg1, :from => "Tax Class"
 end
 
 When /^I click the create button$/ do
- # cannot do this because creating products is now in a fancybox and
- # webrat can't do javascript
-#   click_button "Create"
+  click_button "Create"
 end
 
 When /^I assign the product to the category "([^\"]*)"$/ do |arg1|
-#   visit edit_admin_product_path(@product)
-#   select arg1, :from => "Categories"
-#   click_button "Save"
+  visit edit_admin_product_path(@product)
+  select arg1, :from => "Categories"
+  click_button "Save"
 end
                                                                                           
 When /^I view the product list$/ do                                                       
@@ -90,11 +76,11 @@ When /^I view the category "([^\"]*)"$/ do |arg1|
 end 
 
 Then /^I should not see a product named "([^\"]*)"$/ do |arg1|                                                                                   
-  response.should_not contain(arg1)                                                                    
+  response.should_not have_content(arg1)                                                                    
 end    
 
 Then /^I should see a product named "([^\"]*)"$/ do |arg1|                                
-  response.should contain(arg1)                   
+  response.should have_content(arg1)                   
 end  
 
 Then /^there should be a product called "([^\"]*)"$/ do |arg1|
@@ -110,6 +96,6 @@ end
 
 Then /^I should see an error message$/ do
   regexp = Regexp.new(/error(s)? prohibited/)
-  response.should contain(regexp)
+  response.should have_content(regexp)
 end
 

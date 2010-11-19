@@ -34,18 +34,18 @@ When /^I visit the checkout$/ do
 end
 
 Then /^I should see an order summary$/ do
-  response.should contain("Ordered items")
+  response.should have_content("Ordered items")
 end
 
 Then /^my cart should contain a product named "([^\"]*)"$/ do |arg1|
   visit cart_path
-  response.should contain(arg1)
+  response.should have_content(arg1)
 end
 
 Then /^my cart should contain a product named "([^\"]*)" (\d+) times$/ do |arg1, arg2|                                                                     
   visit cart_path
   response.should have_selector("input", :name => 'cart_line[quantity]', :value => arg2)
-  response.should contain(" x " + arg1)
+  response.should have_content(" x " + arg1)
 end    
 
 Then /^my cart should contain some stuff$/ do                                                         
