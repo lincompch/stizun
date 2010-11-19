@@ -1,5 +1,8 @@
 Given /^there is a user with e-mail address "([^\"]*)" and password "([^\"]*)"$/ do |email, password|
   @user = User.create(:email => email, :password => password, :password_confirmation => password)
+  # Try to make sure the user was actually saved
+  @user.new_record?.should == false
+  @user.id.should_not == nil
 end
 
 

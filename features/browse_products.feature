@@ -4,13 +4,13 @@ Feature: Browse products
   They need to be able to browse our products
 
     Background: Log in as admin
-      Given there is a user with e-mail address "admin@example.com" and password "foo"
+      Given there is a user with e-mail address "admin@something.com" and password "foobar"
       And the user group "Admins" exists
       And the user group "Admins" has admin permissions
       And the user is member of the group "Admins"
-      And I log in with e-mail address "admin@example.com" and password "foo"
+      And I log in with e-mail address "admin@something.com" and password "foobar"
       
-    @ignore      
+    @javascript      
     Scenario: Create product
       Given a tax class named "MwSt 7.6%" with the percentage 7.6%
       When I create a product called "Lenovo T400"
@@ -22,14 +22,14 @@ Feature: Browse products
       And I click the create button
       Then there should be a product called "Lenovo T400"
 
-    @ignore 
+    @javascript 
     Scenario: Assign product to category
       Given a category named "Notebooks"
       And a product named "Lenovo T400"
       When I assign the product to the category "Notebooks"
       Then the category "Notebooks" should contain a product named "Lenovo T400"
       
-    @ignore 
+    @javascript 
     Scenario: Forget assigning a tax class when creating a product
       When I create a product called "Lenovo T400"
       And fill in the product description "Some laptop"
@@ -39,7 +39,7 @@ Feature: Browse products
       And I click the create button
       Then I should see an error message
       
-    @ignore 
+    @javascript 
     Scenario: Browse all products
       Given a product named "Foobar 2000" in the category "Metasyntactic Variables"
       And a product named "Fish" in the category "Animals"
@@ -49,7 +49,7 @@ Feature: Browse products
       And I should see a product named "Fish"
       And I should see a product named "Defender"
 
-    @ignore 
+    @javascript 
     Scenario: Browse products in a category
       Given a product named "Foobar 2000" in the category "Metasyntactic Variables"
       And a product named "Fish" in the category "Animals"

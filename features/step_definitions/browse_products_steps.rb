@@ -76,11 +76,11 @@ When /^I view the category "([^\"]*)"$/ do |arg1|
 end 
 
 Then /^I should not see a product named "([^\"]*)"$/ do |arg1|                                                                                   
-  response.should_not have_content(arg1)                                                                    
+  page.should_not have_content(arg1)                                                                    
 end    
 
 Then /^I should see a product named "([^\"]*)"$/ do |arg1|                                
-  response.should have_content(arg1)                   
+  page.should have_content(arg1)                   
 end  
 
 Then /^there should be a product called "([^\"]*)"$/ do |arg1|
@@ -96,6 +96,6 @@ end
 
 Then /^I should see an error message$/ do
   regexp = Regexp.new(/error(s)? prohibited/)
-  response.should have_content(regexp)
+  page.should have_content(regexp)
 end
 
