@@ -1,0 +1,28 @@
+/* Rails style elements */
+
+.fieldWithErrors {
+  background: #9AFFE7
+}
+
+
+#error {
+  padding: 0.4em;
+  border: 2px solid #000;
+  font-weight: bold;
+  background: #9E3434;
+  color: #fff;
+}
+
+#errorExplanation {
+  padding: 0.8em;
+  border: 2px solid #9E3434;
+  background: #E6E6E6;
+}
+
+#notice {
+  padding: 0.4em;
+  border: 2px solid #DFB12D;
+  font-weight: bold;
+  background: #FFF5B6;
+  color: #000;
+}

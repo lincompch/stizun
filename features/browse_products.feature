@@ -14,6 +14,7 @@ Feature: Browse products
     Scenario: Create product
       Given a tax class named "MwSt 7.6%" with the percentage 7.6%
       When I create a product called "Lenovo T400"
+      And I wait for a fancybox to appear
       And fill in the product description "Some laptop"
       And I fill in the purchase price 100.0
       And I fill in the margin percentage 5.0
@@ -22,7 +23,6 @@ Feature: Browse products
       And I click the create button
       Then there should be a product called "Lenovo T400"
 
-    @javascript 
     Scenario: Assign product to category
       Given a category named "Notebooks"
       And a product named "Lenovo T400"
@@ -32,14 +32,14 @@ Feature: Browse products
     @javascript 
     Scenario: Forget assigning a tax class when creating a product
       When I create a product called "Lenovo T400"
+      And I wait for a fancybox to appear
       And fill in the product description "Some laptop"
       And I fill in the purchase price 100.0
       And I fill in the weight 5.0
       And I fill in the margin percentage 5.0
       And I click the create button
-      Then I should see an error message
+      Then I should see an error message inside the fancybox
       
-    @javascript 
     Scenario: Browse all products
       Given a product named "Foobar 2000" in the category "Metasyntactic Variables"
       And a product named "Fish" in the category "Animals"
@@ -49,7 +49,6 @@ Feature: Browse products
       And I should see a product named "Fish"
       And I should see a product named "Defender"
 
-    @javascript 
     Scenario: Browse products in a category
       Given a product named "Foobar 2000" in the category "Metasyntactic Variables"
       And a product named "Fish" in the category "Animals"
