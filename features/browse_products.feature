@@ -3,9 +3,10 @@ Feature: Browse products
   So that a customer can buy something
   They need to be able to browse our products
 
-    Background: Log in as admin
+    Background: Set up some necessary things
       Given a category named "Notebooks" exists
-      Given there is a user with e-mail address "admin@something.com" and password "foobar"
+      And there is a user with e-mail address "admin@something.com" and password "foobar"
+      And a tax class named "MwSt 7.6%" with the percentage 7.6%
       And the user group "Admins" exists
       And the user group "Admins" has admin permissions
       And the user is member of the group "Admins"
@@ -13,7 +14,6 @@ Feature: Browse products
       
     @javascript      
     Scenario: Create product
-      Given a tax class named "MwSt 7.6%" with the percentage 7.6%
       When I create a product called "Lenovo T400"
       And I wait for a fancybox to appear
       And fill in the product description "Some laptop"
@@ -25,7 +25,7 @@ Feature: Browse products
       Then there should be a product called "Lenovo T400"
 
     Scenario: Assign product to category
-      And a product named "Lenovo T400"
+      Given a product named "Lenovo T400"
       When I assign the product to the category "Notebooks"
       Then the category "Notebooks" should contain a product named "Lenovo T400"
       
