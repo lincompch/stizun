@@ -4,6 +4,7 @@ Feature: Browse products
   They need to be able to browse our products
 
     Background: Log in as admin
+      Given a category named "Notebooks" exists
       Given there is a user with e-mail address "admin@something.com" and password "foobar"
       And the user group "Admins" exists
       And the user group "Admins" has admin permissions
@@ -24,7 +25,6 @@ Feature: Browse products
       Then there should be a product called "Lenovo T400"
 
     Scenario: Assign product to category
-      Given a category named "Notebooks"
       And a product named "Lenovo T400"
       When I assign the product to the category "Notebooks"
       Then the category "Notebooks" should contain a product named "Lenovo T400"

@@ -1,7 +1,5 @@
-Given /^a category named "([^\"]*)"$/ do |arg1|
-  @category = Category.new
-  @category.name = arg1
-  @category.save
+Given /^a category named "([^\"]*)" exists$/ do |arg1|
+  @category = Category.create(:name => arg1)
 end
 
 Given /^a product named "([^\"]*)"$/ do |arg1| 
