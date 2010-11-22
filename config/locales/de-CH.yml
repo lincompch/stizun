@@ -152,13 +152,29 @@ de-CH:
 
 
   stizun:
+    general:
+      edit: "Editieren"
+    account:
+      account_information: "Konto-Informationen"
+      your_pending_orders: "Ihre offenen Bestellungen"
+      view_all_orders: "Alle Bestellungen ansehen"
+      your_unpaid_invoices: "Ihre unbezahlten Rechnungen"
+      view_all_invoices: "Alle Rechnungen ansehen"
+      you_have_no_saved_addresses: "Sie haben keine gespeicherten Adressen. Fügen Sie eine Adresse hinzu oder speichern Sie bei Ihrer nächsten Bestellung eine ab."
+    address:
+      add_new_address: "Neue Adresse hinzufügen"
+      addresses: "Adressen"
+      you_have_the_following_saved_addresses: "Sie haben die folgenden gespeicherten Adressen:"
     users:
       account_not_created: "Das Konto konnte nicht erstellt werden."
       account_created_successfully: "Ihr Konto ist erstellt worden."
     user_sessions:
       email_cant_be_blank: "Bitte füllen Sie das Feld 'E-Mail-Adresse' aus."
       password_cant_be_blank: "Bitte füllen Sie das Feld 'Passwort' aus."
-
+      login_successful: "Sie sind jetzt eingeloggt."
+      logout_successful: "Sie sind jetzt ausgeloggt."
+      stay_logged_in: "Eingeloggt bleiben."
+      
   authlogic:
     error_messages:
       email_invalid: "E-Mail-Adresse ist ungültig."

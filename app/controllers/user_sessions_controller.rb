@@ -9,7 +9,7 @@ class UserSessionsController < ApplicationController
   def create
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
-      flash[:notice] = "Login successful!"
+      flash[:notice] = I18n.t("stizun.user_sessions.login_successful")
       redirect_to account_path
     else
       render :action => :new
@@ -18,7 +18,7 @@ class UserSessionsController < ApplicationController
   
   def destroy
     current_user_session.destroy
-    flash[:notice] = "Logout successful!"
+    flash[:notice] = I18n.t("stizun.user_sessions.logout_successful")
     redirect_to root_path
   end
 end

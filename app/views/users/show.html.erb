@@ -1,11 +1,11 @@
-<h2>Account information</h2>
+<h2><%= t("stizun.account.account_information") %></h2>
 
 <p>
   <b>E-mail (= login):</b>
   <%=h @user.email %>
 </p>
 
-<h3>Your pending orders</h3>
+<h3><%= t("stizun.account.your_pending_orders") %></h3>
 
 <table>
 
@@ -23,36 +23,38 @@
 
 </table>
 
-<%= link_to "View all orders", user_orders_path(@user) %>
+<%= link_to t("stizun.account.view_all_orders"), user_orders_path(@user) %>
 
 
-<h3>Your unpaid invoices</h3>
+<h3><%= t("stizun.account.your_unpaid_invoices") %></h3>
 
-<table>
-  <tr>
-    <th>No.</th>
-    <th>Date</th>
-    <th>Status</th>
-    <th>Total</th>
-    <th></th>
-  </tr>
+<% if @invoices.count > 0 %>
+  <table>
+    <tr>
+      <th>No.</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Total</th>
+      <th></th>
+    </tr>
 
-  <% @invoices.each do |i| %>
-    <%= render :partial => 'invoices/invoice', :object => i %>
-  <% end %>
-</table>
+    <% @invoices.each do |i| %>
+      <%= render :partial => 'invoices/invoice', :object => i %>
+    <% end %>
+  </table>
+<% end %>
 
-<%= link_to "View all invoices", user_invoices_path(@user) %>
+<%= link_to t("stizun.account.view_all_invoices"), user_invoices_path(@user) %>
 
 
 <hr />
 
-<h2>Addresses</h2>
+<h2><%= t("stizun.address.addresses") %></h2>
 
-<%= link_to 'Add new address', new_address_path %>
+<%= link_to t("stizun.address.add_new_address"), new_address_path %>
 
 <% if @addresses.count > 0 %>
-  <p>You have saved the following addresses during previous orders:</p>
+  <p><%= t("stizun.address.you_have_the_following_saved_addresses") %></p>
 
   <% @addresses.each do |a| %>
 
@@ -62,12 +64,12 @@
 
 <% else %>
 
-<p>You have no saved addresses at this time. Please add an address using the link above or simply save your address the next time you order.</p>
+<p><%= t("stizun.address.you_have_no_saved_addresses") %></p>
 
 <% end %>
 
 <hr />
 
  
-<%= link_to("Log out", { :controller => 'user_sessions', :action => 'destroy'}) if current_user %> | 
-<%= link_to 'Edit', edit_account_path %>
+<%= link_to("Logout", { :controller => 'user_sessions', :action => 'destroy'}) if current_user %> | 
+<%= link_to t("stizun.general.edit"), edit_account_path %>
