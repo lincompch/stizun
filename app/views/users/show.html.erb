@@ -1,9 +1,12 @@
 <h2><%= t("stizun.account.account_information") %></h2>
 
-<p>
-  <b>E-mail (= login):</b>
-  <%=h @user.email %>
-</p>
+
+<table>
+  <td class="bold"><%= t("stizun.account.email") %></td>
+  <td><%=h @user.email %> (<%= t("stizun.account.also_your_login") %>)</td>
+
+</table>
+
 
 <h3><%= t("stizun.account.your_pending_orders") %></h3>
 
@@ -31,10 +34,10 @@
 <% if @invoices.count > 0 %>
   <table>
     <tr>
-      <th>No.</th>
-      <th>Date</th>
-      <th>Status</th>
-      <th>Total</th>
+      <th><%= t("stizun.table_headers.number") %></th>
+      <th><%= t("stizun.table_headers.date") %></th>
+      <th><%= t("stizun.table_headers.status") %></th>
+      <th><%= t("stizun.table_headers.total") %></th>
       <th></th>
     </tr>
 

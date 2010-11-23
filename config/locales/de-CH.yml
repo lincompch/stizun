@@ -154,6 +154,11 @@ de-CH:
   stizun:
     general:
       edit: "Editieren"
+    table_headers:
+      number: "Nr."
+      date: "Datum"
+      status: "Status"
+      total: "Total"
     account:
       account_information: "Konto-Informationen"
       your_pending_orders: "Ihre offenen Bestellungen"
@@ -161,6 +166,8 @@ de-CH:
       your_unpaid_invoices: "Ihre unbezahlten Rechnungen"
       view_all_invoices: "Alle Rechnungen ansehen"
       you_have_no_saved_addresses: "Sie haben keine gespeicherten Adressen. Fügen Sie eine Adresse hinzu oder speichern Sie bei Ihrer nächsten Bestellung eine ab."
+      email: "E-Mail"
+      also_your_login: "Dies gilt auch als Benutzername zum Einloggen"
     address:
       add_new_address: "Neue Adresse hinzufügen"
       addresses: "Adressen"
