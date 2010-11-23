@@ -1,13 +1,9 @@
-<h1>Order overview</h1>
+<h1><%= t("stizun.order.overview")%></h1>
 
 
 
 <table>
-
   <% @orders.each do |o| %>
-  
     <%= render :partial => 'order', :object => o %>
-
   <% end %>
-
 </table>

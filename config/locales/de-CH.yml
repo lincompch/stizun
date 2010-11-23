@@ -150,9 +150,14 @@ de-CH:
         even: "muss gerade sein"
         record_invalid: "Gültigkeitsprüfung ist fehlgeschlagen: %{errors}"
 
+    attributes:
+      address:
+        city: "Stadt"
+        
   stizun:
     general:
       edit: "Editieren"
+      products: "Produkte"
     table_headers:
       number: "Nr."
       date: "Datum"
@@ -181,6 +186,10 @@ de-CH:
       you_have_the_following_saved_addresses: "Sie haben die folgenden gespeicherten Adressen:"
       billing_address: "Rechnungsadresse"
       shipping_address: "Lieferadresse"
+    invoice:
+      invoice: "Rechnung"
+      invoice_overview: "Rechnungsübersicht"
+      view_invoice: "Rechnung ansehen"
     order:
       place_order: "Bestellen"
       order_summary: "Zusammenfassung Ihrer Bestellung"
@@ -191,9 +200,12 @@ de-CH:
       or_enter_new_address: "Oder neue Adresse eingeben:"
       save_address: "Adresse speichern"
       submit_order: "Bestellung aufgeben"
+      overview: "Bestellungsübersicht"
+      shipping_cost: "Versandkosten"
     users:
       account_not_created: "Das Konto konnte nicht erstellt werden."
       account_created_successfully: "Ihr Konto ist erstellt worden."
+      overview: "Benutzerübersicht"
     user_sessions:
       email_cant_be_blank: "Bitte füllen Sie das Feld 'E-Mail-Adresse' aus."
       password_cant_be_blank: "Bitte füllen Sie das Feld 'Passwort' aus."

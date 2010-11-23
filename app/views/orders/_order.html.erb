@@ -17,7 +17,7 @@
 
     <tr>
       <td></td>
-      <td>Shipping</td>
+      <td><%= t("stizun.order.shipping_cost")%></td>
       <td class="price"><%= pretty_price(order.shipping_rate.total_cost) %></td>
     </tr>
 
@@ -30,7 +30,7 @@
     <% if order.invoice %>
       <tr>
         <td></td>
-        <td><%= link_to "Invoice", url_for(:controller => 'invoices', :action => 'uuid', :uuid => order.invoice.uuid) %></td>
+        <td><%= link_to t("stizun.invoice.invoice"), url_for(:controller => 'invoices', :action => 'uuid', :uuid => order.invoice.uuid) %></td>
         <td></td>
       </tr>
     <% end %>
