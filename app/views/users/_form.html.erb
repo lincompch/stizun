@@ -1,7 +1,7 @@
 <%= form.label :email %><br />
 <%= form.text_field :email %><br />
 <br />
-<%= form.label :password, form.object.new_record? ? nil : "Change password" %><br />
+<%= form.label :password, form.object.new_record? ? nil : t("stizun.account.change_password") %><br />
 <%= form.password_field :password %><br />
 <br />
 <%= form.label :password_confirmation %><br />

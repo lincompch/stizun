@@ -150,7 +150,6 @@ de-CH:
         even: "muss gerade sein"
         record_invalid: "Gültigkeitsprüfung ist fehlgeschlagen: %{errors}"
 
-
   stizun:
     general:
       edit: "Editieren"
@@ -168,10 +167,30 @@ de-CH:
       you_have_no_saved_addresses: "Sie haben keine gespeicherten Adressen. Fügen Sie eine Adresse hinzu oder speichern Sie bei Ihrer nächsten Bestellung eine ab."
       email: "E-Mail"
       also_your_login: "Dies gilt auch als Benutzername zum Einloggen"
+      register_title: "Als Kunde registrieren"
+      register: "Registrieren"
+      edit_my_account: "Mein Konto editieren"
+      update: "Aktualisieren"
+      to_my_account_page: "Weiter zu meinem Konto"
+      change_password: "Passwort ändern"
+      login: "Einloggen"
+      create_new_account: "Neues Konto erstellen"
     address:
       add_new_address: "Neue Adresse hinzufügen"
       addresses: "Adressen"
       you_have_the_following_saved_addresses: "Sie haben die folgenden gespeicherten Adressen:"
+      billing_address: "Rechnungsadresse"
+      shipping_address: "Lieferadresse"
+    order:
+      place_order: "Bestellen"
+      order_summary: "Zusammenfassung Ihrer Bestellung"
+      payment_method: "Zahlungsart"
+      select_payment_method: "Wählen Sie Ihre Zahlungsart:"
+      leave_this_empty_to_ship_to_billing_address: "Wenn Sie diese Adresse leer lassen, schicken wir die Ware an die Rechnungsadresse."
+      use_saved_address: "Gespeicherte Adresse benutzen:"
+      or_enter_new_address: "Oder neue Adresse eingeben:"
+      save_address: "Adresse speichern"
+      submit_order: "Bestellung aufgeben"
     users:
       account_not_created: "Das Konto konnte nicht erstellt werden."
       account_created_successfully: "Ihr Konto ist erstellt worden."

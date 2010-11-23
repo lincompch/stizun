@@ -1,4 +1,4 @@
-<h3>Place order</h3>
+<h3><%= t("stizun.order.place_order") %></h3>
 
 <%= error_messages_for(:order) %>
 <%= error_messages_for(:cart) %>
@@ -9,7 +9,7 @@
 
 <% form_for @order do |f| %>
 
-<h4>Ordered items</h4>
+<h4><%= t("stizun.order.order_summary") %></h4>
 
 <p>TODO</p>
 
@@ -18,23 +18,23 @@
   <% end %>
 
   <% if current_user and current_user.payment_methods.count > 0 %>
-  <h4>Payment method</h4>
+  <h4><%= t("stizun.order.payment_method") %></h4>
   
-  <p>Select payment method:</p>
+  <p><%= t("stizun.order.select_payment_method") %></p>
   <%= f.select(:payment_method_id, options_from_collection_for_select(current_user.payment_methods, :id, :name) ) %>
   <% end %>
 
 
-  <h4>Billing address</h4>
+  <h4><%= t("stizun.address.billing_address")%></h4>
 
   <% fields_for :billing_address, @order.billing_address do |ba| %>
  
   <%= ba.error_messages %>
 
   <% if current_user %>
-  <p>Use saved address:</p>
+  <p><%= t("stizun.order.use_saved_address") %></p>
   <%= select_tag(:billing_address_id, options_for_select( Address.option_hash_for_select(current_user)) ) %>
-  <p>Or enter new address:</p>
+  <p><%= t("stizun.order.or_enter_new_address")%></p>
   <% end %>
   
   
@@ -74,21 +74,21 @@
     <% if current_user %>
     <tr>
       <td></td>
-      <td><%= check_box_tag :save_billing_address %> Save this address for the future</td>
+      <td><%= check_box_tag :save_billing_address %>  <%= t("stizun.order.save_address")%></td>
     </tr>
     <% end %>
   </table>
   <% end %>
 
 
-  <h4>Shipping address</h4>
-  <p>You can leave this empty if you want the goods to be shipped to the billing address you entered above.</p>
+  <h4><%= t("stizun.address.shipping_address")%></h4>
+  <p><%= t("stizun.order.leave_this_empty_to_ship_to_billing_address")%></p>
   
   <% if current_user %>
-  <p>Use saved address:</p>
+  <p><%= t("stizun.order.use_saved_address") %></p>
   <%= select_tag(:shipping_address_id, options_for_select( Address.option_hash_for_select(current_user))) %>
 
-  <p>Or enter new address:</p>
+  <p><%= t("stizun.order.or_enter_new_address")%></p>
   <% end %>
 
   <% fields_for :shipping_address, @order.shipping_address do |sa| %>
@@ -131,13 +131,13 @@
     <% if current_user %>
     <tr>
       <td></td>
-      <td><%= check_box_tag :save_shipping_address %> Save this address for the future</td>
+      <td><%= check_box_tag :save_shipping_address %> <%= t("stizun.order.save_address")%></td>
     </tr>
     <% end %>
   </table>
   <% end %>
 
 
-<%= submit_tag 'Submit order' %>
+<%= submit_tag t("stizun.order.submit_order") %>
 
 <% end %>
