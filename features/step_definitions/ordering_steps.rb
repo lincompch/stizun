@@ -34,7 +34,10 @@ When /^I visit the checkout$/ do
 end
 
 Then /^I should see an order summary$/ do
-  page.should have_content("Ordered items")
+  # TODO: Right now we check for the German (Switzerland) text because that's the
+  # default locale. In future, the default locale should be en_UK and we should check
+  # both for that and for the German one, plus whether switching between the two works.
+  page.should have_content("Zusammenfassung Ihrer Bestellung")
 end
 
 Then /^my cart should contain a product named "([^\"]*)"$/ do |arg1|
