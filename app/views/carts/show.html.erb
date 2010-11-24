@@ -1,21 +1,36 @@
 <div id="cart" class="standalone">
-<h2>Shopping cart</h2>
+
+<% form_for @cart, :url => { :controller => 'carts', :action => 'update' } do |f| %>
+
+<h4><%= t("stizun.cart.shopping_cart")%></h4>
 <ul>
   <% if @cart.cart_lines.count == 0 %>
-    Your cart is empty.
+    <%= t("stizun.cart.your_cart_is_empty") %>
   <% else %>
 
     <% @cart.cart_lines.each do |ci| %>
       <li>
-        <%= render :partial => "cart_item", :object => ci %>
+        
+
+        <% f.fields_for "cart_lines[]", ci do |cl_fields| %>
+          <%= cl_fields.text_field :quantity, :size => 3 %> x 
+          <%= ci.product.name %> (<%= pretty_price(ci.product.price.rounded) %>)
+           <%= link_to t("stizun.cart.remove"), :controller => 'carts', :action => 'remove_all', :product_id => ci.product %>
+
+        <% end %>
+
+        
+        
       </li>
     <% end %>
- 
+    
+    
+    <%= submit_tag t("stizun.cart.update_quantities") %>
+    <%= link_to t("stizun.cart.continue_to_checkout"), :controller => :carts, :action => :show %>
+    
+  <% end %>
 </ul>
 
-<p>
-<%= link_to "Continue to checkout", new_order_path %>
-</p>
 
 <% end %>
 

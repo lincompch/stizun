@@ -1,10 +1,19 @@
-<h3><%= t("stizun.address.billing_address")%></h3>
+
+<% if @invoice.shipping_address.blank? or (@invoice.shipping_address == @invoice.billing_address) %>
+  <h3><%= t("stizun.address.shipping_and_billing_address")%></h3>
+<% else %>
+  <h3><%= t("stizun.address.billing_address")%></h3>
+<% end %>
 
 <%= simple_format @invoice.billing_address.block_summary %>
 
-<h3><%= t("stizun.address.shipping_address")%></h3>
 
-<%= (simple_format @invoice.shipping_address.block_summary) if @invoice.shipping_address%>
+<% unless @invoice.shipping_address.blank? %>
+  <h3><%= t("stizun.address.shipping_address")%></h3>
+
+  <%= (simple_format @invoice.shipping_address.block_summary) if @invoice.shipping_address %>
+<% end %>
+
 
 <h3><%= t("stizun.general.products")%></h3>
 

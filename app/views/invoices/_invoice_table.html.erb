@@ -5,7 +5,7 @@
       
       <tr>
         <td> </td>
-        <td>Shipping</td>
+        <td><%= t("stizun.order.shipping_cost") %></td>
         <td> </td>
         <td> </td>
         <td class="price"><%= pretty_price(invoice_table.shipping_cost) %></td>
@@ -21,6 +21,5 @@
 
 </table>
 
-<p>
-VAT included: <%= pretty_price(invoice_table.taxes)%>
+<p><%= t("stizun.order.included_vat") %>: <%= pretty_price(invoice_table.taxes)%>
 </p>

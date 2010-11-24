@@ -163,6 +163,12 @@ de-CH:
       date: "Datum"
       status: "Status"
       total: "Total"
+    cart:
+      shopping_cart: "Warenkorb"
+      your_cart_is_empty: "Ihr Warenkorb ist leer."
+      continue_to_checkout: "Weiter zur Kasse"
+      update_quantities: "Neu berechnen"
+      remove: "Entfernen"
     account:
       account_information: "Konto-Informationen"
       your_pending_orders: "Ihre offenen Bestellungen"
@@ -186,6 +192,7 @@ de-CH:
       you_have_the_following_saved_addresses: "Sie haben die folgenden gespeicherten Adressen:"
       billing_address: "Rechnungsadresse"
       shipping_address: "Lieferadresse"
+      shipping_and_billing_address: "Rechnungs- und Lieferadresse"
     invoice:
       invoice: "Rechnung"
       invoice_overview: "Rechnungsübersicht"
@@ -202,6 +209,7 @@ de-CH:
       submit_order: "Bestellung aufgeben"
       overview: "Bestellungsübersicht"
       shipping_cost: "Versandkosten"
+      included_vat: "Enthaltene MwSt."
     users:
       account_not_created: "Das Konto konnte nicht erstellt werden."
       account_created_successfully: "Ihr Konto ist erstellt worden."
