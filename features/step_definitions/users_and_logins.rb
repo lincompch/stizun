@@ -6,6 +6,7 @@ end
 
 
 Given /^I log in with e-mail address "([^\"]*)" and password "([^\"]*)"$/ do |email, password|
+  visit logout_path
   visit login_path
   fill_in "Email", :with => email
   fill_in "Password", :with => password

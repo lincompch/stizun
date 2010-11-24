@@ -21,13 +21,10 @@ Feature: Browse products
       And I fill in the margin percentage 5.0
       And I fill in the weight 5.0
       And I select the tax class "MwSt 7.6%"
+      And I assign the product to the category "Notebooks"
       And I click the create button
       Then there should be a product called "Lenovo T400"
-
-    Scenario: Assign product to category
-      Given a product named "Lenovo T400"
-      When I assign the product to the category "Notebooks"
-      Then the category "Notebooks" should contain a product named "Lenovo T400"
+      And the category "Notebooks" should contain a product named "Lenovo T400"
       
     @javascript 
     Scenario: Forget assigning a tax class when creating a product

@@ -79,9 +79,9 @@ When /^I click the create button$/ do
 end
 
 When /^I assign the product to the category "([^\"]*)"$/ do |arg1|
-  visit edit_admin_product_path(@product)
-  select arg1, :from => "Categories"
-  click_button "Save"
+  within_frame "fancybox-frame" do
+    select arg1, :from => "Categories"
+  end
 end
                                                                                           
 When /^I view the product list$/ do                                                       

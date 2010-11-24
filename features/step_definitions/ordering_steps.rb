@@ -30,7 +30,7 @@ end
 
 When /^I visit the checkout$/ do
   visit cart_path
-  click_link "Continue to checkout"
+  click_link "Weiter zur Kasse"
 end
 
 Then /^I should see an order summary$/ do
