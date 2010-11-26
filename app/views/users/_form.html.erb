@@ -1,8 +1,8 @@
-<%= form.label :email %><br />
+<%= form.label :email,  t('stizun.users.attributes.email') %><br />
 <%= form.text_field :email %><br />
 <br />
-<%= form.label :password, form.object.new_record? ? nil : t("stizun.account.change_password") %><br />
+<%= form.label :password, form.object.new_record? ?  t('stizun.users.attributes.password') : t("stizun.account.change_password") %><br />
 <%= form.password_field :password %><br />
 <br />
-<%= form.label :password_confirmation %><br />
+<%= form.label :password_confirmation,  t('stizun.users.attributes.repeat_password') %><br />
 <%= form.password_field :password_confirmation %><br />

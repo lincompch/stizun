@@ -230,12 +230,17 @@ de-CH:
       account_not_created: "Das Konto konnte nicht erstellt werden."
       account_created_successfully: "Ihr Konto ist erstellt worden."
       overview: "Benutzerübersicht"
+      attributes:
+        email: "E-Mail-Adresse"
+        password: "Passwort"
+        repeat_password: "Passwort wiederholen"
     user_sessions:
       email_cant_be_blank: "Bitte füllen Sie das Feld 'E-Mail-Adresse' aus."
       password_cant_be_blank: "Bitte füllen Sie das Feld 'Passwort' aus."
       login_successful: "Sie sind jetzt eingeloggt."
       logout_successful: "Sie sind jetzt ausgeloggt."
       stay_logged_in: "Eingeloggt bleiben."
+      log_in: "Einloggen"
     constants:
       general: "Allgemein"
       accounting: "Buchhaltung"
