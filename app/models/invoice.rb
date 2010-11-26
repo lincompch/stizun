@@ -25,8 +25,8 @@ class Invoice < ActiveRecord::Base
   UNPAID = 1
   PAID = 2
   
-  STATUS_HASH = { UNPAID     => 'Unpaid',
-                  PAID       => 'Paid'}
+  STATUS_HASH = { UNPAID     => I18n.t('stizun.constants.unpaid'),
+                  PAID       => I18n.t('stizun.constants.paid')}
 
   # === Named scopes
 

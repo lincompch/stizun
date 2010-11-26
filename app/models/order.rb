@@ -36,11 +36,11 @@ class Order < Document
   SHIPPED = 4
   TO_SHIP = 5
   
-  STATUS_HASH = { UNPROCESSED      => 'Unprocessed',
-                  PROCESSING       => 'Processing',
-                  AWAITING_PAYMENT => 'Awaiting payment',
-                  TO_SHIP          => 'To ship',
-                  SHIPPED          => 'Shipped'}
+  STATUS_HASH = { UNPROCESSED      => I18n.t('stizun.constants.unprocessed'),
+                  PROCESSING       => I18n.t('stizun.constants.processing'),
+                  AWAITING_PAYMENT => I18n.t('stizun.constants.awaiting_payment'),
+                  TO_SHIP          => I18n.t('stizun.constants.to_ship'),
+                  SHIPPED          => I18n.t('stizun.constants.shipped')}
 
   def self.status_to_human(status)
     return STATUS_HASH[status]

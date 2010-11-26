@@ -226,6 +226,19 @@ de-CH:
       login_successful: "Sie sind jetzt eingeloggt."
       logout_successful: "Sie sind jetzt ausgeloggt."
       stay_logged_in: "Eingeloggt bleiben."
+    constants:
+      general: "Allgemein"
+      accounting: "Buchhaltung"
+      product_change: "Produkt-Änderung"
+      supply_item_change: "Einzelteil-Änderung"
+      paid: "Bezahlt"
+      unpaid: "Unbezahlt"
+      unprocessed: "Unbearbeitet"
+      processing: "In Bearbeitung"
+      awaiting_payment: "Wartet auf Zahlung"
+      to_ship: "Versandbereit"
+      shipped: "Versandt"
+      
       
   authlogic:
     error_messages:
