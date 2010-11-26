@@ -2,36 +2,36 @@
   
   <table class="address">
     <tr>
-      <td><%= form.label :company, "Company" %> </td>
+      <td><%= form.label :company, t('stizun.address.attributes.company') %> </td>
       <td><%= form.text_field :company %></td>
     </tr>
     <tr>
-      <td><%= form.label :firstname, "First name" %> </td>
+      <td><%= form.label :firstname, t('stizun.address.attributes.firstname') %> </td>
       <td><%= form.text_field :firstname %></td>
     </tr>
     <tr>
-      <td><%= form.label :lastname, "Last name" %> </td>
+      <td><%= form.label :lastname, t('stizun.address.attributes.lastname') %> </td>
       <td><%= form.text_field :lastname %></td>
     </tr>
 
     <tr>
-      <td><%= form.label :street, "Street and no." %> </td>
+      <td><%= form.label :street, t('stizun.address.attributes.street') %> </td>
       <td><%= form.text_field :street %></td>
     </tr>
     <tr>
-      <td><%= form.label :postalcode, "Postal code" %> </td>
+      <td><%= form.label :postalcode, t('stizun.address.attributes.postalcode') %> </td>
       <td><%= form.text_field :postalcode %></td>
     </tr>
     <tr>
-      <td><%= form.label :city, "City" %> </td>
+      <td><%= form.label :city, t('stizun.address.attributes.city') %> </td>
       <td><%= form.text_field :city %></td>
     </tr>
     <tr>
-      <td><%= form.label :email, "Email" %> </td>
+      <td><%= form.label :email, t('stizun.address.attributes.email') %> </td>
       <td><%= form.text_field :email %></td>
     </tr>
     <tr>
-      <td><%= form.label :country, "Country" %> </td>
+      <td><%= form.label :country, t('stizun.address.attributes.country') %> </td>
       <td><%= form.collection_select(:country_id, Country.all, :id, :name) %></td>
     </tr>
   

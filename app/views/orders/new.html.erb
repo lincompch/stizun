@@ -40,35 +40,35 @@
   
   <table class="address">
     <tr>
-      <td><%= ba.label :company, "Company" %> </td>
+      <td><%= ba.label :company,  t('stizun.address.attributes.company') %> </td>
       <td><%= ba.text_field :company %></td>
     </tr>
     <tr>
-      <td><%= ba.label :firstname, "First name" %> </td>
+      <td><%= ba.label :firstname, t('stizun.address.attributes.firstname') %> </td>
       <td><%= ba.text_field :firstname %></td>
     </tr>
     <tr>
-      <td><%= ba.label :lastname, "Last name" %> </td>
+      <td><%= ba.label :lastname, t('stizun.address.attributes.lastname') %> </td>
       <td><%= ba.text_field :lastname %></td>
     </tr>
     <tr>
-      <td><%= ba.label :email, "Email" %> </td>
+      <td><%= ba.label :email, t('stizun.address.attributes.email') %> </td>
       <td><%= ba.text_field :email %></td>
     </tr>
     <tr>
-      <td><%= ba.label :street, "Street and no." %> </td>
+      <td><%= ba.label :street, t('stizun.address.attributes.street') %> </td>
       <td><%= ba.text_field :street %></td>
     </tr>
     <tr>
-      <td><%= ba.label :postalcode, "Postal code" %> </td>
+      <td><%= ba.label :postalcode, t('stizun.address.attributes.postalcode') %> </td>
       <td><%= ba.text_field :postalcode %></td>
     </tr>
     <tr>
-      <td><%= ba.label :city, "City" %> </td>
+      <td><%= ba.label :city, t('stizun.address.attributes.city') %> </td>
       <td><%= ba.text_field :city %></td>
     </tr>
     <tr>
-      <td><%= ba.label :country, "Country" %> </td>
+      <td><%= ba.label :country, t('stizun.address.attributes.country') %> </td>
       <td><%= ba.collection_select(:country_id, Country.all, :id, :name) %></td>
     </tr>
     <% if current_user %>
@@ -97,35 +97,35 @@
 
   <table class="address">
     <tr>
-      <td><%= sa.label :company, "Company" %> </td>
+      <td><%= sa.label :company, t('stizun.address.attributes.company')  %> </td>
       <td><%= sa.text_field :company %></td>
     </tr>
     <tr>
-      <td><%= sa.label :firstname, "First name" %> </td>
+      <td><%= sa.label :firstname, t('stizun.address.attributes.firstname')  %> </td>
       <td><%= sa.text_field :firstname %></td>
     </tr>
     <tr>
-      <td><%= sa.label :lastname, "Last name" %> </td>
+      <td><%= sa.label :lastname, t('stizun.address.attributes.lastname') %> </td>
       <td><%= sa.text_field :lastname %></td>
     </tr>
     <tr>
-      <td><%= sa.label :email, "Email" %> </td>
+      <td><%= sa.label :email, t('stizun.address.attributes.email') %> </td>
       <td><%= sa.text_field :email %></td>
     </tr>
     <tr>
-      <td><%= sa.label :street, "Street and no." %> </td>
+      <td><%= sa.label :street, t('stizun.address.attributes.street') %> </td>
       <td><%= sa.text_field :street %></td>
     </tr>
     <tr>
-      <td><%= sa.label :postalcode, "Postal code" %> </td>
+      <td><%= sa.label :postalcode, t('stizun.address.attributes.postalcode')  %> </td>
       <td><%= sa.text_field :postalcode %></td>
     </tr>
     <tr>
-      <td><%= sa.label :city, "City" %> </td>
+      <td><%= sa.label :city, t('stizun.address.attributes.city') %> </td>
       <td><%= sa.text_field :city %></td>
     </tr>
     <tr>
-      <td><%= sa.label :country, "Country" %> </td>
+      <td><%= sa.label :country, t('stizun.address.attributes.country')  %> </td>
       <td><%= sa.collection_select(:country_id, Country.all, :id, :name) %></td>
     </tr>
     <% if current_user %>

@@ -199,6 +199,16 @@ de-CH:
       add_new_address: "Adresse hinzufügen"
       your_addresses: "Ihre Adressen"
       edit_address: "Adresse editieren"
+      attributes:
+        company: "Firma"
+        firstname: "Vorname"
+        lastname: "Nachname"
+        street: "Strasse"
+        postalcode: "PLZ"
+        city: "Stadt"
+        email: "E-Mail-Adresse"
+        country: "Land"
+        
     invoice:
       invoice: "Rechnung"
       invoice_overview: "Rechnungsübersicht"
