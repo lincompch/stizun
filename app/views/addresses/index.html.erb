@@ -1,6 +1,6 @@
-<h3>Your addresses</h3>
+<h3><%= t("stizun.address.your_adresses") %></h3>
 
-<%= link_to 'Add new address', new_address_path %>
+<%= link_to t("stizun.address.add_new_address"), new_address_path %>
 
 <% @addresses.each do |a| %>
 

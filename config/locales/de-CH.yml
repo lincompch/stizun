@@ -158,6 +158,7 @@ de-CH:
     general:
       edit: "Editieren"
       products: "Produkte"
+      delete: "Löschen"
     table_headers:
       number: "Nr."
       date: "Datum"
@@ -193,6 +194,11 @@ de-CH:
       billing_address: "Rechnungsadresse"
       shipping_address: "Lieferadresse"
       shipping_and_billing_address: "Rechnungs- und Lieferadresse"
+      save_address: "Adresse speichern"
+      new_address: "Neue Adresse"
+      add_new_address: "Adresse hinzufügen"
+      your_addresses: "Ihre Adressen"
+      edit_address: "Adresse editieren"
     invoice:
       invoice: "Rechnung"
       invoice_overview: "Rechnungsübersicht"

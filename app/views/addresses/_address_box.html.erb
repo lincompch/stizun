@@ -5,9 +5,9 @@
 </p>
 
 <p>
-  <%= link_to "Edit", edit_user_address_path(address_box.user, address_box) %> 
+  <%= link_to t("stizun.general.edit"), edit_user_address_path(address_box.user, address_box) %> 
    | 
-  <%= link_to "Delete", user_address_path(address_box.user, address_box), :confirm => 'Are you sure?', :method => 'delete' %>  
+  <%= link_to t("stizun.general.delete"), user_address_path(address_box.user, address_box), :confirm => 'Are you sure?', :method => 'delete' %>  
 </p>
 
 <p><br /></p>

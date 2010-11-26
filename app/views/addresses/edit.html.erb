@@ -1,4 +1,4 @@
-<h3>Edit address</h3>
+<h3><%= t("stizun.address.edit_address") %></h3>
 
 <%= error_messages_for(:address) %>
 
@@ -6,7 +6,7 @@
  
   <%= render :partial => 'form', :object => f %>
 
-  <%= f.submit 'Save address' %>
+  <%= f.submit t("stizun.address.save_address") %>
 
 
 <% end %>
