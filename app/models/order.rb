@@ -78,10 +78,6 @@ class Order < Document
   
   # === Methods
   
-  def after_initialize
-    self.payment_method ||= PaymentMethod.get_default
-  end
-  
   def invoiced?
     return !invoice.blank?
   end
@@ -144,7 +140,7 @@ class Order < Document
   def direct_shipping?
     direct = true
     direct = false if lines.collect(&:product).collect(&:direct_shipping).include?(false)
-    direct = false if payment_method.allows_direct_shipping == false
+    direct = false if payment_method.allows_direct_shipping? == false
     return direct
   end
   
@@ -156,10 +152,14 @@ class Order < Document
     
   end
   
+  # === ActiveRecord callbacks
+  
   def before_create
     self.document_number ||= Numerator.get_number
   end
-  
-  
+    
+  def after_initialize
+    self.payment_method ||= PaymentMethod.get_default
+  end
   
 end

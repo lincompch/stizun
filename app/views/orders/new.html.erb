@@ -38,7 +38,7 @@
   <% end %>
   
   
-  <table class="address">
+  <table class="address" id="billing_address">
     <tr>
       <td><%= ba.label :company,  t('stizun.address.attributes.company') %> </td>
       <td><%= ba.text_field :company %></td>
@@ -68,7 +68,7 @@
       <td><%= ba.text_field :city %></td>
     </tr>
     <tr>
-      <td><%= ba.label :country, t('stizun.address.attributes.country') %> </td>
+      <td><%= ba.label :country_id, t('stizun.address.attributes.country') %> </td>
       <td><%= ba.collection_select(:country_id, Country.all, :id, :name) %></td>
     </tr>
     <% if current_user %>
@@ -95,7 +95,7 @@
 
   <%= sa.error_messages %>
 
-  <table class="address">
+  <table class="address" id="shipping_address">
     <tr>
       <td><%= sa.label :company, t('stizun.address.attributes.company')  %> </td>
       <td><%= sa.text_field :company %></td>
@@ -125,7 +125,7 @@
       <td><%= sa.text_field :city %></td>
     </tr>
     <tr>
-      <td><%= sa.label :country, t('stizun.address.attributes.country')  %> </td>
+      <td><%= sa.label :country_id, t('stizun.address.attributes.country')  %> </td>
       <td><%= sa.collection_select(:country_id, Country.all, :id, :name) %></td>
     </tr>
     <% if current_user %>

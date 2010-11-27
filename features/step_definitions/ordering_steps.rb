@@ -33,6 +33,10 @@ When /^I visit the checkout$/ do
   click_link "Weiter zur Kasse"
 end
 
+When /^I submit my order$/ do
+  click_button "Bestellung aufgeben"
+end
+
 Then /^I should see an order summary$/ do
   # TODO: Right now we check for the German (Switzerland) text because that's the
   # default locale. In future, the default locale should be en_UK and we should check
