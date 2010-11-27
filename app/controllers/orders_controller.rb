@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
     @cart = load_cart
 
     if @cart.cart_lines.count == 0
-      flash[:error] = "Your shopping cart is empty, you cannot continue to checkout."
+      flash[:error] = I18n.t("stizun.order.shopping_cart_empty")
       redirect_to cart_path
     else
       @order = load_order
@@ -71,10 +71,10 @@ class OrdersController < ApplicationController
       @cart.destroy
       # Perhaps redirect to order summary page (TODO)
       StoreMailer.deliver_order_confirmation(current_user, @order)
-      flash[:notice] = "Order submitted"
+      flash[:notice] = I18n.t("stizun.order.thanks_for_your_order")
       redirect_to products_path
     else
-      flash[:error] = "There was a problem completing your order."
+      flash[:error] = I18n.t("stizun.order.problem_with_your_order")
       render :action => 'new'
     end
   end

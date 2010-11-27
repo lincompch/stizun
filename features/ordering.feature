@@ -41,7 +41,8 @@ Feature: Ordering
       |Stadt          |Sometown|
       And I select "USAnia" from "Land" within "#billing_address" 
       And I submit my order
-      Then I should receive 1 e-mails
+      Then I should see "Danke für Ihre Bestellung!"
+      And I should receive 1 e-mails
       And the subject of e-mail 1 should be "[Lincomp] Order confirmation"
 
     Scenario: Complete checkout with different shipping address
@@ -66,9 +67,10 @@ Feature: Ordering
       |Stadt          |Othertown|
       And I select "USAnia" from "Land" within "#shipping_address" 
       And I submit my order
-      Then I should receive 1 e-mails
+      Then I should see "Danke für Ihre Bestellung!"
+      And I should receive 1 e-mails
       And the subject of e-mail 1 should be "[Lincomp] Order confirmation"
 
-    Scenario: Forget filling in some fields when ordering
+    Scenario: Forget filling in some important fields when ordering
 
     Scenario: Use saved address when ordering
