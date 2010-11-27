@@ -59,3 +59,20 @@ Then /^my cart should contain some stuff$/ do
       Then %{my cart should contain a product named "Fish" 3 times}
       And %{my cart should contain a product named "Terminator T-1000" 2 times}
 end    
+
+Then /^I should receive (\d+) e\-mails$/ do |num|
+  @emails = ActionMailer::Base.deliveries
+  @emails.count.should == num.to_i
+end
+
+Then /^the subject of e\-mail (\d+) should be "([^"]*)"$/ do |num, subject|
+  # Adjust for human-readable numbers instead of index
+  # positions used in the .feature text
+  index = num.to_i - 1
+  @emails[index].subject.should == subject
+#   @email.from.should == "admin@example.com"
+#   @email.to.should == @user.email
+#   @email.body.should include("some key word or something....")
+  
+end
+

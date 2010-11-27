@@ -1,3 +1,0 @@
-If we ever need role-based authorization:
-
-http://github.com/be9/acl9/

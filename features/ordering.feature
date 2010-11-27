@@ -5,6 +5,7 @@ Feature: Ordering
 
     Background: Some data to select from
       Given a country called "USAnia" exists
+      And ActionMailer is set to test mode
 
     Scenario: Add to cart
       Given a product named "Fish" in the category "Animals"
@@ -40,6 +41,33 @@ Feature: Ordering
       |Stadt          |Sometown|
       And I select "USAnia" from "Land" within "#billing_address" 
       And I submit my order
+      Then I should receive 1 e-mails
+      And the subject of e-mail 1 should be "[Lincomp] Order confirmation"
+
+    Scenario: Complete checkout with different shipping address
+      Given I have ordered some stuff
+      When I visit the checkout
+      And I fill in the following within "#billing_address":
+      |Firma          |Some Company|
+      |Vorname        |Dude|
+      |Nachname       |Someguy|
+      |E-Mail-Adresse |dude.someguy@example.com|
+      |Strasse        |Such an Ordinary Road 1|
+      |PLZ            |8000|
+      |Stadt          |Sometown|
+      And I select "USAnia" from "Land" within "#billing_address" 
+      And I fill in the following within "#shipping_address":
+      |Firma          |Some Other Company|
+      |Vorname        |Other Dude|
+      |Nachname       |Someotherguy|
+      |E-Mail-Adresse |otherdude.someguy@example.com|
+      |Strasse        |Such an Exceptional Road 1|
+      |PLZ            |7000|
+      |Stadt          |Othertown|
+      And I select "USAnia" from "Land" within "#shipping_address" 
+      And I submit my order
+      Then I should receive 1 e-mails
+      And the subject of e-mail 1 should be "[Lincomp] Order confirmation"
 
     Scenario: Forget filling in some fields when ordering
 

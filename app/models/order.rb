@@ -130,6 +130,9 @@ class Order < Document
   # A locked order's order_lines may not be changed anymore.
   # This is to prevent invoiced orders from being changed, otherwise
   # the invoice would no longer be correct.
+  # TODO: This is probably no longer necessary now that we save invoices
+  # as lists of independent text strings instead of using product
+  # references.
   def locked?
     locked = false
     status_constant == Order::UNPROCESSED ? locked = false : locked = true
@@ -137,6 +140,9 @@ class Order < Document
     return locked
   end
   
+  
+  # Orders may only allow direct shipping if all of the products they
+  # contain can be shipped directly from supplier warehouses to the customer.
   def direct_shipping?
     direct = true
     direct = false if lines.collect(&:product).collect(&:direct_shipping).include?(false)
@@ -144,6 +150,11 @@ class Order < Document
     return direct
   end
   
+  
+  # If the user doesn't actually have authorization for this payment method, e.g. a user
+  # who must pre-pay tries to order something on credit, the order can't be saved.
+  # It should actually never be possible for a user to pass an unauthorized payment type,
+  # but this check prevents errors e.g. from admins manipulating orders on the console.
   def must_be_authorized_for_payment_method
  
     unless payment_method == PaymentMethod.get_default or user.payment_methods.include?(payment_method) or  
