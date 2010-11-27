@@ -191,6 +191,7 @@ de-CH:
       add_new_address: "Neue Adresse hinzufügen"
       addresses: "Adressen"
       you_have_the_following_saved_addresses: "Sie haben die folgenden gespeicherten Adressen:"
+      you_have_no_saved_addresses: "Sie haben keine gespeicherten Adressen:"
       billing_address: "Rechnungsadresse"
       shipping_address: "Lieferadresse"
       shipping_and_billing_address: "Rechnungs- und Lieferadresse"
