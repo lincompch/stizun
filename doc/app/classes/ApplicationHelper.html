@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: ApplicationHelper</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">ApplicationHelper</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/app/helpers/application_helper_rb.html">
+                app/helpers/application_helper.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Methods added to this helper will be available to all templates in the
+application.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000277">pretty_price</a>&nbsp;&nbsp;
+      <a href="#M000279">short_address</a>&nbsp;&nbsp;
+      <a href="#M000278">short_date</a>&nbsp;&nbsp;
+      <a href="#M000280">tree_recursive</a>&nbsp;&nbsp;
+      <a href="#M000281">tree_recursive_for_accounts_table</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000277" class="method-detail">
+        <a name="M000277"></a>
+
+        <div class="method-heading">
+          <a href="#M000277" class="method-signature">
+          <span class="method-name">pretty_price</span><span class="method-args">(price, currency = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000277-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000277-source">
+<pre>
+   <span class="ruby-comment cmt"># File app/helpers/application_helper.rb, line 4</span>
+4:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">pretty_price</span>(<span class="ruby-identifier">price</span>, <span class="ruby-identifier">currency</span> = <span class="ruby-keyword kw">nil</span>)
+5:     <span class="ruby-comment cmt">#OPTIMIZE: In future, we will have to support multiple currencies</span>
+6:     <span class="ruby-identifier">currency</span> = <span class="ruby-identifier">currency</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot; &quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">currency</span>.<span class="ruby-identifier">nil?</span>
+7:     <span class="ruby-identifier">sprintf</span> <span class="ruby-node">&quot;#{currency}%.2f&quot;</span>, <span class="ruby-identifier">price</span>
+8:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000279" class="method-detail">
+        <a name="M000279"></a>
+
+        <div class="method-heading">
+          <a href="#M000279" class="method-signature">
+          <span class="method-name">short_address</span><span class="method-args">(address)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000279-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000279-source">
+<pre>
+    <span class="ruby-comment cmt"># File app/helpers/application_helper.rb, line 16</span>
+16:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">short_address</span>(<span class="ruby-identifier">address</span>)
+17:     <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">address</span>.<span class="ruby-identifier">nil?</span>
+18:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">address</span>.<span class="ruby-identifier">company</span>.<span class="ruby-identifier">blank?</span>
+19:         <span class="ruby-node">&quot;#{address.lastname}, #{address.firstname}&quot;</span>
+20:       <span class="ruby-keyword kw">else</span>
+21:         <span class="ruby-node">&quot;#{address.company}. #{address.lastname}, #{address.firstname}&quot;</span>
+22:       <span class="ruby-keyword kw">end</span>
+23:     <span class="ruby-keyword kw">end</span>
+24:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000278" class="method-detail">
+        <a name="M000278"></a>
+
+        <div class="method-heading">
+          <a href="#M000278" class="method-signature">
+          <span class="method-name">short_date</span><span class="method-args">(datetime)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000278-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000278-source">
+<pre>
+    <span class="ruby-comment cmt"># File app/helpers/application_helper.rb, line 10</span>
+10:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">short_date</span>(<span class="ruby-identifier">datetime</span>)
+11:     <span class="ruby-comment cmt"># Should return the date in a short form, appropriate</span>
+12:     <span class="ruby-comment cmt"># for the current locale.</span>
+13:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">datetime</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-value str">&quot;%d.%m.%Y&quot;</span>)
+14:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000280" class="method-detail">
+        <a name="M000280"></a>
+
+        <div class="method-heading">
+          <a href="#M000280" class="method-signature">
+          <span class="method-name">tree_recursive</span><span class="method-args">(tree, parent_id = nil, admin = false)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+My own implementation &#8212; I find it more readable
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000280-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000280-source">
+<pre>
+    <span class="ruby-comment cmt"># File app/helpers/application_helper.rb, line 44</span>
+44:    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tree_recursive</span>(<span class="ruby-identifier">tree</span>, <span class="ruby-identifier">parent_id</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">admin</span> = <span class="ruby-keyword kw">false</span>)
+45:     <span class="ruby-identifier">output</span> = <span class="ruby-value str">&quot;&quot;</span>
+46:     <span class="ruby-identifier">output</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">&quot;&lt;ul&gt;\n&quot;</span>
+47:       <span class="ruby-identifier">tree</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">node</span><span class="ruby-operator">|</span>
+48:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">parent_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">parent_id</span>
+49:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">admin</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">true</span>
+50:             <span class="ruby-identifier">output</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">&quot;\t&lt;li&gt;&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">link_to</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">name</span>, <span class="ruby-identifier">admin_category_products_path</span>(<span class="ruby-identifier">node</span>)) <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;&lt;/li&gt;\n&quot;</span>
+51:           <span class="ruby-keyword kw">else</span>
+52:             <span class="ruby-identifier">output</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">&quot;\t&lt;li&gt;&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">link_to</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">name</span>, <span class="ruby-identifier">category_products_path</span>(<span class="ruby-identifier">node</span>)) <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;&lt;/li&gt;\n&quot;</span>
+53:           <span class="ruby-keyword kw">end</span>
+54:           <span class="ruby-identifier">output</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">tree_recursive</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">children</span>, <span class="ruby-identifier">node</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">admin</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">empty?</span>
+55:         <span class="ruby-keyword kw">end</span>
+56:       <span class="ruby-keyword kw">end</span>
+57:     <span class="ruby-identifier">output</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">&quot;&lt;/ul&gt;\n&quot;</span>
+58:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">output</span>
+59:    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000281" class="method-detail">
+        <a name="M000281"></a>
+
+        <div class="method-heading">
+          <a href="#M000281" class="method-signature">
+          <span class="method-name">tree_recursive_for_accounts_table</span><span class="method-args">(tree, parent_id = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000281-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000281-source">
+<pre>
+    <span class="ruby-comment cmt"># File app/helpers/application_helper.rb, line 61</span>
+61:    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tree_recursive_for_accounts_table</span>(<span class="ruby-identifier">tree</span>, <span class="ruby-identifier">parent_id</span> = <span class="ruby-keyword kw">nil</span>)
+62:     <span class="ruby-identifier">output</span> = <span class="ruby-value str">&quot;&quot;</span>    
+63:       <span class="ruby-identifier">tree</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">node</span><span class="ruby-operator">|</span>
+64:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">parent_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">parent_id</span>  
+65:           <span class="ruby-identifier">output</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">&quot;&lt;tr&gt;\n&quot;</span>
+66:           <span class="ruby-identifier">output</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot;\t&lt;td&gt;#{node.id}&lt;/td&gt;&lt;td&gt;&quot;</span> <span class="ruby-operator">+</span> (<span class="ruby-value str">&quot;&amp;nbsp;&amp;nbsp;&quot;</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">ancestors</span>.<span class="ruby-identifier">count</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">link_to</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">name</span>, <span class="ruby-identifier">admin_account_path</span>(<span class="ruby-identifier">node</span>)) <span class="ruby-operator">+</span> <span class="ruby-node">&quot;&lt;/td&gt;&lt;td&gt;#{pretty_price(node.balance)}&lt;/td&gt;\n&quot;</span>
+67:           <span class="ruby-identifier">output</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">tree_recursive_for_accounts_table</span>(<span class="ruby-identifier">node</span>.<span class="ruby-identifier">children</span>, <span class="ruby-identifier">node</span>.<span class="ruby-identifier">id</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">node</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">empty?</span>
+68:         <span class="ruby-keyword kw">end</span>
+69:       <span class="ruby-keyword kw">end</span>
+70:     <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">output</span>
+71:    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
