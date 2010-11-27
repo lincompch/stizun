@@ -14,9 +14,16 @@ When /^I invoice the order$/ do
 end
 
 When /^the invoice is paid$/ do
+  # TODO: These accounts should all exist and be configured in the system anyway.
+  # Should make sure that they exist in the core of the system instead of here.
   accts_receivable = Account.find_by_name("Accounts Receivable")
   ci = ConfigurationItem.create(:key => "accounts_receivable_id",
                                 :value => accts_receivable.id)
+  
+  bank_account = Account.find_by_name("Bank")
+  ci = ConfigurationItem.find_or_create_by_key(:key => "cash_account_id", 
+                                :value => bank_account.id)
+  
   @invoice.record_payment_transaction
 end
 

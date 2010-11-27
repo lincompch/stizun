@@ -31,7 +31,7 @@ class TaxBookers::SwitzerlandTaxBooker
                                   :parent => Account.find_by_name("Assets"))
     end
     
-    # Not used automatically -- actual purchase prices must be booked by the accountant
+    # Not used automatically -- actual purchase prices must be booked by the accountant by hand.
     unless @warenaufwand = Account.find_by_name("Warenaufwand")
       @warenaufwand = Account.create(:name => "Warenaufwand",
                                      :parent => Account.find_by_name("Expense"))

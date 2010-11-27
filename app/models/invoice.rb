@@ -203,7 +203,7 @@ class Invoice < ActiveRecord::Base
     cash_account = Account.find_by_id(ConfigurationItem.get("cash_account_id").value)
     
     if AccountTransaction.transfer(cash_account, user_account, self.price, "Invoice payment #{self.document_id}", self)
-      History.add("Payment transaction for invoice #{self.document_id}. Credit: Cash account #{self.price}", History::ACCOUNTING, self)                         
+      History.add("Payment transaction for invoice #{self.document_id}. Credit: Cash account #{self.price}", History::ACCOUNTING, self)
     else
       History.add("Failed creating payment transaction for #{self.document_id}. Credit: Cash account #{self.price}", History::ACCOUNTING,  self)                         
     end

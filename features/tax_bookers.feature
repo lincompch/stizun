@@ -42,5 +42,6 @@ Feature: Book taxes on invoices to the right accounts
       # Includes only the raw taxes we owe to the country
       And the balance of account "Kreditor MwSt." is 186.96
       And the balance of the sales income account is 2460.49
+      When the invoice is paid
 
 
