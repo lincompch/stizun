@@ -47,11 +47,14 @@ class Order < Document
   end
   
   def self.status_hash_for_select
-    hash = []
+    array = []
     STATUS_HASH.each do |key,value|
-      hash << [value, key]
+      array << [value, key]
     end 
-    return hash
+    # Sort by value of the constant integer, so the sequence of
+    # statuses is more or less the same as it appears in the
+    # workflow.
+    return array.sort {|a, b| a[1] <=> b[1]}
   end
   
   def status_human
