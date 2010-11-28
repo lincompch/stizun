@@ -74,5 +74,8 @@
 <hr />
 
  
-<%= link_to("Logout", { :controller => 'user_sessions', :action => 'destroy'}) if current_user %> | 
+
 <%= link_to t("stizun.general.edit"), edit_account_path %>
+<% if current_user %>
+ | <%= link_to("Logout", logout_path) if current_user %>
+<% end %>
