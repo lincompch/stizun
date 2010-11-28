@@ -163,6 +163,18 @@ class Order < Document
     
   end
   
+  def send_order_confirmation(user)
+    # Is this require really required? Just to have some errors
+    # that we can rescue?
+    require 'net/smtp'
+    begin
+      StoreMailer.deliver_order_confirmation(user, self)
+    rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
+      History.add("Could not send order confirmation for order  #{self.document_id} during checkout: #{e.to_s}", History::GENERAL, self)
+    end
+  end
+  
+  
   # === ActiveRecord callbacks
   
   def before_create

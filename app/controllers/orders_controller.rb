@@ -57,20 +57,18 @@ class OrdersController < ApplicationController
       invoice.clone_from_order(@order)
       if invoice.save
         @order.status_constant = Order::TO_SHIP
+      else
+        History.add("Could not create invoice for order #{@order.document_id} during checkout.", History::GENERAL, @order)
       end
-
     end
     
- 
-    # TODO: Before save, set shipping address to billing address unless explicit
-    # shipping address given.
-    # TODO 2: that's mostly handled in the model now
     if @order.save
-
-      # TODO: also destroy dependent lines
+      # TODO: also destroy dependent lines or change model to do that
       @cart.destroy
       # Perhaps redirect to order summary page (TODO)
-      StoreMailer.deliver_order_confirmation(current_user, @order)
+      
+      @order.send_order_confirmation(current_user)
+        
       flash[:notice] = I18n.t("stizun.order.thanks_for_your_order")
       redirect_to products_path
     else
@@ -78,6 +76,8 @@ class OrdersController < ApplicationController
       render :action => 'new'
     end
   end
+  
+
   
   private
   
