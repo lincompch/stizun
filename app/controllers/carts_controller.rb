@@ -5,10 +5,10 @@ class CartsController < ApplicationController
     product = Product.find(params[:product_id])
     @cart.add_product(product, params[:quantity])
     if @cart.save
-      flash[:notice] = "Product added."
+      flash[:notice] = t("stizun.cart.product_added")
       redirect_to products_path
     else
-      flash[:error] = "Product could not be added."
+      flash[:error] = t("stizun.cart.product_not_added")
       redirect_to products_path
     end
   end
@@ -24,9 +24,9 @@ class CartsController < ApplicationController
     @cart = load_cart
     product = Product.find(params[:product_id])
     if @cart.remove_all(product)
-      flash[:notice] = "Product removed"
+      flash[:notice] = t("stizun.cart.product_removed")
     else
-      flash[:notice] = "Product wasn't removed. Perhaps it wasn't in this cart?"
+      flash[:notice] = t("stizun.cart.product_not_removed")
     end
     redirect_to products_path
   end

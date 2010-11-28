@@ -170,6 +170,11 @@ de-CH:
       continue_to_checkout: "Weiter zur Kasse"
       update_quantities: "Neu berechnen"
       remove: "Entfernen"
+      product_added: "Produkt hinzugefügt."
+      product_not_added: "Produkt konnte nicht hinzugefügt werden."
+      product_removed: "Produkt entfernt."
+      product_not_removed: "Product konnte nicht entfernt werden. Vielleicht befindet es sich nicht in diesem Warenkorb?"
+      cart_updated: "Warenkorb aktualisiert."
     account:
       account_information: "Konto-Informationen"
       your_pending_orders: "Ihre offenen Bestellungen"
