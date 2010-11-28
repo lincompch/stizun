@@ -1,8 +1,16 @@
 Feature: Importing products and supply items from Alltron CSV files
 
   Background: No supply items exist
+    Given there is a shipping rate called "Alltron AG" with the following costs:
+    |weight_min|weight_max|price|tax_percentage|
+    |         0|      1000|   10|           7.6|
+    |      1001|      2000|   20|           7.6|
+    |      2001|      3000|   30|           7.6|
+    |      3001|      4000|   40|           7.6|
+    |      4001|      5000|   50|           7.6|
     When I destroy all supply items
     Then there are 0 supply items in the database 
+
 
   Scenario: Importing list of 500 base products
     When I import the file "features/data/500_products.csv"

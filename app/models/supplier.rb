@@ -8,6 +8,6 @@ class Supplier < ActiveRecord::Base
   has_many :supply_items
 
   # === Validations
-  validates_presence_of :supply_rate_id
+  validates_presence_of :shipping_rate_id
   
 end
