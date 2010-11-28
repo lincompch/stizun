@@ -51,7 +51,7 @@ class CartsController < ApplicationController
        quantity = cl[1]['quantity'].to_i # desired quantity of this id
        CartLine.find(line_id).change_quantity(quantity)
      end
-    flash[:notice] = "Cart updated."
+    flash[:notice] = t("stizun.cart.cart_updated")
     redirect_to products_path
   end
   
