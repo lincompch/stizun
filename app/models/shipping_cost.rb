@@ -1,6 +1,8 @@
 class ShippingCost < ActiveRecord::Base
   belongs_to :shipping_rate
   belongs_to :tax_class
+  
+  validates_presence_of :tax_class_id
 
   # Prices are gross for ShippingCost objects, taxes need to be added
   # separately.
