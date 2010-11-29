@@ -84,6 +84,7 @@ class AlltronUtil
       # The product has a supplier, but its supply item is gone
       if p.supply_item.nil? and !p.supplier_id.blank?
         self.disable_product(p)
+        History.add("Disabled product #{p.to_s} because its supply item is gone.",
       else
         # Disabling product because we would be incurring a loss otherwise
         if (p.absolutely_priced? and p.supply_item.purchase_price > p.sales_price)
@@ -261,7 +262,10 @@ class AlltronUtil
                 [30001, 100000, 58.60]
               ]
       costs.each do |c|
-        shipping_rate.shipping_costs << ShippingCost.new(:weight_min => c[0], :weight_max => c[1], :price => c[2])
+        shipping_rate.shipping_costs << ShippingCost.new(:weight_min => c[0], 
+                                                         :weight_max => c[1], 
+                                                         :price => c[2], 
+                                                         :tax_class => TaxClass.find_by_percentage(7.6))
       end
       shipping_rate.save
       supplier.shipping_rate = shipping_rate
