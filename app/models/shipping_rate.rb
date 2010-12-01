@@ -2,7 +2,10 @@ class ShippingRate < ActiveRecord::Base
   
   has_many :shipping_costs 
   has_many :suppliers
+  belongs_to :tax_class
+  
   validates_presence_of :name
+  validates_presence_of :tax_class_id
   
   
   # Input: Weight in grams
@@ -96,6 +99,15 @@ class ShippingRate < ActiveRecord::Base
       # This is safe because Document#direct_shipping? checks to make sure there is only one
       # supplier. 
       sr = ShippingRate.find(document.suppliers.first.shipping_rate.id)
+     
+      @outgoing_cost += sr.direct_shipping_fees
+      puts "ougoing cost is #{@outgoing_cost}"
+       
+      @outgoing_taxes += (sr.direct_shipping_fees / 100.0) * sr.tax_class.percentage
+      
+      puts "ougoing taxes are #{@outgoing_taxes}"
+      
+      
     else
       # We set up an internal shipping rate that is used for outgoing
       # calculations from our own store. This should be replaced by a configuration 
@@ -126,7 +138,7 @@ class ShippingRate < ActiveRecord::Base
     @outgoing_taxes += added_taxes
     @outgoing_package_count = sr.package_count_for_weight(document.weight * 1000)
   end
-  
+    
   # Can calulate shipping for both orders or carts (= documents)
   def calculate_for(document)
     calculate_incoming(document)

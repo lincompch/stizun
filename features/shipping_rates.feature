@@ -10,6 +10,7 @@ Feature: Shipping rate calculation and package count
         |      2001|      3000|   30|           7.6|
         |      3001|      4000|   40|           7.6|
         |      4001|      5000|   50|           7.6|
+      And the direct shipping fees for shipping rate "Alltron AG" are "100.0"
       And there is a shipping rate called "Swiss Post" with the following costs:
         |weight_min|weight_max|price|tax_percentage|
         |         0|      1000|   15|           7.6|
@@ -17,6 +18,7 @@ Feature: Shipping rate calculation and package count
         |      2001|      3000|   35|           7.6|
         |      3001|      4000|   45|           7.6|
         |      4001|      5000|   55|           7.6|
+      And the direct shipping fees for shipping rate "Swiss Post" are "0.0"
       And there is a payment method called "Prepay" which does not allow direct shipping and is the default
       And there is a payment method called "Invoice" which allows direct shipping
       And there are the following suppliers:

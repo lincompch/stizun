@@ -1,5 +1,6 @@
 Given /^there is a shipping rate called "([^\"]*)" with the following costs:$/ do |name, table|  
-  @shipping_rate = ShippingRate.create(:name => name)
+  tax_class = TaxClass.find_or_create_by_percentage(:percentage => 7.6, :name => "7.6%")
+  @shipping_rate = ShippingRate.create(:name => name, :tax_class => tax_class)
   table.hashes.each do |sc|
     tc = TaxClass.create(:name => sc['tax_percentage'], :percentage => sc['tax_percentage'])
     @shipping_rate.shipping_costs << ShippingCost.create(:weight_min => sc['weight_min'],
@@ -81,6 +82,13 @@ Given /^the order's payment method is "([^\"]*)"$/ do |name|
   @order.save
 end
 
+Given /^the direct shipping fees for shipping rate "([^"]*)" are "([^"]*)"$/ do |name, amount|
+  sr = ShippingRate.find(:first, :conditions => { :name => name})
+  sr.direct_shipping_fees = BigDecimal.new(amount)
+  sr.save
+end
+
+
 When /^I calculate the shipping rate for the order$/ do
   @order.shipping_rate
 end  
@@ -89,7 +97,7 @@ Then /^the order's total weight should be (\d+\.\d+)$/ do |num|
   @order.weight.should == num.to_f
 end    
                                                                                                   
-Then /^the order's outgoing shipping price should be (\d+\.\d+)$/ do |num| 
+Then /^the order's outgoing shipping price should be (\d+\.\d+)$/ do |num|   
   @order.shipping_rate.outgoing_cost.should == BigDecimal.new(num.to_s)
 end
 
@@ -110,4 +118,3 @@ Then /^the order's incoming shipping price should be (\d+\.\d+)$/ do |num|
    @order.shipping_rate.incoming_cost.should == BigDecimal.new(num.to_s)
 end
 
-  

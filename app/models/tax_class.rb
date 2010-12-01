@@ -5,6 +5,7 @@ class TaxClass < ActiveRecord::Base
   
   has_one :product
   has_one :shipping_cost
+  has_one :shipping_rate # Shipping rates need this to calculate tax on fees
   
   def to_s
     self.name + " (" + self.percentage.to_s + "%)"
