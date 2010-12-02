@@ -101,7 +101,8 @@ class ShippingRate < ActiveRecord::Base
       sr = ShippingRate.find(document.suppliers.first.shipping_rate.id)
             
       direct_shipping_fee_taxes = (sr.direct_shipping_fees / 100.0) * sr.tax_class.percentage
-      @outgoing_cost += (sr.direct_shipping_fees + direct_shipping_fee_taxes)
+      @outgoing_taxes += BigDecimal.new(direct_shipping_fee_taxes.to_s)
+      @outgoing_cost += BigDecimal.new( (sr.direct_shipping_fees + direct_shipping_fee_taxes).to_s )
  
       
     else

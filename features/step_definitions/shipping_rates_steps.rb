@@ -97,7 +97,7 @@ Then /^the order's total weight should be (\d+\.\d+)$/ do |num|
   @order.weight.should == num.to_f
 end    
                                                                                                   
-Then /^the order's outgoing shipping price should be (\d+\.\d+)$/ do |num|   
+Then /^the order's outgoing shipping price should be (\d+\.\d+)$/ do |num|  
   @order.shipping_rate.outgoing_cost.should == BigDecimal.new(num.to_s)
 end
 

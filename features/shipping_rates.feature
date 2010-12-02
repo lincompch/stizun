@@ -32,7 +32,7 @@ Feature: Shipping rate calculation and package count
       And the order's payment method is "Invoice"
       When I calculate the shipping rate for the order
       Then the order's total weight should be 0.9
-      And the order's outgoing shipping price should be 10.76
+      And the order's outgoing shipping price should be 118.36
       And the order's incoming shipping price should be 0.0
       And the order's outgoing package count should be 1
 
@@ -44,7 +44,7 @@ Feature: Shipping rate calculation and package count
       And the order's payment method is "Invoice"
       When I calculate the shipping rate for the order
       Then the order's total weight should be 4.9
-      And the order's outgoing shipping price should be 53.80 
+      And the order's outgoing shipping price should be 161.4
       And the order's incoming shipping price should be 0.0
       And the order's outgoing package count should be 1
 
