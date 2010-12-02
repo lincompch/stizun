@@ -9,7 +9,7 @@ class AddressesController < ApplicationController
     if current_user
       @addresses = Address.active.find(:all, :conditions => {:user_id => current_user.id})
     else
-      flash[:info] = "You must be logged in to view this page."
+      flash[:info] = I18n.t("stizun.address.must_be_logged_in")
       redirect_to account_path
     end
     
@@ -21,13 +21,13 @@ class AddressesController < ApplicationController
       if current_user == @address.user
         @address.status = "deleted"
         if @address.save
-          flash[:notice] = "Address deleted."
+          flash[:notice] = I18n.t("stizun.address.address_deleted")
         else
-          flash[:error] = "Address could not be deleted." 
+          flash[:error] = I18n.t("stizun.address.address_could_not_be_deleted")
         end
         redirect_to account_path
       else
-        flash[:error] = "You have no permission to delete this address."
+        flash[:error] = I18n.t("stizun.address.you_have_no_permission_to_delete")
         redirect_to root_path
       end
     end
@@ -48,14 +48,14 @@ class AddressesController < ApplicationController
         address.user = current_user
         if address.save
           @address.update_attributes(:status => 'deleted')
-          flash[:notice] = "Address changed."
+          flash[:notice] = I18n.t("stizun.address.address_changed")
           redirect_to user_addresses_path(current_user)
         else
-          flash[:error] = "The address couldn't be saved."
+          flash[:error] = I18n.t("stizun.address.address_couldnt_be_saved")
           render :action => 'edit'
         end
       else
-        flash[:error] = "You have no permission to edit this address."
+        flash[:error] = I18n.t("stizun.address.you_have_no_permission_to_edit")
         redirect_to root_path
       end
     end
@@ -65,7 +65,7 @@ class AddressesController < ApplicationController
      if current_user
       @address = Address.find(params[:id])
       if current_user != @address.user
-        flash[:error] = "You have no permission to edit this address."
+        flash[:error] = I18n.t("stizun.address.you_have_no_permission_to_edit")
         redirect_to user_addresses_path(current_user)
       end
     end
@@ -80,10 +80,10 @@ class AddressesController < ApplicationController
       @address = Address.new(params[:address])
       @address.user = current_user
       if @address.save
-	flash[:notice] = "Address saved"
+	flash[:notice] = I18n.t("stizun.address.address_saved")
 	redirect_to user_addresses_path(current_user)
       else
-	flash[:error] = "The address couldn't be saved."
+	flash[:error] = I18n.t("stizun.address.address_couldnt_be_saved")
 	redirect_to user_addresses_path(current_user)
       end
     end

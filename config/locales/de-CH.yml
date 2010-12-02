@@ -205,6 +205,15 @@ de-CH:
       add_new_address: "Adresse hinzufügen"
       your_addresses: "Ihre Adressen"
       edit_address: "Adresse editieren"
+      must_be_logged_in: "Sie müssen eingeloggt sein, um diese Seite sehen zu können."
+      address_deleted: "Adresse gelöscht."
+      address_could_not_be_deleted: "Adresse konnte nicht gelöscht werden."
+      you_have_no_permission_to_delete: "Sie sind nicht berechtigt, diese Adresse zu löschen."
+      you_have_no_permission_to_edit: "Sie sind nicht berechtigt, diese Adresse zu editieren."
+      address_changed: "Adresse geändert."
+      address_saved: "Adresse gespeichert."
+      address_couldnt_be_saved: "Adresse konnte nicht gespeichert werden."
+      
       attributes:
         company: "Firma"
         firstname: "Vorname"
