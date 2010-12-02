@@ -101,7 +101,7 @@ Then /^the order's outgoing shipping price should be (\d+\.\d+)$/ do |num|
   @order.shipping_rate.outgoing_cost.should == BigDecimal.new(num.to_s)
 end
 
-Then /^the order's taxes should be (\d+\.\d+)$/ do |num|
+Then /^the order's shipping taxes should be (\d+\.\d+)$/ do |num|
   @order.shipping_rate.total_taxes.should == BigDecimal.new(num.to_s)
 end
 
@@ -117,4 +117,9 @@ end
 Then /^the order's incoming shipping price should be (\d+\.\d+)$/ do |num|
    @order.shipping_rate.incoming_cost.should == BigDecimal.new(num.to_s)
 end
+
+Then /^the order's total shipping price should be (\d+\.\d+)$/ do |num|
+  @order.shipping_rate.total_cost.should == BigDecimal.new(num.to_s)
+end
+
 

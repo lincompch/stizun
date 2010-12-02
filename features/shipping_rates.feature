@@ -47,6 +47,8 @@ Feature: Shipping rate calculation and package count
       And the order's outgoing shipping price should be 161.4
       And the order's incoming shipping price should be 0.0
       And the order's outgoing package count should be 1
+      And the order's shipping taxes should be 11.40
+      And the order's total shipping price should be 161.40
 
     Scenario: Calculate indirect shipping for multiple products
       Given an order with the following products:
@@ -58,7 +60,8 @@ Feature: Shipping rate calculation and package count
       And the order's outgoing shipping price should be 10.76 
       And the order's incoming shipping price should be 53.80 
       And the order's outgoing package count should be 1
-
+      And the order's shipping taxes should be 4.56
+      And the order's total shipping price should be 64.56
 
     Scenario: Calculate taxes on shipping for multiple products
       Given an order with the following products:
@@ -71,4 +74,4 @@ Feature: Shipping rate calculation and package count
       And the order's incoming shipping price should be 107.6
       And the order's outgoing package count should be 1
       And the order's incoming package count should be 2
-      And the order's taxes should be 8.588 
+      And the order's shipping taxes should be 8.588 
