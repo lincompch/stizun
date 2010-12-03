@@ -61,7 +61,7 @@ class Product < ActiveRecord::Base
       if !absolute_rebate.blank? and absolute_rebate > 0
         rebate = absolute_rebate
       elsif !percentage_rebate.blank? and percentage_rebate > 0
-        rebate = (((price / 100.0) * percentage_rebate) / BigDecimal("5")).round(2) * BigDecimal("5")  
+        rebate = (((price / BigDecimal.new("100.0")) * percentage_rebate) / BigDecimal("5")).round(2) * BigDecimal("5")  
       end
     end
     
