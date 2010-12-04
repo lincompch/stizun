@@ -6,17 +6,15 @@ module ProductsHelper
       
       # This replicates the behavior found in the Product model: Percentage rebate
       # overrides absolute rebate
-      if product.absolute_rebate > 0
+      if product.absolute_rebate?
         rebate_string = product.absolute_rebate
-      end
-      
-      if product.percentage_rebate > 0
+      elsif product.percentage_rebate?
         rebate_string = product.percentage_rebate.to_s + "%"
       end
       
-      "<span class='sales_price'> #{pretty_price(product.price.rounded)}<span> (You save: #{rebate_string})"
+      "<span class='sales_price'> #{pretty_price(product.taxed_price.rounded)}<span> (You save: #{rebate_string})"
     else
-      pretty_price(product.price.rounded)
+      pretty_price(product.taxed_price.rounded)
     end
       
   end

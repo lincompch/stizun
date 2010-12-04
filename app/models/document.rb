@@ -8,13 +8,13 @@ class Document < ActiveRecord::Base
   def products_price
     total = BigDecimal("0.0")
     self.lines.each do |ol|
-      total += ol.price
+      total += ol.taxed_price
     end
     return total
   end
   
   def gross_price
-    return price - taxes
+    return price
   end
   
   def taxes
