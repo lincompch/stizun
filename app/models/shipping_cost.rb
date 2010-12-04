@@ -14,7 +14,7 @@ class ShippingCost < ActiveRecord::Base
   end
   
   # The net price (shipping cost price plus taxes)
-  def net_price
+  def taxed_price
     return price + taxes
   end
   

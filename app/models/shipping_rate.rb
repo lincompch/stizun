@@ -41,7 +41,7 @@ class ShippingRate < ActiveRecord::Base
       end
       
       # Add the prices of the matching shipping cost that was found above
-      @total_cost += matching_cost.net_price
+      @total_cost += matching_cost.taxed_price
       @total_taxes += matching_cost.taxes
       
     end
