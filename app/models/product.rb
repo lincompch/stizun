@@ -121,7 +121,7 @@ class Product < ActiveRecord::Base
   end
   
   
-  # Calculates all three pricing items (price, taxes and margin) for products
+  # Calculates all three pricing items (gross price, margin and compound purchase price) for products
   # that consist of multiple products. This assigns all three results in one go so that
   # a lot less calculation is necessary.
   def calculate_component_pricing
@@ -158,28 +158,7 @@ class Product < ActiveRecord::Base
     return @component_pricing[2]
   end
   
-  
-  # More or less formatting-related methods. They are useful
-  # in views. Could be refactored to views or perhaps helpers if necessary.
-  def pretty_margin
-    if (purchase_price > 0 and margin > 0)
-      if self.componentized?
-        percent_string = calculated_margin_percentage.round(3).to_s
-      else
-        percent_string = ((100/purchase_price) * margin).round(3).to_s
-      end
-      
-       string = sprintf "%.2f", margin
-       pretty_margin = percent_string + "% = " + string
-    else
-      return sprintf "%.2f", 0
-    end
-  end
-  
-  def pretty_taxes
-    string = sprintf "%.2f", taxes
-    tax_class.percentage.round(3).to_s + "% = " + string
-  end
+
   
   def add_component(product, quantity = 1)
     unless product.class.name == "SupplyItem"

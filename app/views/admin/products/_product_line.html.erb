@@ -12,10 +12,10 @@
           <td>Purchase price</td><td class="price"><%= sprintf "%.2f", product_line.purchase_price %></td>
         </tr>
         <tr>
-          <td>Calculated margin</td><td class="price"><%= product_line.pretty_margin %></td>
+          <td>Calculated margin</td><td class="price"><%= pretty_margin(product_line) %></td>
         </tr>
         <tr>
-          <td>Taxes</td><td class="price"><%= product_line.pretty_taxes %></td>
+          <td>Taxes</td><td class="price"><%= pretty_taxes(product_line) %></td>
         </tr>
         <% if product_line.on_sale? %>
 
