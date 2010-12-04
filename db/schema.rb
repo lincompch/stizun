@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100619072535) do
+ActiveRecord::Schema.define(:version => 20101204160642) do
 
   create_table "account_transactions", :force => true do |t|
     t.string   "note"
@@ -24,6 +24,11 @@ ActiveRecord::Schema.define(:version => 20100619072535) do
     t.datetime "updated_at"
   end
 
+  add_index "account_transactions", ["credit_account_id", "debit_account_id"], :name => "index_account_transactions_on_credit_account_id_and_debit_account_id"
+  add_index "account_transactions", ["credit_account_id"], :name => "index_account_transactions_on_credit_account_id"
+  add_index "account_transactions", ["debit_account_id", "credit_account_id"], :name => "index_account_transactions_on_debit_account_id_and_credit_account_id"
+  add_index "account_transactions", ["debit_account_id"], :name => "index_account_transactions_on_debit_account_id"
+
   create_table "accounts", :force => true do |t|
     t.integer  "parent_id"
     t.integer  "user_id"
@@ -32,6 +37,9 @@ ActiveRecord::Schema.define(:version => 20100619072535) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "accounts", ["parent_id"], :name => "index_accounts_on_parent_id"
+  add_index "accounts", ["user_id"], :name => "index_accounts_on_user_id"
 
   create_table "addresses", :force => true do |t|
     t.string   "company"
@@ -47,6 +55,8 @@ ActiveRecord::Schema.define(:version => 20100619072535) do
     t.datetime "updated_at"
     t.string   "status",     :default => "active"
   end
+
+  add_index "addresses", ["user_id"], :name => "index_addresses_on_user_id"
 
   create_table "admin_addresses", :force => true do |t|
     t.datetime "created_at"
@@ -66,19 +76,28 @@ ActiveRecord::Schema.define(:version => 20100619072535) do
     t.datetime "updated_at"
   end
 
+  add_index "carts", ["user_id"], :name => "index_carts_on_user_id"
+
   create_table "categories", :force => true do |t|
     t.string   "name"
     t.integer  "parent_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "supplier_id"
+    t.integer  "lft"
+    t.integer  "rgt"
   end
+
+  add_index "categories", ["parent_id"], :name => "index_categories_on_parent_id"
 
   create_table "categories_products", :id => false, :force => true do |t|
     t.integer "category_id"
     t.integer "product_id"
   end
 
+  add_index "categories_products", ["category_id", "product_id"], :name => "index_categories_products_on_category_id_and_product_id"
   add_index "categories_products", ["category_id"], :name => "index_categories_products_on_category_id"
+  add_index "categories_products", ["product_id", "category_id"], :name => "index_categories_products_on_product_id_and_category_id"
   add_index "categories_products", ["product_id"], :name => "index_categories_products_on_product_id"
 
   create_table "configuration_items", :force => true do |t|
@@ -89,6 +108,8 @@ ActiveRecord::Schema.define(:version => 20100619072535) do
     t.string   "name"
     t.string   "description"
   end
+
+  add_index "configuration_items", ["key"], :name => "index_configuration_items_on_key"
 
   create_table "countries", :force => true do |t|
     t.string   "name"
@@ -111,26 +132,36 @@ ActiveRecord::Schema.define(:version => 20100619072535) do
     t.datetime "updated_at"
   end
 
+  add_index "document_lines", ["cart_id"], :name => "index_document_lines_on_cart_id"
+  add_index "document_lines", ["invoice_id"], :name => "index_document_lines_on_invoice_id"
+  add_index "document_lines", ["order_id"], :name => "index_document_lines_on_order_id"
+  add_index "document_lines", ["product_id"], :name => "index_document_lines_on_product_id"
+
   create_table "histories", :force => true do |t|
     t.string   "text"
     t.string   "object_type"
     t.integer  "object_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "type_const"
   end
 
   create_table "invoice_lines", :force => true do |t|
     t.integer  "quantity"
     t.string   "text"
-    t.decimal  "rounded_price"
     t.decimal  "single_rounded_price"
     t.decimal  "taxes"
-    t.decimal  "tax_percentage",       :precision => 8, :scale => 2
+    t.decimal  "tax_percentage"
     t.integer  "invoice_id"
     t.float    "weight"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "gross_price"
+    t.decimal  "taxed_price"
+    t.decimal  "single_price"
   end
+
+  add_index "invoice_lines", ["invoice_id"], :name => "index_invoice_lines_on_invoice_id"
 
   create_table "invoices", :force => true do |t|
     t.integer  "shipping_address_id"
@@ -147,7 +178,12 @@ ActiveRecord::Schema.define(:version => 20100619072535) do
     t.integer  "payment_method_id"
     t.integer  "document_number"
     t.boolean  "autobook",              :default => true
+    t.decimal  "shipping_taxes"
   end
+
+  add_index "invoices", ["order_id"], :name => "index_invoices_on_order_id"
+  add_index "invoices", ["user_id"], :name => "index_invoices_on_user_id"
+  add_index "invoices", ["uuid"], :name => "index_invoices_on_uuid"
 
   create_table "journal_entries", :force => true do |t|
     t.string   "text"
@@ -177,6 +213,8 @@ ActiveRecord::Schema.define(:version => 20100619072535) do
     t.integer  "document_number"
   end
 
+  add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
+
   create_table "pages", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -194,6 +232,11 @@ ActiveRecord::Schema.define(:version => 20100619072535) do
     t.integer "payment_method_id"
     t.integer "user_id"
   end
+
+  add_index "payment_methods_users", ["payment_method_id", "user_id"], :name => "index_payment_methods_users_on_payment_method_id_and_user_id"
+  add_index "payment_methods_users", ["payment_method_id"], :name => "index_payment_methods_users_on_payment_method_id"
+  add_index "payment_methods_users", ["user_id", "payment_method_id"], :name => "index_payment_methods_users_on_user_id_and_payment_method_id"
+  add_index "payment_methods_users", ["user_id"], :name => "index_payment_methods_users_on_user_id"
 
   create_table "product_sets", :force => true do |t|
     t.integer "quantity"
@@ -224,6 +267,9 @@ ActiveRecord::Schema.define(:version => 20100619072535) do
     t.boolean  "is_loss_leader"
   end
 
+  add_index "products", ["supplier_id"], :name => "index_products_on_supplier_id"
+  add_index "products", ["supply_item_id"], :name => "index_products_on_supply_item_id"
+
   create_table "shipping_costs", :force => true do |t|
     t.integer  "shipping_rate_id"
     t.integer  "weight_min"
@@ -234,10 +280,14 @@ ActiveRecord::Schema.define(:version => 20100619072535) do
     t.integer  "tax_class_id"
   end
 
+  add_index "shipping_costs", ["shipping_rate_id"], :name => "index_shipping_costs_on_shipping_rate_id"
+
   create_table "shipping_rates", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "tax_class_id"
+    t.decimal  "direct_shipping_fees", :default => 0.0
   end
 
   create_table "suppliers", :force => true do |t|
@@ -247,6 +297,8 @@ ActiveRecord::Schema.define(:version => 20100619072535) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "suppliers", ["shipping_rate_id"], :name => "index_suppliers_on_shipping_rate_id"
 
   create_table "supply_items", :force => true do |t|
     t.string   "supplier_product_code"
@@ -261,11 +313,23 @@ ActiveRecord::Schema.define(:version => 20100619072535) do
     t.string   "manufacturer_product_code"
   end
 
+  add_index "supply_items", ["supplier_id"], :name => "index_supply_items_on_supplier_id"
+
   create_table "tax_classes", :force => true do |t|
     t.string   "name"
     t.decimal  "percentage", :precision => 8, :scale => 2
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "usergroups", :force => true do |t|
+    t.string  "name"
+    t.boolean "is_admin"
+  end
+
+  create_table "usergroups_users", :id => false, :force => true do |t|
+    t.integer "usergroup_id"
+    t.integer "user_id"
   end
 
   create_table "users", :force => true do |t|

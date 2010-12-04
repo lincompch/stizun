@@ -29,8 +29,12 @@ When /^I set the absolute sales price to (\d+\.\d+)$/ do |num|
   @product.sales_price = BigDecimal.new(num)
 end
 
-Then /^the product price should be (\d+\.\d+)$/ do |num|
-  @product.price.should == BigDecimal.new(num)
+Then /^the taxed product price should be (\d+\.\d+)$/ do |num|
+  @product.taxed_price.should == BigDecimal.new(num)
+end
+
+Then /^the taxed rounded price should be (\d+\.\d+)$/ do |num|
+  @product.taxed_price.rounded.should == BigDecimal.new(num)
 end
 
 Then /^the absolute margin should be (\d+\.\d+)$/ do |num|
@@ -39,10 +43,6 @@ end
 
 Then /^the absolute margin should be roughly (\d+\.\d+)$/ do |num|
   @product.margin.round(13).floor == BigDecimal.new(num).floor(13)
-end
-
-Then /^the rounded price should be (\d+\.\d+)$/ do |num|
-  @product.price.rounded.should == BigDecimal.new(num)
 end
 
 Then /^the taxes should be (\d+\.\d+)$/ do |num|

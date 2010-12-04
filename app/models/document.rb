@@ -1,11 +1,11 @@
 class Document < ActiveRecord::Base
   self.abstract_class = true
 
-  def price
-    return products_price + shipping_rate.total_cost
+  def taxed_price
+    return products_taxed_price + shipping_rate.total_cost
   end
   
-  def products_price
+  def products_taxed_price
     total = BigDecimal("0.0")
     self.lines.each do |ol|
       total += ol.taxed_price

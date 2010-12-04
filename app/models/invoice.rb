@@ -58,10 +58,10 @@ class Invoice < ActiveRecord::Base
   end
 
   # Refactor to use .sum("price")?
-  def price
+  def taxed_price
     total = 0
     self.invoice_lines.each do |il|
-      total += il.price
+      total += il.taxed_price
     end
     total += shipping_cost
     return total
@@ -140,7 +140,7 @@ class Invoice < ActiveRecord::Base
       il = InvoiceLine.new
       il.quantity = ol.quantity
       il.text = ol.product.name
-      il.price = ol.price.rounded
+      il.taxed_price = ol.taxed_price.rounded
       il.gross_price = ol.gross_price
       il.single_price = ol.product.price.rounded
       il.tax_percentage = ol.product.tax_class.percentage
@@ -202,10 +202,10 @@ class Invoice < ActiveRecord::Base
     
     cash_account = Account.find_by_id(ConfigurationItem.get("cash_account_id").value)
     
-    if AccountTransaction.transfer(cash_account, user_account, self.price, "Invoice payment #{self.document_id}", self)
-      History.add("Payment transaction for invoice #{self.document_id}. Credit: Cash account #{self.price}", History::ACCOUNTING, self)
+    if AccountTransaction.transfer(cash_account, user_account, self.taxed_price, "Invoice payment #{self.document_id}", self)
+      History.add("Payment transaction for invoice #{self.document_id}. Credit: Cash account #{self.taxed_price}", History::ACCOUNTING, self)
     else
-      History.add("Failed creating payment transaction for #{self.document_id}. Credit: Cash account #{self.price}", History::ACCOUNTING,  self)                         
+      History.add("Failed creating payment transaction for #{self.document_id}. Credit: Cash account #{self.taxed_price}", History::ACCOUNTING,  self)                         
     end
   end
   
@@ -222,7 +222,7 @@ class Invoice < ActiveRecord::Base
     self.transaction do
       sales_income_account = Account.find(ConfigurationItem.get('sales_income_account_id').value)
       
-      res = AccountTransaction.transfer(user_account, sales_income_account, self.price, "Invoice #{self.document_id}", self)
+      res = AccountTransaction.transfer(user_account, sales_income_account, self.taxed_price, "Invoice #{self.document_id}", self)
       TaxBookers::TaxBooker.record_invoice(self)
     end
   end

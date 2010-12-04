@@ -2,7 +2,7 @@
     <td><%= invoice.document_id %></td>
     <td><%= short_date(invoice.created_at) %></td>
     <td><%= invoice.status_human %></td>
-    <td class="price"><%= pretty_price(invoice.price) %></td>
+    <td class="price"><%= pretty_price(invoice.taxed_price) %></td>
 
     <td><%= link_to t("stizun.invoice.view_invoice"), url_for(:controller => 'invoices', :action => 'uuid', :uuid => invoice.uuid) %></td>
   </tr>
