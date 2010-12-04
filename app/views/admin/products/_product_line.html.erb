@@ -14,21 +14,28 @@
         <tr>
           <td>Calculated margin</td><td class="price"><%= pretty_margin(product_line) %></td>
         </tr>
-        <tr>
-          <td>Taxes</td><td class="price"><%= pretty_taxes(product_line) %></td>
-        </tr>
-        <% if product_line.on_sale? %>
 
+        <% if product_line.on_sale? %>
           <tr>
-            <td><em>Subtotal</em></td><td class="price"><%= pretty_price(product_line.price_before_rebate) %></td>
+            <td>Gross price</td><td class="price"><%= pretty_price(product_line.gross_price) %></td>
           </tr>
 
           <tr>
             <td>Rebate</td><td class="price">./. <%= pretty_price(product_line.rebate) %></td>
           </tr>
+
+          <tr>
+            <td>Price</td><td class="price"><%= pretty_price(product_line.price) %></td>
+          </tr>          
         <% end %>
         <tr>
-          <td>Total</td><td class="price"><%= pretty_price( product_line.price ) %></td>
+          <td>Taxes</td><td class="price"><%= pretty_taxes(product_line) %></td>
+        </tr>
+        <tr>
+          <td>Total</td><td class="price"><%= pretty_price( product_line.taxed_price ) %></td>
+        </tr>
+        <tr>
+          <td>Rounded</td><td class="price"><%= pretty_price( product_line.taxed_price.rounded ) %></td>
         </tr>
       </table>
     

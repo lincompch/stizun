@@ -34,15 +34,7 @@ class Product < ActiveRecord::Base
   end
   
   def price
-#     if absolutely_priced?
-#       gross_price - calculate_rebate(gross_price)
-#     else
-#       gross_price - calculate_rebate(gross_price) + taxes
-#     end
-    
-    # TODO: Switch everything else to explicitly request taxes when it's necessary
     gross_price - calculate_rebate(gross_price)
-
   end
   
   def taxed_price
@@ -61,33 +53,40 @@ class Product < ActiveRecord::Base
     return gross_price
   end
   
-  def calculate_rebate(price)
+  def calculate_rebate(full_price)
     rebate = BigDecimal.new("0")
     end_date = rebate_until || DateTime.new(1940,01,01) 
     
     if DateTime.now < end_date
-      if !absolute_rebate.blank? and absolute_rebate > 0
+      if absolute_rebate?
         rebate = absolute_rebate
-      elsif !percentage_rebate.blank? and percentage_rebate > 0
-        rebate = (price / BigDecimal.new("100.0")) * percentage_rebate
+      elsif percentage_rebate?
+        rebate = (full_price / BigDecimal.new("100.0")) * percentage_rebate
         rebate = rebate.rounded
       end
     end
-    
     # This check makes sure only loss-leader products can go below their purchase
     # price through a rebate.
-    if (price - rebate) < purchase_price
+    if (full_price - rebate) < purchase_price
       unless is_loss_leader?
         rebate = 0
       end
-    end
-    
+    end 
     return rebate
   end
   
   def rebate
-    calculate_rebate(price)
+    calculate_rebate(gross_price)
   end
+  
+  def absolute_rebate?
+    !absolute_rebate.blank? and absolute_rebate > 0
+  end
+  
+  def percentage_rebate?
+    !percentage_rebate.blank? and percentage_rebate > 0
+  end
+  
   
   # Returns the taxes owed on the sales price of a product. 
   def taxes
@@ -111,15 +110,6 @@ class Product < ActiveRecord::Base
       end
     end
   end
-  
-  def price_before_rebate
-    return price + rebate
-  end
-  
-  def rounded_price_before_rebate
-    return price.rounded + rebate
-  end
-  
   
   # Calculates all three pricing items (gross price, margin and compound purchase price) for products
   # that consist of multiple products. This assigns all three results in one go so that
@@ -313,7 +303,7 @@ class Product < ActiveRecord::Base
   end
   
   def profitable?
-    gross_price > purchase_price
+    price > purchase_price
   end
  
   
