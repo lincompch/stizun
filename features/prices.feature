@@ -24,10 +24,10 @@ Feature: Price calculation on products, orders, invoices
       When I set the purchase price to 97.10
       And I set the absolute sales price to 107.60
       And I set the tax class to "MwSt 7.6%"
-      Then the taxed product price should be 107.6
-      And the taxed rounded price should be 107.60
-      And the absolute margin should be 2.90
-      And the taxes should be 7.6
+      Then the taxed product price should be 115.7776
+      And the taxed rounded price should be 115.80
+      And the absolute margin should be 10.50
+      And the taxes should be 8.1776
 
     Scenario: Show price based on absolutely defined sales price and taxes with rounding down to 0.5
       Given a product

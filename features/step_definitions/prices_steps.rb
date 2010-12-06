@@ -30,6 +30,12 @@ When /^I set the absolute sales price to (\d+\.\d+)$/ do |num|
 end
 
 Then /^the taxed product price should be (\d+\.\d+)$/ do |num|
+#   puts "\n\n-----"
+#   puts "incoming: #{num}, real: #{@product.taxed_price}"
+#   puts "untaxed price: #{@product.price}"
+#   puts "taxes: #{@product.taxes}"
+#   puts "\n\n-----\n"
+#   
   @product.taxed_price.should == BigDecimal.new(num)
 end
 

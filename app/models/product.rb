@@ -91,11 +91,8 @@ class Product < ActiveRecord::Base
   # Returns the taxes owed on the sales price of a product. 
   def taxes
     calculation = 0
-    if absolutely_priced?
-      calculation = ( (sales_price - rebate) / (100.0 + tax_class.percentage)) * tax_class.percentage
-    else
-      calculation = ( (gross_price - rebate) / 100.0) * tax_class.percentage
-    end
+    absolutely_priced? ? base_price = sales_price : base_price = gross_price
+    calculation = ( (base_price - rebate) / 100.0) * tax_class.percentage
     BigDecimal.new(calculation.to_s)
   end
   
@@ -104,7 +101,7 @@ class Product < ActiveRecord::Base
       component_margin
     else
       if absolutely_priced?
-        sales_price - purchase_price - taxes
+        sales_price - purchase_price
       else
         calculated_margin
       end
