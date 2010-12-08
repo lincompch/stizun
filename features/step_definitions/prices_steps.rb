@@ -30,12 +30,6 @@ When /^I set the absolute sales price to (\d+\.\d+)$/ do |num|
 end
 
 Then /^the taxed product price should be (\d+\.\d+)$/ do |num|
-#   puts "\n\n-----"
-#   puts "incoming: #{num}, real: #{@product.taxed_price}"
-#   puts "untaxed price: #{@product.price}"
-#   puts "taxes: #{@product.taxes}"
-#   puts "\n\n-----\n"
-#   
   @product.taxed_price.should == BigDecimal.new(num)
 end
 
@@ -47,14 +41,12 @@ Then /^the absolute margin should be (\d+\.\d+)$/ do |num|
   @product.margin.should == BigDecimal.new(num)
 end
 
-Then /^the absolute margin should be roughly (\d+\.\d+)$/ do |num|
-  @product.margin.round(13).floor == BigDecimal.new(num).floor(13)
-end
-
 Then /^the taxes should be (\d+\.\d+)$/ do |num|
   @product.taxes.should == BigDecimal.new(num)
 end
 
 Then /^the taxes should be roughly (\d+\.\d+)$/ do |num|
+  # TODO: This is a bit fishy, is it really as inaccurate as it seems? Let's move all the
+  # tests to "should be", not "should be roughly"
   @product.taxes.floor(13).should == BigDecimal.new(num).floor(13)
 end
