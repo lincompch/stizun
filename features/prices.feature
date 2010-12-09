@@ -6,10 +6,11 @@ Feature: Price calculation on products, orders, invoices
 
   Background: A system configuration needs to be here
     Given there is a configuration item named "tax_booker_class_name" with value "TaxBookers::SwissTaxBooker"
+    And a tax class named "MwSt 7.6%" with the percentage 7.6%
+
 
     Scenario: Show price based on purchase price plus margin calculation and taxes
       Given a product
-      And a tax class named "MwSt 7.6%" with the percentage 7.6%
       When I set the purchase price to 100.0
       And I set the margin percentage to 5.0
       And I set the tax class to "MwSt 7.6%"
@@ -20,7 +21,6 @@ Feature: Price calculation on products, orders, invoices
 
     Scenario: Show price based on absolutely defined sales price and taxes
       Given a product
-      And a tax class named "MwSt 7.6%" with the percentage 7.6%
       When I set the purchase price to 97.10
       And I set the absolute sales price to 107.60
       And I set the tax class to "MwSt 7.6%"
@@ -31,7 +31,6 @@ Feature: Price calculation on products, orders, invoices
 
     Scenario: Show price based on absolutely defined sales price and taxes with rounding down to 0.5
       Given a product
-      And a tax class named "MwSt 7.6%" with the percentage 7.6%
       When I set the purchase price to 100.00
       And I set the absolute sales price to 120.52
       And I set the tax class to "MwSt 7.6%"
@@ -42,7 +41,6 @@ Feature: Price calculation on products, orders, invoices
 
     Scenario: Show price based on absolutely defined sales price and taxes with rounding up to 0.5
       Given a product
-      And a tax class named "MwSt 7.6%" with the percentage 7.6%
       When I set the purchase price to 100.00
       And I set the absolute sales price to 120.58
       And I set the tax class to "MwSt 7.6%"
@@ -53,7 +51,6 @@ Feature: Price calculation on products, orders, invoices
 
     Scenario: Show price based on absolutely defined sales price and taxes without need for rounding to 0.5
       Given a product
-      And a tax class named "MwSt 7.6%" with the percentage 7.6%
       When I set the purchase price to 100.00
       And I set the absolute sales price to 120.55
       And I set the tax class to "MwSt 7.6%"
@@ -66,7 +63,6 @@ Feature: Price calculation on products, orders, invoices
 
     Scenario: Show price based on more complicated absolutely defined sales price and taxes
       Given a product
-      And a tax class named "MwSt 7.6%" with the percentage 7.6%
       When I set the purchase price to 296.73
       And I set the absolute sales price to 338.00
       And I set the tax class to "MwSt 7.6%"
