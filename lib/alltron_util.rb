@@ -2,7 +2,7 @@
 
 class AlltronUtil
   
-  DATA_DIRECTORY = RAILS_ROOT + "/lib"
+  DATA_DIRECTORY = Rails.root + "/lib"
   
   # This just sets a default import filename inside AlltronCSV in case the call to
   # AlltronCSV.new doesn't pass one in.

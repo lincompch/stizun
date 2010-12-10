@@ -1,5 +1,5 @@
 class TaxBookers::SwitzerlandTaxBooker
-  @logger = RAILS_DEFAULT_LOGGER
+  @logger = Rails.logger
   
   
   def self.record_invoice(document)

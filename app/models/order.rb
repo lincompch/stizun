@@ -63,13 +63,13 @@ class Order < Document
   
   # === Named scopes
   
-  named_scope :unprocessed, :conditions => { :status_constant => Order::UNPROCESSED }
-  named_scope :processing, :conditions => { :status_constant => Order::PROCESSING }
-  named_scope :awaiting_payment, :conditions => { :status_constant => Order::AWAITING_PAYMENT }
-  named_scope :shipped, :conditions => { :status_constant => Order::SHIPPED }
-  named_scope :to_ship, :conditions => { :status_constant => Order::TO_SHIP }
+  scope :unprocessed, :conditions => { :status_constant => Order::UNPROCESSED }
+  scope :processing, :conditions => { :status_constant => Order::PROCESSING }
+  scope :awaiting_payment, :conditions => { :status_constant => Order::AWAITING_PAYMENT }
+  scope :shipped, :conditions => { :status_constant => Order::SHIPPED }
+  scope :to_ship, :conditions => { :status_constant => Order::TO_SHIP }
   
-  named_scope :pending_from_user_perspective, :conditions => "status_constant == ?" # TODO: is this working yet?
+  scope :pending_from_user_perspective, :conditions => "status_constant == ?" # TODO: is this working yet?
   
   # TODO: Verify if this is working
   before_save { |record|

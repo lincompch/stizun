@@ -12,8 +12,8 @@ class Address < ActiveRecord::Base
   validates_presence_of :country
   validates_presence_of :firstname, :lastname, :city, :postalcode, :email
   
-  named_scope :active, :conditions => {:status => 'active'}
-  named_scope :deleted, :conditions => {:status => 'deleted'}
+  scope :active, :conditions => {:status => 'active'}
+  scope :deleted, :conditions => {:status => 'deleted'}
 
   
   def one_line_summary

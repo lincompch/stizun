@@ -30,8 +30,8 @@ class Invoice < ActiveRecord::Base
 
   # === Named scopes
 
-  named_scope :unpaid, :conditions => { :status_constant => Invoice::UNPAID }
-  named_scope :paid, :conditions => { :status_constant => Invoice::PAID }
+  scope :unpaid, :conditions => { :status_constant => Invoice::UNPAID }
+  scope :paid, :conditions => { :status_constant => Invoice::PAID }
 
   
   # === Methods

@@ -3,7 +3,7 @@ class History < ActiveRecord::Base
   
   # === Named scopes
   
-  named_scope :for_day, lambda { |date|
+  scope :for_day, lambda { |date|
       { :conditions => { 
           :created_at => date.midnight..date.midnight + 1.day 
         }

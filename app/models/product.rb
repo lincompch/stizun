@@ -23,9 +23,9 @@ class Product < ActiveRecord::Base
   
   belongs_to :supplier
   
-  named_scope :available, :conditions => { :is_available => true }
-  named_scope :supplied, :conditions => "supply_item_id IS NOT NULL"
-  named_scope :loss_leaders, :conditions => { :is_loss_leader => true }
+  scope :available, :conditions => { :is_available => true }
+  scope :supplied, :conditions => "supply_item_id IS NOT NULL"
+  scope :loss_leaders, :conditions => { :is_loss_leader => true }
   
   
   # Pagination with will_paginate
