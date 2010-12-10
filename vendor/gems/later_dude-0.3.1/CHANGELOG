@@ -1,0 +1,23 @@
+2010/03/07
+----------
+- Make LaterDude Rails 3-compatible
+- Include Rails 2 compatibility layer
+- Fix broken gem release (0.3.1)
+
+2009/11/18
+----------
+- Make it possible for subclasses to override default settings.
+
+2009/10/30
+----------
+- Introduced new :yield_surrounding_days option to yield surrounding days of other months to passed block.
+
+2009/2/2
+---------
+- Introduced options to show and format next and previous month.
+- Replaced option :header_month_format with :current_month to align it with :next_month and :previous_month.
+- Removed some unused methods for month names.
+
+2009/1/14
+---------
+First release
