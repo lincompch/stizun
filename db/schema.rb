@@ -24,9 +24,9 @@ ActiveRecord::Schema.define(:version => 20101204160642) do
     t.datetime "updated_at"
   end
 
-  add_index "account_transactions", ["credit_account_id", "debit_account_id"], :name => "index_account_transactions_on_credit_account_id_and_debit_account_id"
+  add_index "account_transactions", ["credit_account_id", "debit_account_id"], :name => "at_cid_did"
   add_index "account_transactions", ["credit_account_id"], :name => "index_account_transactions_on_credit_account_id"
-  add_index "account_transactions", ["debit_account_id", "credit_account_id"], :name => "index_account_transactions_on_debit_account_id_and_credit_account_id"
+  add_index "account_transactions", ["debit_account_id", "credit_account_id"], :name => "at_did_cid"
   add_index "account_transactions", ["debit_account_id"], :name => "index_account_transactions_on_debit_account_id"
 
   create_table "accounts", :force => true do |t|
@@ -95,9 +95,9 @@ ActiveRecord::Schema.define(:version => 20101204160642) do
     t.integer "product_id"
   end
 
-  add_index "categories_products", ["category_id", "product_id"], :name => "index_categories_products_on_category_id_and_product_id"
+  add_index "categories_products", ["category_id", "product_id"], :name => "cp_cid_pid"
   add_index "categories_products", ["category_id"], :name => "index_categories_products_on_category_id"
-  add_index "categories_products", ["product_id", "category_id"], :name => "index_categories_products_on_product_id_and_category_id"
+  add_index "categories_products", ["product_id", "category_id"], :name => "cp_pid_cid"
   add_index "categories_products", ["product_id"], :name => "index_categories_products_on_product_id"
 
   create_table "configuration_items", :force => true do |t|
@@ -233,9 +233,9 @@ ActiveRecord::Schema.define(:version => 20101204160642) do
     t.integer "user_id"
   end
 
-  add_index "payment_methods_users", ["payment_method_id", "user_id"], :name => "index_payment_methods_users_on_payment_method_id_and_user_id"
+  add_index "payment_methods_users", ["payment_method_id", "user_id"], :name => "pmu_pmid_uid"
   add_index "payment_methods_users", ["payment_method_id"], :name => "index_payment_methods_users_on_payment_method_id"
-  add_index "payment_methods_users", ["user_id", "payment_method_id"], :name => "index_payment_methods_users_on_user_id_and_payment_method_id"
+  add_index "payment_methods_users", ["user_id", "payment_method_id"], :name => "pmu_uid_pmid"
   add_index "payment_methods_users", ["user_id"], :name => "index_payment_methods_users_on_user_id"
 
   create_table "product_sets", :force => true do |t|
