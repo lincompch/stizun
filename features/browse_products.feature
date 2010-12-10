@@ -11,7 +11,18 @@ Feature: Browse products
       And the user group "Admins" has admin permissions
       And the user is member of the group "Admins"
       And I log in with e-mail address "admin@something.com" and password "foobar"
-      
+      And there is a shipping rate called "Alltron AG" with the following costs:
+        |weight_min|weight_max|price|tax_percentage|
+        |         0|      1000|   10|           7.6|
+        |      1001|      2000|   20|           7.6|
+        |      2001|      3000|   30|           7.6|
+        |      3001|      4000|   40|           7.6|
+        |      4001|      5000|   50|           7.6|
+      And there are the following suppliers:
+        |name|shipping_rate_name|
+        |Alltron AG|Alltron AG|
+      And there is a payment method called "Prepay" which does not allow direct shipping and is the default
+
     @javascript      
     Scenario: Create product
       When I create a product called "Lenovo T400"
@@ -20,6 +31,7 @@ Feature: Browse products
       And I fill in the purchase price 100.0
       And I fill in the margin percentage 5.0
       And I fill in the weight 5.0
+      And I select "Alltron AG" from "Supplier" within "#fancybox-frame"
       And I select the tax class "MwSt 7.6%"
       And I assign the product to the category "Notebooks"
       And I click the create button
@@ -33,6 +45,7 @@ Feature: Browse products
       And fill in the product description "Some laptop"
       And I fill in the purchase price 100.0
       And I fill in the weight 5.0
+      And I select "Alltron AG" from "Supplier" within "#fancybox-frame"
       And I fill in the margin percentage 5.0
       And I click the create button
       Then I should see an error message inside the fancybox
