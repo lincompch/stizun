@@ -72,6 +72,12 @@ When /^I select the tax class "([^\"]*)"$/ do |arg1|
   end
 end
 
+When /^I select the supplier "([^\"]*)"$/ do |arg1|
+  within_frame "fancybox-frame" do
+    select arg1, :from => "Supplier"
+  end
+end
+
 When /^I click the create button$/ do
   within_frame "fancybox-frame" do
     click_button "Create"

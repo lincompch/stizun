@@ -82,9 +82,11 @@ Given /^the order's payment method is "([^\"]*)"$/ do |name|
   @order.save
 end
 
-Given /^the direct shipping fees for shipping rate "([^"]*)" are "([^"]*)"$/ do |name, amount|
+Given /^the direct shipping fees for shipping rate "([^"]*)" are "([^"]*)" with tax percentage (\d+\.\d+)$/ do |name, amount, percentage|
   sr = ShippingRate.find(:first, :conditions => { :name => name})
   sr.direct_shipping_fees = BigDecimal.new(amount)
+  sr.tax_class = TaxClass.find_or_create_by_percentage(:percentage => percentage,
+                                               :name => percentage.to_s)
   sr.save
 end
 

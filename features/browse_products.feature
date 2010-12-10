@@ -31,7 +31,7 @@ Feature: Browse products
       And I fill in the purchase price 100.0
       And I fill in the margin percentage 5.0
       And I fill in the weight 5.0
-      And I select "Alltron AG" from "Supplier" within "#fancybox-frame"
+      And I select the supplier "Alltron AG"
       And I select the tax class "MwSt 7.6%"
       And I assign the product to the category "Notebooks"
       And I click the create button
@@ -45,7 +45,7 @@ Feature: Browse products
       And fill in the product description "Some laptop"
       And I fill in the purchase price 100.0
       And I fill in the weight 5.0
-      And I select "Alltron AG" from "Supplier" within "#fancybox-frame"
+      And I select the supplier "Alltron AG"
       And I fill in the margin percentage 5.0
       And I click the create button
       Then I should see an error message inside the fancybox
