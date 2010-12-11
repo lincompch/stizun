@@ -23,7 +23,7 @@
 <p>
 <%= link_to "Details", :action => 'show', :id => p %>
 
-<% form_tag :controller => 'carts', :action => 'add_product', :method => 'get' do -%>
+<%= form_tag :controller => 'carts', :action => 'add_product', :method => 'get' do -%>
   <%= text_field_tag "quantity", 1, :size => 3 %>
   <%= hidden_field_tag "product_id", p.id %>
   <%= submit_tag "Add to cart" %>

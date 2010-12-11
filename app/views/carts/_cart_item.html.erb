@@ -1,4 +1,4 @@
-<% fields_for cart_item do |fi| %>
+<%= fields_for cart_item do |fi| %>
 <%= fi.text_field :quantity, :size => 3 %> x <%= cart_item.product.name %> (<%= pretty_price(cart_item.product.taxed_price.rounded) %>)
 <%= link_to t("stizun.cart.remove"), :controller => 'carts', :action => 'remove_all', :product_id => cart_item.product %>
 

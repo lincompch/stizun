@@ -17,7 +17,7 @@
 
 <%= render :partial => 'order_table', :object => @order %>
 
-<% form_for [:admin, @order] do |f| %>
+<%= form_for [:admin, @order] do |f| %>
 <table>
   <tr>
     <td>Status</td>

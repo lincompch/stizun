@@ -19,7 +19,7 @@
 
 <%= render :partial => 'invoice_table', :object => @invoice %>
 
-<% form_for [:admin, @invoice] do |f| %>
+<%= form_for [:admin, @invoice] do |f| %>
 <table>
   <tr>
     <td>Status</td>

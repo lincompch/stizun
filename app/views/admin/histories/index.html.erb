@@ -26,7 +26,7 @@ end %>
 
 <h3>Filters</h3>
 
-<% form_tag({:action => :index}, {:method => :get}) do %>
+<%= form_tag({:action => :index}, {:method => :get}) do %>
   <% History::TYPE_CONST_HASH.each do |k, v| %>
     <%= check_box_tag "filters[]", k, @filters.include?(k.to_i) %> <%= v %>
   <% end %>

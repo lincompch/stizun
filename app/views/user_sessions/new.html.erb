@@ -1,6 +1,6 @@
 <h1><%= t("stizun.account.login")%></h1>
  
-<% form_for @user_session, :url => user_sessions_path do |f| %>
+<%= form_for @user_session, :url => user_sessions_path do |f| %>
   <%= f.error_messages %>
   <br />
   <%= f.label :email, t('stizun.users.attributes.email') %><br />

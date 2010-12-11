@@ -7,7 +7,7 @@
 <%= error_messages_for(:address) %>
 
 
-<% form_for @order do |f| %>
+<%= form_for @order do |f| %>
 
 <h4><%= t("stizun.order.order_summary") %></h4>
 
@@ -27,7 +27,7 @@
 
   <h4><%= t("stizun.address.billing_address")%></h4>
 
-  <% fields_for :billing_address, @order.billing_address do |ba| %>
+  <%= fields_for :billing_address, @order.billing_address do |ba| %>
  
   <%= ba.error_messages %>
 
@@ -91,7 +91,7 @@
   <p><%= t("stizun.order.or_enter_new_address")%></p>
   <% end %>
 
-  <% fields_for :shipping_address, @order.shipping_address do |sa| %>
+  <%= fields_for :shipping_address, @order.shipping_address do |sa| %>
 
   <%= sa.error_messages %>
 

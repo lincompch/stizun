@@ -4,7 +4,7 @@
 
 <%= error_messages_for(:address) %>
 
-<% form_for([:admin, @address.user, @address], :method => :put) do |f| %>
+<%= form_for([:admin, @address.user, @address], :method => :put) do |f| %>
  
   <%= render :partial => 'form', :object => f %>
 

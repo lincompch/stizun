@@ -12,7 +12,7 @@
 <p><%= @product.stock %> pcs. in stock.</p>
 
 
-<% form_tag "/carts/add_product", :method => 'get' do -%>
+<%= form_tag "/carts/add_product", :method => 'get' do -%>
   <%= text_field_tag "quantity", 1, :size => 3 %>
   <%= hidden_field_tag "product_id", @product.id %>
   <%= submit_tag "Add to cart" %>
