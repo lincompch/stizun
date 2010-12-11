@@ -25,7 +25,12 @@ class UsersController < ApplicationController
     @orders_processing = @user.orders.processing
     @addresses = @user.addresses.active
   end
- 
+
+  def me
+    show
+    render :action => 'show'
+  end
+  
   def edit
     @user = @current_user
   end

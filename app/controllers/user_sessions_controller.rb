@@ -10,7 +10,7 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
       flash[:notice] = I18n.t("stizun.user_sessions.login_successful")
-      redirect_to account_path
+      redirect_to :controller => 'users', :action => 'me'
     else
       render :action => :new
     end
