@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-Stizun::Application.config.secret_token = 'cd7aa4a6ce29286defbb225d84d358039889a075deb58c94c1950fb57084cdd19a472a85b9c4c71983a8cee0e8c91eb289c28b8135f1553f43d2b7a46c7d9768'
+Stizun::Application.config.secret_token = '17f9f998d49a635343450fd230649c862307cbc94e38ff3936186568aadcd384e4975c7a47b928348b57258096dc55bcd7d6972e2d3585ffae7b372e79579c5c'

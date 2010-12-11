@@ -7,10 +7,10 @@ set :deploy_via, :remote_cache
 
 
 set :use_sudo, false
-set :deploy_to, "/home/lincomp/production"
+set :deploy_to, "/home/lincomp/test"
 
 
-set :db_config, "/home/lincomp/database_production.yml"
+set :db_config, "/home/lincomp/database_test.yml"
 
 
 role :web, "lincomp@www.lincomp.org"                          # Your HTTP server, Apache/etc
@@ -21,6 +21,10 @@ task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
   run "rm #{release_path}/config/database.yml"
   run "ln -s #{db_config} #{release_path}/config/database.yml"
+  run "rm -r #{release_path}/test"
+  run "ln -s #{release_path}/public #{release_path}/test"
+
+
 end
 
 namespace :deploy do
