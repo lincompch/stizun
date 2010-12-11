@@ -112,11 +112,18 @@ de-CH:
     select:
       prompt: "Bitte wählen:"
 
+  errors:
+    template:
+      header:
+        one:    "Konnte %{model} nicht speichern: 1 Fehler."
+        other:  "Konnte %{model} nicht speichern: %{count} Fehler."
+      body: "Bitte überprüfen Sie die folgenden Felder:"
+
   activemodel:
     errors:
       template:
         header:
-          one:    "Konnte %{model} nicht speichern: ein Fehler."
+          one:    "Konnte %{model} nicht speichern: 1 Fehler."
           other:  "Konnte %{model} nicht speichern: %{count} Fehler."
         body: "Bitte überprüfen Sie die folgenden Felder:"
 
