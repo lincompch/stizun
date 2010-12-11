@@ -21,6 +21,10 @@ class Account < ActiveRecord::Base
   has_many :account_transactions, :as => :debit_account
   has_many :account_transactions, :as => :credit_account
 
+  
+  before_save :normalize_type
+  
+  
 
   # Returns an account whose name is linked to an address
   def self.get_anonymous_account(address)
@@ -45,7 +49,8 @@ class Account < ActiveRecord::Base
   
   # Makes sure any children have the same type as their
   # parent.
-  def before_save
+  
+  def normalize_type
     if parent and !parent.type_constant.nil?
       self.type_constant = parent.type_constant
     end

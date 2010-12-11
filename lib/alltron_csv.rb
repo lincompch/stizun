@@ -1,6 +1,3 @@
-#!/usr/bin/ruby
-
-
 # The Alltron CSV file has these fields:
 # 0                  1               2               3               4               5           6                      7
 # Artikelnummer 2    Artikelnummer   Bezeichung      Bezeichung 2    Lagerbestand    Gewicht     Preis (inkl. MWSt)      Preis (exkl. MWSt)

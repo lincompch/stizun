@@ -1,5 +1,5 @@
 # Load mail configuration if not in test environment
-if RAILS_ENV != 'test'
-  email_settings = YAML::load(File.open("#{RAILS_ROOT}/config/email.yml"))
-  ActionMailer::Base.smtp_settings = email_settings[RAILS_ENV] unless email_settings[RAILS_ENV].nil?
+if Rails.env != 'test'
+  email_settings = YAML::load(File.open("#{Rails.root}/config/email.yml"))
+  ActionMailer::Base.smtp_settings = email_settings[Rails.env] unless email_settings[Rails.env].nil?
 end

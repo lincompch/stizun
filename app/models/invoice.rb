@@ -20,6 +20,12 @@ class Invoice < ActiveRecord::Base
   validates_associated :billing_address, :message => 'is incomplete'
 
   
+  # === AR Callbacks
+  
+  before_create :assign_uuid
+  before_validation :move_paid_status
+  after_create :record_income 
+  
   # === Constants and associated methods
     
   UNPAID = 1
@@ -169,12 +175,13 @@ class Invoice < ActiveRecord::Base
   end
 
   # ActiveRecord before_* and after_* callbacks
-  def before_create
+  
+  def assign_uuid
     self.uuid = UUIDTools::UUID.random_create.to_s
     self.document_number ||= Numerator.get_number
   end
   
-  def before_validation
+  def move_paid_status
     # This is not a transformation, it's just to prevent accounting problems, an invoice
     # should never make this transformation.
     if self.status_constant_was == Invoice::PAID and self.status_constant == Invoice::UNPAID
@@ -209,7 +216,7 @@ class Invoice < ActiveRecord::Base
     end
   end
   
-  def after_create
+  def record_income
     # OPTIMIZE: May need to map _all_ accounts to addresses instead of users.
     # that way only one kind of account needs to be handled and we can introduce
     # a direct association between addresses and accounts.

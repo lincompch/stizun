@@ -1,20 +1,22 @@
-#!/usr/bin/ruby
-
 class AlltronUtil
   
-  DATA_DIRECTORY = Rails.root + "/lib"
+  
+  def self.data_directory
+    Rails.root + "/lib"
+  end
   
   # This just sets a default import filename inside AlltronCSV in case the call to
   # AlltronCSV.new doesn't pass one in.
   def self.import_filename
-    return @infile = DATA_DIRECTORY + "/AL_Artikeldaten.txt"
+    return @infile = self.data_directory + "/AL_Artikeldaten.txt"
   end
   
   
   # This makes sure the converted import filename is always overwritten with
   # importfile.converted.txt. A more sophisticated way might be necessary one day.
   def self.converted_filename
-    return @outfile = DATA_DIRECTORY + "/importfile.converted.txt"
+    data_dir = Rails.root + "/lib"  
+    return @outfile = self.data_directory + "/importfile.converted.txt"
   end
       
   

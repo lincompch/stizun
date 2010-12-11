@@ -18,6 +18,10 @@ class Order < Document
   
   validate :must_be_authorized_for_payment_method
   
+  after_initialize :assign_payment_method
+  before_create :assign_document_number
+  
+  
   # This doesn't seem to work at all, or at least not as advertised
   # Might be fixed in Rails 3.0 (polymorphic association + nested forms)
   #accepts_nested_attributes_for :shipping_address
@@ -180,11 +184,11 @@ class Order < Document
   
   # === ActiveRecord callbacks
   
-  def before_create
+  def assign_document_number
     self.document_number ||= Numerator.get_number
   end
     
-  def after_initialize
+  def assign_payment_method
     self.payment_method ||= PaymentMethod.get_default
   end
   

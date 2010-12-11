@@ -24,5 +24,7 @@ config.action_controller.allow_forgery_protection    = false
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
 
+config.active_support.deprecation = :log
+
 end
 
