@@ -2,9 +2,34 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.3'
 
-gem 'authlogic', '2.1.6'
-gem 'searchlogic'
-gem 'will_paginate', '2.3.15'
+
+# Incompatible with Rails 3 :(
+#gem 'searchlogic'
+
+# Compatible with Rails 3 :)
+gem 'meta_search'
+
+
+# Hacked to work with Rails 3 thanks to rails3-generators
+# But need to consider Devise instead
+gem 'authlogic'
+gem 'rails3-generators'
+
+gem 'will_paginate'
 gem 'uuidtools'
-gem 'fastercsv', '1.5.3'
+gem 'fastercsv'
 gem 'later_dude'
+
+group :cucumber do
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'cucumber-rails'
+  gem 'cucumber'
+  gem 'rspec-rails'
+  gem 'spork'
+  gem 'launchy' 
+end
+
+group :development do 
+  gem 'wirble'
+end
