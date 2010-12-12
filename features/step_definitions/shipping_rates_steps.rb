@@ -1,8 +1,11 @@
 Given /^there is a shipping rate called "([^\"]*)" with the following costs:$/ do |name, table|  
+  
   tax_class = TaxClass.find_or_create_by_percentage(:percentage => 7.6, :name => "7.6%")
   @shipping_rate = ShippingRate.create(:name => name, :tax_class => tax_class)
+  
   table.hashes.each do |sc|
-    tc = TaxClass.create(:name => sc['tax_percentage'], :percentage => sc['tax_percentage'])
+    tc = TaxClass.find_or_create_by_percentage(:percentage => sc['tax_percentage'], 
+                                              :name => sc['tax_percentage'])
     @shipping_rate.shipping_costs << ShippingCost.create(:weight_min => sc['weight_min'],
                                                          :weight_max => sc['weight_max'],
                                                          :price => BigDecimal(sc['price'].to_s),
@@ -98,10 +101,20 @@ end
 Then /^the order's total weight should be (\d+\.\d+)$/ do |num|
   @order.weight.should == num.to_f
 end    
-                                                                                                  
-Then /^the order's outgoing shipping price should be (\d+\.\d+)$/ do |num|  
+
+Then /^the order's outgoing shipping price should be (\d+\.\d+)$/ do |num|
+  puts "\n\n---\n\n"
+  puts "NUM passed into this is #{num}"
+  puts "OUT COST is #{@order.shipping_rate.outgoing_cost}"
+  puts "ORDER DIRECT FEE: #{@order.shipping_rate.direct_shipping_fees}"
+  puts "TOTAL SHIPPING COST: #{@order.shipping_rate.total_cost}"
+  puts "TOTAL SHIPPING TAX: #{@order.shipping_rate.total_taxes}"
+  puts "ALL TCs: #{TaxClass.all.to_s}"
+  puts "\n\n---\n\n"
   @order.shipping_rate.outgoing_cost.should == BigDecimal.new(num.to_s)
 end
+
+
 
 Then /^the order's shipping taxes should be (\d+\.\d+)$/ do |num|
   @order.shipping_rate.total_taxes.should == BigDecimal.new(num.to_s)
