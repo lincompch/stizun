@@ -3,14 +3,19 @@ Given /^there is a shipping rate called "([^\"]*)" with the following costs:$/ d
   tax_class = TaxClass.find_or_create_by_percentage(:percentage => 7.6, :name => "7.6%")
   @shipping_rate = ShippingRate.create(:name => name, :tax_class => tax_class)
   
-  table.hashes.each do |sc|
-    tc = TaxClass.find_or_create_by_percentage(:percentage => sc['tax_percentage'], 
-                                              :name => sc['tax_percentage'])
-    @shipping_rate.shipping_costs << ShippingCost.create(:weight_min => sc['weight_min'],
-                                                         :weight_max => sc['weight_max'],
-                                                         :price => BigDecimal(sc['price'].to_s),
-                                                         :tax_class => tc
-                                                        )
+  # Only create and assign new costs if we don't have any yet on this 
+  # @shipping_rate. Otherwise, leave stuff alone.
+  if @shipping_rate.shipping_costs.count == 0
+    table.hashes.each do |sc|
+      tc = TaxClass.find_or_create_by_percentage(:percentage => sc['tax_percentage'], 
+                                                :name => sc['tax_percentage'])
+      
+        @shipping_rate.shipping_costs << ShippingCost.create(:weight_min => sc['weight_min'],
+                                                              :weight_max => sc['weight_max'],
+                                                              :price => BigDecimal(sc['price'].to_s),
+                                                              :tax_class => tc
+                                                            )
+    end    
   end
 
 end
