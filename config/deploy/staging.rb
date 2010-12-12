@@ -25,6 +25,10 @@ task :link_config do
   run "ln -s #{release_path}/public #{release_path}/test"
 end
 
+task :install_gems do
+  run "bundle install --deployment --without cucumber development"
+end
+
 namespace :deploy do
    task :restart, :roles => :app, :except => { :no_release => true } do
      run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
@@ -36,4 +40,7 @@ namespace :deploy do
 end
 
 
+
+
 after "deploy:symlink", :link_config
+after "link_config", "install_gems"
