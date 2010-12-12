@@ -37,6 +37,9 @@ class AlltronCSV
     # Grab the original Alltron file, remove the " characters (FasterCSV does not approve)
     # rewrite as UTF-8
 
+    puts "infile: #{@infile}"
+    puts "outfile: #{@outfile}"
+    
     puts "Trying to convert file"
     if File.exist?(@infile)
       file = File.open(@infile, "r")

@@ -1,6 +1,6 @@
 When /^I import the file "([^"]*)"$/ do |filename|
   require 'lib/alltron_util'
-  AlltronUtil.import_supply_items(Rails.root + "/" + filename)
+  AlltronUtil.import_supply_items(Rails.root + filename)
 end
 
 When /^I destroy all supply items$/ do
