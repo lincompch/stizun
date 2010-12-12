@@ -199,6 +199,7 @@ de-CH:
       change_password: "Passwort ändern"
       login: "Einloggen"
       create_new_account: "Neues Konto erstellen"
+      only_for_not_logged_in: "Sie wurden auf die Hauptseite weitergeleitet, da Sie versucht haben, eine Seite zu besuchen, die nur für nicht eingeloggte Leute sinnvoll ist."
     address:
       add_new_address: "Neue Adresse hinzufügen"
       addresses: "Adressen"

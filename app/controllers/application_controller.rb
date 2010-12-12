@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 
     def require_no_user
       if current_user
-        flash[:error] = "You may not be logged in before accessing this page."
+        flash[:error] = I18n.t("stizun.account.only_for_not_logged_in")
         redirect_to root_path
         return false
       end

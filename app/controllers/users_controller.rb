@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       flash[:notice] = t("stizun.users.account_created_successfully")
-      redirect_to new_user_session_path
+      redirect_to :controller => 'users', :action => 'me'
     else
       flash[:error] = t("stizun.users.account_not_created")
       render :action => :new

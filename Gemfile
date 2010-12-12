@@ -13,6 +13,9 @@ gem 'meta_search'
 # Allows UJS with jQuery
 gem 'jquery-rails'
 
+# Offers Rails 2 f.error_messages etc. helpers on forms
+gem 'dynamic_form'
+
 # Hacked to work with Rails 3 thanks to rails3-generators
 # But need to consider Devise instead
 gem 'authlogic'
