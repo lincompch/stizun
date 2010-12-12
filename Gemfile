@@ -21,6 +21,8 @@ gem 'dynamic_form'
 gem 'authlogic'
 gem 'rails3-generators'
 
+
+gem 'mysql2'
 gem 'will_paginate'
 gem 'uuidtools'
 gem 'fastercsv'

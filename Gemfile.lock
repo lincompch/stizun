@@ -86,6 +86,7 @@ GEM
       activesupport (~> 3.0.2)
       arel (~> 2.0.2)
     mime-types (1.16)
+    mysql2 (0.2.6)
     nokogiri (1.4.4)
     polyglot (0.3.1)
     rack (1.2.1)
@@ -101,7 +102,8 @@ GEM
       activesupport (= 3.0.3)
       bundler (~> 1.0)
       railties (= 3.0.3)
-    rails3-generators (0.14.0)
+    rails3-generators (0.16.0)
+      rails (>= 3.0.0)
     railties (3.0.3)
       actionpack (= 3.0.3)
       activesupport (= 3.0.3)
@@ -154,6 +156,7 @@ DEPENDENCIES
   later_dude
   launchy
   meta_search
+  mysql2
   rails (= 3.0.3)
   rails3-generators
   rspec-rails
