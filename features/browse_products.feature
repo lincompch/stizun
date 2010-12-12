@@ -40,9 +40,9 @@ Feature: Browse products
       
     @javascript 
     Scenario: Forget assigning a tax class when creating a product
-      When I create a product called "Lenovo T400"
+      When I create a product called "Lenovo T500"
       And I wait for a fancybox to appear
-      And fill in the product description "Some laptop"
+      And fill in the product description "Some other laptop"
       And I fill in the purchase price 100.0
       And I fill in the weight 5.0
       And I select the supplier "Alltron AG"

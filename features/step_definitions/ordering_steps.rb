@@ -30,8 +30,6 @@ end
 
 When /^I visit the checkout$/ do
   visit cart_path
-  puts "LOCALE: " + I18n.locale.to_s
-  #save_and_open_page
   click_link "Weiter zur Kasse"
 end
 
