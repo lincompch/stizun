@@ -1,6 +1,6 @@
 
 <% categories = Category.find(:all)%>
-<%= tree_recursive(categories) %>
+<%= tree_recursive(categories).html_safe %>
 
 
 <div id="categorytree">
