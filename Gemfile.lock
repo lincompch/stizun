@@ -65,6 +65,9 @@ GEM
       json (~> 1.4.6)
       term-ansicolor (~> 1.0.5)
     i18n (0.5.0)
+    jquery-rails (0.2.6)
+      rails (~> 3.0)
+      thor (~> 0.14.4)
     json (1.4.6)
     json_pure (1.4.6)
     later_dude (0.3.1)
@@ -145,6 +148,7 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   fastercsv
+  jquery-rails
   later_dude
   launchy
   meta_search

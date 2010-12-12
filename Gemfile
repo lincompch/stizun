@@ -10,6 +10,9 @@ gem 'rails', '3.0.3'
 gem 'meta_search'
 
 
+# Allows UJS with jQuery
+gem 'jquery-rails'
+
 # Hacked to work with Rails 3 thanks to rails3-generators
 # But need to consider Devise instead
 gem 'authlogic'
