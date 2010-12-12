@@ -2,21 +2,20 @@ class AlltronUtil
   
   
   def self.data_directory
-    Rails.root + "/lib"
+    return Rails.root + "lib"
   end
   
   # This just sets a default import filename inside AlltronCSV in case the call to
   # AlltronCSV.new doesn't pass one in.
   def self.import_filename
-    return @infile = self.data_directory + "/AL_Artikeldaten.txt"
+    return @infile = self.data_directory + "AL_Artikeldaten.txt"
   end
   
   
   # This makes sure the converted import filename is always overwritten with
   # importfile.converted.txt. A more sophisticated way might be necessary one day.
   def self.converted_filename
-    data_dir = Rails.root + "/lib"  
-    return @outfile = self.data_directory + "/importfile.converted.txt"
+    return @outfile = self.data_directory + "importfile.converted.txt"
   end
       
   
@@ -158,9 +157,9 @@ class AlltronUtil
     end
     
     # Find out which items we need to delete locally
-    total_codes = Supplier.find_by_name("Alltron AG") \
-                          .supply_items \
-                          .collect(&:supplier_product_code)
+    total_codes = supplier \
+                   .supply_items \
+                   .collect(&:supplier_product_code)
     to_delete = total_codes - received_codes
         
     to_delete.each do |td|
