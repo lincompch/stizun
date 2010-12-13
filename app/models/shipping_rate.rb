@@ -14,7 +14,11 @@ class ShippingRate < ActiveRecord::Base
     @total_cost = 0
     @total_taxes = 0
     @remaining_weight ||= weight  # shouldn't really be an instance variable, but scope seems weird below otherwise?
-        
+    
+    puts "beginning of calculate_for_weight:"
+    puts "   weight: #{weight}" unless weight.nil?
+    dbg
+    
     while @remaining_weight > 0.to_f
 
       # The weight is too high to fit into one package, we pick this supplier's highest-weight
@@ -45,6 +49,11 @@ class ShippingRate < ActiveRecord::Base
       @total_taxes += matching_cost.taxes
       
     end
+    
+    puts "end of calculate_for_weight:"
+    puts "   weight: #{weight}" unless weight.nil?
+    dbg
+    puts "\n\n"
     return BigDecimal(@total_cost.to_s), BigDecimal(@total_taxes.to_s)
   end
   
@@ -64,6 +73,9 @@ class ShippingRate < ActiveRecord::Base
     @incoming_cost = 0
     @incoming_taxes = 0
     @incoming_package_count = 0
+    
+    puts "\nbeginning of calculate_incoming:"
+    dbg
 
     # On direct shipping orders, incoming cost is always 0, we can skip expensive
     # calculations on this document.
@@ -89,11 +101,19 @@ class ShippingRate < ActiveRecord::Base
 
       end
     end
+    puts "end of calculate_incoming"
+    dbg
+    puts "\n\n"
+    
   end
   
   def calculate_outgoing(document)
     @outgoing_cost = 0
     @outgoing_taxes = 0
+    
+    puts "beginning of calculate_outgoing:"
+    puts "   document: #{document.to_s}"
+    dbg
     
     if document.direct_shipping?
       # This is safe because Document#direct_shipping? checks to make sure there is only one
@@ -134,6 +154,9 @@ class ShippingRate < ActiveRecord::Base
     @outgoing_cost += added_cost
     @outgoing_taxes += added_taxes
     @outgoing_package_count = sr.package_count_for_weight(document.weight * 1000)
+    puts "at end of calculate_outgoing:"
+    dbg
+    puts "\n\n"
   end
     
   # Can calulate shipping for both orders or carts (= documents)
@@ -172,6 +195,21 @@ class ShippingRate < ActiveRecord::Base
   # Maximum weight carried by this ShippingRate's ShippingCosts, in grams
   def maximum_weight
     self.shipping_costs.collect(&:weight_max).max
+  end
+  
+  # debug print to analyze why two different systems, both running squeeze and
+  # ruby 1.8.7, would produce completely different tax calculations
+  def dbg
+    puts "   @incoming_package_coount: #{@incoming_package_count}" unless @incoming_package_count.nil?
+    puts "   @outgoing_package_count: #{@outgoing_package_count}" unless @outgoing_package_count.nil?
+    puts "   @remaining_weight: #{@remaining_weight}" unless @remaining_weight.nil?
+    puts "   @incoming_cost: #{@incoming_cost}" unless @incoming_cost.nil?
+    puts "   @outgoing_cost: #{@outgoing_cost}" unless @outgoing_cost.nil?
+    puts "   @incoming_taxes: #{@incoming_taxes}" unless @incoming_taxes.nil?
+    puts "   @outgoing_taxes : #{@outgoing_taxes}" unless @outgoing_taxes.nil?
+    puts "   @total_taxes : #{@total_taxes}" unless @total_taxes.nil?
+    puts "   @total_cost : #{@total_cost}" unless @total_cost.nil?
+    
   end
   
 end
