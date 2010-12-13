@@ -15,7 +15,7 @@ class ShippingRate < ActiveRecord::Base
     @total_taxes = 0
     @remaining_weight ||= weight  # shouldn't really be an instance variable, but scope seems weird below otherwise?
     
-    puts "beginning of calculate_for_weight:"
+    puts "\n\nbeginning of calculate_for_weight:"
     puts "   weight: #{weight}" unless weight.nil?
     dbg
     
@@ -157,6 +157,7 @@ class ShippingRate < ActiveRecord::Base
     puts "at end of calculate_outgoing:"
     dbg
     puts "\n\n"
+        
   end
     
   # Can calulate shipping for both orders or carts (= documents)
