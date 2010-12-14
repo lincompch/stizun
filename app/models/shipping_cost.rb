@@ -10,7 +10,7 @@ class ShippingCost < ActiveRecord::Base
   # Taxes are handled by shipping cost, not by shipping rate, as e.g.
   # Swiss Post charges a lower amount of taxes for light shipments.
   def taxes
-    return (price / 100) * tax_class.percentage
+    return (price / BigDecimal.new("100")) * tax_class.percentage
   end
   
   # The net price (shipping cost price plus taxes)

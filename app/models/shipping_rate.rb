@@ -201,7 +201,7 @@ class ShippingRate < ActiveRecord::Base
   # debug print to analyze why two different systems, both running squeeze and
   # ruby 1.8.7, would produce completely different tax calculations
   def dbg
-    puts "   @incoming_package_coount: #{@incoming_package_count}" unless @incoming_package_count.nil?
+    puts "   @incoming_package_count: #{@incoming_package_count}" unless @incoming_package_count.nil?
     puts "   @outgoing_package_count: #{@outgoing_package_count}" unless @outgoing_package_count.nil?
     puts "   @remaining_weight: #{@remaining_weight}" unless @remaining_weight.nil?
     puts "   @incoming_cost: #{@incoming_cost}" unless @incoming_cost.nil?
