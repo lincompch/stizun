@@ -5,7 +5,7 @@ class TaxBookers::SwitzerlandTaxBooker
   def self.record_invoice(document)
     self.pre_flight_check
 
-    AccountTransaction.transfer(@warenertrag, @mehrwertsteuer, document.taxes, "Taxes owed from creating invoice  #{document.document_id}", self)
+    AccountTransaction.transfer(@warenertrag, @mehrwertsteuer, document.taxes, "Taxes owed from creating invoice  #{document.document_id}", document)
     
   end
 
