@@ -63,23 +63,26 @@ class Invoice < ActiveRecord::Base
     return "I-#{document_number}"
   end
 
-  # Refactor to use .sum("price")?
   def taxed_price
-    total = BigDecimal.new("0")
-    self.invoice_lines.each do |il|
-      total += il.taxed_price
-    end
-    total += shipping_cost
-    return total
+    #     total = BigDecimal.new("0")
+    #     self.invoice_lines.each do |il|
+    #       #puts "adding #{il.taxed_price.inspect} to #{total.inspect} totalling the following:"
+    #       puts "adding #{il.taxed_price.to_s} to #{total.to_s} totalling the following:"
+    #       
+    #       total += il.taxed_price
+    #       puts "#{total.to_s}"
+    #     end
+    #     total += shipping_cost
+    #     puts "and taxes on that total would be: #{shipping_taxes.to_s}"
+    #     
+    #return total
+    
+    # Let's try something new here, for chrissakes
+    return invoice_lines.sum("taxed_price") + shipping_cost
   end
 
-  # Refactor to use .sum("gross_price")?
   def gross_price
-    total = 0
-    self.invoice_lines.each do |il|
-      total += il.gross_price
-    end
-    return total
+    return invoice_lines.sum("gross_price")
   end
   
   # Alias for order_lines so that generic (order|invoice).lines works
