@@ -65,7 +65,7 @@ class Invoice < ActiveRecord::Base
 
   # Refactor to use .sum("price")?
   def taxed_price
-    total = 0
+    total = BigDecimal.new("0")
     self.invoice_lines.each do |il|
       total += il.taxed_price
     end
