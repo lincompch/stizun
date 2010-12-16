@@ -3,6 +3,6 @@
 # for Switzerland, Finland and other nations without 0.01 and 0.02 coins.
 class BigDecimal
   def rounded(divider = 5)
-    return (self/BigDecimal("#{divider}")).round(2, BigDecimal::ROUND_UP) * BigDecimal("#{divider}")  
+    return (self/BigDecimal.new("#{divider}")).round(2, BigDecimal::ROUND_UP) * BigDecimal.new("#{divider}")  
   end
 end

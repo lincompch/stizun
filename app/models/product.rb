@@ -123,7 +123,7 @@ class Product < ActiveRecord::Base
       # We must use the compound product's tax class for legal reasons, no matter what
       # tax class the constituent components may have.
             
-      margin = (purchase_price / 100.0) * self.margin_percentage
+      margin = (purchase_price / BigDecimal("100.0")) * self.margin_percentage
       gross_price = purchase_price + margin
     end
     @component_pricing ||= [gross_price, margin, purchase_price]
