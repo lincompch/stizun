@@ -12,7 +12,7 @@ class SeparateInvoiceLines < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_column :invoices, :shipping_cost, :decimal
+    add_column :invoices, :shipping_cost, :decimal, :scale => 30, :precision => 63
   end
 
   def self.down
