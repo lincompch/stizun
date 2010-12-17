@@ -6,7 +6,7 @@ class Document < ActiveRecord::Base
   end
   
   def products_taxed_price
-    total = BigDecimal("0.0")
+    total = BigDecimal.new("0.0")
     self.lines.each do |ol|
       total += ol.taxed_price
     end
@@ -18,7 +18,7 @@ class Document < ActiveRecord::Base
   end
   
   def taxes
-    taxes = BigDecimal("0.0")
+    taxes = BigDecimal.new("0.0")
     self.lines.each do |ol|
       taxes += ol.taxes
     end
