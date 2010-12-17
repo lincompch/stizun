@@ -184,12 +184,12 @@ class ShippingRate < ActiveRecord::Base
   
   # Total cost (including VAT)
   def total_cost
-    incoming_cost + outgoing_cost
+    BigDecimal.new( (incoming_cost + outgoing_cost).to_s )
   end
   
   # Total of incoming and outgoing taxes
   def total_taxes
-    (@incoming_taxes + @outgoing_taxes) or BigDecimal.new("0.0")
+    BigDecimal.new( (@incoming_taxes + @outgoing_taxes).to_s ) or BigDecimal.new("0.0")
   end
  
   

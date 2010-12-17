@@ -65,6 +65,10 @@ class Invoice < ActiveRecord::Base
 
   def taxed_price
     # Let's try something new here, for chrissakes
+    puts "first invoice line taxed price: #{invoice_lines.first.taxed_price.inspect}" 
+    puts "the sum is: #{invoice_lines.sum("taxed_price").inspect}"
+    puts "the shipping cost is: #{shipping_cost.inspect}"
+    
     return invoice_lines.sum("taxed_price") + shipping_cost
   end
 
