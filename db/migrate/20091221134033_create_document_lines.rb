@@ -3,7 +3,10 @@ class CreateDocumentLines < ActiveRecord::Migration
     create_table :document_lines do |t|
       t.integer :quantity
       t.decimal :price
-      t.decimal :tax
+      # Without the scale, MySQL will erroneously truncate things to 
+      # integer with ActiveRecord, which is fucked up beyond all hope.
+      # WITH the scale, we lose the arbitrary precision of BigDecimals. Fantastic!
+      t.decimal :tax, :scale => 30
       t.integer :product_id
       t.string :note
       t.string :type

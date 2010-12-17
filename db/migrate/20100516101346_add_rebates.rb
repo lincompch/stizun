@@ -1,6 +1,6 @@
 class AddRebates < ActiveRecord::Migration
   def self.up
-    add_column :products, :absolute_rebate, :decimal, :default => 0
+    add_column :products, :absolute_rebate, :decimal, :default => 0, :scale => 30
     add_column :products, :percentage_rebate, :decimal, :default => 0
   end
 

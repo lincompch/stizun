@@ -6,7 +6,7 @@ class CreateSupplyItems < ActiveRecord::Migration
       t.float :weight
       t.integer :supplier_id
       t.string :description
-      t.decimal :purchase_price, :precision => 8, :scale => 2, :default => 0
+      t.decimal :purchase_price, :precision => 20, :scale => 2, :default => 0
       t.integer :stock
       t.timestamps
     end

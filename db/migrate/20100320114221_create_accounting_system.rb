@@ -23,7 +23,7 @@ class CreateAccountingSystem < ActiveRecord::Migration
       t.string  :credit_account_type
       t.integer :debit_account_id
       t.string  :debit_account_type
-      t.decimal :amount
+      t.decimal :amount, :scale => 30
       t.integer :target_object_id
       t.string  :target_object_type
       t.timestamps

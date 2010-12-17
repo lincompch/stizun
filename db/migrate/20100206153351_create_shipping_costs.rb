@@ -4,7 +4,7 @@ class CreateShippingCosts < ActiveRecord::Migration
       t.integer :shipping_rate_id
       t.integer :weight_min
       t.integer :weight_max
-      t.decimal :price
+      t.decimal :price, :scale => 30
       t.timestamps
     end
   end

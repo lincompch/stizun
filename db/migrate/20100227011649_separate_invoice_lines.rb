@@ -3,9 +3,9 @@ class SeparateInvoiceLines < ActiveRecord::Migration
     create_table :invoice_lines do |t|
       t.integer :quantity
       t.string :text
-      t.decimal :rounded_price
-      t.decimal :single_rounded_price
-      t.decimal :taxes
+      t.decimal :rounded_price, :scale => 30
+      t.decimal :single_rounded_price, :scale => 30
+      t.decimal :taxes, :scale => 30
       t.decimal :tax_percentage, :precision => 8, :scale => 2
       t.integer :invoice_id
       t.float :weight
