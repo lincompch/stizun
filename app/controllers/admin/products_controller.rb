@@ -29,6 +29,7 @@ class Admin::ProductsController <  Admin::BaseController
       flash[:notice] = "Product created."
       redirect_to edit_admin_product_path(@product)
     else
+      flash[:error] = "Error creating product."
       render :action => 'new', :layout => 'admin_blank'
     end
   end

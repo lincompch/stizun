@@ -99,6 +99,12 @@ When /^I view the category "([^\"]*)"$/ do |arg1|
   click_link arg1
 end 
 
+Then /^(?:|I )should see "([^"]*)" within the fancybox$/ do |text|
+  within_frame "fancybox-frame" do
+    page.should have_content(text)
+  end
+end
+
 Then /^I should not see a product named "([^\"]*)"$/ do |arg1|                                                                                   
   page.should_not have_content(arg1)                                                                    
 end    

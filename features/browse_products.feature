@@ -35,7 +35,8 @@ Feature: Browse products
       And I select the tax class "MwSt 7.6%"
       And I assign the product to the category "Notebooks"
       And I click the create button
-      Then there should be a product called "Lenovo T400"
+      Then I should see "Product created." within the fancybox
+      And there should be a product called "Lenovo T400"
       And the category "Notebooks" should contain a product named "Lenovo T400"
       
     @javascript 
