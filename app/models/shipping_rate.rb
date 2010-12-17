@@ -54,7 +54,7 @@ class ShippingRate < ActiveRecord::Base
     puts "   weight: #{weight}" unless weight.nil?
     dbg
     puts "\n\n"
-    return BigDecimal(@total_cost.to_s), BigDecimal(@total_taxes.to_s)
+    return BigDecimal.new(@total_cost.to_s), BigDecimal.new(@total_taxes.to_s)
   end
   
   # Input: Weight in grams
