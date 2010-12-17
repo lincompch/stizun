@@ -49,6 +49,8 @@ Feature: Browse products
       And I fill in the margin percentage 5.0
       And I click the create button
       Then I should see an error message inside the fancybox
+      And there should not be a product called "Lenovo T500"
+
       
     Scenario: Browse all products
       Given a product named "Foobar 2000" in the category "Metasyntactic Variables"

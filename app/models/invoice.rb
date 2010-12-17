@@ -148,34 +148,21 @@ class Invoice < ActiveRecord::Base
       il.text = ol.product.name
       puts "ORDER_LINE taxed_price on invoice_line cloning: #{ol.taxed_price.rounded.inspect}"
       puts "ORDER_LINE taxed_price on invoice_line cloning to_s: #{ol.taxed_price.rounded.to_s}"
-      
-      # For some reasons, some combinations of Ruby, Rails and the Rails standard library (?)
-      # are incapable of persisting a BigDecimal when they see it. Instead, things get truncated
-      # to integer, and that's the worst possible thing that could happen, because it removes
-      # the very thing (decimal precision) that you wanted the BigDecimal for in the first
-      # place. So we HAVE to explicitly create a BigDecimal out of a BigDecimal so that
-      # ActiveRecord persists it properly.
-      #
-      # And the pinnacle of perversion is that we have to convert the BigDecimal first to
-      # a string and then to a BigDecimal in order to make ActiveRecord understand what's
-      # going on.
-      il.taxed_price = BigDecimal.new(ol.taxed_price.rounded.to_s)
+      il.taxed_price = ol.taxed_price.rounded
       puts "INVOICE_LINE taxed_price on invoice_line cloning: #{il.taxed_price.inspect}"
       puts "INVOICE_LINE taxed_price on invoice_line cloning to_s: #{il.taxed_price.to_s}"
       
-      
       puts "ORDER_LINE gross_price on invoice_line cloning: #{ol.gross_price.inspect}"
       puts "ORDER_LINE gross_price on invoice_line cloning to_s: #{ol.gross_price.to_s}"
-      
-      il.gross_price = BigDecimal.new(ol.gross_price.to_s)
+      il.gross_price = ol.gross_price
       puts "INVOICE_LINE gross_price on invoice_line cloning: #{il.gross_price.inspect}"
       puts "INVOICE_LINE gross_price on invoice_line cloning to_s: #{il.gross_price.to_s}"
       
 
       
-      il.single_price = BigDecimal.new(ol.product.price.rounded.to_s)
+      il.single_price = ol.product.price.rounded
       il.tax_percentage = ol.product.tax_class.percentage
-      il.taxes = BigDecimal.new(ol.taxes.to_s)
+      il.taxes = ol.taxes
       il.weight = ol.product.weight
       invoice.invoice_lines << il
     end

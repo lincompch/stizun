@@ -112,6 +112,11 @@ Then /^there should be a product called "([^\"]*)"$/ do |arg1|
   @prod.should_not == nil
 end
 
+Then /^there should not be a product called "([^\"]*)"$/ do |arg1|
+  @prod = Product.find(:first, :conditions => {:name => arg1})
+  @prod.should == nil
+end
+
 Then /^the category "([^\"]*)" should contain a product named "([^\"]*)"$/ do |arg1, arg2|
   @cat = Category.find_by_name(arg1)
   @prod = Product.find(:first, :conditions => {:name => arg2})

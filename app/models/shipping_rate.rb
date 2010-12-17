@@ -113,7 +113,6 @@ class ShippingRate < ActiveRecord::Base
     
     puts "beginning of calculate_outgoing:"
     puts "   document: #{document.to_s}"
-    dbg
     
     if document.direct_shipping?
       # This is safe because Document#direct_shipping? checks to make sure there is only one
@@ -121,8 +120,8 @@ class ShippingRate < ActiveRecord::Base
       sr = ShippingRate.find(document.suppliers.first.shipping_rate.id)
             
       direct_shipping_fee_taxes = (sr.direct_shipping_fees / BigDecimal.new("100.0")) * sr.tax_class.percentage
-      @outgoing_taxes += BigDecimal.new(direct_shipping_fee_taxes.to_s)
-      @outgoing_cost += BigDecimal.new( (sr.direct_shipping_fees + direct_shipping_fee_taxes).to_s )
+      @outgoing_taxes += direct_shipping_fee_taxes
+      @outgoing_cost += sr.direct_shipping_fees + direct_shipping_fee_taxes
  
       
     else
@@ -184,12 +183,12 @@ class ShippingRate < ActiveRecord::Base
   
   # Total cost (including VAT)
   def total_cost
-    BigDecimal.new( (incoming_cost + outgoing_cost).to_s )
+    incoming_cost + outgoing_cost
   end
   
   # Total of incoming and outgoing taxes
   def total_taxes
-    BigDecimal.new( (@incoming_taxes + @outgoing_taxes).to_s ) or BigDecimal.new("0.0")
+    (@incoming_taxes + @outgoing_taxes) or BigDecimal.new("0.0")
   end
  
   
