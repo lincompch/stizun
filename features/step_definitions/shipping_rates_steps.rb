@@ -108,14 +108,6 @@ Then /^the order's total weight should be (\d+\.\d+)$/ do |num|
 end    
 
 Then /^the order's outgoing shipping price should be (\d+\.\d+)$/ do |num|
-  puts "\n\n---\n\n"
-  puts "NUM passed into this is #{num}"
-  puts "OUT COST is #{@order.shipping_rate.outgoing_cost}"
-  puts "ORDER DIRECT FEE: #{@order.shipping_rate.direct_shipping_fees}"
-  puts "TOTAL SHIPPING COST: #{@order.shipping_rate.total_cost}"
-  puts "TOTAL SHIPPING TAX: #{@order.shipping_rate.total_taxes}"
-  puts "ALL TCs: #{TaxClass.all.to_s}"
-  puts "\n\n---\n\n"
   @order.shipping_rate.outgoing_cost.should == BigDecimal.new(num.to_s)
 end
 

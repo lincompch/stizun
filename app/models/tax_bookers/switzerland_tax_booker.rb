@@ -33,8 +33,11 @@ class TaxBookers::SwitzerlandTaxBooker
     end
    
     unless @mehrwertsteuer = Account.find_by_name("Kreditor MwSt.")
+     puts "CREATING ACCOUNT"
       @mehrwertsteuer = Account.create(:name => "Kreditor MwSt.",
                                        :parent => Account.find_by_name("Liabilities"))
+      puts "account is: #{@mehrwertsteuer.inspect}"
+      puts Account.all.inspect
     end
     
     # TODO: Move this to the ConfigItem named sales_income_account_id

@@ -64,11 +64,6 @@ class Invoice < ActiveRecord::Base
   end
 
   def taxed_price
-    # Let's try something new here, for chrissakes
-    puts "first invoice line taxed price: #{invoice_lines.first.taxed_price.inspect}" 
-    puts "the sum is: #{invoice_lines.sum("taxed_price").inspect}"
-    puts "the shipping cost is: #{shipping_cost.inspect}"
-    
     return invoice_lines.sum("taxed_price") + shipping_cost
   end
 
@@ -118,19 +113,11 @@ class Invoice < ActiveRecord::Base
        self.order_id = order.id
        self.document_number = order.document_number
        self.payment_method_id = order.payment_method_id
-       
        self.billing_address_type = order.billing_address_type
        self.shipping_address_type = order.shipping_address_type
        self.billing_address = order.billing_address
        self.shipping_address = order.shipping_address
-       
-       puts "ORDER shipping cost on invoice_line cloning: #{order.shipping_rate.total_cost.rounded.inspect}"
-       puts "ORDER shipping cost on invoice_line cloning to_s: #{order.shipping_rate.total_cost.rounded.to_s}"
-
        self.shipping_cost = order.shipping_rate.total_cost.rounded
-       puts "ORDER total taxes on invoice_line cloning: #{order.shipping_rate.total_taxes.inspect}"
-       puts "ORDER total taxes on invoice_line cloning to_s: #{order.shipping_rate.total_taxes.to_s}"
-
        self.shipping_taxes = order.shipping_rate.total_taxes
        self.status_constant = Invoice::UNPAID
        self.invoice_lines_from_order(order)
@@ -146,20 +133,8 @@ class Invoice < ActiveRecord::Base
       il = InvoiceLine.new
       il.quantity = ol.quantity
       il.text = ol.product.name
-      puts "ORDER_LINE taxed_price on invoice_line cloning: #{ol.taxed_price.rounded.inspect}"
-      puts "ORDER_LINE taxed_price on invoice_line cloning to_s: #{ol.taxed_price.rounded.to_s}"
-      il.taxed_price = ol.taxed_price.rounded
-      puts "INVOICE_LINE taxed_price on invoice_line cloning: #{il.taxed_price.inspect}"
-      puts "INVOICE_LINE taxed_price on invoice_line cloning to_s: #{il.taxed_price.to_s}"
-      
-      puts "ORDER_LINE gross_price on invoice_line cloning: #{ol.gross_price.inspect}"
-      puts "ORDER_LINE gross_price on invoice_line cloning to_s: #{ol.gross_price.to_s}"
+      il.taxed_price = ol.taxed_price.rounded      
       il.gross_price = ol.gross_price
-      puts "INVOICE_LINE gross_price on invoice_line cloning: #{il.gross_price.inspect}"
-      puts "INVOICE_LINE gross_price on invoice_line cloning to_s: #{il.gross_price.to_s}"
-      
-
-      
       il.single_price = ol.product.price.rounded
       il.tax_percentage = ol.product.tax_class.percentage
       il.taxes = ol.taxes

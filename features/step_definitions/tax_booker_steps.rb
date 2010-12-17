@@ -27,11 +27,7 @@ When /^the invoice is paid$/ do
   @invoice.record_payment_transaction
 end
 
-Then /^the invoice total is (\d+\.\d+)$/ do  |num|   
-   puts "HELLO? ANYONE LISTENING?"
-   puts "invoice total: incoming #{num.inspect} of class #{num.class}, string form #{num.to_s} actual taxed price #{@invoice.taxed_price.inspect} number to bigdecimal: #{BigDecimal.new(num.to_s).inspect}"
-   puts "and the two are the same" if @invoice.taxed_price == BigDecimal.new(num.to_s)
-   
+Then /^the invoice total is (\d+\.\d+)$/ do  |num|      
    @invoice.taxed_price.should == BigDecimal.new(num.to_s)
 end
 

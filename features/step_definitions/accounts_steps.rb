@@ -2,6 +2,11 @@ Given /^the following accounts exist:$/ do |table|
 
   table.hashes.each do |a|
     
+    # We use name-based stuff a lot in the tests, so we should make
+    # sure that account names are unique, at least during testing. In the
+    # actual system, it doesn't matter because we refer to accounts only by ID.
+    next if not Account.find_by_name(a['name']).nil?
+    
     if a['type'] != "inherited" and a['parent'] == "none"
       Account.create(:name => a['name'],
                      :type_constant => a['type'].constantize
