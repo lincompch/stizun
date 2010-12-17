@@ -11,8 +11,8 @@ class ShippingRate < ActiveRecord::Base
   # Input: Weight in grams
   # Output: Price for delivery according to associated ShippingCosts
   def calculate_for_weight(weight)
-    @total_cost = 0
-    @total_taxes = 0
+    @total_cost = BigDecimal.new("0")
+    @total_taxes = BigDecimal.new("0")
     @remaining_weight ||= weight  # shouldn't really be an instance variable, but scope seems weird below otherwise?
     
     puts "\n\nbeginning of calculate_for_weight:"
@@ -70,8 +70,8 @@ class ShippingRate < ActiveRecord::Base
   # shipped twice, once to a workshop and from there to the customer
   def calculate_incoming(document)
     @total_weight = 0
-    @incoming_cost = 0
-    @incoming_taxes = 0
+    @incoming_cost = BigDecimal.new("0")
+    @incoming_taxes = BigDecimal.new("0")
     @incoming_package_count = 0
     
     puts "\nbeginning of calculate_incoming:"
@@ -108,8 +108,8 @@ class ShippingRate < ActiveRecord::Base
   end
   
   def calculate_outgoing(document)
-    @outgoing_cost = 0
-    @outgoing_taxes = 0
+    @outgoing_cost = BigDecimal.new("0")
+    @outgoing_taxes = BigDecimal.new("0")
     
     puts "beginning of calculate_outgoing:"
     puts "   document: #{document.to_s}"
