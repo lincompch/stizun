@@ -1,6 +1,6 @@
 class AddAmountsToAccountingJournal < ActiveRecord::Migration
   def self.up
-    add_column :journal_entries, :amount, :decimal, :scale => 30
+    add_column :journal_entries, :amount, :decimal, :scale => 30, :precision => 63
   end
 
   def self.down

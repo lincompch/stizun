@@ -1,6 +1,6 @@
 class AddGrossPriceToInvoicesAndInvoiceLines < ActiveRecord::Migration
   def self.up
-    add_column :invoice_lines, :gross_price, :decimal, :scale => 30
+    add_column :invoice_lines, :gross_price, :decimal, :scale => 30, :precision => 63
   end
 
   def self.down
