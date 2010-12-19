@@ -1,6 +1,12 @@
 Given /^there is a configuration item named "([^\"]*)" with value "([^\"]*)"$/ do |name, value|
-  ci = ConfigurationItem.new(:description => name,:name => name, :key => name, :value => value)
-  ci.save
+  ci = ConfigurationItem.find_by_key(name)
+  if ci
+    ci.value = value
+    ci.save
+  else
+    ci = ConfigurationItem.new(:description => name,:name => name, :key => name, :value => value)
+    ci.save
+  end
 end
 
 When /^I invoice the order$/ do

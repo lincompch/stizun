@@ -28,14 +28,7 @@ class CreateAccountingSystem < ActiveRecord::Migration
       t.string  :target_object_type
       t.timestamps
     end
-    
-    assets = Account.create(:name => 'Assets', :type_constant => Account::ASSETS)
-    liabilities = Account.create(:name => 'Liabilities', :type_constant => Account::LIABILITIES)
-    income = Account.create(:name => 'Income', :type_constant => Account::INCOME)
-    expense = Account.create(:name => 'Expense', :type_constant => Account::EXPENSE)
-    receivable = Account.create(:name => 'Accounts Receivable')
-    assets.children << receivable
-    assets.save
+
     
     
   end

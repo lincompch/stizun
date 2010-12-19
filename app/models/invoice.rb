@@ -194,12 +194,12 @@ class Invoice < ActiveRecord::Base
       user_account = self.user.get_account
     end
     
-    cash_account = Account.find_by_id(ConfigurationItem.get("cash_account_id").value)
+    bank_account = Account.find_by_id(ConfigurationItem.get("bank_account_id").value)
     
-    if AccountTransaction.transfer(cash_account, user_account, self.taxed_price, "Invoice payment #{self.document_id}", self)
-      History.add("Payment transaction for invoice #{self.document_id}. Credit: Cash account #{self.taxed_price}", History::ACCOUNTING, self)
+    if AccountTransaction.transfer(bank_account, user_account, self.taxed_price, "Invoice payment #{self.document_id}", self)
+      History.add("Payment transaction for invoice #{self.document_id}. Credit: Bank account #{self.taxed_price}", History::ACCOUNTING, self)
     else
-      History.add("Failed creating payment transaction for #{self.document_id}. Credit: Cash account #{self.taxed_price}", History::ACCOUNTING,  self)                         
+      History.add("Failed creating payment transaction for #{self.document_id}. Credit: Bank account #{self.taxed_price}", History::ACCOUNTING,  self)                         
     end
   end
   

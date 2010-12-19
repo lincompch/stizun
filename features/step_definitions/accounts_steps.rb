@@ -36,11 +36,3 @@ Then /^the account "([^\"]*)" should be of type "([^\"]*)"$/ do |account, type|
   Account.find_by_name(account).type_constant.should == type.constantize 
 end
 
-
-# These might be general-purpose, might make sense to refactor to a general
-# step definition file
-
-Then /^an exception of type "([^\"]*)" is raised$/ do |arg1|
-  # How do I test for the last action's result to see if it's an exception?
-  pending # express the regexp above with the code you wish you had
-end
