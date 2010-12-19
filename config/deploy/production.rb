@@ -7,10 +7,10 @@ set :deploy_via, :remote_cache
 
 
 set :use_sudo, false
-set :deploy_to, "/home/lincomp/test"
+set :deploy_to, "/home/lincomp/production"
 
 
-set :db_config, "/home/lincomp/database_test.yml"
+set :db_config, "/home/lincomp/database_prod.yml"
 
 
 role :web, "lincomp@www.lincomp.org"                          # Your HTTP server, Apache/etc
@@ -23,8 +23,10 @@ task :link_config do
   run "ln -s #{db_config} #{release_path}/config/database.yml"
   run "rm -r #{release_path}/test"
   run "ln -s #{release_path}/public #{release_path}/test"
+end
 
-
+task :install_gems do
+  run "bundle install --deployment --without cucumber development"
 end
 
 namespace :deploy do
@@ -38,4 +40,7 @@ namespace :deploy do
 end
 
 
+
+
 after "deploy:symlink", :link_config
+after "link_config", "install_gems"
