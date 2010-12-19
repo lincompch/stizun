@@ -2,9 +2,9 @@ html {
 }
 
 body {
-	background: url('../../../images/templates/lincomp/bg_top.png');
-  background-repeat: repeat-x;
-  background-color: #0d0e27;
+	/*background: url('../../../images/templates/lincomp/bg_top.png');
+  background-repeat: repeat-x;*/
+  background-color: #EFEFEF;
 	font-size: 10pt;
 	margin: 0px;
 	font-family: "Bitstream Vera Sans", "Vera Sans", "Deja Vu Sans", "Helvetica", sans-serif;
@@ -75,9 +75,9 @@ td {
 }
 
 #header {
-	background: url('../../../images/templates/lincomp/bg_header.jpg');
-	height: 140px;
-	top: 30px;
+	background: url('../../../images/templates/lincomp/bg_header.png');
+	height: 80px;
+	top: 0px;
 	width: 896px;
 	position: absolute;
 }
@@ -88,7 +88,7 @@ td {
 	padding-left: 25px;
 	width: 871px;
 	position: absolute;
-	top: 170px;
+	top: 80px;
 }
 
 #nav a {
@@ -135,15 +135,13 @@ td {
 
 }
 
-
-
 #content {
 	/*background: #FFFFFF url('../../../images/templates/lincomp/bg_nav_refl_de.jpg') no-repeat;*/
   background: #FFFFFF;
 	padding-top: 20px;
 	width: 896px;
 	position: absolute;
-	top: 205px;
+	top: 115px;
 }
 
 #ct_main {
@@ -164,9 +162,6 @@ td {
 	margin-right: 5px;
 	margin-bottom: 0px;
 }
-
-
-
 
 
 #rightcolumn {
@@ -235,15 +230,17 @@ td {
 }
 
 #ft_top {
-	background-image: url("../../../images/templates/lincomp/bg_ct_btm-blue.png");
+	background-image: url("../../../images/templates/lincomp/bg_ct_btm-white.png");
 	height: 34px;
 	width: 896px;
 	padding-top: 20px;
 	color: #666666;
 }
 #ft_btm {
-	background-image: url("../../../images/templates/lincomp/bg_ct_btm_refl3-blue.png");
-	height: 206px;
+	/*background-image: url("../../../images/templates/lincomp/bg_ct_btm_refl3-blue.png");*/
+  background-color: #EFEFEF;
+
+  height: 206px;
 	width: 896px;
 	font-family: "Bitstream Vera Sans", "Vera Sans", "Deja Vu Sans", "Helvetica", sans-serif;
 	font-weight: bold;
