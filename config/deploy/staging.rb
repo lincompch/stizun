@@ -26,7 +26,7 @@ task :link_config do
 end
 
 task :install_gems do
-  run "bundle install --deployment --without cucumber development"
+  run "cd #{release_path} && RAILS_ENV=production bundle install --deployment --without cucumber development"
 end
 
 namespace :deploy do
