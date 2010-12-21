@@ -6,10 +6,10 @@ class CartsController < ApplicationController
     @cart.add_product(product, params[:quantity])
     if @cart.save
       flash[:notice] = t("stizun.cart.product_added")
-      redirect_to products_path
+      redirect_to(:back)
     else
       flash[:error] = t("stizun.cart.product_not_added")
-      redirect_to products_path
+      redirect_to(:back)
     end
   end
   

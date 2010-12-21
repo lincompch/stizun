@@ -1,43 +1,36 @@
-<p>TODO: This page needs a complete makeover.</p>
 
-
-<p>The products</p>
-
-<%= render :partial => 'carts/sidebar' unless @cart.cart_lines.count == 0 %>
-
+<%= render :partial => 'carts/compact' unless @cart.cart_lines.count == 0 %>
 
 <%= will_paginate @products %>
 
-<% @products.each do |p| %>
+<table class="productlist">
+  <% @products.each do |p| %>
 
-<% if p.on_sale? %>
-  <div class="on_sale_product">
+  <% if p.on_sale? %>
+    <tr class="on_sale_product">
+  <% else %>
+    <tr>
+  <% end %>
+
+  <td><%= p.name %></td>
+  <td><%= p.description %></td>
+  <td><%= product_rounded_price(p)%></td>
+  <td><%= link_to "Details", :action => 'show', :id => p %></td>
+
+  <td>
+    <div class="compact_add_to_cart_box">
+    <%= form_tag :controller => 'carts', :action => 'add_product', :method => 'get' do -%>
+      <%= text_field_tag "quantity", 1, :size => 3 %>
+      <%= hidden_field_tag "product_id", p.id %>
+      <%= submit_tag t("stizun.cart.add_to_cart") %>
+    <% end -%>
+    </div>
+  </td>
+  
+  </tr>
+
 <% end %>
 
-<h4><%= p.name %></h4>
-<p><%= p.description %></p>
-<p>Price: <%= product_rounded_price(p)%></p>
-
-<p><%= p.stock %> pcs. in stock.</p>
-
-<p>
-<%= link_to "Details", :action => 'show', :id => p %>
-
-<%= form_tag :controller => 'carts', :action => 'add_product', :method => 'get' do -%>
-  <%= text_field_tag "quantity", 1, :size => 3 %>
-  <%= hidden_field_tag "product_id", p.id %>
-  <%= submit_tag "Add to cart" %>
-<% end -%>
-
-</p>
-
-
-<% if p.on_sale? %>
-  </div>
-<% end %>
-
-
-<hr />
-<% end %>
+</table>
 
 <%= will_paginate @products %>
