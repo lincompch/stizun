@@ -540,6 +540,7 @@ table.specs th {
 
 
 #add_to_cart_box {
+  background: #fffafa;
   padding: 1.2em;
   border: 2px solid #cecece;
   float: right;
