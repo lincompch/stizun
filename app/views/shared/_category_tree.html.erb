@@ -1,5 +1,5 @@
 
-<% categories = Category.find(:all)%>
+<% categories = Category.find(:all, :conditions => { :supplier_id => nil} )%>
 <%= tree_recursive(categories).html_safe %>
 
 

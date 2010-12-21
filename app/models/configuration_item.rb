@@ -5,7 +5,11 @@ class ConfigurationItem < ActiveRecord::Base
   
   # Get the configuration item as stored in the database under that key.
   def self.get(key)
-    self.find_by_key(key)
+    if self.find_by_key(key).present?
+      self.find_by_key(key)
+    else
+      raise ArgumentError, "Key #{key} does not exist."
+    end
   end
   
   # Set the value of a certain key.
@@ -20,6 +24,7 @@ class ConfigurationItem < ActiveRecord::Base
       return item
     end
   end
+
   
   def to_s
     return "Name: #{name}. K: #{key}, V: #{value}"

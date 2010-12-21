@@ -1,5 +1,5 @@
 Given /^a category named "([^\"]*)" exists$/ do |arg1|
-  @category = Category.create(:name => arg1)
+  @category = Category.find_or_create_by_name(:name => arg1)
 end
 
 Given /^a product named "([^\"]*)"$/ do |arg1| 
@@ -11,20 +11,12 @@ Given /^a product named "([^\"]*)"$/ do |arg1|
   @product.save
 end
 
-Given /^a product named "([^\"]*)" in the category "([^\"]*)"$/ do |arg1, arg2|           
-  @product = Product.new
-  @product.name = arg1
-  @product.description = "Blah"
-  @product.weight = 5.0
-  @product.tax_class = TaxClass.find_or_create_by_name_and_percentage("Foo", 2.5)
+Given /^a product named "([^\"]*)" in the category "([^\"]*)"$/ do |arg1, arg2|
+  Given "a product named \"#{arg1}\""
+  And "a category named \"#{arg2}\" exists"
 
-  @category = Category.new
-  @category.name = arg2
-  @category.save
-  
-  @category.products << @product
+  @product.categories << @category
   @product.save
-
 end                                   
 
 When /^I wait for a fancybox to appear$/ do

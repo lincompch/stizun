@@ -5,6 +5,7 @@ Feature: Browse products
 
     Background: Set up some necessary things
       Given a category named "Notebooks" exists
+      And there is a configuration item named "currency" with value "CHF"
       And there is a user with e-mail address "admin@something.com" and password "foobar"
       And a tax class named "MwSt 7.6%" with the percentage 7.6%
       And the user group "Admins" exists
@@ -25,6 +26,7 @@ Feature: Browse products
 
     @javascript      
     Scenario: Create product
+      Given a category named "Notebooks" exists
       When I create a product called "Lenovo T400"
       And I wait for a fancybox to appear
       And fill in the product description "Some laptop"
@@ -41,6 +43,7 @@ Feature: Browse products
       
     @javascript 
     Scenario: Forget assigning a tax class when creating a product
+      Given a category named "Notebooks" exists
       When I create a product called "Lenovo T500"
       And I wait for a fancybox to appear
       And fill in the product description "Some other laptop"
@@ -52,7 +55,6 @@ Feature: Browse products
       Then I should see an error message inside the fancybox
       And there should not be a product called "Lenovo T500"
 
-      
     Scenario: Browse all products
       Given a product named "Foobar 2000" in the category "Metasyntactic Variables"
       And a product named "Fish" in the category "Animals"

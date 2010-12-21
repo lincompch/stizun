@@ -3,7 +3,11 @@ module ApplicationHelper
   
   def pretty_price(price, currency = nil)
     #OPTIMIZE: In future, we will have to support multiple currencies
-    currency ||= ConfigurationItem.get("currency").value
+    begin
+      currency ||= ConfigurationItem.get("currency").value
+    rescue ArgumentError
+      currency ||= ""
+    end
     sprintf "#{currency} %.2f", price
   end
   
