@@ -166,22 +166,24 @@ de-CH:
       edit: "Editieren"
       products: "Produkte"
       delete: "Löschen"
+      price: "Preis"
     table_headers:
       number: "Nr."
       date: "Datum"
       status: "Status"
       total: "Total"
-    cart:
-      shopping_cart: "Warenkorb"
-      your_cart_is_empty: "Ihr Warenkorb ist leer."
-      continue_to_checkout: "Weiter zur Kasse"
-      update_quantities: "Neu berechnen"
-      remove: "Entfernen"
-      product_added: "Produkt hinzugefügt."
-      product_not_added: "Produkt konnte nicht hinzugefügt werden."
-      product_removed: "Produkt entfernt."
-      product_not_removed: "Product konnte nicht entfernt werden. Vielleicht befindet es sich nicht in diesem Warenkorb?"
-      cart_updated: "Warenkorb aktualisiert."
+    constants:
+      general: "Allgemein"
+      accounting: "Buchhaltung"
+      product_change: "Produkt-Änderung"
+      supply_item_change: "Einzelteil-Änderung"
+      paid: "Bezahlt"
+      unpaid: "Unbezahlt"
+      unprocessed: "Unbearbeitet"
+      processing: "In Bearbeitung"
+      awaiting_payment: "Wartet auf Zahlung"
+      to_ship: "Versandbereit"
+      shipped: "Versandt"
     account:
       account_information: "Konto-Informationen"
       your_pending_orders: "Ihre offenen Bestellungen"
@@ -231,7 +233,20 @@ de-CH:
         city: "Stadt"
         email: "E-Mail-Adresse"
         country: "Land"
-        
+    cart:
+      shopping_cart: "Einkaufswagen"
+      your_cart_is_empty: "Ihr Einkaufswagen ist leer."
+      continue_to_checkout: "Weiter zur Kasse"
+      update_quantities: "Neu berechnen"
+      remove: "Entfernen"
+      product_added: "Produkt hinzugefügt."
+      product_not_added: "Produkt konnte nicht hinzugefügt werden."
+      product_removed: "Produkt entfernt."
+      product_not_removed: "Product konnte nicht entfernt werden. Vielleicht befindet es sich nicht in diesem Einkaufswagen?"
+      cart_updated: "Einkaufswagen aktualisiert."
+      add_to_cart: "Kaufen"
+    category:
+      categories: "Kategorien"
     invoice:
       invoice: "Rechnung"
       invoice_overview: "Rechnungsübersicht"
@@ -249,9 +264,11 @@ de-CH:
       overview: "Bestellungsübersicht"
       shipping_cost: "Versandkosten"
       included_vat: "Enthaltene MwSt."
-      shopping_cart_empty: "Ihr Warenkorb ist leer. Sie können nicht weiter zur Kasse. Kaufen Sie doch ein paar Produkte."
+      shopping_cart_empty: "Ihr Einkaufswagen ist leer. Sie können nicht weiter zur Kasse. Kaufen Sie doch ein paar Produkte."
       thanks_for_your_order: "Danke für Ihre Bestellung!"
       problem_with_your_order: "Es gibt ein Problem mit Ihrer Bestellung"
+    product:
+      pcs_in_stock_short: "Stück an Lager"
     users:
       account_not_created: "Das Konto konnte nicht erstellt werden."
       account_created_successfully: "Ihr Konto ist erstellt worden."
@@ -267,18 +284,7 @@ de-CH:
       logout_successful: "Sie sind jetzt ausgeloggt."
       stay_logged_in: "Eingeloggt bleiben."
       log_in: "Einloggen"
-    constants:
-      general: "Allgemein"
-      accounting: "Buchhaltung"
-      product_change: "Produkt-Änderung"
-      supply_item_change: "Einzelteil-Änderung"
-      paid: "Bezahlt"
-      unpaid: "Unbezahlt"
-      unprocessed: "Unbearbeitet"
-      processing: "In Bearbeitung"
-      awaiting_payment: "Wartet auf Zahlung"
-      to_ship: "Versandbereit"
-      shipped: "Versandt"
+
       
       
   authlogic:

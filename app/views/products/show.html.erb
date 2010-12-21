@@ -1,19 +1,26 @@
+<div id="add_to_cart_box">
+  <p class="price"><%= product_rounded_price(@product)%></p>
+  <p class="stock"><%= @product.stock %> <%= t("stizun.product.pcs_in_stock_short") %></p>
 
-<p>TODO: This page needs a complete makeover.</p>
-
-<p>The product:</p>
+  <%= form_tag "/carts/add_product", :method => 'get' do -%>
+    <%= text_field_tag "quantity", 1, :size => 3 %>
+    <%= hidden_field_tag "product_id", @product.id %>
+    <%= submit_tag t("stizun.cart.add_to_cart") %>
+  <% end -%>
+</div>
 
 <h3><%= @product.name %></h3>
 
 <p><%= @product.description %></p>
 
-<p>Price: <%= product_rounded_price(@product)%></p>
-
-<p><%= @product.stock %> pcs. in stock.</p>
 
 
-<%= form_tag "/carts/add_product", :method => 'get' do -%>
-  <%= text_field_tag "quantity", 1, :size => 3 %>
-  <%= hidden_field_tag "product_id", @product.id %>
-  <%= submit_tag "Add to cart" %>
-<% end -%>
+<p style="clear: both;"></p>
+
+<div id="product_categories">
+  <h4><%= t("stizun.category.categories") %></h4>
+  <% @product.categories.each do |cat| %>
+    <p><%= categories_breadcrumb_path(cat, linked = true) %><p>
+
+  <% end %>
+</div>

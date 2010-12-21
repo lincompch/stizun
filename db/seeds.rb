@@ -8,6 +8,12 @@
 
 
 TaxClass.create(:name => "7.6%", :percentage => 7.6)
+Category.create(:name => 'Main category')
+Usergroup.create(:name => 'Admins', :is_admin => true)
+
+# Set your shop's currency here
+ConfigurationItem.create(:name => 'Currency', :key => 'currency', :value => 'CHF', :description => 'The currency for your shop.')
+
 
 # Lots of accounting stuff
 assets = Account.create(:name => 'Assets', :type_constant => Account::ASSETS)

@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(:version => 20101204160642) do
     t.string   "credit_account_type"
     t.integer  "debit_account_id"
     t.string   "debit_account_type"
-    t.decimal  "amount"
+    t.decimal  "amount",              :precision => 63, :scale => 30
     t.integer  "target_object_id"
     t.string   "target_object_type"
     t.datetime "created_at"
@@ -121,8 +121,8 @@ ActiveRecord::Schema.define(:version => 20101204160642) do
 
   create_table "document_lines", :force => true do |t|
     t.integer  "quantity"
-    t.decimal  "price"
-    t.decimal  "tax"
+    t.decimal  "price",      :precision => 10, :scale => 0
+    t.decimal  "tax",        :precision => 63, :scale => 30
     t.integer  "product_id"
     t.string   "note"
     t.string   "type"
@@ -150,16 +150,16 @@ ActiveRecord::Schema.define(:version => 20101204160642) do
   create_table "invoice_lines", :force => true do |t|
     t.integer  "quantity"
     t.string   "text"
-    t.decimal  "single_rounded_price"
-    t.decimal  "taxes"
-    t.decimal  "tax_percentage"
+    t.decimal  "single_rounded_price", :precision => 63, :scale => 30
+    t.decimal  "taxes",                :precision => 63, :scale => 30
+    t.decimal  "tax_percentage",       :precision => 8,  :scale => 2
     t.integer  "invoice_id"
     t.float    "weight"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "gross_price"
-    t.decimal  "taxed_price"
-    t.decimal  "single_price"
+    t.decimal  "gross_price",          :precision => 63, :scale => 30
+    t.decimal  "taxed_price",          :precision => 63, :scale => 30
+    t.decimal  "single_price",         :precision => 63, :scale => 30
   end
 
   add_index "invoice_lines", ["invoice_id"], :name => "index_invoice_lines_on_invoice_id"
@@ -170,16 +170,16 @@ ActiveRecord::Schema.define(:version => 20101204160642) do
     t.integer  "billing_address_id"
     t.string   "billing_address_type"
     t.integer  "user_id"
-    t.integer  "status_constant",       :default => 1
+    t.integer  "status_constant",                                       :default => 1
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "uuid"
-    t.decimal  "shipping_cost"
+    t.decimal  "shipping_cost",         :precision => 63, :scale => 30
     t.integer  "order_id"
     t.integer  "payment_method_id"
     t.integer  "document_number"
-    t.boolean  "autobook",              :default => true
-    t.decimal  "shipping_taxes"
+    t.boolean  "autobook",                                              :default => true
+    t.decimal  "shipping_taxes",        :precision => 63, :scale => 30
   end
 
   add_index "invoices", ["order_id"], :name => "index_invoices_on_order_id"
@@ -192,7 +192,7 @@ ActiveRecord::Schema.define(:version => 20101204160642) do
     t.string   "debit_account_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "amount"
+    t.decimal  "amount",              :precision => 63, :scale => 30
   end
 
   create_table "numerators", :force => true do |t|
@@ -249,21 +249,21 @@ ActiveRecord::Schema.define(:version => 20101204160642) do
     t.string   "name"
     t.string   "description"
     t.integer  "tax_class_id"
-    t.decimal  "purchase_price",            :precision => 8, :scale => 2, :default => 0.0
-    t.decimal  "margin_percentage",         :precision => 8, :scale => 2, :default => 0.0
-    t.decimal  "sales_price",               :precision => 8, :scale => 2, :default => 0.0
+    t.decimal  "purchase_price",            :precision => 20, :scale => 2,  :default => 0.0
+    t.decimal  "margin_percentage",         :precision => 8,  :scale => 2,  :default => 0.0
+    t.decimal  "sales_price",               :precision => 20, :scale => 2,  :default => 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "supplier_id"
     t.float    "weight"
-    t.boolean  "direct_shipping",                                         :default => true
+    t.boolean  "direct_shipping",                                           :default => true
     t.string   "supplier_product_code"
-    t.integer  "stock",                                                   :default => 0
-    t.boolean  "is_available",                                            :default => true
+    t.integer  "stock",                                                     :default => 0
+    t.boolean  "is_available",                                              :default => true
     t.integer  "supply_item_id"
     t.string   "manufacturer_product_code"
-    t.decimal  "absolute_rebate",                                         :default => 0.0
-    t.decimal  "percentage_rebate",                                       :default => 0.0
+    t.decimal  "absolute_rebate",           :precision => 63, :scale => 30, :default => 0.0
+    t.decimal  "percentage_rebate",         :precision => 63, :scale => 30, :default => 0.0
     t.datetime "rebate_until"
     t.boolean  "is_loss_leader"
   end
@@ -275,7 +275,7 @@ ActiveRecord::Schema.define(:version => 20101204160642) do
     t.integer  "shipping_rate_id"
     t.integer  "weight_min"
     t.integer  "weight_max"
-    t.decimal  "price"
+    t.decimal  "price",            :precision => 63, :scale => 30
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "tax_class_id"
@@ -288,7 +288,7 @@ ActiveRecord::Schema.define(:version => 20101204160642) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "tax_class_id"
-    t.decimal  "direct_shipping_fees", :default => 0.0
+    t.decimal  "direct_shipping_fees", :precision => 63, :scale => 30, :default => 0.0
   end
 
   create_table "suppliers", :force => true do |t|
@@ -307,7 +307,7 @@ ActiveRecord::Schema.define(:version => 20101204160642) do
     t.float    "weight"
     t.integer  "supplier_id"
     t.string   "description"
-    t.decimal  "purchase_price",            :precision => 8, :scale => 2, :default => 0.0
+    t.decimal  "purchase_price",            :precision => 20, :scale => 2, :default => 0.0
     t.integer  "stock"
     t.datetime "created_at"
     t.datetime "updated_at"

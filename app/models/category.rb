@@ -16,5 +16,12 @@ class Category < ActiveRecord::Base
     trail += name
     return trail
   end
+  
+  # Abstraction so we can switch out better_nested_set for something
+  # else if it becomes necessary. Returns the category and all its
+  # ancestors up to the root of the tree or graph.
+  def ancestor_chain
+    self_and_ancestors
+  end
 
 end

@@ -481,43 +481,22 @@ a.producttab.active {
   background: #fff;
 }
 
-span.normalprice {
+span.strikethrough_price {
 	color: #f33;
 	text-decoration: line-through;
 }
 
-span.productSpecialPrice {
+span.sales_price {
 	font-size: 115%;
 }
 
-/* Login and signup form */
 
-#loginDefault fieldset {
-	margin-bottom: 15px;
-}
-
-#signupform label, #signupform input {
-	display: block;
-	width: 200px;
-	float: left;
-	margin-bottom: 10px;
-}
-
-#signupform label {
-	text-align: right;
-	width: 180px;
-	padding-right: 20px;
-}
-
-#signupform br {
-	clear: left;
-}
 
 table.specs {
   width: 100%;
   border: 1px solid #e1e1e1;
   border-collapse: collapse;
-  }
+}
 
 table.specs td {
   padding: 6px;
@@ -558,6 +537,27 @@ table.specs th {
 #indexProductListCatDescription {
 	margin-bottom: 2em;
 }
+
+
+#add_to_cart_box {
+  padding: 1.2em;
+  border: 2px solid #cecece;
+  float: right;
+}
+
+#add_to_cart_box p.price {
+  font-size: 1.2em;
+  padding: 0;
+  margin-top: 0.3em;
+  margin-bottom: 0.8em;
+}
+
+#add_to_cart_box p.stock {
+  padding: 0;
+  margin-top: 0.4em;
+  margin-bottom: 1.2em;
+}
+
 
 /* Blog stuff */
 

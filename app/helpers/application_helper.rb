@@ -3,8 +3,8 @@ module ApplicationHelper
   
   def pretty_price(price, currency = nil)
     #OPTIMIZE: In future, we will have to support multiple currencies
-    currency = currency + " " unless currency.nil?
-    sprintf "#{currency}%.2f", price
+    currency ||= ConfigurationItem.get("currency").value
+    sprintf "#{currency} %.2f", price
   end
   
   def short_date(datetime)
