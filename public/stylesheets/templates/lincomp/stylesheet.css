@@ -395,68 +395,6 @@ td {
   
 }
 
-#cartContentsDisplay tr.tableHeading th, #accountHistInfo tr.tableHeading th, #accountDefault tr.tableHeading th {
-    border-top: 1px solid #444;
-    border-bottom: 1px solid #444;
-    text-align: left;
-}
-
-
-
-#cartContentsDisplay tr.rowEven td {
-  border-bottom: 2px solid #ccc;
-  border-top: 2px solid #ccc;
-  border-right: 1px solid #fefefe;
-}
-
-
-#cartContentsDisplay table {
-  border-collapse: collapse;
-}
-  
-#cartContentsDisplay td {
-  vertical-align: top;
-    padding: 5px 15px 8px 5px;
-
-}
-
-#cartContentsDisplay tr.rowEven td {
- background: #f9f9f9;
-}
-
-#cartContentsDisplay td.cartRemoveItemDisplay {
-  width: 40px;
-}
-
-#cartSubTotal {
-  float: right;
-  font-weight: bold;
-
-}
-
-
-#myAccountShipInfo  {
-  width: 50%;
-  float: left;
-}
-
-#myAccountPaymentInfo  {
-  width: 50%;
-  float: right;
-}
-
-#cartSubTotal {
-  font-size: 14pt;
-  font-weight: bold;
-  margin-bottom: 20px;
-
-}
-
-#productPrices {
-  font-weight: bold;
-
-}
-
 #tabs {
   margin-top: 35px;
 	margin-bottom: 25px;
@@ -540,17 +478,21 @@ table.specs th {
 
 
 #add_to_cart_box {
-  background: #fffafa;
+ background: #fffafa;
   padding: 1.2em;
   border: 2px solid #cecece;
   float: right;
+  border-radius: 0.8em;
 }
 
 #add_to_cart_box p.price {
   font-size: 1.2em;
+  font-weight: bold;
   padding: 0;
   margin-top: 0.3em;
   margin-bottom: 0.8em;
+  
+
 }
 
 #add_to_cart_box p.stock {
