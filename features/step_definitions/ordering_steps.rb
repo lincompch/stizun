@@ -10,13 +10,13 @@ end
 When /^I add the store's only product to my cart$/ do
   visit products_path
   fill_in "quantity", :with => 1
-  click_button "Add to cart"
+  click_button "Kaufen"
 end
 
 When /^I add the store's only product to my cart (\d+) times$/ do |num|
   visit products_path
   fill_in "quantity", :with => num
-  click_button "Add to cart"
+  click_button "Kaufen"
 end
 
 When /^I add the only product in the category "([^\"]*)" to my cart (\d+) times$/ do |cat, num|
@@ -24,7 +24,7 @@ When /^I add the only product in the category "([^\"]*)" to my cart (\d+) times$
     visit products_path
     click_link cat
     fill_in "quantity", :with => 1
-    click_button "Add to cart"
+    click_button "Kaufen"
   end
 end
 
