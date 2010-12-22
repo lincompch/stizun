@@ -114,9 +114,9 @@ class AlltronUtil
   def self.import_supply_items(filename = self.import_filename)
     require 'lib/alltron_csv'
     # TODO: Create Alltron's very own shipping rate right here, perhaps based ona config file
-    supplier = Supplier.find_or_create_by_name(:name => 'Alltron AG', 
-                                    :shipping_rate => ShippingRate.find_by_name("Alltron AG"))
-    shipping_rate = self.create_shipping_rate
+    supplier = Supplier.find_or_create_by_name(:name => 'Alltron AG')
+    supplier.shipping_rate = self.create_shipping_rate
+    supplier.save
     acsv = AlltronCSV.new(filename)
     fcsv = acsv.get_faster_csv_instance
     received_codes = []
