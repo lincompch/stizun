@@ -258,10 +258,6 @@ td {
 	margin-right: 25px;
 }
 
-#productimage {
-  float: left;
-}
-
 #checkoutbox {
   border: 1px solid #444;
   float: right;
@@ -292,7 +288,7 @@ td {
 
 }
 
-/* Tables on product listing pages */
+/* Tables on product listing pages (old, zencart) */
 
 #productListing tr td {
   border-bottom: 2px solid #ccc;
@@ -474,6 +470,58 @@ table.specs th {
 
 #indexProductListCatDescription {
 	margin-bottom: 2em;
+}
+
+
+/* More or less new stuff here (Stizun) */
+
+table.productlist {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.productlist td.buy {
+  width: 10em;
+}
+
+table.productlist td {
+  text-align: left;
+  vertical-align: top;
+  padding: 1.2em 0.8em 1.2em 1.0em;
+  background: #FAFAFA;
+  
+  border-left: 1px solid #EDEDED;
+  border-right: 1px solid #EDEDED;
+}
+
+table.productlist tr.odd td {
+  background: #fff;
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef
+}
+
+
+table.productlist td.price {
+  text-align: right;
+  padding-left: 0.1em;
+  width: 8em;
+}
+
+table.productlist thead th, table.productlist tfoot th {
+  text-align: left;
+  padding: 0.3em 0.6em 0.3em 0.6em;
+  background: #EDEDED;
+  border-top: 1px solid #E3E3E3;
+  border-bottom: 1px solid #E3E3E3;
+  border-left: 1px solid #EDEDED;
+  border-right: 1px solid #EDEDED;
+
+}
+
+
+#product_details h3, #product_list h3 {
+  font-size: 1.4em;
+  text-shadow: 0.2em 0.2em 0.4em #bbb;
 }
 
 
