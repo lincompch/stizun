@@ -34,6 +34,9 @@ module Stizun
     # why we set locale explicitly.
     config.i18n.locale = :"de-CH"
 
+    # Fall back to de-CH when you can't find any other translation that matches.
+    config.i18n.fallbacks = true
+
     # JavaScript files you want as :defaults (application.js is always included).
     # config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
 
