@@ -114,9 +114,8 @@ class AlltronUtil
   def self.import_supply_items(filename = self.import_filename)
     require 'lib/alltron_csv'
     # TODO: Create Alltron's very own shipping rate right here, perhaps based ona config file
+    self.create_shipping_rate
     supplier = Supplier.find_or_create_by_name(:name => 'Alltron AG')
-    supplier.shipping_rate = self.create_shipping_rate
-    supplier.save
     acsv = AlltronCSV.new(filename)
     fcsv = acsv.get_faster_csv_instance
     received_codes = []
@@ -203,7 +202,6 @@ class AlltronUtil
   # which would ruin shipping calculations. Create a rate with sane defaults
   # if that's the case.
   def self.create_shipping_rate
-    
       
     # Post    
     # Post Pac Priority   Preis in CHF (exkl. MwSt)
@@ -227,7 +225,11 @@ class AlltronUtil
     
     supplier = Supplier.find_or_create_by_name("Alltron AG")
     if supplier.shipping_rate.nil?
-      shipping_rate = ShippingRate.new(:name => "Alltron AG")
+      
+      tc = TaxClass.find_or_create_by_percentage_and_name(:percentage => 8.0, 
+                                                          :name => 'Schweizer Mehrwertsteuer (Normalsatz)') 
+      shipping_rate = ShippingRate.new(:name => "Alltron AG")  
+      shipping_rate.tax_class = tc
       # min_weight, max_weight, price (without VAT)
       costs = [     
                 [0, 1000, 8.65],
@@ -262,14 +264,13 @@ class AlltronUtil
                 [29001, 30000, 27.5],
                 [30001, 100000, 58.60]
               ]
-      costs.each do |c|
+      costs.each do |c|    
         shipping_rate.shipping_costs << ShippingCost.new(:weight_min => c[0], 
                                                          :weight_max => c[1], 
                                                          :price => c[2], 
-                                                         :tax_class => TaxClass.find_or_create_by_percentage(:percentage => 7.6, 
-                                                                                                             :name => '7.6%'))
+                                                         :tax_class => tc)
       end
-      shipping_rate.save
+      shipping_rate.save     
       supplier.shipping_rate = shipping_rate
       supplier.save
       return shipping_rate
