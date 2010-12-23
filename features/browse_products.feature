@@ -7,18 +7,18 @@ Feature: Browse products
       Given a category named "Notebooks" exists
       And there is a configuration item named "currency" with value "CHF"
       And there is a user with e-mail address "admin@something.com" and password "foobar"
-      And a tax class named "MwSt 7.6%" with the percentage 7.6%
+      And a tax class named "MwSt 8.0%" with the percentage 8.0%
       And the user group "Admins" exists
       And the user group "Admins" has admin permissions
       And the user is member of the group "Admins"
       And I log in with e-mail address "admin@something.com" and password "foobar"
       And there is a shipping rate called "Alltron AG" with the following costs:
         |weight_min|weight_max|price|tax_percentage|
-        |         0|      1000|   10|           7.6|
-        |      1001|      2000|   20|           7.6|
-        |      2001|      3000|   30|           7.6|
-        |      3001|      4000|   40|           7.6|
-        |      4001|      5000|   50|           7.6|
+        |         0|      1000|   10|           8.0|
+        |      1001|      2000|   20|           8.0|
+        |      2001|      3000|   30|           8.0|
+        |      3001|      4000|   40|           8.0|
+        |      4001|      5000|   50|           8.0|
       And there are the following suppliers:
         |name|shipping_rate_name|
         |Alltron AG|Alltron AG|
@@ -34,7 +34,7 @@ Feature: Browse products
       And I fill in the margin percentage 5.0
       And I fill in the weight 5.0
       And I select the supplier "Alltron AG"
-      And I select the tax class "MwSt 7.6%"
+      And I select the tax class "MwSt 8.0%"
       And I assign the product to the category "Notebooks"
       And I click the create button
       Then I should see "Product created." within the fancybox

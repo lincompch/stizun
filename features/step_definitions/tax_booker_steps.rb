@@ -18,7 +18,7 @@ When /^the invoice is paid$/ do
                                 :value => accts_receivable.id)
   
   bank_account = Account.find_by_name("Bank")
-  ci = ConfigurationItem.find_or_create_by_key(:key => "cash_account_id", 
+  ci = ConfigurationItem.find_or_create_by_key(:key => "bank_account_id", 
                                 :value => bank_account.id)
   
   @invoice.record_payment_transaction
