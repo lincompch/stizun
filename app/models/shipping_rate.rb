@@ -145,7 +145,7 @@ class ShippingRate < ActiveRecord::Base
       # This default tax class for shipping would need to be made configurable in the 
       # final system, especially if it is going to be released as Free Software.
       sr.shipping_costs.each do |sc|
-        sc.tax_class = TaxClass.find_or_create_by_percentage("7.6")
+        sc.tax_class = TaxClass.find_or_create_by_percentage("8.0")
       end
       
     end

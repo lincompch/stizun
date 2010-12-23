@@ -25,7 +25,7 @@ class SupplyItem < ActiveRecord::Base
     si.description = "#{csv['Webtext']} #{csv['Webtext 2']}"
     si.purchase_price = BigDecimal.new(csv['Preis (exkl. MWSt)'].to_s)
     # TODO: Read actual tax percentage from import file and create class as needed
-    si.tax_class = TaxClass.find_by_percentage(7.6) or TaxClass.first
+    si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
     si.stock = csv['Lagerbestand'].gsub("'","").to_i
     si
   end

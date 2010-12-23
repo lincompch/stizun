@@ -230,7 +230,7 @@ class Product < ActiveRecord::Base
     p.purchase_price = si.purchase_price
     # Can be improved by flexibly reading the tax percentage from the CSV file in a first
     # step and then assigning it to a supply item, and THEN reading a proper TaxClass object from there
-    p.tax_class = TaxClass.find_by_percentage("7.6")
+    p.tax_class = TaxClass.find_by_percentage("8.0")
     p.margin_percentage = 5.0
     p.supplier_id = si.supplier_id
     p.supply_item_id = si.id
