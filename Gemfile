@@ -26,7 +26,7 @@ gem 'mysql2'
 gem 'will_paginate'
 gem 'uuidtools'
 gem 'fastercsv'
-gem 'later_dude'
+gem 'later_dude', '>= 0.3.1'
 
 group :cucumber do
   gem 'capybara'
