@@ -8,12 +8,12 @@
       
       :previous_month => 
         lambda { |date| 
-          link_to "&lt;&lt;", admin_histories_path(:month => date.month, :year => date.year, :date => @target_date) 
+          link_to "&lt;&lt;".html_safe, admin_histories_path(:month => date.month, :year => date.year, :date => @target_date) 
         },
       
       :next_month => 
           lambda { |date| 
-            link_to "&gt;&gt;", admin_histories_path(:month => date.month, :year => date.year, :date => @target_date) 
+            link_to "&gt;&gt;".html_safe, admin_histories_path(:month => date.month, :year => date.year, :date => @target_date) 
           }
        } ) do |d| 
 
