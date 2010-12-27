@@ -23,6 +23,7 @@ class UsersController < ApplicationController
     @orders_to_ship = @user.orders.to_ship
     @orders_awaiting_payment = @user.orders.awaiting_payment
     @orders_processing = @user.orders.processing
+    @orders_unprocessed = @user.orders.unprocessed
     @addresses = @user.addresses.active
   end
 
