@@ -10,7 +10,7 @@ class Admin::InvoicesController <  Admin::BaseController
       @invoice = Invoice.new_from_order(@order)
       if @invoice.save
       # redirect_to admin_invoice_path(@invoice)
-        StoreMailer.deliver_invoice(@invoice)
+        StoreMailer.invoice(@invoice).deliver
         flash[:notice] = "Invoice created."
         redirect_to admin_path
       else

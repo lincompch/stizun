@@ -15,6 +15,8 @@ Usergroup.create(:name => 'Admins', :is_admin => true)
 ConfigurationItem.create(:name => 'Currency', :key => 'currency', :value => 'CHF', :description => 'The currency for your shop.')
 
 
+Country.create(:name => 'Schweiz/Suisse/Svizzera/Svizra')
+
 # Lots of accounting stuff
 assets = Account.create(:name => 'Assets', :type_constant => Account::ASSETS)
 liabilities = Account.create(:name => 'Liabilities', :type_constant => Account::LIABILITIES)

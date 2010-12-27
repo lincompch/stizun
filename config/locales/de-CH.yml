@@ -273,6 +273,9 @@ de-CH:
       pcs_in_stock_short: "Stück an Lager"
       no_products: "Diese Produkteliste ist leer."
       products: "Produkte"
+    store_mailer:
+      order_confirmation_subject: "Bestätigung Ihrer Bestellung"
+      invoice_notification_subject: "Elektronische Rechnung"
     users:
       account_not_created: "Das Konto konnte nicht erstellt werden."
       account_created_successfully: "Ihr Konto ist erstellt worden."
@@ -287,9 +290,7 @@ de-CH:
       login_successful: "Sie sind jetzt eingeloggt."
       logout_successful: "Sie sind jetzt ausgeloggt."
       stay_logged_in: "Eingeloggt bleiben."
-      log_in: "Einloggen"
-      
-      
+      log_in: "Einloggen"    
       
   authlogic:
     error_messages:

@@ -175,7 +175,7 @@ class Order < Document
     # that we can rescue?
     require 'net/smtp'
     begin
-      StoreMailer.deliver_order_confirmation(user, self)
+      StoreMailer.order_confirmation(user, self).deliver
     rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
       History.add("Could not send order confirmation for order  #{self.document_id} during checkout: #{e.to_s}", History::GENERAL, self)
     end

@@ -1,0 +1,6 @@
+production:
+  default_from_email: "info@lincomp.ch"
+  email_subject_prefix: "[Lincomp]"
+development:
+  default_from_email: "root@localhost"
+  email_subject_prefix: "[Local Shop]"
