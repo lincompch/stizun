@@ -12,6 +12,4 @@ Total: <%= pretty_price(@invoice.taxed_price) %>
 
 Come on. You know you'd love to pay. Here's a link for payment details:
 
-http://www.lincomp.org<%= url_for :controller => 'invoices', :action => 'uuid', :uuid => @invoice.uuid %>
-
-Lincomp
+<%= url_for :controller => 'invoices', :action => 'uuid', :uuid => @invoice.uuid %>
