@@ -7,47 +7,59 @@
 
 </table>
 
-
 <h3><%= t("stizun.account.your_pending_orders") %></h3>
 
-<table>
-
-  <% @orders_awaiting_payment.each do |o| %>
-  <%= render :partial => 'orders/order', :object => o %>
-  <% end %>
-
-  <% @orders_processing.each do |o| %>
-  <%= render :partial => 'orders/order', :object => o %>
-  <% end %>
-
-  <% @orders_to_ship.each do |o| %>
-  <%= render :partial => 'orders/order', :object => o %>
-  <% end %>
-
-</table>
-
-<%= link_to t("stizun.account.view_all_orders"), user_orders_path(@user) %>
-
-
-<h3><%= t("stizun.account.your_unpaid_invoices") %></h3>
-
-<% if @invoices.count > 0 %>
+<h4><%= t("stizun.order.orders_awaiting_payment") %></h4>
+<% if @orders_awaiting_payment.count > 0 %>
   <table>
-    <tr>
-      <th><%= t("stizun.table_headers.number") %></th>
-      <th><%= t("stizun.table_headers.date") %></th>
-      <th><%= t("stizun.table_headers.status") %></th>
-      <th><%= t("stizun.table_headers.total") %></th>
-      <th></th>
-    </tr>
-
-    <% @invoices.each do |i| %>
-      <%= render :partial => 'invoices/invoice', :object => i %>
+    <% @orders_awaiting_payment.each do |o| %>
+    <%= render :partial => 'orders/order', :object => o %>
     <% end %>
   </table>
+<% else %>
+  <p><%= t("stizun.order.no_orders_awaiting_payment") %></p>
 <% end %>
 
+<h4><%= t("stizun.order.orders_in_processing_or_ready_to_ship") %></h4>
+
+<% if (@orders_processing.count + @orders_to_ship.count) > 0 %>
+
+  <table>
+    <% @orders_processing.each do |o| %>
+    <%= render :partial => 'orders/order', :object => o %>
+    <% end %>
+
+    <% @orders_to_ship.each do |o| %>
+    <%= render :partial => 'orders/order', :object => o %>
+    <% end %>
+  </table>
+
+<% else %>
+  <p><%= t("stizun.order.no_orders_in_processing_or_ready_to_ship") %></p>
+<% end %>
+
+<%= link_to t("stizun.account.view_all_orders"), user_orders_path(@user) %>, <%= t("stizun.order.also_past_orders")%>.
+
+
+<% if @invoices.count > 0 %>
+  <h3><%= t("stizun.account.your_unpaid_invoices") %></h3>
+
+    <table>
+      <tr>
+        <th><%= t("stizun.table_headers.number") %></th>
+        <th><%= t("stizun.table_headers.date") %></th>
+        <th><%= t("stizun.table_headers.status") %></th>
+        <th><%= t("stizun.table_headers.total") %></th>
+        <th></th>
+      </tr>
+
+      <% @invoices.each do |i| %>
+        <%= render :partial => 'invoices/invoice', :object => i %>
+      <% end %>
+    </table>
+
 <%= link_to t("stizun.account.view_all_invoices"), user_invoices_path(@user) %>
+<% end %>
 
 
 <hr />
@@ -75,7 +87,7 @@
 
  
 
-<%= link_to t("stizun.general.edit"), edit_account_path %>
+<%= link_to t("stizun.general.edit"), edit_user_path(current_user) %>
 <% if current_user %>
  | <%= link_to("Logout", logout_path) if current_user %>
 <% end %>

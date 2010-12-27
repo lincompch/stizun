@@ -6,4 +6,4 @@
   <%= f.submit t("stizun.account.update") %>
 <% end %>
  
-<br /><%= link_to t("stizun.account.to_my_account_page"), account_path %>
+<br /><%= link_to t("stizun.account.to_my_account_page"), user_path(current_user) %>

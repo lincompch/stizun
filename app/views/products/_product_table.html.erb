@@ -1,0 +1,47 @@
+
+  <%= will_paginate product_table %>
+
+  <table class="productlist">
+    <thead>
+      <th scope="col">Produkt</th>
+      <th scope="col">Preis</th>
+      <th scope="col"></th>
+    </thead>
+    <tfoot>
+      <th scope="col">Produkt</th>
+      <th scope="col">Preis</th>
+      <th scope="col"></th>
+    </tfoot>
+    <tbody>
+      <% product_table.each do |p| %>
+
+      <% if p.on_sale? %>
+        <tr class="on_sale_product <%= cycle("even","odd")%>">
+      <% else %>
+        <tr class="<%= cycle("even","odd")%>">
+      <% end %>
+
+      <td>
+        <%= link_to p.name, :action => 'show', :id => p %><br />
+        <%= p.description %>
+      </td>
+
+      <td class="price"><%= product_rounded_price(p)%></td>
+
+      <td class="buy">
+        <div class="compact_add_to_cart_box">
+        <%= form_tag :controller => 'carts', :action => 'add_product', :method => 'get' do -%>
+          <%= text_field_tag "quantity", 1, :size => 3 %>
+          <%= hidden_field_tag "product_id", p.id %>
+          <%= submit_tag t("stizun.cart.add_to_cart") %>
+        <% end -%>
+        </div>
+      </td>
+      
+      </tr>
+      <% end %>
+    </tbody>
+
+  </table>
+
+  <%= will_paginate product_table %>

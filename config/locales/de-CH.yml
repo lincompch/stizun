@@ -156,10 +156,6 @@ de-CH:
         odd: "muss ungerade sein"
         even: "muss gerade sein"
         record_invalid: "Gültigkeitsprüfung ist fehlgeschlagen: %{errors}"
-
-    attributes:
-      address:
-        city: "Stadt"
         
   stizun:
     general:
@@ -247,6 +243,7 @@ de-CH:
       add_to_cart: "Kaufen"
     category:
       categories: "Kategorien"
+      no_products_in_this_category: "Es gibt keine Produkte in dieser Kategorie."
     invoice:
       invoice: "Rechnung"
       invoice_overview: "Rechnungsübersicht"
@@ -267,8 +264,15 @@ de-CH:
       shopping_cart_empty: "Ihr Einkaufswagen ist leer. Sie können nicht weiter zur Kasse. Kaufen Sie doch ein paar Produkte."
       thanks_for_your_order: "Danke für Ihre Bestellung!"
       problem_with_your_order: "Es gibt ein Problem mit Ihrer Bestellung"
+      orders_awaiting_payment: "Unbezahlte Bestellungen"
+      orders_in_processing_or_ready_to_ship: "Bestellungen in Bearbeitung"
+      no_orders_awaiting_payment: "Keine unbezahlten Bestellungen"
+      no_orders_in_processing_or_ready_to_ship: "Keine Bestellungen in Bearbeitung"
+      also_past_orders: "auch vergangene"
     product:
       pcs_in_stock_short: "Stück an Lager"
+      no_products: "Diese Produkteliste ist leer."
+      products: "Produkte"
     users:
       account_not_created: "Das Konto konnte nicht erstellt werden."
       account_created_successfully: "Ihr Konto ist erstellt worden."
@@ -284,7 +288,7 @@ de-CH:
       logout_successful: "Sie sind jetzt ausgeloggt."
       stay_logged_in: "Eingeloggt bleiben."
       log_in: "Einloggen"
-
+      
       
       
   authlogic:
@@ -294,4 +298,10 @@ de-CH:
       password_blank: "Bitte füllen Sie das Feld 'Passwort' aus."
       login_invalid: "Der Benutzername ist ungültig."
       no_authentication_details: "Sie haben keine Login-Informationen eingegeben."
-    
+      login_not_found: ": Diese E-Mail-Adresse ist bei uns nicht registriert. Wenn Sie noch nie bei uns eingekauft haben, erstellen Sie doch ein neues Konto."
+    attributes:
+      user_session:
+        login: login
+        email: E-Mail-Adresse
+        password: Passwort
+        remember_me: Eingeloggt bleiben

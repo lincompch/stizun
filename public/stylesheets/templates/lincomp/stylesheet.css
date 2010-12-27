@@ -521,7 +521,7 @@ table.productlist thead th, table.productlist tfoot th {
 
 #product_details h3, #product_list h3 {
   font-size: 1.4em;
-  text-shadow: 0.2em 0.2em 0.4em #bbb;
+  text-shadow: 0.15em 0.15em 0.4em #bbb;
 }
 
 
