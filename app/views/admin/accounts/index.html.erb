@@ -9,7 +9,7 @@
   <th>Balance</th>
   </tr>
 
-  <%= tree_recursive_for_accounts_table(@assets_accounts, parent_id = nil) %>
+  <%= tree_recursive_for_accounts_table(@assets_accounts, parent_id = nil).html_safe %>
 </table>
 
 
@@ -22,7 +22,7 @@
   <th>Balance</th>
   </tr>
 
-  <%= tree_recursive_for_accounts_table(@liabilities_accounts, parent_id = nil) %>
+  <%= tree_recursive_for_accounts_table(@liabilities_accounts, parent_id = nil).html_safe %>
 </table>
 
 
@@ -35,7 +35,7 @@
   <th>Balance</th>
   </tr>
 
-  <%= tree_recursive_for_accounts_table(@income_accounts, parent_id = nil) %>
+  <%= tree_recursive_for_accounts_table(@income_accounts, parent_id = nil).html_safe %>
 </table>
 
 
@@ -48,5 +48,5 @@
   <th>Balance</th>
   </tr>
 
-  <%= tree_recursive_for_accounts_table(@expense_accounts, parent_id = nil) %>
+  <%= tree_recursive_for_accounts_table(@expense_accounts, parent_id = nil).html_safe %>
 </table>
