@@ -41,15 +41,13 @@
   <table class="address" id="billing_address">
     <tr>
       <td><%= ba.label :company,  t('stizun.address.attributes.company') %> </td>
-      <td><%= ba.text_field :company %></td>
+      <td><%= ba.text_field :company, :size => 45 %></td>
     </tr>
     <tr>
-      <td><%= ba.label :firstname, t('stizun.address.attributes.firstname') %> </td>
-      <td><%= ba.text_field :firstname %></td>
-    </tr>
-    <tr>
-      <td><%= ba.label :lastname, t('stizun.address.attributes.lastname') %> </td>
-      <td><%= ba.text_field :lastname %></td>
+      <td>
+        <%= ba.label :firstname, t('stizun.address.attributes.firstname') %>/<%= ba.label :lastname, t('stizun.address.attributes.lastname') %>
+      </td>
+      <td><%= ba.text_field :firstname, :size => 18 %> <%= ba.text_field :lastname, :size => 18 %></td>
     </tr>
     <tr>
       <td><%= ba.label :email, t('stizun.address.attributes.email') %> </td>
@@ -60,12 +58,10 @@
       <td><%= ba.text_field :street %></td>
     </tr>
     <tr>
-      <td><%= ba.label :postalcode, t('stizun.address.attributes.postalcode') %> </td>
-      <td><%= ba.text_field :postalcode %></td>
-    </tr>
-    <tr>
-      <td><%= ba.label :city, t('stizun.address.attributes.city') %> </td>
-      <td><%= ba.text_field :city %></td>
+      <td>
+        <%= ba.label :postalcode, t('stizun.address.attributes.postalcode') %>/<%= ba.label :city, t('stizun.address.attributes.city') %>
+      </td>
+      <td><%= ba.text_field :postalcode, :size => 6 %><%= ba.text_field :city, :size => 20 %></td>
     </tr>
     <tr>
       <td><%= ba.label :country_id, t('stizun.address.attributes.country') %> </td>
@@ -98,15 +94,13 @@
   <table class="address" id="shipping_address">
     <tr>
       <td><%= sa.label :company, t('stizun.address.attributes.company')  %> </td>
-      <td><%= sa.text_field :company %></td>
+      <td><%= sa.text_field :company, :size => 45 %></td>
     </tr>
     <tr>
-      <td><%= sa.label :firstname, t('stizun.address.attributes.firstname')  %> </td>
-      <td><%= sa.text_field :firstname %></td>
-    </tr>
-    <tr>
-      <td><%= sa.label :lastname, t('stizun.address.attributes.lastname') %> </td>
-      <td><%= sa.text_field :lastname %></td>
+      <td>
+        <%= sa.label :firstname, t('stizun.address.attributes.firstname') %>/<%= sa.label :lastname, t('stizun.address.attributes.lastname') %>
+      </td>
+      <td><%= sa.text_field :firstname, :size => 18 %> <%= sa.text_field :lastname, :size => 18 %></td>
     </tr>
     <tr>
       <td><%= sa.label :email, t('stizun.address.attributes.email') %> </td>
@@ -117,12 +111,10 @@
       <td><%= sa.text_field :street %></td>
     </tr>
     <tr>
-      <td><%= sa.label :postalcode, t('stizun.address.attributes.postalcode')  %> </td>
-      <td><%= sa.text_field :postalcode %></td>
-    </tr>
-    <tr>
-      <td><%= sa.label :city, t('stizun.address.attributes.city') %> </td>
-      <td><%= sa.text_field :city %></td>
+      <td>
+        <%= sa.label :postalcode, t('stizun.address.attributes.postalcode') %>/<%= sa.label :city, t('stizun.address.attributes.city') %>
+      </td>
+      <td><%= sa.text_field :postalcode, :size => 6 %><%= sa.text_field :city, :size => 20 %></td>
     </tr>
     <tr>
       <td><%= sa.label :country_id, t('stizun.address.attributes.country')  %> </td>
