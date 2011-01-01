@@ -1,7 +1,7 @@
 class StoreMailer < ActionMailer::Base
   helper :application  
   
-  default :from => APP_CONFIG['default_from_email']
+  default :from => APP_CONFIG['default_from_email'] || 'stizun@localhost'
   
   def order_confirmation(user, order)
 
