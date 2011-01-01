@@ -164,7 +164,7 @@ class Order < Document
   # but this check prevents errors e.g. from admins manipulating orders on the console.
   def must_be_authorized_for_payment_method
  
-    unless payment_method == PaymentMethod.get_default or user.payment_methods.include?(payment_method) or  
+    unless payment_method == PaymentMethod.get_default or user.payment_methods.include?(payment_method)
       errors.add_to_base("User is not authorized for the chosen payment method.")
     end
     
