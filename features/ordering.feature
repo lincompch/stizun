@@ -43,7 +43,7 @@ Feature: Ordering
       And I submit my order
       Then I should see "Danke für Ihre Bestellung!"
       And I should receive 1 e-mails
-      And the subject of e-mail 1 should be "[Lincomp] Order confirmation"
+      And the subject of e-mail 1 should be "[Local Shop] Bestätigung Ihrer Bestellung"
 
     Scenario: Complete checkout with different shipping address
       Given I have ordered some stuff
@@ -69,7 +69,7 @@ Feature: Ordering
       And I submit my order
       Then I should see "Danke für Ihre Bestellung!"
       And I should receive 1 e-mails
-      And the subject of e-mail 1 should be "[Lincomp] Order confirmation"
+      And the subject of e-mail 1 should be "[Local Shop] Bestätigung Ihrer Bestellung"
 
     Scenario: Forget filling in some important fields when ordering
 
