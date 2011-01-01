@@ -166,7 +166,7 @@ class Order < Document
     authorized_methods = [PaymentMethod.get_default]
     authorized_methods << user.payment_methods if user
     
-    unless authorized_payment_methods.include?(payment_method)
+    unless authorized_methods.include?(payment_method)
       errors.add_to_base("User is not authorized for the chosen payment method.")
     end
     
