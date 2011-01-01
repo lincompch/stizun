@@ -219,6 +219,8 @@ de-CH:
       address_changed: "Adresse geändert."
       address_saved: "Adresse gespeichert."
       address_couldnt_be_saved: "Adresse konnte nicht gespeichert werden."
+      select_an_address: "Wählen Sie eine gespeicherte Adresse"
+      you_have_no_saved_addresses: "Sie haben keine gespeicherten Adressen"
       
       attributes:
         company: "Firma"
@@ -255,7 +257,7 @@ de-CH:
       select_payment_method: "Wählen Sie Ihre Zahlungsart:"
       leave_this_empty_to_ship_to_billing_address: "Wenn Sie diese Adresse leer lassen, schicken wir die Ware an die Rechnungsadresse."
       use_saved_address: "Gespeicherte Adresse benutzen:"
-      or_enter_new_address: "Oder neue Adresse eingeben:"
+      or_enter_new_address: "Neue Adresse eingeben:"
       save_address: "Adresse speichern"
       submit_order: "Bestellung aufgeben"
       overview: "Bestellungsübersicht"
@@ -269,6 +271,7 @@ de-CH:
       no_orders_awaiting_payment: "Keine unbezahlten Bestellungen"
       no_orders_in_processing_or_ready_to_ship: "Keine Bestellungen in Bearbeitung"
       also_past_orders: "auch vergangene"
+      if_you_had_an_account: "Wenn Sie ein Konto bei uns hätten und eingeloggt wären, könnten Sie hier Ihre Zahlungsart auswählen."
     product:
       pcs_in_stock_short: "Stück an Lager"
       no_products: "Diese Produkteliste ist leer."

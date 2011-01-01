@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :payment_methods
   has_and_belongs_to_many :usergroups
 
+  before_create :add_default_payment_method
+  
   def self.find_by_login_or_email(login)
     User.find_by_login(login) || User.find_by_email(login)
   end
@@ -33,6 +35,10 @@ class User < ActiveRecord::Base
       account = self.accounts.first
     end
     return account
+  end
+  
+  def add_default_payment_method
+    self.payment_methods << PaymentMethod.get_default
   end
   
   # BUG: Below breaks user.save if the user hasn't existed before, it leads to

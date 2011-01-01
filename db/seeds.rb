@@ -14,6 +14,8 @@ Usergroup.create(:name => 'Admins', :is_admin => true)
 # Set your shop's currency here
 ConfigurationItem.create(:name => 'Currency', :key => 'currency', :value => 'CHF', :description => 'The currency for your shop.')
 
+PaymentMethod.create(:name => 'Vorkasse', :allows_direct_shipping => false, :default => true)
+PaymentMethod.create(:name => 'Rechnung/Bankzahlung', :allows_direct_shipping => true)
 
 Country.create(:name => 'Schweiz/Suisse/Svizzera/Svizra')
 

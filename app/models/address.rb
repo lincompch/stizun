@@ -42,10 +42,10 @@ class Address < ActiveRecord::Base
   
   def self.option_hash_for_select(user)
     unless user.addresses.active.nil? or user.addresses.active.count == 0
-      options = [["Please select an address" , nil]]
+      options = [[I18n.t("stizun.address.select_an_address") , nil]]
       options += user.addresses.active.collect {|a| [ a.one_line_summary, a.id ]}
     else
-      options = [["Please enter a new address below:" , nil]]
+      options = [[I18n.t("stizun.address.you_have_no_saved_addresses") , nil]]
     end
     return options
   end
