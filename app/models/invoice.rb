@@ -154,6 +154,9 @@ class Invoice < ActiveRecord::Base
     elsif self.shipping_address.nil? and !self.billing_address.email.blank?
       emails << self.billing_address.email
     else
+      if (!self.user.nil? and !self.user.email.blank?)
+        emails << self.user.email
+      end
       emails << self.billing_address.email unless self.billing_address.email.blank?
       emails << self.shipping_address.email unless self.shipping_address.email.blank?
     end

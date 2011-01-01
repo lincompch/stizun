@@ -272,6 +272,7 @@ de-CH:
       no_orders_in_processing_or_ready_to_ship: "Keine Bestellungen in Bearbeitung"
       also_past_orders: "auch vergangene"
       if_you_had_an_account: "Wenn Sie ein Konto bei uns hätten und eingeloggt wären, könnten Sie hier Ihre Zahlungsart auswählen."
+      notification_email_explanation: "Nach Ihrer Bestellung schicken wir automatisch eine Bestätigung per E-Mail an alle angegebenen E-Mail-Adressen (sowohl die der Versand- wie die der Rechnungsadresse). Ausserdem erhalten Sie Ihre Rechnung ebenfalls per E-Mail an diese Adressen."
     product:
       pcs_in_stock_short: "Stück an Lager"
       no_products: "Diese Produkteliste ist leer."

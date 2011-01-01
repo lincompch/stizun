@@ -1,5 +1,6 @@
 class StoreMailer < ActionMailer::Base
-  helper :application  
+  helper :application
+  helper :store_mailer
   
   default :from => APP_CONFIG['default_from_email'] || 'stizun@localhost'
   
