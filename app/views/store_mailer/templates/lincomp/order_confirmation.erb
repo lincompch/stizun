@@ -1,0 +1,14 @@
+lincomp template
+
+
+Hi there.
+
+This is an e-mail message. Maybe you already guessed that.
+
+Here's some random computer parts for you to enjoy:
+
+<% @order.order_lines.each do |ol| %>
+<%= "#{ol.quantity.to_s}x #{ol.product.name}. #{pretty_price(ol.product.taxed_price.rounded)}" %>
+<% end %>
+
+Great, isn't it? We knew you'd love that.
