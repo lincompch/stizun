@@ -12,7 +12,7 @@ class Admin::InvoicesController <  Admin::BaseController
       # redirect_to admin_invoice_path(@invoice)
         StoreMailer.invoice(@invoice).deliver
         flash[:notice] = "Invoice created."
-        redirect_to admin_path
+        redirect_to :back
       else
         flash[:error] = "Could not create invoice."
         redirect_to :back
@@ -42,15 +42,6 @@ class Admin::InvoicesController <  Admin::BaseController
     @invoice.update_attributes(params[:invoice])
     
     if @invoice.save
-      # This can unfortunately not be done on model level as we
-      # lose access to the immediate state of the autobook checkbox
-      # there.
-      
-      # TODO: Refactor out of here, make sure invoices know to book their own
-      # transactions on save/update.
-      if @invoice.autobook == true
-        @invoice.record_payment_transaction
-      end
       flash[:notice] = "Invoice updated."
       redirect_to edit_admin_invoice_path @invoice
     else

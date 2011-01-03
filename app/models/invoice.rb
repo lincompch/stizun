@@ -23,8 +23,9 @@ class Invoice < ActiveRecord::Base
   # === AR Callbacks
   
   before_create :assign_uuid
+  before_save :handle_autobooking
   before_validation :move_paid_status
-  after_create :record_income 
+  after_create :record_income
   
   # === Constants and associated methods
     
@@ -180,15 +181,22 @@ class Invoice < ActiveRecord::Base
     end
   end
   
-  # This invoice was paid -- record its payment in
-  # the accounting system
-  def record_payment_transaction
-   
-    # TODO: Catch and prevent multiple payment bookings on the same invoice
-    if self.order
-      # The order is now ready to ship since it was paid
-      self.order.update_attributes(:status_constant => Order::TO_SHIP) if self.order.status_constant == Order::AWAITING_PAYMENT
+  def handle_autobooking
+    # Only record the transaction if this invoice was unpaid before and
+    # if autobooking is desired for this invoice.
+    
+    # TODO: Also check whether the order relating to this invoice is even here, and
+    # whether it was paid already before.
+    if autobook == true and \
+       status_constant_was == Invoice::UNPAID and \
+       status_constant == Invoice::PAID
+      record_payment_transaction
     end
+  end
+  
+  # This invoice was paid -- record its payment in
+  # the accounting system. This should only be done for invoices that have autobooking enabled.
+  def record_payment_transaction
     
     # Book the correct entries for payment of this invoice
     if self.user.blank?
@@ -201,6 +209,12 @@ class Invoice < ActiveRecord::Base
     
     if AccountTransaction.transfer(bank_account, user_account, self.taxed_price, "Invoice payment #{self.document_id}", self)
       History.add("Payment transaction for invoice #{self.document_id}. Credit: Bank account #{self.taxed_price}", History::ACCOUNTING, self)
+         
+      if self.order
+        # The order is now ready to ship since it was paid
+        self.order.update_attributes(:status_constant => Order::TO_SHIP) if self.order.status_constant == Order::AWAITING_PAYMENT
+      end
+      
     else
       History.add("Failed creating payment transaction for #{self.document_id}. Credit: Bank account #{self.taxed_price}", History::ACCOUNTING,  self)                         
     end
