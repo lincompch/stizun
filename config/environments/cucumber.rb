@@ -33,7 +33,7 @@ Stizun::Application.configure do
   config.i18n.default_locale = :"de-CH"
   config.i18n.locale = :"de-CH"
 
-  
+  config.action_mailer.default_url_options = { :host => "localhost" }
   
 end
 

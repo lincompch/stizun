@@ -1,17 +1,22 @@
-lincomp template
+Liebe Lincomp-Kundin
+Lieber Lincomp-Kunde
 
-Hi there.
+Dies ist die elektronische Rechnung Nr. <%= "#{@invoice.document_id}" %> zu Ihrer Bestellung
+Nr. <%= "#{@invoice.order.document_id}" %>. Rechnungsdetails und Zahlungsanweisungen finden
+Sie hier:
 
-This is an e-mail message. Maybe you already guessed that.
+<%= url_for :only_path => false, :controller => 'invoices', :action => 'uuid', :uuid => @invoice.uuid %>
 
-Pay us lots of money for stuff. This is the stuff:
+Alle Rechnungs- und Bestellungs-Informationen finden Sie ausserdem in Ihrem persönlichen
+Konto unter:
 
-<% @invoice.invoice_lines.each do |il| %>
-<%= "#{il.quantity.to_s}x #{il.text}. #{pretty_price(il.taxed_price)}" %>
-<% end %>
+http://www.lincomp.ch/users/me
 
-Total: <%= pretty_price(@invoice.taxed_price) %>
 
-Come on. You know you'd love to pay. Here's a link for payment details:
+Freundliche Grüsse
 
-<%= url_for :controller => 'invoices', :action => 'uuid', :uuid => @invoice.uuid %>
+Lincomp GmbH
+
+--
+
+info@lincomp.ch | http://www.lincomp.ch
