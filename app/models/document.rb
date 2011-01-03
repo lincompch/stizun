@@ -35,7 +35,7 @@ class Document < ActiveRecord::Base
   end
   
   
-  # Note that this shipping_rate is only meant so that a shipping rate can be attached to 
+  # Note that this shipping_rate is only here so that a shipping rate can be attached to 
   # a document. It does not actually return a ShippingRate object for this order, because
   # one order's products can come from any number of shipping partners and at any rates.
   # To get to a specific supplier's shipping rate object, you should rather do something like:
