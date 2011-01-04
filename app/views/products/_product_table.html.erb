@@ -26,7 +26,7 @@
         <%= p.description %>
       </td>
 
-      <td class="price"><%= product_rounded_price(p)%></td>
+      <td class="price"><%= product_rounded_price(p).html_safe%></td>
 
       <td class="buy">
         <div class="compact_add_to_cart_box">
