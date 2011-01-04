@@ -40,7 +40,7 @@
               <li class="nav_menu_item"><%= link_to "Ausloggen", logout_path %></li>
               <li class="nav_menu_item"><%= link_to "Mein Konto", user_path(current_user) %></li>
             <% end %>
-            <li class="nav_menu_item"><%= link_to "Warenkorb", cart_path %></a></li>
+            <li class="nav_menu_item"><%= link_to "Einkaufswagen", cart_path %></a></li>
             <li class="nav_menu_item"><%= link_to "Zur Kasse", new_order_path %></a></li>
           </ul>
            
@@ -81,8 +81,11 @@
           <!-- RIGHT COLUMN -->
           <div id="rightcolumn">
           
-                  <div id="navColumnTwoWrapper">
-                  <div class="box" id="languages"> 
+                  <% @cart = Cart.get_from_session(session) %>
+                  <%= render :partial => 'carts/sidebar_box' %>
+
+
+                  <div class="box" id="category_box"> 
                     <div class="box_hd"> 
                         <h3 class="rightBoxHeading">Kategorien</h3> 
                     </div> 
@@ -94,6 +97,8 @@
                     <div class="box_ft"> 
                         &nbsp;
                     </div> 
+
+
                   </div> 
   
                 </div>

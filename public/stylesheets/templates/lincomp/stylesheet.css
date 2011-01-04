@@ -7,7 +7,7 @@ body {
   background-color: #EFEFEF;
 	font-size: 10pt;
 	margin: 0px;
-	font-family: "Bitstream Vera Sans", "Vera Sans", "Deja Vu Sans", "Helvetica", sans-serif;
+	font-family: "Bitstream Vera Sans", "Vera Sans", "Deja Vu Sans", sans-serif;
 }
 
 .hidden {
@@ -212,12 +212,6 @@ td {
 
 }
 
-#languages .box_ct {
-  margin: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
 
 #footer {
 	float:left;
@@ -270,58 +264,9 @@ td {
 }
 
 
-#popupSearchHelp, #popupShippingEstimator, #popupCouponHelp {
-  background: #fff;
-}
-
-
-
-#productName {
-  background: #efefef;
-  padding: 8px;
-  border-top: 1px solid #444;
-  border-bottom: 1px solid #444;
-}
-
 #navBreadCrumb {
   margin-bottom: 15px;
 
-}
-
-/* Tables on product listing pages (old, zencart) */
-
-#productListing tr td {
-  border-bottom: 2px solid #ccc;
-  border-top: 2px solid #ccc;
-  border-right: 1px solid #fefefe;
-
-  padding: 5px 15px 8px 5px;
-}
-
-#productListing tr.productListing-odd td {
- background: #f9f9f9;
-}
-
-#productListing table {
-  width: 100%;
-  border-collapse: collapse;
-
-}
-
-#productListing tr.productListing-rowheading th {
-    border-top: 1px solid #444;
-    border-bottom: 1px solid #444;
-    text-align: left;
-}
-
-
-#productListing #listCell0-0 {
- width: 100px; 
-
-}
-
-#productListing h3.itemTitle {
-  margin-top: 0;
 }
 
 /* The "new items" list should look like a grid */
@@ -346,40 +291,6 @@ td {
   
 }
 
-
-
-/* Checkout process */
-
-
-#checkoutOrderTotals, #orderTotals {
-
-  margin-top: 15px;
-  margin-bottom: 20px;
-
-}
-
-#checkoutOrderTotals .lineTitle, #orderTotals .lineTitle {
-  float: left;
-}
-
-#checkoutOrderTotals .totalBox, #orderTotals .totalBox, #orderTotals .amount {
-  float: right;
-}
-
-#checkoutOrderTotals #ottotal, #orderTotals #ottotal {
-  border-top: 1px solid #ccc;
-  font-weight: bold;
-}
-
-#checkoutPayment .floatingBox.back {
-  width: 200px;
-  float: left;
-}
-
-#checkoutPayment .floatingBox.forward {
-  width: 200px;
-  float: right;
-}
 
 .buttonRow.forward {
   float: right;
@@ -468,10 +379,6 @@ table.specs th {
 	margin: 40px;
 }
 
-#indexProductListCatDescription {
-	margin-bottom: 2em;
-}
-
 
 /* More or less new stuff here (Stizun) */
 
@@ -531,6 +438,8 @@ table.productlist thead th, table.productlist tfoot th {
   border: 2px solid #cecece;
   float: right;
   border-radius: 0.8em;
+  -moz-border-radius: 0.8em;
+  -webkit-border-radius: 0.8em;
 }
 
 #add_to_cart_box p.price {
@@ -550,19 +459,76 @@ table.productlist thead th, table.productlist tfoot th {
 }
 
 
-/* Blog stuff */
-
-.blogpostings img.leftalign {
-	float: left;
-	padding-right: 20px;
-	padding-bottom: 20px;
+#sidebar_cart ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.blogpostings img.rightalign {
-	float: right;
-	padding-left: 20px;
-	padding-bottom: 20px;
+#sidebar_cart ul li {
+/*  padding: 0;
+  margin: 0;*/
 }
 
 
+#category_box ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
+a.exx {
+  font-weight: bold;
+  color: #cc0000;
+  border: 1px solid #ccc;
+  padding: 1px 3px 1px 3px;
+  margin-left: 3px;
+}
+
+/* Loads of button handling */
+
+/* Paddings and widths on input and a href elements seem not to
+   be calculated the same way, that's why we need to do the 
+   pixelly fiddling between those two buttons to make the fake
+   button look more or less like the real one */
+input.real_button, a.fake_button {
+  border: 1px solid #999;
+  font-weight: bold;
+  color: #000;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 0.4em;
+  -moz-border-radius: 0.4em;
+  -webkit-border-radius: 0.4em;
+  font-size: 10pt;
+  text-align: center;
+}
+
+a.fake_button {
+  padding: 2px 4px 2px 4px;
+}
+
+
+input.real_button:hover, a.fake_button:hover {
+  color: #666;
+}
+
+div.cartbuttons p {
+  padding: 0;
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}
+
+div.cartbuttons input.real_button, div.cartbuttons a.fake_button {
+  width: 160px;
+}
+
+div.cartbuttons a.fake_button {
+  display: block;
+  width: 150px;
+
+}
+
+td.price {
+  text-align: right;
+}

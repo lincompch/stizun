@@ -3,34 +3,41 @@
 <%= form_for @cart, :url => { :controller => 'carts', :action => 'update' } do |f| %>
 
 <h4><%= t("stizun.cart.shopping_cart")%></h4>
-<ul>
+
   <% if @cart.cart_lines.count == 0 %>
     <%= t("stizun.cart.your_cart_is_empty") %>
   <% else %>
 
-    <% @cart.cart_lines.each do |ci| %>
-      <li>
-        
+    <ul>
+      <% @cart.cart_lines.each do |ci| %>
+        <li>
+          
 
-        <%= f.fields_for "cart_lines[]", ci do |cl_fields| %>
-          <%= cl_fields.text_field :quantity, :size => 3 %> x 
-          <%= ci.product.name %> (<%= pretty_price(ci.product.taxed_price.rounded) %>)
-           <%= link_to t("stizun.cart.remove"), :controller => 'carts', :action => 'remove_all', :product_id => ci.product %>
+          <%= f.fields_for "cart_lines[]", ci do |cl_fields| %>
+            <%= cl_fields.text_field :quantity, :size => 3 %> x 
+            <%= ci.product.name %> (<%= pretty_price(ci.product.taxed_price.rounded) %>)
+            <%= link_to t("stizun.cart.remove"), :controller => 'carts', :action => 'remove_all', :product_id => ci.product %>
 
-        <% end %>
+          <% end %>
+                    
+        </li>
+      <% end %>
+    </ul>
 
-        
-        
-      </li>
-    <% end %>
-    
-    
-    <%= submit_tag t("stizun.cart.update_quantities") %>
-    <%= link_to t("stizun.cart.continue_to_checkout"), :controller => :orders, :action => :new %>
-    
   <% end %>
-</ul>
 
+  <p>&nbsp;</p>
+
+  <table>
+    <tr>
+      <td style="vertical-align: middle">
+      <%= submit_tag(t("stizun.cart.update_quantities"), {:class => 'real_button'}) %>
+      </td>  
+      <td style="vertical-align: middle">
+      <%= link_to(t("stizun.cart.continue_to_checkout"), { :controller => :orders, :action => :new}, {:class => 'fake_button'}) %>
+      </td>
+    </tr>
+  </table>
 
 <% end %>
 

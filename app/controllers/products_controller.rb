@@ -9,7 +9,6 @@ class ProductsController < ApplicationController
         @products = Product.available.paginate(:page => params[:page], :per_page => Product.per_page)
       end
       
-      @cart = load_cart
       
       respond_to do |format|
       format.html
@@ -51,18 +50,6 @@ class ProductsController < ApplicationController
       # delete the account
     end
 
-    private
 
-    # TODO: Refactor this into a separate method shared with the CartsController
-    def load_cart
-      if session[:cart_id] and Cart.exists?(session[:cart_id])
-        cart = Cart.find(session[:cart_id])
-      else
-        cart = Cart.new
-        cart.save
-        session[:cart_id] = cart.id
-      end
-      return cart
-    end
       
 end

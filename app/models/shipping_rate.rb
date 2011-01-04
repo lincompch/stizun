@@ -125,28 +125,8 @@ class ShippingRate < ActiveRecord::Base
  
       
     else
-      # We set up an internal shipping rate that is used for outgoing
-      # calculations from our own store. This should be replaced by a configuration 
-      # or a database setting that guarantees that an outgoing shipping rate is _always_ 
-      # available. The database-based one would be more configurable than this,
-      # but in the first phases, we don't want to make the software dependent
-      # on specific database entries.
-      sr = ShippingRate.new
-      
-      # Source: http://www.post.ch/post-startseite/post-privatkunden/post-versenden/post-pakete-inland/post-pakete-inland-preise.htm
-      
-      # TODO: Extract to default shipping rate object, change prices to gross (excluding VAT)
-      sr.shipping_costs << ShippingCost.new(:weight_min => 0, :weight_max => 2000, :price => 8.0)
-      sr.shipping_costs << ShippingCost.new(:weight_min => 2001, :weight_max => 5000, :price => 10.0)
-      sr.shipping_costs << ShippingCost.new(:weight_min => 5001, :weight_max => 10000, :price => 13.0)
-      sr.shipping_costs << ShippingCost.new(:weight_min => 10001, :weight_max => 20000, :price => 19.0)
-      sr.shipping_costs << ShippingCost.new(:weight_min => 20001, :weight_max => 30000, :price => 26.0)
-      
-      # This default tax class for shipping would need to be made configurable in the 
-      # final system, especially if it is going to be released as Free Software.
-      sr.shipping_costs.each do |sc|
-        sc.tax_class = TaxClass.find_or_create_by_percentage("8.0")
-      end
+
+      sr = ShippingRate.get_default
       
     end
     added_cost, added_taxes = sr.calculate_for_weight(document.weight * 1000)
@@ -195,6 +175,28 @@ class ShippingRate < ActiveRecord::Base
   # Maximum weight carried by this ShippingRate's ShippingCosts, in grams
   def maximum_weight
     self.shipping_costs.collect(&:weight_max).max
+  end
+  
+  
+  def self.get_default
+    sr = ShippingRate.new(:name => 'Auto-created default')
+    sr.tax_class = TaxClass.find_or_create_by_percentage("8.0")
+    # Source: http://www.post.ch/post-startseite/post-privatkunden/post-versenden/post-pakete-inland/post-pakete-inland-preise.htm
+    
+    sr.shipping_costs << ShippingCost.new(:weight_min => 0, :weight_max => 2000, :price => 8.0)
+    sr.shipping_costs << ShippingCost.new(:weight_min => 2001, :weight_max => 5000, :price => 10.0)
+    sr.shipping_costs << ShippingCost.new(:weight_min => 5001, :weight_max => 10000, :price => 13.0)
+    sr.shipping_costs << ShippingCost.new(:weight_min => 10001, :weight_max => 20000, :price => 19.0)
+    sr.shipping_costs << ShippingCost.new(:weight_min => 20001, :weight_max => 30000, :price => 26.0)
+    
+    # This default tax class for shipping would need to be made configurable in the 
+    # final system, especially if it is going to be released as Free Software.
+    sr.shipping_costs.each do |sc|
+      sc.tax_class = TaxClass.find_or_create_by_percentage("8.0")
+    end
+    
+    sr.save
+    return sr
   end
   
   # debug print to analyze why two different systems, both running squeeze and

@@ -10,11 +10,7 @@ class Document < ActiveRecord::Base
     self.lines.each do |ol|
       total += ol.taxed_price
     end
-    return total
-  end
-  
-  def gross_price
-    return price
+    return total    
   end
   
   def taxes

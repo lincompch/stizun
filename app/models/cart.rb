@@ -58,4 +58,17 @@ class Cart < Document
   def lines
     return cart_lines
   end
+  
+  def self.get_from_session(session)
+
+    if session[:cart_id] and Cart.exists?(session[:cart_id])
+      cart = Cart.find(session[:cart_id])
+    else
+      cart = Cart.new
+      cart.save
+      session[:cart_id] = cart.id
+    end
+    return cart
+  end
+  
 end
