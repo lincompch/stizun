@@ -124,7 +124,15 @@
 
 <h3>Components</h3>
 
-<p><%= link_to "Edit components", admin_product_components_path(@product) %></p>
+<% if @product.new_record? %>
+
+  <p>You must first save this product before you can add components.</p>
+
+<% else %>
+
+  <p><%= link_to "Edit components", admin_product_components_path(@product) %></p>
+
+<% end %>
 
 <% if @product.componentized? %>
 
@@ -154,8 +162,6 @@
       <td><%= f.text_field :stock, :size => 4 %></td>
     </tr>
   <% end %>
-
-
 
   <tr>
     <td><%= f.check_box :direct_shipping %> </td>
