@@ -55,19 +55,21 @@ Feature: Browse products
       Then I should see an error message inside the fancybox
       And there should not be a product called "Lenovo T500"
 
+   @kaka
     Scenario: Browse all products
-      Given a product named "Foobar 2000" in the category "Metasyntactic Variables"
-      And a product named "Fish" in the category "Animals"
-      And a product named "Defender" in the category "Arcade games"
+      Given a product named "Foobar 2000" from supplier "Alltron AG" in the category "Metasyntactic Variables"
+      And a product named "Fish" from supplier "Alltron AG" in the category "Animals"
+      And a product named "Defender" from supplier "Alltron AG" in the category "Arcade games"
       When I view the product list
+      Then show me the page
       Then I should see a product named "Foobar 2000"
       And I should see a product named "Fish"
       And I should see a product named "Defender"
 
     Scenario: Browse products in a category
-      Given a product named "Foobar 2000" in the category "Metasyntactic Variables"
-      And a product named "Fish" in the category "Animals"
-      And a product named "Defender" in the category "Arcade games"
+      Given a product named "Foobar 2000" from supplier "Alltron AG" in the category "Metasyntactic Variables"
+      And a product named "Fish" from supplier "Alltron AG" in the category "Animals"
+      And a product named "Defender" from supplier "Alltron AG" in the category "Arcade games"
       When I view the category "Animals"
       Then I should see a product named "Fish"
       And I should not see a product named "Defender"

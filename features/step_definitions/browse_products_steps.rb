@@ -2,18 +2,19 @@ Given /^a category named "([^\"]*)" exists$/ do |arg1|
   @category = Category.find_or_create_by_name(:name => arg1)
 end
 
-Given /^a product named "([^\"]*)"$/ do |arg1| 
+Given /^a product named "([^\"]*)" from supplier "([^\"]*)"$/ do |arg1, arg2| 
   @product = Product.new
   @product.name = arg1
   @product.description = "Blah"
   @product.weight = 5.0
   @product.tax_class = TaxClass.find_or_create_by_name_and_percentage("Foo", 2.5)
+  @product.supplier = Supplier.find_by_name(arg2)
   @product.save
 end
 
-Given /^a product named "([^\"]*)" in the category "([^\"]*)"$/ do |arg1, arg2|
-  Given "a product named \"#{arg1}\""
-  And "a category named \"#{arg2}\" exists"
+Given /^a product named "([^\"]*)" from supplier "([^\"]*)" in the category "([^\"]*)"$/ do |product_name, supplier_name, category_name|
+  Given "a product named \"#{product_name}\" from supplier \"#{supplier_name}\""
+  And "a category named \"#{category_name}\" exists"
 
   @product.categories << @category
   @product.save
@@ -82,7 +83,8 @@ When /^I assign the product to the category "([^\"]*)"$/ do |arg1|
   end
 end
                                                                                           
-When /^I view the product list$/ do                                                       
+When /^I view the product list$/ do
+  puts "all prods #{Product.all.inspect}"
   visit products_path                 
 end 
 
