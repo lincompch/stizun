@@ -8,11 +8,9 @@
         <li>
           <%= f.fields_for "cart_lines[]", cart_line do |cl_fields| %>
             <%= cl_fields.text_field :quantity, :size => 2, :style => 'width: 1em' %> 
-            <%= cart_line.product.name %>
+            <%= link_to cart_line.product.name, cart_line.product %>
             <%= link_to("X", {:controller => 'carts', :action => 'remove_all', :product_id => cart_line.product}, {:class => 'exx'}) %>
-
           <% end %>
-          
         </li>
     </ul>
     <% end %>

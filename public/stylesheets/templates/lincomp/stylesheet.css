@@ -508,6 +508,26 @@ a.fake_button {
   padding: 2px 4px 2px 4px;
 }
 
+#cart_table table, #order_table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#cart_table th, #order_table th {
+  text-align: left;
+}
+
+#cart_table td.qty, #order_table td.qty {
+  width: 6em;
+}
+
+#cart_table tr.spacer td, #order_table tr.spacer td {
+  border-bottom: 1px solid #000;
+}
+
+#cart_table tr.underline td, #order_table tr.underline td {
+  border-bottom: 1px solid #ccc;
+}
 
 input.real_button:hover, a.fake_button:hover {
   color: #666;

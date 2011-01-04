@@ -55,7 +55,6 @@ Feature: Browse products
       Then I should see an error message inside the fancybox
       And there should not be a product called "Lenovo T500"
 
-   @kaka
     Scenario: Browse all products
       Given a product named "Foobar 2000" from supplier "Alltron AG" in the category "Metasyntactic Variables"
       And a product named "Fish" from supplier "Alltron AG" in the category "Animals"

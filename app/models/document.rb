@@ -13,6 +13,16 @@ class Document < ActiveRecord::Base
     return total    
   end
   
+  def products_price
+    total = BigDecimal.new("0.0")
+    self.lines.each do |ol|
+      total += ol.price
+    end
+    return total    
+  end
+  
+  
+  
   def taxes
     taxes = BigDecimal.new("0.0")
     self.lines.each do |ol|

@@ -11,7 +11,9 @@
 
 <h4><%= t("stizun.order.order_summary") %></h4>
 
-<p>TODO</p>
+  <div id="order_table">
+  <%= render :partial => 'documents/document_table', :locals => { :document => @cart } %>
+  </div>
 
   <% if current_user %>
   <%= render :partial => "user_information" %>
@@ -132,6 +134,9 @@
 
 
 <p><%= t("stizun.order.notification_email_explanation") %></p>
+
+<p style="font-weight: bold;"><%= t("stizun.order.terms_explanation") %></p>
+
 
 <%= submit_tag t("stizun.order.submit_order") %>
 

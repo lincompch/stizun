@@ -99,14 +99,7 @@ class OrdersController < ApplicationController
   
   # TODO: Refactor this into a separate method shared with the CartsController
   def load_cart
-    if session[:cart_id] and Cart.exists?(session[:cart_id])
-      cart = Cart.find(session[:cart_id])
-    else
-      cart = Cart.new
-      cart.save
-      session[:cart_id] = cart.id
-    end
-    return cart
+    Cart.get_from_session(session)
   end
   
   

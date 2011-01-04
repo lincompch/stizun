@@ -63,6 +63,7 @@ class Cart < Document
 
     if session[:cart_id] and Cart.exists?(session[:cart_id])
       cart = Cart.find(session[:cart_id])
+      # TODO: Remove all products from this cart that are no longer available at this time.
     else
       cart = Cart.new
       cart.save

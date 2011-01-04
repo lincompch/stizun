@@ -1,0 +1,86 @@
+  <table>
+    <tr>
+      <th>Anz.</th>
+      <th></th>
+      <th style="text-align: right;">exkl. MwSt.</th>
+      <th style="text-align: right;">inkl. MwSt.</th>
+      <th></th>
+    </tr>
+
+
+  <% if defined?(f) %>
+    <% document.lines.each do |ci| %>
+        <%= f.fields_for "cart_lines[]", ci do |cl_fields| %>
+          <tr>
+            <td class="qty"><%= cl_fields.text_field :quantity, :size => 3 %> </td>
+            <td class="product"><%= link_to ci.product.name, ci.product %></td>
+            <td class="price"><%= pretty_price(ci.product.price.rounded) %></td>
+            <td class="price"><%= pretty_price(ci.product.taxed_price.rounded) %></td>
+            <td class="price"><%= pretty_price(ci.taxed_price.rounded) %></td>
+            <td><%= link_to("X", {:controller => 'carts', :action => 'remove_all', :product_id => ci.product}, {:class => 'exx'}) %></td>
+          </tr>
+        <% end %>
+      <% end %>
+   <% else %>
+      <% document.lines.each do |dl| %>
+        <tr>
+          <td class="qty"><%= dl.quantity %></td>
+          <td class="product"><%= link_to dl.product.name, dl.product %></td>
+          <td class="price"><%= pretty_price(dl.product.price.rounded) %></td>
+          <td class="price"><%= pretty_price(dl.product.taxed_price.rounded) %></td>
+          <td class="price"><%= pretty_price(dl.taxed_price.rounded) %></td>
+          <td></td>
+        </tr>
+      <% end %>
+   <% end %>
+
+    <tr class="spacer">
+      <td colspan="6">&nbsp;</td>
+    </tr>
+
+    <tr class="spacer-bottom">
+      <td colspan="6">&nbsp;</td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td>Produkte exkl. MwSt.</td>
+      <td></td>
+      <td></td>
+      <td class="price"><%= pretty_price document.products_price.rounded %></td>
+      <td></td>
+    </tr>
+    <tr class="underline">
+      <td></td>
+      <td>Mehrwertsteuer</td>
+      <td></td>
+      <td></td>
+      <td class="price"><%= pretty_price document.taxes %></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Produkte inkl. MwSt.</td>
+      <td></td>
+      <td></td>
+      <td class="price"><%= pretty_price document.products_taxed_price.rounded %></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Versand</td>
+      <td></td>
+      <td></td>
+      <td class="price"><%= pretty_price document.shipping_cost.rounded %></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong>Total</strong></td>
+      <td></td>
+      <td></td>
+      <td class="price"><strong><%= pretty_price document.taxed_price.rounded %></strong></td>
+      <td></td>
+    </tr>
+
+  </table>
