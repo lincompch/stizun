@@ -10,6 +10,7 @@ Stizun::Application.routes.draw do
   match 'login' => 'user_sessions#new', :as => :login
   match 'logout' => 'user_sessions#destroy', :as => :logout
   
+  
   resources :categories do
     resources :products
   end
@@ -32,6 +33,9 @@ Stizun::Application.routes.draw do
     
     resources :products do
       resources :components
+      collection do
+        get 'create_from_supply_item'
+      end
     end
     
     resources :tax_classes
