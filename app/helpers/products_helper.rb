@@ -12,7 +12,8 @@ module ProductsHelper
         rebate_string = product.percentage_rebate.to_s + "%"
       end
       
-      "<span class='sales_price'>#{pretty_price(product.taxed_price.rounded)}<span> (You save: #{rebate_string})"
+      "<span class='sales_price'>#{pretty_price(product.taxed_price.rounded)}</span><br>"\
+      "<span class='rebate_string'>#{rebate_string} #{t('stizun.product.rebate')}</span>"
     else
       pretty_price(product.taxed_price.rounded)
     end

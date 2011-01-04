@@ -331,11 +331,6 @@ span.strikethrough_price {
 	text-decoration: line-through;
 }
 
-span.sales_price {
-	font-size: 115%;
-}
-
-
 
 table.specs {
   width: 100%;
@@ -411,7 +406,7 @@ table.productlist tr.odd td {
 table.productlist td.price {
   text-align: right;
   padding-left: 0.1em;
-  width: 8em;
+  width: 10em;
 }
 
 table.productlist thead th, table.productlist tfoot th {
@@ -551,4 +546,14 @@ div.cartbuttons a.fake_button {
 
 td.price {
   text-align: right;
+}
+
+span.sales_price {
+  color: #72410B;
+  background: #FFFAAC;
+}
+
+span.rebate_string {
+  font-size: 9pt;
+  font-weight: normal;
 }
