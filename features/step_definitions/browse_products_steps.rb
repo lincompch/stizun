@@ -84,7 +84,6 @@ When /^I assign the product to the category "([^\"]*)"$/ do |arg1|
 end
                                                                                           
 When /^I view the product list$/ do
-  puts "all prods #{Product.all.inspect}"
   visit products_path                 
 end 
 

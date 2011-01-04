@@ -5,16 +5,26 @@ Feature: Ordering
 
     Background: Some data to select from
       Given a country called "USAnia" exists
+      And there is a shipping rate called "Alltron AG" with the following costs:
+        |weight_min|weight_max|price|tax_percentage|
+        |         0|      1000|   10|           8.0|
+        |      1001|      2000|   20|           8.0|
+        |      2001|      3000|   30|           8.0|
+        |      3001|      4000|   40|           8.0|
+        |      4001|      5000|   50|           8.0|
+      And there are the following suppliers:
+        |name|shipping_rate_name|
+        |Alltron AG|Alltron AG|
       And ActionMailer is set to test mode
 
     Scenario: Add to cart
-      Given a product named "Fish" in the category "Animals"
+      Given a product named "Fish" from supplier "Alltron AG" in the category "Animals"
       When I view the category "Animals"
       And I add the store's only product to my cart
       Then my cart should contain a product named "Fish"
 
     Scenario: Add to cart multiple times
-      Given a product named "Fish" in the category "Animals"
+      Given a product named "Fish" from supplier "Alltron AG" in the category "Animals"
       When I view the category "Animals"
       And I add the store's only product to my cart 4 times
       Then my cart should contain a product named "Fish" 4 times

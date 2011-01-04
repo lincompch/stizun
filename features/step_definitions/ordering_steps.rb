@@ -1,6 +1,6 @@
 Given /^I have ordered some stuff$/ do
-  Given %{a product named "Fish" in the category "Animals"}
-  And %{a product named "Terminator T-1000" in the category "Cyborgs"}
+  Given %{a product named "Fish" from supplier "Alltron AG" in the category "Animals"}
+  And %{a product named "Terminator T-1000" from supplier "Alltron AG" in the category "Cyborgs"}
   When %{I view the category "Animals"}
   And %{I add the only product in the category "Animals" to my cart 3 times}
   And %{I view the category "Cyborgs"}

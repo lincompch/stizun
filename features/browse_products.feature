@@ -61,7 +61,6 @@ Feature: Browse products
       And a product named "Fish" from supplier "Alltron AG" in the category "Animals"
       And a product named "Defender" from supplier "Alltron AG" in the category "Arcade games"
       When I view the product list
-      Then show me the page
       Then I should see a product named "Foobar 2000"
       And I should see a product named "Fish"
       And I should see a product named "Defender"
