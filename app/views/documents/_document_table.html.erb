@@ -2,15 +2,17 @@
     <tr>
       <th></th>
       <th></th>
+      <th></th>
       <th colspan="2" style="text-align: center;">MwSt.</th>
       <th></th>
     </tr>
     <tr>
       <th>Anz.</th>
       <th></th>
-      <th style="text-align: right;">exkl.</th>
-      <th style="text-align: right;">inkl.</th>
-      <th></th>
+      <th style="text-align: center;">&#37;</th>
+      <th style="text-align: center;">exkl.</th>
+      <th style="text-align: center;">inkl.</th>
+      <th style="text-align: right;">Total</th>
     </tr>
 
 
@@ -20,7 +22,8 @@
           <tr class="<%= cycle('even', 'odd')%>">
             <td class="qty"><%= cl_fields.text_field :quantity, :size => 3 %> </td>
             <td class="product"><%= link_to ci.product.name, ci.product %></td>
-            <td class="price"><%= pretty_price(ci.product.price.rounded, "") %></td>
+            <td class="price"><%= ci.product.tax_class.percentage %></td>
+            <td class="price vertborders"><%= pretty_price(ci.product.price.rounded, "") %></td>
             <td class="price vertborders"><%= pretty_price(ci.product.taxed_price.rounded, "") %></td>
             <td class="price"><%= pretty_price(ci.taxed_price.rounded, "") %></td>
             <td><%= link_to("X", {:controller => 'carts', :action => 'remove_all', :product_id => ci.product}, {:class => 'exx'}) %></td>
@@ -32,7 +35,8 @@
         <tr class="<%= cycle('even', 'odd')%>">
           <td><%= dl.quantity %></td>
           <td class="product"><%= link_to dl.product.name, dl.product %></td>
-          <td class="price"><%= pretty_price(dl.product.price.rounded, "") %></td>
+          <td class="price"><%= dl.product.tax_class.percentage %></td>
+          <td class="price vertborders"><%= pretty_price(dl.product.price.rounded, "") %></td>
           <td class="price vertborders"><%= pretty_price(dl.product.taxed_price.rounded, "") %></td>
           <td class="price"><%= pretty_price(dl.taxed_price.rounded, "") %></td>
           <td></td>
@@ -41,16 +45,17 @@
    <% end %>
 
     <tr class="spacer">
-      <td colspan="6">&nbsp;</td>
+      <td colspan="7">&nbsp;</td>
     </tr>
 
     <tr class="spacer-bottom">
-      <td colspan="6">&nbsp;</td>
+      <td colspan="7">&nbsp;</td>
     </tr>
 
     <tr>
       <td></td>
       <td>Produkte exkl. MwSt.</td>
+      <td></td>
       <td></td>
       <td></td>
       <td class="price"><%= pretty_price(document.products_price.rounded, "") %></td>
@@ -61,12 +66,14 @@
       <td>Mehrwertsteuer</td>
       <td></td>
       <td></td>
+      <td></td>
       <td class="price"><%= pretty_price(document.taxes, "") %></td>
       <td></td>
     </tr>
     <tr>
       <td></td>
       <td>Produkte inkl. MwSt.</td>
+      <td></td>
       <td></td>
       <td></td>
       <td class="price"><%= pretty_price(document.products_taxed_price.rounded, "") %></td>
@@ -77,12 +84,14 @@
       <td>Versand</td>
       <td></td>
       <td></td>
+      <td></td>
       <td class="price"><%= pretty_price(document.shipping_cost.rounded, "") %></td>
       <td></td>
     </tr>
     <tr>
       <td></td>
-      <td><strong>Total</strong></td>
+      <td><strong>Gesamttotal</strong></td>
+      <td></td>
       <td></td>
       <td></td>
       <td class="price"><strong><%= pretty_price document.taxed_price.rounded %></strong></td>
