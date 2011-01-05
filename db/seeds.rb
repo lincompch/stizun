@@ -17,8 +17,8 @@ ConfigurationItem.create(:name => 'Currency', :key => 'currency', :value => 'CHF
 ConfigurationItem.create(:name => 'E-Mail Template Directory', :key => 'email_template_directory', :value => 'lincomp', :description => 'The subdirectory of views/store_mailer/templates that the text for order cofirmation and invoice e-mails is taken from.')
 
 
-PaymentMethod.create(:name => 'Vorkasse', :allows_direct_shipping => false, :default => true)
-PaymentMethod.create(:name => 'Rechnung/Bankzahlung', :allows_direct_shipping => true)
+PaymentMethod.create(:name => 'Vorkasse', :default => true)
+PaymentMethod.create(:name => 'Rechnung/Bankzahlung')
 
 Country.create(:name => 'Schweiz/Suisse/Svizzera/Svizra')
 

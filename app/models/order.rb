@@ -153,7 +153,6 @@ class Order < Document
   def direct_shipping?
     direct = true
     direct = false if lines.collect(&:product).collect(&:direct_shipping).include?(false)
-    direct = false if payment_method.allows_direct_shipping? == false
     return direct
   end
   

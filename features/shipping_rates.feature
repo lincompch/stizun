@@ -19,8 +19,8 @@ Feature: Shipping rate calculation and package count
         |      3001|      4000|   45|           8.0|
         |      4001|      5000|   55|           8.0|
       And the direct shipping fees for shipping rate "Swiss Post" are "0.0" with tax percentage 8.0
-      And there is a payment method called "Prepay" which does not allow direct shipping and is the default
-      And there is a payment method called "Invoice" which allows direct shipping
+      And there is a payment method called "Prepay" which is the default
+      And there is a payment method called "Invoice"
       And there are the following suppliers:
         |name|shipping_rate_name|
         |Alltron AG|Alltron AG|

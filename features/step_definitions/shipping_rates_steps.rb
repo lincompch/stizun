@@ -77,12 +77,12 @@ Given /^there are the following suppliers:$/ do |table|
  end
 end
 
-Given /^there is a payment method called "([^\"]*)" which does not allow direct shipping and is the default$/ do |name|  
-  PaymentMethod.create(:name => name, :allows_direct_shipping => false, :default => true)
+Given /^there is a payment method called "([^\"]*)" which is the default$/ do |name|  
+  PaymentMethod.create(:name => name, :default => true)
 end
 
-Given /^there is a payment method called "([^\"]*)" which allows direct shipping$/ do |name|  
-  PaymentMethod.create(:name => name, :allows_direct_shipping => true, :default => false)
+Given /^there is a payment method called "([^\"]*)"$/ do |name|  
+  PaymentMethod.create(:name => name, :default => false)
 end
 
 Given /^the order's payment method is "([^\"]*)"$/ do |name|  

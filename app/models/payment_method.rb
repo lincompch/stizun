@@ -12,12 +12,7 @@ class PaymentMethod < ActiveRecord::Base
     # automatically so we can at least guarantee that one exists at any time.
     return self.first(:conditions => { :default => true }) || \
            self.create(:name => 'Auto-created default', 
-                       :default => true, 
-                       :allows_direct_shipping => false)
-  end
-  
-  def allows_direct_shipping?
-    allows_direct_shipping
+                       :default => true)
   end
   
 end
