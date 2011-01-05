@@ -14,12 +14,12 @@
 <table class="dataentry">
   <tr>
     <td><%= f.label :name, "Name" %></td>
-    <td><%= f.text_field :name %></td>
+    <td><%= f.text_field :name, :size => 100 %></td>
   </tr>
 
   <tr>
     <td><%= f.label :description, "Description" %></td>
-    <td><%= f.text_area :description %></td>
+    <td><%= f.cktext_area :description, :toolbar=>'Stizun', :width=>'600px', :height=>'250px' %></td>
   </tr>
 
   <tr>
