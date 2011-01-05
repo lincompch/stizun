@@ -2,7 +2,9 @@ development:
   :address: localhost
   :port: 25
   :domain: lincomp.org
+  :enable_starttls_auto: false
 production:
   :address: localhost
   :port: 25
   :domain: lincomp.org
+  :enable_starttls_auto: false
