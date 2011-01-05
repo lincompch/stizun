@@ -22,6 +22,9 @@ gem 'authlogic'
 gem 'rails3-generators'
 
 
+# CKEditor has a nice Rails integration thanks to Igor Galeta
+gem 'ckeditor', :git => 'git://github.com/galetahub/rails-ckeditor.git', :branch => 'rails3'
+
 gem 'mysql2'
 gem 'will_paginate'
 gem 'uuidtools'

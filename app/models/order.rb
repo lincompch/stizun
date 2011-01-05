@@ -163,10 +163,11 @@ class Order < Document
   # It should actually never be possible for a user to pass an unauthorized payment type,
   # but this check prevents errors e.g. from admins manipulating orders on the console.
   def must_be_authorized_for_payment_method
-    authorized_methods = [PaymentMethod.get_default]
-    authorized_methods << user.payment_methods if user
-    
-    unless authorized_methods.include?(payment_method)
+    authorized_methods = []
+    authorized_methods << PaymentMethod.get_default
+    authorized_methods += user.payment_methods if user
+
+    unless authorized_methods.uniq.include?(payment_method)
       errors.add_to_base("User is not authorized for the chosen payment method.")
     end
     
