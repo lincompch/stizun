@@ -9,10 +9,6 @@
 
 
 <% else %>
-
-  <%= controller.controller_name %>
-  <%= controller.action_name%>
-
   <%= form_for @cart, :url => { :controller => 'carts', :action => 'update' } do |f| %>
     <% if @cart.cart_lines.count == 0 %>
       <%= t("stizun.cart.your_cart_is_empty") %>
