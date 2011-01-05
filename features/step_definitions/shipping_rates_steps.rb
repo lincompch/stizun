@@ -48,7 +48,8 @@ Given /^an order with the following products:$/ do |table|
     margin_percentage = prod['margin_percentage'].to_f if prod['margin_percentage']
     sales_price = nil
     sales_price = BigDecimal.new(prod['sales_price']) if prod['sales_price']
-    
+    direct_shipping = false
+    direct_shipping = true if prod['direct_shipping'] == "true"
     
     tax_class = TaxClass.find_by_name(prod['tax_class']) 
     supplier = Supplier.find_by_name(prod['supplier'])
@@ -59,7 +60,8 @@ Given /^an order with the following products:$/ do |table|
                              :supplier => supplier,
                              :tax_class => tax_class,
                              :purchase_price => purchase_price,
-                             :margin_percentage => margin_percentage)
+                             :margin_percentage => margin_percentage,
+                             :direct_shipping => direct_shipping)
     
    
     @order.order_lines << OrderLine.new(:quantity => prod['quantity'].to_i, :product => product)

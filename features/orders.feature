@@ -4,8 +4,8 @@ Feature: Orders as collections of items
     Given there is a shipping rate called "Alltron AG" with the following costs:
     |weight_min|weight_max|price|tax_percentage|
     |         0|      1000|   10|           8.0|
-    And there is a payment method called "Prepay" which does not allow direct shipping and is the default
-    And there is a payment method called "Invoice" which allows direct shipping
+    And there is a payment method called "Prepay" which is the default
+    And there is a payment method called "Invoice"
 
 
   Scenario: Find the weight of an order

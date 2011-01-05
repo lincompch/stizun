@@ -15,9 +15,11 @@ class ShippingRate < ActiveRecord::Base
     @total_taxes = BigDecimal.new("0")
     @remaining_weight ||= weight  # shouldn't really be an instance variable, but scope seems weird below otherwise?
     
-    puts "\n\nbeginning of calculate_for_weight:"
-    puts "   weight: #{weight}" unless weight.nil?
-    dbg
+#     puts "\n\nbeginning of calculate_for_weight:"
+#     puts "   shipping_rate: #{self.inspect}"
+#     puts "   shipping_costs: #{shipping_costs.inspect}"
+#     puts "   weight: #{weight}" unless weight.nil?
+#     dbg
     
     while @remaining_weight > 0.to_f
 
@@ -50,10 +52,10 @@ class ShippingRate < ActiveRecord::Base
       
     end
     
-    puts "end of calculate_for_weight:"
-    puts "   weight: #{weight}" unless weight.nil?
-    dbg
-    puts "\n\n"
+#     puts "end of calculate_for_weight:"
+#     puts "   weight: #{weight}" unless weight.nil?
+#     dbg
+#     puts "\n\n"
     return BigDecimal.new(@total_cost.to_s), BigDecimal.new(@total_taxes.to_s)
   end
   
@@ -74,8 +76,8 @@ class ShippingRate < ActiveRecord::Base
     @incoming_taxes = BigDecimal.new("0")
     @incoming_package_count = 0
     
-    puts "\nbeginning of calculate_incoming:"
-    dbg
+#     puts "\nbeginning of calculate_incoming:"
+#     dbg
 
     # On direct shipping orders, incoming cost is always 0, we can skip expensive
     # calculations on this document.
@@ -101,9 +103,9 @@ class ShippingRate < ActiveRecord::Base
 
       end
     end
-    puts "end of calculate_incoming"
-    dbg
-    puts "\n\n"
+#     puts "end of calculate_incoming"
+#     dbg
+#     puts "\n\n"
     
   end
   
@@ -111,9 +113,9 @@ class ShippingRate < ActiveRecord::Base
     @outgoing_cost = BigDecimal.new("0")
     @outgoing_taxes = BigDecimal.new("0")
     
-     puts "beginning of calculate_outgoing:"
-     puts "   document: #{document.to_s}"
-     
+#      puts "beginning of calculate_outgoing:"
+#      puts "   document: #{document.to_s}"
+#      
     if document.direct_shipping?
       # This is safe because Document#direct_shipping? checks to make sure there is only one
       # supplier. 
@@ -129,9 +131,9 @@ class ShippingRate < ActiveRecord::Base
     @outgoing_cost += added_cost
     @outgoing_taxes += added_taxes
     @outgoing_package_count = sr.package_count_for_weight(document.weight * 1000)
-    puts "at end of calculate_outgoing:"
-    dbg
-    puts "\n\n"
+#     puts "at end of calculate_outgoing:"
+#     dbg
+#     puts "\n\n"
   end
     
   # Can calulate shipping for both orders or carts (= documents)
@@ -211,7 +213,7 @@ class ShippingRate < ActiveRecord::Base
     puts "   @outgoing_taxes : #{@outgoing_taxes}" unless @outgoing_taxes.nil?
     puts "   @total_taxes : #{@total_taxes}" unless @total_taxes.nil?
     puts "   @total_cost : #{@total_cost}" unless @total_cost.nil?
-    
+
   end
   
 end

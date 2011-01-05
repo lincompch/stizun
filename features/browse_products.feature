@@ -22,7 +22,7 @@ Feature: Browse products
       And there are the following suppliers:
         |name|shipping_rate_name|
         |Alltron AG|Alltron AG|
-      And there is a payment method called "Prepay" which does not allow direct shipping and is the default
+      And there is a payment method called "Prepay" which is the default
 
     @javascript      
     Scenario: Create product

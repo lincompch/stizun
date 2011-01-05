@@ -563,11 +563,14 @@ td.price {
 }
 
 span.sales_price {
-  color: #72410B;
-  background: #FFFAAC;
+  /*color: #72410B;
+  background: #FFFAAC;*/
 }
 
 span.rebate_string {
   font-size: 9pt;
   font-weight: normal;
+  color: #FFFFFF;
+  background: #B61313;
+  padding: 0.2em;
 }

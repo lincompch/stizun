@@ -6,8 +6,8 @@ Feature: Book taxes on invoices to the right accounts
 
   Background: The framework for creating an order and invoice exists
     Given a tax class named "MwSt 8.0%" with the percentage 8.0%
-    And there is a payment method called "Prepay" which does not allow direct shipping and is the default
-    And there is a payment method called "Invoice" which allows direct shipping  
+    And there is a payment method called "Prepay" which is the default
+    And there is a payment method called "Invoice"
     And there is a shipping rate called "Alltron AG" with the following costs:
     |weight_min|weight_max|price|tax_percentage|
     |         0|      1000|    1|           8.0|

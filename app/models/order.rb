@@ -148,15 +148,6 @@ class Order < Document
   end
   
   
-  # Orders may only allow direct shipping if all of the products they
-  # contain can be shipped directly from supplier warehouses to the customer.
-  def direct_shipping?
-    direct = true
-    direct = false if lines.collect(&:product).collect(&:direct_shipping).include?(false)
-    return direct
-  end
-  
-  
   # If the user doesn't actually have authorization for this payment method, e.g. a user
   # who must pre-pay tries to order something on credit, the order can't be saved.
   # It should actually never be possible for a user to pass an unauthorized payment type,
