@@ -1,11 +1,15 @@
 <div class="category_summary">
 
-<table>
-  <% @categories.each do |cat| %>
 
-    <%= render :partial => 'admin/categories/category_summary_line', :object => cat %>
+<% if @categories.empty? %>
+  <p>This category has no subcategories.</p>
+<% else %>
+  <table>
+    <% @categories.each do |cat| %>
 
-  <% end %>
-</table>
+      <%= render :partial => 'admin/categories/category_summary_line', :object => cat %>
 
+    <% end %>
+  </table>
+<% end %>
 </div>

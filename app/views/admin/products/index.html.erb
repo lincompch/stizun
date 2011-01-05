@@ -2,7 +2,7 @@
 
 <% if @category %>
   <div id="admin_category_breadcrumb">
-  <%= categories_breadcrumb(@category) %>
+  You are here: <%= categories_breadcrumb_path(@category, linked = true, admin = true) %>
   </div>
 
 <% end %>
