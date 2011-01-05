@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
+  before_filter :set_locale
+ 
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
 
@@ -21,7 +23,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
-
+  def set_locale
+    # if params[:locale] is nil then I18n.default_locale will be used
+    #I18n.locale = params[:locale]
+    # This is actually set six million times in config/application.rb, but
+    # Rails refuses to acknowledge that for some reason, so trying to set
+    # this here explicitly.
+    I18n.locale = :"de-CH"
+  end
   
   private
   
