@@ -1,9 +1,15 @@
   <table>
     <tr>
+      <th></th>
+      <th></th>
+      <th colspan="2" style="text-align: center;">MwSt.</th>
+      <th></th>
+    </tr>
+    <tr>
       <th>Anz.</th>
       <th></th>
-      <th style="text-align: right;">exkl. MwSt.</th>
-      <th style="text-align: right;">inkl. MwSt.</th>
+      <th style="text-align: right;">exkl.</th>
+      <th style="text-align: right;">inkl.</th>
       <th></th>
     </tr>
 
@@ -11,24 +17,24 @@
   <% if defined?(f) %>
     <% document.lines.each do |ci| %>
         <%= f.fields_for "cart_lines[]", ci do |cl_fields| %>
-          <tr>
+          <tr class="<%= cycle('even', 'odd')%>">
             <td class="qty"><%= cl_fields.text_field :quantity, :size => 3 %> </td>
             <td class="product"><%= link_to ci.product.name, ci.product %></td>
-            <td class="price"><%= pretty_price(ci.product.price.rounded) %></td>
-            <td class="price"><%= pretty_price(ci.product.taxed_price.rounded) %></td>
-            <td class="price"><%= pretty_price(ci.taxed_price.rounded) %></td>
+            <td class="price"><%= pretty_price(ci.product.price.rounded, "") %></td>
+            <td class="price vertborders"><%= pretty_price(ci.product.taxed_price.rounded, "") %></td>
+            <td class="price"><%= pretty_price(ci.taxed_price.rounded, "") %></td>
             <td><%= link_to("X", {:controller => 'carts', :action => 'remove_all', :product_id => ci.product}, {:class => 'exx'}) %></td>
           </tr>
         <% end %>
       <% end %>
    <% else %>
       <% document.lines.each do |dl| %>
-        <tr>
-          <td class="qty"><%= dl.quantity %></td>
+        <tr class="<%= cycle('even', 'odd')%>">
+          <td><%= dl.quantity %></td>
           <td class="product"><%= link_to dl.product.name, dl.product %></td>
-          <td class="price"><%= pretty_price(dl.product.price.rounded) %></td>
-          <td class="price"><%= pretty_price(dl.product.taxed_price.rounded) %></td>
-          <td class="price"><%= pretty_price(dl.taxed_price.rounded) %></td>
+          <td class="price"><%= pretty_price(dl.product.price.rounded, "") %></td>
+          <td class="price vertborders"><%= pretty_price(dl.product.taxed_price.rounded, "") %></td>
+          <td class="price"><%= pretty_price(dl.taxed_price.rounded, "") %></td>
           <td></td>
         </tr>
       <% end %>
@@ -47,7 +53,7 @@
       <td>Produkte exkl. MwSt.</td>
       <td></td>
       <td></td>
-      <td class="price"><%= pretty_price document.products_price.rounded %></td>
+      <td class="price"><%= pretty_price(document.products_price.rounded, "") %></td>
       <td></td>
     </tr>
     <tr class="underline">
@@ -55,7 +61,7 @@
       <td>Mehrwertsteuer</td>
       <td></td>
       <td></td>
-      <td class="price"><%= pretty_price document.taxes %></td>
+      <td class="price"><%= pretty_price(document.taxes, "") %></td>
       <td></td>
     </tr>
     <tr>
@@ -63,7 +69,7 @@
       <td>Produkte inkl. MwSt.</td>
       <td></td>
       <td></td>
-      <td class="price"><%= pretty_price document.products_taxed_price.rounded %></td>
+      <td class="price"><%= pretty_price(document.products_taxed_price.rounded, "") %></td>
       <td></td>
     </tr>
     <tr>
@@ -71,7 +77,7 @@
       <td>Versand</td>
       <td></td>
       <td></td>
-      <td class="price"><%= pretty_price document.shipping_cost.rounded %></td>
+      <td class="price"><%= pretty_price(document.shipping_cost.rounded, "") %></td>
       <td></td>
     </tr>
     <tr>

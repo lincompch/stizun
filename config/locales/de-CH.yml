@@ -243,6 +243,8 @@ de-CH:
       product_not_removed: "Product konnte nicht entfernt werden. Vielleicht befindet es sich nicht in diesem Einkaufswagen?"
       cart_updated: "Einkaufswagen aktualisiert."
       add_to_cart: "Kaufen"
+      please_use_big_cart: "Bitte verwenden Sie den grossen Einkaufswagen auf der linken Seite, um Ihre Bestellung zu verändern."
+      cart_disabled: "Der Einkaufswagen ist auf dieser Seite nicht verfügbar."
     category:
       categories: "Kategorien"
       no_products_in_this_category: "Es gibt keine Produkte in dieser Kategorie."

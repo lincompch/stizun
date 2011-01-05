@@ -454,18 +454,6 @@ table.productlist thead th, table.productlist tfoot th {
 }
 
 
-#sidebar_cart ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#sidebar_cart ul li {
-/*  padding: 0;
-  margin: 0;*/
-}
-
-
 #category_box ul {
   margin: 0;
   padding: 0;
@@ -479,6 +467,11 @@ a.exx {
   padding: 1px 3px 1px 3px;
   margin-left: 3px;
 }
+
+#sidebar_cart td.exx {
+  padding-top: 5px;
+}
+
 
 /* Loads of button handling */
 
@@ -509,11 +502,18 @@ a.fake_button {
 }
 
 #cart_table th, #order_table th {
+  white-space: nowrap;
   text-align: left;
 }
 
-#cart_table td.qty, #order_table td.qty {
-  width: 6em;
+#cart_table td, #order_table td {
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+
+}
+
+#cart_table td.qty {
+  width: 5em;
 }
 
 #cart_table tr.spacer td, #order_table tr.spacer td {
@@ -523,6 +523,19 @@ a.fake_button {
 #cart_table tr.underline td, #order_table tr.underline td {
   border-bottom: 1px solid #ccc;
 }
+
+
+#cart_table tr.odd td, #order_table tr.odd td  {
+  background: #FAFAFA;
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef
+}
+
+#cart_table td.vertborders, #order_table td.vertborders  {
+  border-left: 1px solid #cdcdcd;
+  border-right: 1px solid #cdcdcd;
+}
+
 
 input.real_button:hover, a.fake_button:hover {
   color: #666;
@@ -545,6 +558,7 @@ div.cartbuttons a.fake_button {
 }
 
 td.price {
+  white-space: nowrap;
   text-align: right;
 }
 
