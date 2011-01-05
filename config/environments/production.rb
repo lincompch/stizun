@@ -44,6 +44,11 @@ Stizun::Application.configure do
   # the I18n.default_locale when a translation can not be found)
   config.i18n.fallbacks = true
 
+  # This really, really shouldn't be necessary since it's set in application.rb,
+  # but apparently some part of how Rails propagates this setting is broken.
+  config.i18n.default_locale = :'de-CH'
+  config.i18n.locale = :'de-CH'
+  
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
   
