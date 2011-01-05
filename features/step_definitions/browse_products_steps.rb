@@ -37,7 +37,7 @@ end
 
 When /^fill in the product description "([^\"]*)"$/ do |arg1|
  within_frame "fancybox-frame" do
-   # Not working at the moment due to CKEditor.
+   click_link "Toggle WYSIWYG editor"
    fill_in "Description", :with => arg1
  end
 end
