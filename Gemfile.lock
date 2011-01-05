@@ -128,6 +128,8 @@ GEM
       railties (~> 3.0)
       rspec (~> 2.3.0)
     rubyzip (0.9.4)
+    sanitize (1.2.1)
+      nokogiri (~> 1.4.1)
     selenium-webdriver (0.1.2)
       childprocess (~> 0.1.5)
       ffi (~> 0.6.3)
@@ -166,6 +168,7 @@ DEPENDENCIES
   rails (= 3.0.3)
   rails3-generators
   rspec-rails
+  sanitize
   spork
   uuidtools
   will_paginate

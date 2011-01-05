@@ -30,6 +30,9 @@ gem 'rails3-generators'
 # So we use the non-git edition here:
 gem 'ckeditor', '3.4.2.pre'
 
+# We better sanitize that HTML!
+gem 'sanitize'
+
 gem 'paperclip'
 gem 'mysql2'
 gem 'will_paginate'

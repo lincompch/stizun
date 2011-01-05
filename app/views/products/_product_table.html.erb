@@ -23,7 +23,9 @@
 
       <td>
         <%= link_to p.name, :action => 'show', :id => p %><br />
-        <%= p.description.html_safe %>
+        <%= Sanitize.clean(p.description, :elements => ['p'],
+                                          :attributes => { :all => ['class'] }, 
+                                          :remove_contents => true).html_safe %>
       </td>
 
       <td class="price"><%= product_rounded_price(p).html_safe%></td>
