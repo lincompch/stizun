@@ -7,6 +7,14 @@ Given /^I have ordered some stuff$/ do
   And %{I add the only product in the category "Cyborgs" to my cart 2 times}  
 end
 
+Given /^the sales income account is configured$/ do
+  ConfigurationItem.create(:name => "sales_income_account_id", :key => "sales_income_account_id", :value => Account.find_by_name("Product Sales"))
+end
+
+Given /^the accounts receivable account is configured$/ do
+  ConfigurationItem.create(:name => "accounts_receivable_id", :key => "accounts_receivable_id", :value => Account.find_by_name("Accounts Receivable"))
+end
+
 When /^I add the store's only product to my cart$/ do
   visit products_path
   fill_in "quantity", :with => 1
@@ -49,10 +57,16 @@ Then /^my cart should contain a product named "([^\"]*)"$/ do |arg1|
   page.should have_content(arg1)
 end
 
-Then /^my cart should contain a product named "([^\"]*)" (\d+) times$/ do |arg1, arg2|                                                                     
+Then /^my cart should contain a product named "([^\"]*)" (\d+) times$/ do |name, quantity|                                                                     
   visit cart_path
-  page.should have_selector("input", :name => 'cart_line[quantity]', :value => arg2)
-  page.should have_content(" x " + arg1)
+  #page.should have_selector("input", :name => 'cart_line[quantity]', :value => arg2)
+  #page.should have_content(arg1)
+  all("#cart_table tr").each do |line|
+    if line.text =~ /#{name}/
+      line.find("td.qty input").value.to_i.should == quantity.to_i
+    end
+  end
+
 end    
 
 Then /^my cart should contain some stuff$/ do                                                         

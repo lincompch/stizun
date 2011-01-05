@@ -7,7 +7,13 @@ class TaxBookers::SwitzerlandTaxBooker
 
     mehrwertsteuer = Account.find_by_name("Kreditor MwSt.")
     warenertrag = Account.find(ConfigurationItem.get('sales_income_account_id').value)
-    AccountTransaction.transfer(warenertrag, mehrwertsteuer, document.taxes, "Taxes owed from creating invoice  #{document.document_id}", document)
+    
+    puts "BOOKING tax #{document.taxes}"
+    
+    AccountTransaction.transfer(warenertrag, mehrwertsteuer, document.taxes, "Taxes on products owed on invoice  #{document.document_id}", document)
+    
+    puts "BOOKING ship-tax #{document.shipping_taxes}"
+    AccountTransaction.transfer(warenertrag, mehrwertsteuer, document.shipping_taxes, "Taxes on shipping owed on invoice  #{document.document_id}", document)
     
   end
 

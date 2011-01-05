@@ -87,9 +87,15 @@ class Invoice < ActiveRecord::Base
   
   def taxes
     product_taxes = lines.sum('taxes')
-    return product_taxes + shipping_taxes
+    # This kills the poor bookkeeper
+    #return product_taxes + shipping_taxes
+    return product_taxes
   end
 
+  def total_taxes
+    taxes + shipping_taxes
+  end
+  
   # Static method, should be used whenever creating an invoice
   # based on a pre-existing order, e.g. during checkout
   def self.create_from_order(order)
@@ -119,7 +125,7 @@ class Invoice < ActiveRecord::Base
        self.billing_address = order.billing_address
        self.shipping_address = order.shipping_address
        self.shipping_cost = order.shipping_rate.total_cost.rounded
-       self.shipping_taxes = order.shipping_rate.total_taxes
+       self.shipping_taxes = order.shipping_taxes
        self.status_constant = Invoice::UNPAID
        self.invoice_lines_from_order(order)
        order.update_attributes(:status_constant => Order::AWAITING_PAYMENT)

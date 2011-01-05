@@ -10,7 +10,11 @@ Feature: Book taxes on invoices to the right accounts
     And there is a payment method called "Invoice"
     And there is a shipping rate called "Alltron AG" with the following costs:
     |weight_min|weight_max|price|tax_percentage|
-    |         0|      1000|    1|           8.0|
+    |         0|      1000|   10|           8.0|
+    |      1001|      2000|   20|           8.0|
+    And there are the following suppliers:
+    |name|shipping_rate_name|
+    |Alltron AG|Alltron AG|
     And the following accounts exist:
     |name  |type|parent|
     |Assets|Account::ASSETS|none|
@@ -23,6 +27,8 @@ Feature: Book taxes on invoices to the right accounts
     |Product Sales|inherited|Income|
     |Marketing Expense|inherited|Expense|
     |Product Stock|inherited|Assets|
+    And the sales income account is configured
+    And the accounts receivable account is configured
 
     Scenario: Book really trivial Swiss tax on an invoice
       pending
@@ -34,14 +40,23 @@ Feature: Book taxes on invoices to the right accounts
       |       1|Laptop|   0.90|           true|MwSt 8.0%|Alltron AG|           100|              5.0|
       |       4|Fish  |   1.00|           true|MwSt 8.0%|Alltron AG|           100|              5.0|
       |      18|Foo   |   2.00|           true|MwSt 8.0%|Alltron AG|           100|              5.0|
-      #                  40.90
       And the order's payment method is "Prepay"
+      And the order's total shipping price should be 442.80
+      And the order's total weight should be 40.90
+      And the order's shipping taxes should be 32.80
+      And the order's taxes should be 193.20
+      And the order's products total untaxed price should be 2415.00
+      And the order's products total taxed price should be 2608.20
+      And the order's rounded taxed price should be 3051.0
+      And the order's taxed price should be 3051.0
       When I invoice the order
       # Total includes all products, all taxes, even shipping cost and taxes on shipping
-      Then the invoice total is 2656.80
-      # Includes only the raw taxes we owe to the country
-      And the balance of account "Kreditor MwSt." is 196.80
-      And the balance of the sales income account is 2460.00
+      Then the invoice's taxed price is 3051.0
+      And the invoice's shipping taxes should be 32.80
+      And the invoice's taxes should be 193.20
+      # Normal taxes plus shipping taxes are here, we owe them to the country
+      And the balance of account "Kreditor MwSt." is 226.0
+      And the balance of the sales income account is 2825.0
       When the invoice is paid
 
 

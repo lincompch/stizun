@@ -21,8 +21,6 @@ class Document < ActiveRecord::Base
     return total    
   end
   
-  
-  
   def taxes
     taxes = BigDecimal.new("0.0")
     self.lines.each do |ol|

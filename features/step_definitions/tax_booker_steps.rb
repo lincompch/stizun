@@ -1,6 +1,7 @@
 
 
 When /^I invoice the order$/ do
+  
   # TODO: This depends on these accounts actually being there. Create the accounts
   # if they aren't. Find them, if they need to be found.
   ConfigurationItem.create(:name => "accounts_receivable_id", :key => "accounts_receivable_id", :value => Account.find_by_name("Accounts Receivable"))
@@ -24,8 +25,16 @@ When /^the invoice is paid$/ do
   @invoice.record_payment_transaction
 end
 
-Then /^the invoice total is (\d+\.\d+)$/ do  |num|      
+Then /^the invoice's taxed price is (\d+\.\d+)$/ do  |num|      
    @invoice.taxed_price.should == BigDecimal.new(num.to_s)
+end
+
+Then /^the invoice's shipping taxes should be (\d+\.\d+)$/ do  |num|      
+   @invoice.shipping_taxes.should == BigDecimal.new(num.to_s)
+end
+
+Then /^the invoice's taxes should be (\d+\.\d+)$/ do  |num|      
+   @invoice.taxes.should == BigDecimal.new(num.to_s)
 end
 
 Then /^the balance of the sales income account is (\d+\.\d+)$/ do |balance|

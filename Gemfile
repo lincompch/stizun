@@ -48,6 +48,7 @@ group :cucumber do
   gem 'rspec-rails'
   gem 'spork'
   gem 'launchy' 
+  gem 'ruby-debug'
 end
 
 group :development do 
