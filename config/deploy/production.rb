@@ -11,7 +11,7 @@ set :deploy_to, "/home/lincomp/production"
 
 
 set :db_config, "/home/lincomp/database_prod.yml"
-
+set :email_config, "/home/lincomp/email.yml"
 
 role :web, "lincomp@www.lincomp.org"                          # Your HTTP server, Apache/etc
 role :app, "lincomp@www.lincomp.org"                          # This may be the same as your `Web` server
@@ -21,6 +21,9 @@ task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
   run "rm #{release_path}/config/database.yml"
   run "ln -s #{db_config} #{release_path}/config/database.yml"
+  run "rm #{release_path}/config/email.yml"
+  run "ln -s #{email_config} #{release_path}/config/email.yml"
+
 #  run "rm -r #{release_path}/test"
 #  run "ln -s #{release_path}/public #{release_path}/test"
 end
