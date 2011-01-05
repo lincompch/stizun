@@ -40,20 +40,22 @@ class Order < Document
   SHIPPED = 4
   TO_SHIP = 5
   
-  STATUS_HASH = { UNPROCESSED      => I18n.t('stizun.constants.unprocessed'),
-                  PROCESSING       => I18n.t('stizun.constants.processing'),
-                  AWAITING_PAYMENT => I18n.t('stizun.constants.awaiting_payment'),
-                  TO_SHIP          => I18n.t('stizun.constants.to_ship'),
-                  SHIPPED          => I18n.t('stizun.constants.shipped')}
+  STATUS_HASH = { UNPROCESSED      => 'stizun.constants.unprocessed',
+                  PROCESSING       => 'stizun.constants.processing',
+                  AWAITING_PAYMENT => 'stizun.constants.awaiting_payment',
+                  TO_SHIP          => 'stizun.constants.to_ship',
+                  SHIPPED          => 'stizun.constants.shipped'}
 
   def self.status_to_human(status)
-    return STATUS_HASH[status]
+    # Gotta call I18n.t like this because it doesn't have the correct
+    # locale set outside this definition on _some_ installations, not all.
+    return I18n.t(STATUS_HASH[status])
   end
   
   def self.status_hash_for_select
     array = []
     STATUS_HASH.each do |key,value|
-      array << [value, key]
+      array << [I18n.t(value), key]
     end 
     # Sort by value of the constant integer, so the sequence of
     # statuses is more or less the same as it appears in the
