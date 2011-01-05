@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110105132250) do
+ActiveRecord::Schema.define(:version => 20110105133304) do
 
   create_table "account_transactions", :force => true do |t|
     t.string   "note"
@@ -307,6 +307,7 @@ ActiveRecord::Schema.define(:version => 20110105132250) do
     t.datetime "updated_at"
     t.integer  "tax_class_id"
     t.decimal  "direct_shipping_fees", :precision => 63, :scale => 30, :default => 0.0
+    t.boolean  "default",                                              :default => false
   end
 
   create_table "suppliers", :force => true do |t|

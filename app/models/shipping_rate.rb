@@ -118,16 +118,12 @@ class ShippingRate < ActiveRecord::Base
       # This is safe because Document#direct_shipping? checks to make sure there is only one
       # supplier. 
       sr = ShippingRate.find(document.suppliers.first.shipping_rate.id)
-            
       direct_shipping_fee_taxes = (sr.direct_shipping_fees / BigDecimal.new("100.0")) * sr.tax_class.percentage
+      # This was shipped directly, so let's add those fees
       @outgoing_taxes += direct_shipping_fee_taxes
       @outgoing_cost += sr.direct_shipping_fees + direct_shipping_fee_taxes
- 
-      
     else
-
       sr = ShippingRate.get_default
-      
     end
     added_cost, added_taxes = sr.calculate_for_weight(document.weight * 1000)
     @outgoing_cost += added_cost
@@ -136,7 +132,6 @@ class ShippingRate < ActiveRecord::Base
 #     puts "at end of calculate_outgoing:"
 #     dbg
 #     puts "\n\n"
-        
   end
     
   # Can calulate shipping for both orders or carts (= documents)
@@ -179,23 +174,32 @@ class ShippingRate < ActiveRecord::Base
   
   
   def self.get_default
-    sr = ShippingRate.new(:name => 'Auto-created default')
-    sr.tax_class = TaxClass.find_or_create_by_percentage("8.0")
-    # Source: http://www.post.ch/post-startseite/post-privatkunden/post-versenden/post-pakete-inland/post-pakete-inland-preise.htm
     
-    sr.shipping_costs << ShippingCost.new(:weight_min => 0, :weight_max => 2000, :price => 8.0)
-    sr.shipping_costs << ShippingCost.new(:weight_min => 2001, :weight_max => 5000, :price => 10.0)
-    sr.shipping_costs << ShippingCost.new(:weight_min => 5001, :weight_max => 10000, :price => 13.0)
-    sr.shipping_costs << ShippingCost.new(:weight_min => 10001, :weight_max => 20000, :price => 19.0)
-    sr.shipping_costs << ShippingCost.new(:weight_min => 20001, :weight_max => 30000, :price => 26.0)
-    
-    # This default tax class for shipping would need to be made configurable in the 
-    # final system, especially if it is going to be released as Free Software.
-    sr.shipping_costs.each do |sc|
-      sc.tax_class = TaxClass.find_or_create_by_percentage("8.0")
+    sr = ShippingRate.where(:default => true).first
+    if sr.nil?
+      sr = ShippingRate.new(:name => 'Auto-created default shipping rate', :default => true)  
+      sr.tax_class = TaxClass.find_or_create_by_percentage("8.0")
+      # Source: http://www.post.ch/post-startseite/post-privatkunden/post-versenden/post-pakete-inland/post-pakete-inland-preise.htm
+      
+      sr.shipping_costs << ShippingCost.new(:weight_min => 0, :weight_max => 2000, :price => 8.0)
+      sr.shipping_costs << ShippingCost.new(:weight_min => 2001, :weight_max => 5000, :price => 10.0)
+      sr.shipping_costs << ShippingCost.new(:weight_min => 5001, :weight_max => 10000, :price => 13.0)
+      sr.shipping_costs << ShippingCost.new(:weight_min => 10001, :weight_max => 20000, :price => 19.0)
+      sr.shipping_costs << ShippingCost.new(:weight_min => 20001, :weight_max => 30000, :price => 26.0)
+      
+      # This default tax class for shipping would need to be made configurable in the 
+      # final system, especially if it is going to be released as Free Software.
+      sr.shipping_costs.each do |sc|
+        sc.tax_class = sr.tax_class
+      end
+      
+      sr.save
+      puts "\n\n\n\n\n\n\n\n\n\n\n\nOH NOES\n\n\n\n\n\n\n\n\n\n\n"
+      puts sr.errors.full_messages
+      puts "\n\n\nOH NOES\n\n\n\n\n\n\n\n\n\n\n"
+      
     end
     
-    sr.save
     return sr
   end
   
