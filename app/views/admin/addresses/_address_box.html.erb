@@ -5,9 +5,11 @@
 </p>
 
 <p>
+  Status: <%= "#{address_box.status}" %>. This address is used in <%= address_box.invoices.count %> invoices and <%= address_box.orders.count %> orders. 
+</p>
+
+<p>
   <%= link_to "Edit", edit_admin_user_address_path(address_box.user, address_box) %> 
-   | 
-  <%= link_to "Delete", admin_user_address_path(address_box.user, address_box), :confirm => 'Are you sure?', :method => 'delete' %>  
 </p>
 
 <p><br /></p>

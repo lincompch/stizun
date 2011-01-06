@@ -6,7 +6,7 @@ class Admin::UsersController < Admin::BaseController
   
   def edit
     @user = User.find(params[:id])
-    @addresses = @user.addresses
+    @addresses = @user.addresses.order("status")
     render :layout => 'admin_blank'
   end
   
