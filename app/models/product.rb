@@ -282,8 +282,8 @@ class Product < ActiveRecord::Base
     return state
   end
   
-  def componentized?
-    self.components.count > 0
+  def componentized?    
+    !self.components.empty?
   end
   
   def on_sale?
