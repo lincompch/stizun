@@ -2,7 +2,7 @@
 
 class Cart < Document
   belongs_to :user
-  has_many :cart_lines
+  has_many :cart_lines, :dependent => :destroy
   validates_associated :cart_lines
 
   def add_product(product, quantity = 1)

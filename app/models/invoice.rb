@@ -115,9 +115,9 @@ class Invoice < ActiveRecord::Base
   def clone_from_order(order)
     if order.invoiced?
       raise ArgumentError, "The supplied order is already invoiced."
-    else      
+    else
        self.user_id = order.user_id
-       self.order_id = order.id
+       self.order = order
        self.document_number = order.document_number
        self.payment_method_id = order.payment_method_id
        self.billing_address_type = order.billing_address_type
@@ -128,7 +128,6 @@ class Invoice < ActiveRecord::Base
        self.shipping_taxes = order.shipping_taxes
        self.status_constant = Invoice::UNPAID
        self.invoice_lines_from_order(order)
-       order.update_attributes(:status_constant => Order::AWAITING_PAYMENT)
     end    
   end
   
@@ -136,7 +135,6 @@ class Invoice < ActiveRecord::Base
   def invoice_lines_from_order(order)
     invoice = self
     order.order_lines.each do |ol|
-      
       il = InvoiceLine.new
       il.quantity = ol.quantity
       il.text = ol.product.name
@@ -146,7 +144,7 @@ class Invoice < ActiveRecord::Base
       il.tax_percentage = ol.product.tax_class.percentage
       il.taxes = ol.taxes
       il.weight = ol.product.weight
-      invoice.invoice_lines << il
+      self.invoice_lines << il
     end
     return invoice
   end

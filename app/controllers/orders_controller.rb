@@ -28,13 +28,12 @@ class OrdersController < ApplicationController
   
   def create
     @order = Order.new(params[:order])
-        
+
     # TODO: Ugly as sin. Improve.
     billing_address = get_address(params[:billing_address_id], params[:billing_address])
     @order.billing_address = billing_address
     shipping_address = get_address(params[:shipping_address_id], params[:shipping_address])
     @order.shipping_address = shipping_address
-
     
     if current_user
       unless params[:save_shipping_address].blank?
@@ -52,24 +51,20 @@ class OrdersController < ApplicationController
     @cart = load_cart
     @order.order_lines_from_cart(@cart)
     
-    if @order.direct_shipping? == true
-      invoice = Invoice.new
-      invoice.clone_from_order(@order)
-      if invoice.save
-        @order.status_constant = Order::TO_SHIP
-      else
-        History.add("Could not create invoice for order #{@order.document_id} during checkout.", History::GENERAL, @order)
-      end
-    end
+    
     
     if @order.save
-      # TODO: also destroy dependent lines or change model to do that
       @cart.destroy
-      # Perhaps redirect to order summary page (TODO)
+      
+      if @order.direct_shipping? == true
+        invoice_order(@order)
+      end
       
       @order.send_order_confirmation(current_user)
         
       flash[:notice] = I18n.t("stizun.order.thanks_for_your_order")
+      
+      # Redirect to a summary page instead
       redirect_to products_path
     else
       flash[:error] = I18n.t("stizun.order.problem_with_your_order")
@@ -84,6 +79,15 @@ class OrdersController < ApplicationController
   def load_order
     @order ||= Order.new
     return @order
+  end
+  
+  def invoice_order(order)
+    invoice = Invoice.new_from_order(@order)      
+    if invoice.save
+      @order.update_attributes(:status_constant => Order::AWAITING_PAYMENT)
+    else
+      History.add("Could not create invoice for order #{@order.document_id} during checkout, must manually invoice this.", History::ACCOUNTING, @order)
+    end
   end
   
   # Picks either an ID-based address (existing in the database) or returns

@@ -43,6 +43,9 @@ end
 
 When /^I submit my order$/ do
   click_button "Bestellung aufgeben"
+  puts "all orders: #{Order.all.inspect}"
+  puts "all invoices: #{Invoice.all.inspect}"
+  
 end
 
 Then /^I should see an order summary$/ do

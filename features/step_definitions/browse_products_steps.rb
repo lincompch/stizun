@@ -4,6 +4,7 @@ end
 
 Given /^a product named "([^\"]*)" from supplier "([^\"]*)"$/ do |arg1, arg2| 
   @product = Product.new
+  @product.direct_shipping = true
   @product.name = arg1
   @product.description = "Blah"
   @product.weight = 5.0

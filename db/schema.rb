@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110105133304) do
+ActiveRecord::Schema.define(:version => 20110106144338) do
 
   create_table "account_transactions", :force => true do |t|
     t.string   "note"
@@ -140,7 +140,6 @@ ActiveRecord::Schema.define(:version => 20110105133304) do
   create_table "document_lines", :force => true do |t|
     t.integer  "quantity"
     t.decimal  "price",      :precision => 10, :scale => 0
-    t.decimal  "tax",        :precision => 63, :scale => 30
     t.integer  "product_id"
     t.string   "note"
     t.string   "type"

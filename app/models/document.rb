@@ -1,6 +1,7 @@
 class Document < ActiveRecord::Base
   self.abstract_class = true
 
+  
   def taxed_price
     return products_taxed_price + shipping_rate.total_cost
   end
@@ -153,5 +154,6 @@ class Document < ActiveRecord::Base
   def contains_componentized_products?
     return products.collect(&:componentized?).uniq.include?(true)    
   end
+
   
 end

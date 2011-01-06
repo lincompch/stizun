@@ -53,6 +53,7 @@ Feature: Ordering
       When I visit the checkout
       Then I should see an order summary
 
+    @kaka
     Scenario: Complete checkout
       Given I have ordered some stuff
       When I visit the checkout
@@ -67,8 +68,9 @@ Feature: Ordering
       And I select "USAnia" from "Land" within "#billing_address" 
       And I submit my order
       Then I should see "Danke für Ihre Bestellung!"
-      And I should receive 1 e-mails
-      And the subject of e-mail 1 should be "[Local Shop] Bestätigung Ihrer Bestellung"
+      And I should receive 2 e-mails
+      And the subject of e-mail 2 should be "[Local Shop] Bestätigung Ihrer Bestellung"
+      And the subject of e-mail 1 should be "[Local Shop] Elektronische Rechnung"
 
     Scenario: Complete checkout with different shipping address
       Given I have ordered some stuff
@@ -93,8 +95,10 @@ Feature: Ordering
       And I select "USAnia" from "Land" within "#shipping_address" 
       And I submit my order
       Then I should see "Danke für Ihre Bestellung!"
-      And I should receive 1 e-mails
-      And the subject of e-mail 1 should be "[Local Shop] Bestätigung Ihrer Bestellung"
+      And I should receive 2 e-mails
+      And the subject of e-mail 2 should be "[Local Shop] Bestätigung Ihrer Bestellung"
+      And the subject of e-mail 1 should be "[Local Shop] Elektronische Rechnung"
+
 
     Scenario: Forget filling in some important fields when ordering
 
