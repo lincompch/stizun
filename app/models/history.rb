@@ -22,10 +22,14 @@ class History < ActiveRecord::Base
                 PRODUCT_CHANGE => 'stizun.constants.product_change',
                 SUPPLY_ITEM_CHANGE => 'stizun.constants.supply_item_change'}
   
+  def self.type_to_human(type_const)
+    return I18n.t(TYPE_CONST_HASH[type_const]) || "Unknown"
+  end
+  
   # Human-readable representation of the status
   def type_human
-    return I18n.t(TYPE_CONST_HASH[type_const]) || "Unknown"
-    #return self.type_to_human(self.type_const)  
+    #return I18n.t(TYPE_CONST_HASH[type_const]) || "Unknown"
+    return self.type_to_human(self.type_const)  
   end
   
   def self.type_array
