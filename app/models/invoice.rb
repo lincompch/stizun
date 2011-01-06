@@ -241,6 +241,7 @@ class Invoice < ActiveRecord::Base
       
       res = AccountTransaction.transfer(user_account, sales_income_account, self.taxed_price, "Invoice #{self.document_id}", self)
       TaxBookers::TaxBooker.record_invoice(self)
+      StoreMailer.invoice(self).deliver
     end
   end
 

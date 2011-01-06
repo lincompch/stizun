@@ -1,16 +1,21 @@
 Liebe Lincomp-Kundin
 Lieber Lincomp-Kunde
 
-Dies ist die elektronische Rechnung Nr. <%= "#{@invoice.document_id}" %> zu Ihrer Bestellung
-Nr. <%= "#{@invoice.order.document_id}" %>. Rechnungsdetails und Zahlungsanweisungen finden
-Sie hier:
+Dies ist die elektronische Rechnung Nr. <%= "#{@invoice.document_id}" %> zu 
+Ihrer Bestellung Nr. <%= "#{@invoice.order.document_id}" %>. 
+
+Rechnungsdetails und Zahlungsanweisungen finden Sie hier:
 
 <%= url_for :only_path => false, :controller => 'invoices', :action => 'uuid', :uuid => @invoice.uuid %>
 
-Alle Rechnungs- und Bestellungs-Informationen finden Sie ausserdem in Ihrem persönlichen
-Konto unter:
+Alle Rechnungs- und Bestellungs-Informationen finden Sie ausserdem in Ihrem 
+persönlichen Konto unter:
 
 http://www.lincomp.ch/users/me
+
+Falls Sie als Zahlungsart "Papier-Rechnung/Oranger Einzahlungsschein" 
+gewählt haben, können Sie mit der Zahlung selbstverständlich abwarten, 
+bis die physische Rechnung bei Ihnen eintrifft.
 
 
 Freundliche Grüsse
