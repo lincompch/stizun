@@ -45,6 +45,7 @@ Stizun::Application.routes.draw do
     resources :invoices do
       collection do
         post :create_from_order
+        post :resend_invoice
       end
     end
     

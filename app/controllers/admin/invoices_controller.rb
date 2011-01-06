@@ -10,7 +10,8 @@ class Admin::InvoicesController <  Admin::BaseController
       @invoice = Invoice.new_from_order(@order)
       if @invoice.save
       # redirect_to admin_invoice_path(@invoice)
-        StoreMailer.invoice(@invoice).deliver
+        # Delivery is now done as after_create filter in Invoice
+        #StoreMailer.invoice(@invoice).deliver
         flash[:notice] = "Invoice created."
         redirect_to :back
       else
@@ -23,6 +24,22 @@ class Admin::InvoicesController <  Admin::BaseController
       redirect_to :back
       #redirect_to :controller => 'admin/dashboard'
     end
+  end
+  
+  def resend_invoice
+    @invoice = Invoice.find(params[:id])
+    if @invoice
+      address_string = @invoice.notification_email_addresses.join(", ")
+      if StoreMailer.invoice(@invoice).deliver
+        
+        flash[:notice] = "Invoice resent to: #{address_string}"
+      else
+        flash[:error] = "Mail system error while delivering invoice."
+      end
+    else
+      flash[:error] = "Invoice with ID #{params[:id]} not found."
+    end
+    redirect_to :back
   end
   
   def new
