@@ -4,7 +4,7 @@ set :scm, :git
 set :repository, "git://github.com/psy-q/stizun.git"
 set :branch, "master"
 set :deploy_via, :remote_cache
-
+set :keep_releases, 2 
 
 set :use_sudo, false
 set :deploy_to, "/home/web/test.lincomp.org/test"
