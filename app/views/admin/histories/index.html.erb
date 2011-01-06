@@ -28,7 +28,7 @@ end %>
 
 <%= form_tag({:action => :index}, {:method => :get}) do %>
   <% History::TYPE_CONST_HASH.each do |k, v| %>
-    <%= check_box_tag "filters[]", k, @filters.include?(k.to_i) %> <%= History.type_to_human(v) %>
+    <%= check_box_tag "filters[]", k, @filters.include?(k.to_i) %> <%= History.type_to_human(k) %>
   <% end %>
   <%= submit_tag "Filter" %>
   
