@@ -32,8 +32,8 @@ class Invoice < ActiveRecord::Base
   UNPAID = 1
   PAID = 2
   
-  STATUS_HASH = { UNPAID     => I18n.t('stizun.constants.unpaid'),
-                  PAID       => I18n.t('stizun.constants.paid')}
+  STATUS_HASH = { UNPAID     => 'stizun.constants.unpaid',
+                  PAID       => 'stizun.constants.paid'}
 
   # === Named scopes
 
@@ -44,13 +44,16 @@ class Invoice < ActiveRecord::Base
   # === Methods
   
   def self.status_to_human(status)
-    return STATUS_HASH[status]
+    # Gotta call I18n.t like this because it doesn't have the correct
+    # locale set outside this definition on _some_ installations, not all.
+    # Possibly broken in Rails.    
+    return I18n.t(STATUS_HASH[status])
   end
   
   def self.status_hash_for_select
     hash = []
     STATUS_HASH.each do |key,value|
-      hash << [value, key]
+      hash << [I18n.t(value), key]
     end 
     return hash
 

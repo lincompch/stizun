@@ -24,9 +24,7 @@ class ApplicationController < ActionController::Base
   def set_locale
     # if params[:locale] is nil then I18n.default_locale will be used
     #I18n.locale = params[:locale]
-    # This is actually set six million times in config/application.rb, but
-    # Rails refuses to acknowledge that for some reason, so trying to set
-    # this here explicitly.
+    # Currently hard-coded during development
     I18n.locale = :"de-CH"
   end
   

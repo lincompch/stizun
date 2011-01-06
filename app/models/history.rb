@@ -17,14 +17,14 @@ class History < ActiveRecord::Base
   PRODUCT_CHANGE = 3
   SUPPLY_ITEM_CHANGE = 4
   
-  TYPE_CONST_HASH = { GENERAL      => I18n.t('stizun.constants.general'),
-                ACCOUNTING   => I18n.t('stizun.constants.accounting'),
-                PRODUCT_CHANGE => I18n.t('stizun.constants.product_change'),
-                SUPPLY_ITEM_CHANGE => I18n.t('stizun.constants.supply_item_change')}
+  TYPE_CONST_HASH = { GENERAL      => 'stizun.constants.general',
+                ACCOUNTING   => 'stizun.constants.accounting',
+                PRODUCT_CHANGE => 'stizun.constants.product_change',
+                SUPPLY_ITEM_CHANGE => 'stizun.constants.supply_item_change'}
   
   # Human-readable representation of the status
   def type_human
-    return TYPE_CONST_HASH[type_const] || "Unknown"
+    return I18n.t(TYPE_CONST_HASH[type_const]) || "Unknown"
     #return self.type_to_human(self.type_const)  
   end
   

@@ -48,6 +48,7 @@ class Order < Document
   def self.status_to_human(status)
     # Gotta call I18n.t like this because it doesn't have the correct
     # locale set outside this definition on _some_ installations, not all.
+    # Possibly broken in Rails.
     return I18n.t(STATUS_HASH[status])
   end
   

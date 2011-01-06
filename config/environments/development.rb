@@ -23,11 +23,6 @@ Stizun::Application.configure do
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
   
-  # This really, really shouldn't be necessary since it's set in application.rb,
-  # but apparently some part of how Rails propagates this setting is broken.
-  config.i18n.default_locale = :'de-CH'
-  config.i18n.locale = :'de-CH'
-  
   config.action_mailer.default_url_options = { :host => "localhost:3000" }
 end
 
