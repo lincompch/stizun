@@ -24,7 +24,6 @@ class StoreMailer < ActionMailer::Base
     mail(:to => order.notification_email_addresses,
          :subject => subject) do |format|
       format.text { render StoreMailer.template_path("order_confirmation") }
-      #format.html #{ render :text => "<h1>This is HTML</h1>" }
     end
   end
 
@@ -37,7 +36,6 @@ class StoreMailer < ActionMailer::Base
       
       
       format.text { render StoreMailer.template_path("invoice") }
-      #format.html #{ render :text => "<h1>This is HTML</h1>" }
     end
   end
 
