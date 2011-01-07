@@ -36,6 +36,9 @@ class Admin::ProductsController <  Admin::BaseController
   
   def new
     @product = Product.new
+    # Must add this, otherwise the product picture partial in 
+    # views/admin/products/new.html.erb fails
+    #@product.product_pictures << ProductPicture.new
     render :layout => 'admin_blank'
   end
   

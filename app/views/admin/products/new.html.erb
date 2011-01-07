@@ -4,7 +4,11 @@
 
 <%= form_for [:admin, @product] do |f| %>
 
-<%= render :partial => 'product_picture_info', :locals => { :product => @product } %>
+<%=
+  # Can't seem to use this partial here, because the product is not yet saved and
+  # has no id at this time. Must improve at some point.
+  #render :partial => 'product_picture_info', :locals => { :product => @product } 
+%>
 
 <h4>Product properties</h4>
 
