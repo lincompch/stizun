@@ -2,6 +2,9 @@
 
 <%= error_messages_for(@product) %>
 
+<%= render :partial => 'product_picture_info', :locals => { :product => @product } %>
+
+<h4>Product properties</h4>
 
 <% if @product.componentized? %>
 
