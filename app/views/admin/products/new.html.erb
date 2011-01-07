@@ -4,6 +4,11 @@
 
 <%= form_for [:admin, @product] do |f| %>
 
+<%= render :partial => 'product_picture_info', :locals => { :product => @product } %>
+
+<h4>Product properties</h4>
+
+
 <table class="dataentry">
   <tr>
     <td><%= f.label :name, "Name" %></td>

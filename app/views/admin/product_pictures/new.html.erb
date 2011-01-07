@@ -1,0 +1,12 @@
+<h3>Existing pictures</h3>
+
+<%= render :partial => 'thumbnail_list', :locals => {:product_pictures => @product_pictures } %>
+
+
+<h3>Add product picture</h3>
+
+<%= form_for [:admin, @product, @product_picture], :html => { :multipart => true } do |f| %>
+
+    <%= f.file_field :file %>
+    <%= f.submit %>
+<% end %>

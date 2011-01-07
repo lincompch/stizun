@@ -29,10 +29,13 @@ Stizun::Application.routes.draw do
   end
 
   match '/admin' => 'admin/dashboard#index', :as => :admin
+  
+  # Namespace admin
   namespace :admin do
     
     resources :products do
       resources :components
+      resources :product_pictures
       collection do
         get 'create_from_supply_item'
       end
@@ -78,7 +81,7 @@ Stizun::Application.routes.draw do
     end
     
   end
-  
+  # End of namespace admin
 
   match 'invoice/:uuid' => 'invoices#uuid'
   match '/' => 'page#index'

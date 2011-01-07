@@ -1,0 +1,9 @@
+
+ <p>this is where we list them</p>
+ 
+ 
+ <%= render :partial => 'thumbnail_list', :locals => {:product_pictures => @product_pictures } %>
+<!-- <% @product_pictures.each do |pp| %>
+   <%= image_tag pp.file.url(:thumb) %>
+ <% end %>-->
+ 

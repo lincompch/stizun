@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110106144338) do
+ActiveRecord::Schema.define(:version => 20110107141946) do
 
   create_table "account_transactions", :force => true do |t|
     t.string   "note"
@@ -255,6 +255,15 @@ ActiveRecord::Schema.define(:version => 20110106144338) do
   add_index "payment_methods_users", ["payment_method_id"], :name => "index_payment_methods_users_on_payment_method_id"
   add_index "payment_methods_users", ["user_id", "payment_method_id"], :name => "pmu_uid_pmid"
   add_index "payment_methods_users", ["user_id"], :name => "index_payment_methods_users_on_user_id"
+
+  create_table "product_pictures", :force => true do |t|
+    t.integer  "product_id"
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.string   "file_path"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
+  end
 
   create_table "product_sets", :force => true do |t|
     t.integer "quantity"

@@ -16,7 +16,7 @@ class Product < ActiveRecord::Base
   has_many :components, :through => :product_sets
   has_many :product_sets, :foreign_key => 'product_id', :class_name => 'ProductSet'
   
-  has_many :pictures
+  has_many :product_pictures
   
   belongs_to :tax_class
   belongs_to :supply_item
