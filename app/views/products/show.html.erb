@@ -1,5 +1,9 @@
 <div id="product_details">
 
+
+
+  <h3><%= @product.name %></h3>
+
   <div id="add_to_cart_box">
     <p class="price"><%= product_rounded_price(@product).html_safe %></p>
     <p class="stock"><%= @product.stock %> <%= t("stizun.product.pcs_in_stock_short") %></p>
@@ -11,11 +15,13 @@
     <% end -%>
   </div>
 
-  <h3><%= @product.name %></h3>
+  <div id="product_picture_gallery">
+    <%= render :partial => 'picture_display', :locals => { :product_pictures => @product.product_pictures } %>
+  </div>
 
+
+  <h4><%= t('stizun.product.description') %></h4>
   <p><%= Sanitize.clean(@product.description, Sanitize::Config::STIZUN).html_safe %></p>
-
-
 
   <p style="clear: both;"></p>
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110107141946) do
+ActiveRecord::Schema.define(:version => 20110108122939) do
 
   create_table "account_transactions", :force => true do |t|
     t.string   "note"
@@ -263,6 +263,7 @@ ActiveRecord::Schema.define(:version => 20110107141946) do
     t.string   "file_path"
     t.integer  "file_file_size"
     t.datetime "file_updated_at"
+    t.boolean  "is_main_picture"
   end
 
   create_table "product_sets", :force => true do |t|

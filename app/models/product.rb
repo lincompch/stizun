@@ -337,7 +337,6 @@ class Product < ActiveRecord::Base
     end    
   end
   
-  
   private
   
   def calculated_rounded_gross_price

@@ -281,6 +281,8 @@ de-CH:
       no_products: "Diese Produkteliste ist leer."
       products: "Produkte"
       rebate: "Rabatt"
+      description: "Beschreibung"
+      no_picture: "Kein Bild für dieses Produkt"
     store_mailer:
       order_confirmation_subject: "Bestätigung Ihrer Bestellung"
       invoice_notification_subject: "Elektronische Rechnung"

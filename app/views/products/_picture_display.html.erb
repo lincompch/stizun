@@ -1,0 +1,11 @@
+<% if product_pictures.empty? %>
+  <div class="no_picture">
+  <%= t('stizun.product.no_picture') %>
+  </div>
+<% else %>
+  <% if product_pictures.main.empty? %>
+    <%= image_tag product_pictures.first.file.url(:medium) %>    
+  <% else %>
+    <%= image_tag product_pictures.main.first.file.url(:medium) %>
+  <% end %>
+<% end %>

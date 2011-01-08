@@ -4,7 +4,6 @@ class Admin::ProductPicturesController < Admin::BaseController
     @product_pictures = Product.find(params[:product_id]).product_pictures
   end
   
-  
   def show
     
   end

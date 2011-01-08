@@ -453,6 +453,17 @@ table.productlist thead th, table.productlist tfoot th {
   margin-bottom: 1.2em;
 }
 
+#product_picture_gallery {
+ padding: 10px;
+ width: 400px;
+ border: 2px solid #cecece;
+ background: #fffafa;
+}
+
+#product_picture_gallery .no_picture {
+  text-align: center; 
+}
+
 
 #category_box ul {
   margin: 0;
@@ -537,6 +548,8 @@ a.fake_button {
 }
 
 
+/* Global-ish stuff */
+
 input.real_button:hover, a.fake_button:hover {
   color: #666;
 }
@@ -556,6 +569,7 @@ div.cartbuttons a.fake_button {
   width: 150px;
 
 }
+
 
 td.price {
   white-space: nowrap;
