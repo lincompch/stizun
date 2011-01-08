@@ -2,6 +2,9 @@
 
 <%= error_messages_for(@product) %>
 
+<h4>Product pictures</h4>
+<%= render :partial => 'admin/product_pictures/thumbnail_list', :locals => { :product_pictures => @product.product_pictures } %>
+
 <%= render :partial => 'product_picture_info', :locals => { :product => @product } %>
 
 <h4>Product properties</h4>
