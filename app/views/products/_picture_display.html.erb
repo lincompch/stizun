@@ -8,4 +8,12 @@
   <% else %>
     <%= image_tag product_pictures.main.first.file.url(:medium) %>
   <% end %>
+  
+  <% product_pictures[0..3].each do |pp| %>
+  
+    <div class="thumb">
+    <%= image_tag pp.file.url(:thumb), :style => 'float: left' %>
+    </div>
+  <% end %>
+  <div style="clear: both"></div>
 <% end %>
