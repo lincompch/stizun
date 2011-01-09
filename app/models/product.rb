@@ -38,7 +38,7 @@ class Product < ActiveRecord::Base
     indexes description, supplier_product_code, manufacturer_product_code
     
     # attributes
-    has created_at, updated_at, supply_item_id
+    has created_at, updated_at
   end
   
   

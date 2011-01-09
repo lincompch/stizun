@@ -13,7 +13,11 @@ class SupplyItem < ActiveRecord::Base
     indexes description, supplier_product_code, manufacturer_product_code
     
     # attributes
-    has created_at, updated_at, id
+    has created_at, updated_at
+    has supplier_id
+    #has suppliers(:id), :as => :supplier_id
+    #has suppliers(:id), :as => :supplier_ids
+ 
   end
   
   
