@@ -40,7 +40,8 @@ Stizun::Application.routes.draw do
         get 'create_from_supply_item'
       end
     end
-    
+   
+    resources :product_pictures 
     resources :tax_classes
     resources :orders
     resources :countries

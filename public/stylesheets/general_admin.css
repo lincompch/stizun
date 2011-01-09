@@ -79,3 +79,20 @@
 .admin-navigation li:hover {
   background: #f6f6f9;
 }
+
+
+.thumbnail_list .main, .thumbnail_list .notmain {
+  padding: 3px;
+}
+
+.thumbnail_list .notmain {
+  background:  #f5f5f5;
+}
+
+.thumbnail_list .main {
+  background:  #EBD759;
+}
+
+.thumbnail_list td {
+  text-align: center;
+}

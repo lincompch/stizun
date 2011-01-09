@@ -5,7 +5,7 @@ class Admin::ProductPicturesController < Admin::BaseController
   end
   
   def show
-    
+    @product_picture = ProductPicture.find(params[:id])
   end
   
   def new
@@ -26,8 +26,17 @@ class Admin::ProductPicturesController < Admin::BaseController
     
   end
   
-  def update
-
+  def update  
+    puts "da shit dates up"
+    @product_picture = ProductPicture.find(params[:id])
+    @product_picture.update_attributes(params[:product_picture])
+    
+    if params[:set_main_picture] == "true"
+      @product_picture.set_main_picture
+    end
+    
+    redirect_to :back
+    
   end
                                     
   def destroy

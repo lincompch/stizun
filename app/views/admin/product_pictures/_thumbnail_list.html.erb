@@ -1,3 +1,23 @@
- <% product_pictures.each do |pp| %>
-   <%= image_tag pp.file.url(:thumb) %>
- <% end %>
+ <div class="thumbnail_list">
+  <table>
+  <tr>
+  <% product_pictures.each do |pp| %>
+    <% pp.is_main_picture? ? picture_class = "main" : picture_class = "not_main" %>
+    <td class="<%= picture_class %>">
+      
+      <div>
+        <%= image_tag pp.file.url(:thumb) %>
+      </div>
+      <%= if pp.is_main_picture?
+            "Main picture"
+          else
+            link_to 'Set main', admin_product_picture_path(pp, :set_main_picture => true), :method => :put 
+          end  %>
+                                
+                            
+    </td>             
+    <% end %>
+  </tr>
+  </table>
+ 
+ </div>

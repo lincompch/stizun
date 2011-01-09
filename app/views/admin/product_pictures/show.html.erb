@@ -1,0 +1,5 @@
+<h3>Product picture <%= "#{@product_picture.id}" %></h3>
+
+<%= image_tag @product_picture.file.url(:thumb) %>
+<%= image_tag @product_picture.file.url(:medium) %>
+<%= image_tag @product_picture.file.url %>
