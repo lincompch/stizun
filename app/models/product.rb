@@ -28,6 +28,18 @@ class Product < ActiveRecord::Base
   scope :available, :conditions => { :is_available => true }
   scope :supplied, :conditions => "supply_item_id IS NOT NULL"
   scope :loss_leaders, :conditions => { :is_loss_leader => true }
+
+  
+  # Thinking Sphinx configuration
+  # Must come AFTER associations
+  define_index do
+    # fields
+    indexes name, :sortable => true
+    indexes description, supplier_product_code, manufacturer_product_code
+    
+    # attributes
+    has created_at, updated_at, supply_item_id
+  end
   
   
   # Pagination with will_paginate

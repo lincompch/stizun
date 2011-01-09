@@ -4,6 +4,19 @@ class SupplyItem < ActiveRecord::Base
   belongs_to :supplier
   has_one :product
   
+  
+  # Thinking Sphinx configuration
+  # Must come AFTER associations
+  define_index do
+    # fields
+    indexes name, :sortable => true
+    indexes description, supplier_product_code, manufacturer_product_code
+    
+    # attributes
+    has created_at, updated_at, id
+  end
+  
+  
   def to_s
     "#{supplier_product_code} #{name}" 
   end

@@ -17,9 +17,9 @@ class Admin::ProductsController <  Admin::BaseController
     
     if params[:search].blank? or params[:search][:keyword].blank?
 
-      @products = search_object.search.all.paginate(:page => params[:page], :per_page => Product.per_page)
+      @products = search_object.all.paginate(:page => params[:page], :per_page => Product.per_page)
     else
-      @products = search_object.name_like_or_supplier_product_code_is_or_manufacturer_product_code_is(params[:search][:keyword]).paginate(:page => params[:page], :per_page => Product.per_page)
+      @products = search_object.search(params[:search][:keyword]).paginate(:page => params[:page], :per_page => Product.per_page)
     end
   end
   

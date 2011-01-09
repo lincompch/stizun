@@ -2,14 +2,6 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.3'
 
-
-# Incompatible with Rails 3 :(
-#gem 'searchlogic'
-
-# Compatible with Rails 3 :)
-gem 'meta_search'
-
-
 # Allows UJS with jQuery
 gem 'jquery-rails'
 
@@ -33,6 +25,7 @@ gem 'ckeditor', '3.4.2.pre'
 # We better sanitize that HTML!
 gem 'sanitize'
 
+gem 'thinking-sphinx'
 gem 'paperclip'
 gem 'mysql2'
 gem 'will_paginate'
