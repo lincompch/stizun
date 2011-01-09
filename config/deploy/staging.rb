@@ -29,6 +29,15 @@ task :install_gems do
   run "cd #{release_path} && RAILS_ENV=production bundle install --deployment --without cucumber development"
 end
 
+task :configure_sphinx do
+  run "cd #{release_path} && RAILS_ENV=production rake ts:conf && RAILS_ENV=production rake ts:reindex"
+end
+
+task :restart_sphinx do
+  run "cd #{release_path} && RAILS_ENV=production rake ts:restart"
+end
+
+
 namespace :deploy do
    task :restart, :roles => :app, :except => { :no_release => true } do
      run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
@@ -44,3 +53,5 @@ end
 
 after "deploy:symlink", :link_config
 after "link_config", "install_gems"
+after "install_gems", "configure_sphinx"
+after "configure_sphinx", "restart_sphinx"
