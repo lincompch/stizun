@@ -3,11 +3,13 @@
   <%= t('stizun.product.no_picture') %>
   </div>
 <% else %>
-  <% if product_pictures.main.empty? %>
-    <%= image_tag product_pictures.first.file.url(:medium) %>    
-  <% else %>
-    <%= image_tag product_pictures.main.first.file.url(:medium) %>
-  <% end %>
+  <div class="main_picture">
+    <% if product_pictures.main.empty? %>
+      <%= image_tag product_pictures.first.file.url(:medium) %>    
+    <% else %>
+      <%= image_tag product_pictures.main.first.file.url(:medium) %>
+    <% end %>
+  </div>
   
   <% (product_pictures - product_pictures.main)[0..3].each do |pp| %>
   

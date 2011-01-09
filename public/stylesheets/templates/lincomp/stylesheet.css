@@ -465,6 +465,12 @@ table.productlist thead th, table.productlist tfoot th {
 }
 
 
+#product_picture_gallery .main_picture {
+  text-align: center; 
+  vertical-align: middle;
+}
+
+
 #category_box ul {
   margin: 0;
   padding: 0;
