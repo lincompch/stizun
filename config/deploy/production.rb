@@ -33,11 +33,11 @@ task :install_gems do
 end
 
 task :configure_sphinx do
-  run "cd #{release_path} && RAILS_ENV=production rake ts:conf && RAILS_ENV=production rake ts:reindex"
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:conf && RAILS_ENV=production bundle exec rake ts:reindex"
 end
 
 task :restart_sphinx do
-  run "cd #{release_path} && RAILS_ENV=production rake ts:restart"
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:restart"
 end
 
 namespace :deploy do
