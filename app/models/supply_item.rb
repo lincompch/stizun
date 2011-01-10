@@ -17,7 +17,9 @@ class SupplyItem < ActiveRecord::Base
     has supplier_id
     #has suppliers(:id), :as => :supplier_id
     #has suppliers(:id), :as => :supplier_ids
- 
+    
+    set_property :delta => true
+
   end
   
   
