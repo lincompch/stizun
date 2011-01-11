@@ -112,88 +112,90 @@ class AlltronUtil
   # product this needs to be modular and allow each supplier to provide
   # either files or an API to synchronize from.
   def self.import_supply_items(filename = self.import_filename)
-    require 'lib/alltron_csv'
-    # TODO: Create Alltron's very own shipping rate right here, perhaps based ona config file
-    self.create_shipping_rate
-    supplier = Supplier.find_or_create_by_name(:name => 'Alltron AG')
-    acsv = AlltronCSV.new(filename)
-    fcsv = acsv.get_faster_csv_instance
-    received_codes = []
-    fcsv.each do |sp|
-      # Keep track of which products we received, so we can later determine which ones
-      # we are stocking but shouldn't be stocking anymore
-      received_codes << sp['Artikelnummer 2']
-      # check if we have product too
-      local_supply_item = SupplyItem.find_by_supplier_product_code(sp['Artikelnummer 2'])
-      
-      # We do not have that supply item yet
-      if local_supply_item.nil?
-        si= SupplyItem.new_from_csv_record(sp)
+    SupplyItem.suspended_delta do
         
-        if si.save
-          History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
+      require 'lib/alltron_csv'
+      # TODO: Create Alltron's very own shipping rate right here, perhaps based ona config file
+      self.create_shipping_rate
+      supplier = Supplier.find_or_create_by_name(:name => 'Alltron AG')
+      acsv = AlltronCSV.new(filename)
+      fcsv = acsv.get_faster_csv_instance
+      received_codes = []
+      fcsv.each do |sp|
+        # Keep track of which products we received, so we can later determine which ones
+        # we are stocking but shouldn't be stocking anymore
+        received_codes << sp['Artikelnummer 2']
+        # check if we have product too
+        local_supply_item = SupplyItem.find_by_supplier_product_code(sp['Artikelnummer 2'])
+        
+        # We do not have that supply item yet
+        if local_supply_item.nil?
+          si= SupplyItem.new_from_csv_record(sp)
+          
+          if si.save
+            History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
+          else
+            History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", History::SUPPLY_ITEM_CHANGE, si)
+          end
+        
+        # We already have that supply item and need to update supply item
+        # and related product information
         else
-          History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", History::SUPPLY_ITEM_CHANGE, si)
+          if local_supply_item.purchase_price != BigDecimal(sp['Preis (exkl. MWSt)'].to_s)
+            old_price = local_supply_item.purchase_price
+            local_supply_item.purchase_price = BigDecimal(sp['Preis (exkl. MWSt)'].to_s)
+            local_supply_item.save
+            History.add("Changed price for #{local_supply_item.to_s} from #{old_price} to #{local_supply_item.purchase_price}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
+          end
+          
+          if local_supply_item.stock != sp['Lagerbestand'].gsub("'","").to_i
+            old_stock = local_supply_item.stock
+            local_supply_item.stock = sp['Lagerbestand'].gsub("'","").to_i
+            local_supply_item.save
+            History.add("Changed stock for #{local_supply_item.to_s} from #{old_stock} to #{local_supply_item.stock}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
+          end
         end
+      end
       
-      # We already have that supply item and need to update supply item
-      # and related product information
-      else
-        if local_supply_item.purchase_price != BigDecimal(sp['Preis (exkl. MWSt)'].to_s)
-          old_price = local_supply_item.purchase_price
-          local_supply_item.purchase_price = BigDecimal(sp['Preis (exkl. MWSt)'].to_s)
-          local_supply_item.save
-          History.add("Changed price for #{local_supply_item.to_s} from #{old_price} to #{local_supply_item.purchase_price}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
+      # Find out which items we need to delete locally
+      total_codes = supplier \
+                    .supply_items \
+                    .collect(&:supplier_product_code)
+      to_delete = total_codes - received_codes
+          
+      to_delete.each do |td|
+        supply_item = SupplyItem.find_by_supplier_product_code(td)
+        
+        # If this supply item was used as a product component, remove it from the
+        # product, disable the product.
+        affected_products = supply_item.component_of
+        affected_products.each do |ap|
+          # Tries to brute force removing all counts of this component by hardcoding
+          # 99999999 as component count. TODO: Count components, do this properly, or add
+          # a remove_components method to Product
+          ap.remove_component(td, 99999999)
+          ap.is_available = false
+          ap.save
+          History.add("Component #{td} was removed from product #{ap} because the supply item has become unavailable.", History::PRODUCT_CHANGE, ap)
+          # Just adding text here because the supply_item object will soon no longer exist
+          History.add("Component #{td} was removed from product #{ap} because the supply item has become unavailable.", History::SUPPLY_ITEM_CHANGE)
         end
         
-        if local_supply_item.stock != sp['Lagerbestand'].gsub("'","").to_i
-          old_stock = local_supply_item.stock
-          local_supply_item.stock = sp['Lagerbestand'].gsub("'","").to_i
-          local_supply_item.save
-          History.add("Changed stock for #{local_supply_item.to_s} from #{old_stock} to #{local_supply_item.stock}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
+        # Destroy the supply item relationship in case a product was based on it. 
+        # This is different to above, above we only disable parts used as _components_
+        unless supply_item.product.blank?
+          supply_item.product.supply_item = nil
+          self.disable_product(supply_item.product)
+          if supply_item.product.save
+            History.add("Disassociated Supply Item with ID #{supply_item.id} (#{supply_item.to_s}) from its product because it's about to be destroyed.", History::SUPPLY_ITEM_CHANGE)
+          else
+            History.add("Failed to disassociate Supply Item with ID #{supply_item.id} (#{supply_item.to_s}) from its product, but it's about to be destroyed anyhow. Errors: #{supply_item.product.errors.full_messages.to_s}", History::SUPPLY_ITEM_CHANGE)
+          end
         end
+        supply_item.destroy
+        History.add("Deleted Supply Item with supplier code #{td}", History::SUPPLY_ITEM_CHANGE)
       end
     end
-    
-    # Find out which items we need to delete locally
-    total_codes = supplier \
-                   .supply_items \
-                   .collect(&:supplier_product_code)
-    to_delete = total_codes - received_codes
-        
-    to_delete.each do |td|
-      supply_item = SupplyItem.find_by_supplier_product_code(td)
-      
-      # If this supply item was used as a product component, remove it from the
-      # product, disable the product.
-      affected_products = supply_item.component_of
-      affected_products.each do |ap|
-        # Tries to brute force removing all counts of this component by hardcoding
-        # 99999999 as component count. TODO: Count components, do this properly, or add
-        # a remove_components method to Product
-        ap.remove_component(td, 99999999)
-        ap.is_available = false
-        ap.save
-        History.add("Component #{td} was removed from product #{ap} because the supply item has become unavailable.", History::PRODUCT_CHANGE, ap)
-        # Just adding text here because the supply_item object will soon no longer exist
-        History.add("Component #{td} was removed from product #{ap} because the supply item has become unavailable.", History::SUPPLY_ITEM_CHANGE)
-      end
-      
-      # Destroy the supply item relationship in case a product was based on it. 
-      # This is different to above, above we only disable parts used as _components_
-      unless supply_item.product.blank?
-        supply_item.product.supply_item = nil
-        self.disable_product(supply_item.product)
-        if supply_item.product.save
-          History.add("Disassociated Supply Item with ID #{supply_item.id} (#{supply_item.to_s}) from its product because it's about to be destroyed.", History::SUPPLY_ITEM_CHANGE)
-        else
-          History.add("Failed to disassociate Supply Item with ID #{supply_item.id} (#{supply_item.to_s}) from its product, but it's about to be destroyed anyhow. Errors: #{supply_item.product.errors.full_messages.to_s}", History::SUPPLY_ITEM_CHANGE)
-        end
-      end
-      supply_item.destroy
-      History.add("Deleted Supply Item with supplier code #{td}", History::SUPPLY_ITEM_CHANGE)
-    end
-    
   end
   
   
