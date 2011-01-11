@@ -37,7 +37,7 @@ Stizun::Application.routes.draw do
       resources :components
       resources :product_pictures
       collection do
-        get 'create_from_supply_item'
+        get 'new_from_supply_item'
       end
     end
    

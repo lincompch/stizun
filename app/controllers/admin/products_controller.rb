@@ -83,10 +83,10 @@ class Admin::ProductsController <  Admin::BaseController
   end
   
   
-  def create_from_supply_item
+  def new_from_supply_item
     @supply_item = SupplyItem.find(params[:supply_item_id])
     @product = Product.new_from_supply_item(@supply_item)
-    render :action => 'edit', :layout => 'admin_blank'
+    render :action => 'new', :layout => 'admin_blank'
   end
   
 
