@@ -5,6 +5,11 @@ class SupplyItem < ActiveRecord::Base
   has_one :product
   
   
+  
+  def self.per_page
+    return 100
+  end
+  
   # Thinking Sphinx configuration
   # Must come AFTER associations
   define_index do
