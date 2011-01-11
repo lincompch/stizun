@@ -7,7 +7,7 @@ class ProductPicture < ActiveRecord::Base
   
   has_attached_file :file,  :styles => { :medium => ["400>x400>", :jpg], :thumb => ["80>x80>", :jpg] },
                             :convert_options => {
-                                :all => "-strip -background white"
+                                :all => "-strip -background white -flatten"
                               }
 
                               
