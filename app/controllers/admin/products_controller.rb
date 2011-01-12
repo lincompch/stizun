@@ -21,9 +21,8 @@ class Admin::ProductsController <  Admin::BaseController
     else
       @products = search_object.search(params[:search][:keyword],
                                        :max_matches => 10000,
-                                       :per_page => Product.per_page)\
-                                       .paginate(:page => params[:page], 
-                                                 :per_page => Product.per_page)
+                                       :per_page => Product.per_page,
+                                       :page => params[:page])
     end
   end
   
