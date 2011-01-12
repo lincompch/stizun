@@ -5,12 +5,12 @@ class StoreMailer < ActionMailer::Base
   default :from => APP_CONFIG['default_from_email'] || 'stizun@localhost'
 
   
-  def self.template_path(view_name)
-    path = Rails.root + "custom/store_mailer/#{view_name}"
+  def self.template_path(view_basename)
+    path = Rails.root + "custom/store_mailer/#{view_basename}.erb"
     if path.exist?
       template_dir = path
     else
-      template_dir = Rails.root + "app/views/store_mailer/#{view_name}"
+      template_dir = Rails.root + "app/views/store_mailer/#{view_basename}.erb"
     end
     
     "#{template_dir.to_s}"
