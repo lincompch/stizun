@@ -9,7 +9,11 @@ class Admin::SupplyItemsController < Admin::BaseController
       @supply_items = @supplier.supply_items.all.paginate(:page => params[:page], :per_page => SupplyItem.per_page)
     else
       
-      @supply_items = @supplier.supply_items.search(params[:search][:keyword]).paginate(:page => params[:page], :per_page => SupplyItem.per_page)
+      @supply_items = @supplier.supply_items.search(params[:search][:keyword], 
+                                                    :per_page => SupplyItem.per_page,
+                                                    :max_matches => 10000)\
+                                                    .paginate(:page => params[:page], 
+                                                              :per_page => SupplyItem.per_page)
     end
   end
     
