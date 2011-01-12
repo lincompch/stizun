@@ -27,7 +27,7 @@ Stizun::Application.routes.draw do
   resources :shipping_rates do
     resources :shipping_costs
   end
-
+  
   match '/admin' => 'admin/dashboard#index', :as => :admin
   
   # Namespace admin

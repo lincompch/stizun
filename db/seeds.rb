@@ -14,7 +14,8 @@ Usergroup.create(:name => 'Admins', :is_admin => true)
 # Set your shop's currency here
 ConfigurationItem.create(:name => 'Currency', :key => 'currency', :value => 'CHF', :description => 'The currency for your shop.')
 
-ConfigurationItem.create(:name => 'E-Mail Template Directory', :key => 'email_template_directory', :value => 'lincomp', :description => 'The subdirectory of views/store_mailer/templates that the text for order cofirmation and invoice e-mails is taken from.')
+# No longer necessary, automatically overrides from custom/store_mailer
+#ConfigurationItem.create(:name => 'E-Mail Template Directory', :key => 'email_template_directory', :value => 'lincomp', :description => 'The subdirectory of views/store_mailer/templates that the text for order cofirmation and invoice e-mails is taken from.')
 
 
 PaymentMethod.create(:name => 'Vorkasse', :default => true)

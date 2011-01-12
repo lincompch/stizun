@@ -6,11 +6,13 @@ class StoreMailer < ActionMailer::Base
 
   
   def self.template_path(view_name)
-    begin
-      template_dir = "store_mailer/templates/#{ConfigurationItem.get("email_template_directory").value}"
-    rescue ArgumentError
+    
+    if File.exist?("../custom/store_mailer/#{view_name}.erb")
+      template_dir = "../custom/store_mailer"
+    else
       template_dir = "store_mailer"
     end
+    
     "#{template_dir}/#{view_name}"
   end
   
