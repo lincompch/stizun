@@ -6,14 +6,14 @@ class StoreMailer < ActionMailer::Base
 
   
   def self.template_path(view_name)
-    
-    if File.exist?("../custom/store_mailer/#{view_name}.erb")
-      template_dir = "../custom/store_mailer"
+    path = Rails.root + "custom/store_mailer/#{view_name}.erb"
+    if path.exist?
+      template_dir = path
     else
-      template_dir = "store_mailer"
+      template_dir = Rails.root + "app/views/store_mailer"
     end
     
-    "#{template_dir}/#{view_name}"
+    "#{template_dir.to_s}/#{view_name}"
   end
   
   
