@@ -10,7 +10,7 @@ class Admin::SupplyItemsController < Admin::BaseController
     else
       
       @supply_items = @supplier.supply_items.search(params[:search][:keyword], 
-                                                    :per_page => SupplyItem.per_page
+                                                    :per_page => SupplyItem.per_page,
                                                     :page => params[:page],
                                                     :max_matches => 10000)
     end
