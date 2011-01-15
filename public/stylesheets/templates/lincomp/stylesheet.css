@@ -473,9 +473,16 @@ table.productlist thead th, table.productlist tfoot th {
 
 #category_box ul {
   margin: 0;
+  padding: 0 0 0 1em;
+  list-style: none;
+}
+
+#category_box ul.noindent {
+  margin: 0;
   padding: 0;
   list-style: none;
 }
+
 
 
 a.exx {

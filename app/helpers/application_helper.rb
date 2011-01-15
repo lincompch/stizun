@@ -45,9 +45,11 @@ module ApplicationHelper
   
   
   # My own implementation -- I find it more readable
-   def tree_recursive(tree, parent_id = nil, admin = false)
+   def tree_recursive(tree, parent_id = nil, admin = false, loopcount = 0)
+    classname = "noindent" if loopcount == 0
     output = ""
-    output += "<ul>\n"
+    output += "<ul class=\"#{classname}\">\n"
+    loopcount ||= 0
       tree.each do |node|
         if node.parent_id == parent_id
           if admin == true
@@ -55,7 +57,8 @@ module ApplicationHelper
           else
             output += "\t<li>" + link_to(node.name, category_products_path(node)) + "</li>\n"
           end
-          output += tree_recursive(node.children, node.id, admin) unless node.children.empty?
+          loopcount += 1
+          output += tree_recursive(node.children, node.id, admin, loopcount) unless node.children.empty?
         end
       end
     output += "</ul>\n"
