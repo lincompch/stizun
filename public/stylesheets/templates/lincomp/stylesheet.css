@@ -483,7 +483,9 @@ table.productlist thead th, table.productlist tfoot th {
   list-style: none;
 }
 
-
+#category_box li.super {
+  font-weight: bold;
+}
 
 a.exx {
   font-weight: bold;
