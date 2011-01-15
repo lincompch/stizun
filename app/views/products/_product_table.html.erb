@@ -3,11 +3,13 @@
 
   <table class="productlist">
     <thead>
+      <th scope="col"></th>
       <th scope="col">Produkt</th>
       <th scope="col">Preis</th>
       <th scope="col"></th>
     </thead>
     <tfoot>
+      <th scope="col"></th>
       <th scope="col"></th>
       <th scope="col"></th>
       <th scope="col"></th>
@@ -22,10 +24,18 @@
       <% end %>
 
       <td>
-        <%= link_to p.name, :action => 'show', :id => p %><br />
-        <%= Sanitize.clean(p.description, :elements => ['p'],
-                                          :attributes => { :all => ['class'] }, 
-                                          :remove_contents => true).html_safe %>
+        <% unless p.thumbnail_picture.nil? %>
+          <%= image_tag p.thumbnail_picture.file.url(:thumb) %>
+        <% end %>
+
+      </td>
+
+      <td>
+        <%= link_to p.name, :action => 'show', :id => p %>
+        <% unless p.short_description.blank? %>
+        <br />
+          <%= Sanitize.clean(p.short_description, Sanitize::Config::STIZUN).html_safe %>
+        <% end %>
       </td>
 
       <td class="price"><%= product_rounded_price(p).html_safe%></td>

@@ -24,6 +24,11 @@
   </tr>
 
   <tr>
+    <td><%= f.label :short_description, "Short description" %></td>
+    <td><%= f.text_area :short_description, :rows => 2, :cols => 100 %></td>
+  </tr>
+
+  <tr>
     <td><%= f.label :description_editor, "Description" %></td>
     <td><%= #f.cktext_area :description, :toolbar=>'Stizun', :width=>'600px', :height=>'250px' 
     %>

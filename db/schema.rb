@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110108122939) do
+ActiveRecord::Schema.define(:version => 20110115123626) do
 
   create_table "account_transactions", :force => true do |t|
     t.string   "note"
@@ -260,7 +260,6 @@ ActiveRecord::Schema.define(:version => 20110108122939) do
     t.integer  "product_id"
     t.string   "file_file_name"
     t.string   "file_content_type"
-    t.string   "file_path"
     t.integer  "file_file_size"
     t.datetime "file_updated_at"
     t.boolean  "is_main_picture"
@@ -293,6 +292,8 @@ ActiveRecord::Schema.define(:version => 20110108122939) do
     t.decimal  "percentage_rebate",         :precision => 63, :scale => 30, :default => 0.0
     t.datetime "rebate_until"
     t.boolean  "is_loss_leader"
+    t.boolean  "delta",                                                     :default => true, :null => false
+    t.text     "short_description"
   end
 
   add_index "products", ["supplier_id"], :name => "index_products_on_supplier_id"
@@ -340,6 +341,7 @@ ActiveRecord::Schema.define(:version => 20110108122939) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "manufacturer_product_code"
+    t.boolean  "delta",                                                    :default => true, :null => false
   end
 
   add_index "supply_items", ["supplier_id"], :name => "index_supply_items_on_supplier_id"

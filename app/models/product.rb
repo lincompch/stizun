@@ -351,6 +351,14 @@ class Product < ActiveRecord::Base
     end    
   end
   
+  def thumbnail_picture
+    pic = product_pictures.main.first
+    if pic.nil?
+      pic = product_pictures.first
+    end
+    return pic
+  end
+  
   private
   
   def calculated_rounded_gross_price
