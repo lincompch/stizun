@@ -35,7 +35,7 @@ class Product < ActiveRecord::Base
   define_index do
     # fields
     indexes name, :sortable => true
-    indexes description, supplier_product_code, manufacturer_product_code
+    indexes short_description, description, supplier_product_code, manufacturer_product_code
     
     # attributes
     has created_at, updated_at
