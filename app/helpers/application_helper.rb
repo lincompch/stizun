@@ -51,7 +51,7 @@ module ApplicationHelper
     output = ""
     output += "<ul class=\"#{classname}\">\n"
     loopcount ||= 0
-      tree.each do |node|
+      tree.sort_by(&:name).each do |node|
         if node.parent_id == parent_id
           li_classname = "super" if node.children.count > 0
           if admin == true
