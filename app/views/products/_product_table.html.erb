@@ -6,10 +6,8 @@
       <th scope="col"></th>
       <th scope="col">Produkt</th>
       <th scope="col">Preis</th>
-      <th scope="col"></th>
     </thead>
     <tfoot>
-      <th scope="col"></th>
       <th scope="col"></th>
       <th scope="col"></th>
       <th scope="col"></th>
@@ -38,12 +36,12 @@
         <% end %>
       </td>
 
-      <td class="price"><%= product_rounded_price(p).html_safe%></td>
-
-      <td class="buy">
+      <td class="price buy">
+        <%= product_rounded_price(p).html_safe%>
+        <br>
         <div class="compact_add_to_cart_box">
         <%= form_tag :controller => 'carts', :action => 'add_product', :method => 'get' do -%>
-          <%= text_field_tag "quantity", 1, :size => 3 %>
+          <%= text_field_tag "quantity", 1, :size => 2 %>
           <%= hidden_field_tag "product_id", p.id %>
           <%= submit_tag t("stizun.cart.add_to_cart") %>
         <% end -%>

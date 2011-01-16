@@ -406,7 +406,8 @@ table.productlist tr.odd td {
 table.productlist td.price {
   text-align: right;
   padding-left: 0.1em;
-  width: 10em;
+  width: 5em;
+  font-size: 1.2em;
 }
 
 table.productlist thead th, table.productlist tfoot th {
@@ -418,6 +419,10 @@ table.productlist thead th, table.productlist tfoot th {
   border-left: 1px solid #EDEDED;
   border-right: 1px solid #EDEDED;
 
+}
+
+table.productlist .compact_add_to_cart_box {
+  margin-top: 1.2em;
 }
 
 
