@@ -29,16 +29,24 @@ class Admin::ComponentsController <  Admin::BaseController
   end
   
   def destroy
-    @product = Product.find(params[:product_id])
-    quantity = params[:quantity].to_i
-    component = SupplyItem.find(params[:component_id].to_i)
+#     @product = Product.find(params[:product_id])
+#     quantity = params[:quantity].to_i
+#     component = SupplyItem.find(params[:component_id].to_i)
+#     
+#     if @product.remove_component(component, quantity)
+#       flash[:notice] = "Component removed"
+#     else
+#       flash[:error] = "Component could not be removed"
+#     end
+    @product_set = ProductSet.find(params[:id])
+    product = @product_set.product
     
-    if @product.remove_component(component, quantity)
+    if @product_set.destroy
       flash[:notice] = "Component removed"
     else
       flash[:error] = "Component could not be removed"
     end
-    redirect_to :controller => 'admin/components', :action => 'index', :product_id => @product.id
+    redirect_to :controller => 'admin/components', :action => 'index', :product_id => product.id
   end
   
 end

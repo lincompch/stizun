@@ -18,9 +18,12 @@
   </td>
 
   <td>
-  <%= link_to "Remove", :controller => 'admin/components', :action => 'destroy',
-                        :product_id => @product.id, :component_id => product_set.component.id, 
-                        :quantity => product_set.quantity %>
+  <%= #link_to "Remove", :controller => 'admin/components', :action => 'destroy',
+                        #:product_id => @product.id, :component_id => product_set.component.id, 
+                        #:quantity => product_set.quantity 
+  %>
+  <%= link_to "Remove", { :controller => 'admin/components', :action => 'destroy', :id => product_set.id},
+                        { :method => :delete } %>
   </td>
 
 </tr>
