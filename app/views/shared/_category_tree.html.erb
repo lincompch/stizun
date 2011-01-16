@@ -6,33 +6,3 @@
 <div id="categorytree">
 
 </div>
-
-
-<script type="text/javascript">
-jQuery("#categorytree")
-    .jstree({
-        "themes" : {
-            "theme" : "default"
-            "dots" : false,
-            "icons" : false
-        },
-        "json_data" : {
-            "data" : [
-                {
-                    "data" : "A node",
-                    "children" : [ "Child 1", "Child 2" ]
-                },
-                {
-                    "attr" : { "id" : "li.node.id" },
-                    "data" : {
-                        "title" : "Long format demo",
-                        "attr" : { "href" : "#" }
-                    }
-                }
-            ]
-        },
-        core : { /* core options go here */ },
-
-        plugins : [ "themes", "json_data" ]
-    });
-</script>
