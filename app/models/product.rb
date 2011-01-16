@@ -319,6 +319,19 @@ class Product < ActiveRecord::Base
     price > purchase_price
   end
  
+ 
+  def available?
+    is_available == true
+  end
+  
+  def thumbnail_picture
+    pic = product_pictures.main.first
+    if pic.nil?
+      pic = product_pictures.first
+    end
+    return pic
+  end
+  
   
   # Attribute overrides
   
@@ -351,14 +364,7 @@ class Product < ActiveRecord::Base
     end    
   end
   
-  def thumbnail_picture
-    pic = product_pictures.main.first
-    if pic.nil?
-      pic = product_pictures.first
-    end
-    return pic
-  end
-  
+
   private
   
   def calculated_rounded_gross_price

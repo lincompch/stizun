@@ -79,3 +79,7 @@ div.on_sale_product {
   border: 2px solid #cc0000;
   padding: 8px;
 }
+
+.danger {
+  color: #AE2F10;
+}

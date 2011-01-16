@@ -1,11 +1,15 @@
   <tr class="<%= cycle('odd','even') %>">
     <td><%= product_line.id %></td>
     <td>
-      <%= "[LOSS LEADER] " if product_line.is_loss_leader? %>
-      <%= " [UNPROFITABLE] " if !product_line.profitable? %>
-
+      <%= " [AVAILABLE] <br>".html_safe if product_line.available? %>
+      <%= " <span class='danger'>[LOSS LEADER]</span><br>".html_safe if product_line.is_loss_leader? %>
+      <%= " <span class='danger'>[UNPROFITABLE]</span><br>".html_safe if !product_line.profitable? %>
+    </td>
+    <td>
       <%= product_line.name %>
     </td>
+
+
     <td class="price">
       <table style="width: 250px">
         <tr>

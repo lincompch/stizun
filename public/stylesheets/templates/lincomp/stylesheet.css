@@ -573,6 +573,8 @@ a.fake_button {
 
 /* Global-ish stuff */
 
+
+
 input.real_button:hover, a.fake_button:hover {
   color: #666;
 }
