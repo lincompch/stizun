@@ -12,6 +12,7 @@ set :deploy_to, "/home/lincomp/production"
 
 set :db_config, "/home/lincomp/database_prod.yml"
 set :email_config, "/home/lincomp/email.yml"
+set :custom_directory, "/home/lincomp/custom"
 
 role :web, "lincomp@www.lincomp.org"                          # Your HTTP server, Apache/etc
 role :app, "lincomp@www.lincomp.org"                          # This may be the same as your `Web` server
@@ -39,6 +40,14 @@ end
 task :restart_sphinx do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:restart"
 end
+
+
+task :overwrite_custom do
+  run "cd #{release_path} && rm -rf #{release_path}/custom"
+  run "ln -s #{custom_directory} #{release_path}/custom"
+end
+
+
 
 namespace :deploy do
    task :restart, :roles => :app, :except => { :no_release => true } do
