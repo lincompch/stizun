@@ -489,7 +489,7 @@ table.productlist .compact_add_to_cart_box {
 }
 
 #category_box li.super {
-  font-weight: bold;
+  /*font-weight: bold;*/
   border-bottom: 1px solid #ccc;
   margin-top: 0.3em;
 }
