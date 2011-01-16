@@ -64,6 +64,6 @@ end
 after "deploy:symlink", :link_config
 after "link_config", "install_gems"
 after "install_gems", "configure_sphinx"
-after "install_gems", "override_custom"
+after "install_gems", "overwrite_custom"
 after "configure_sphinx", "restart_sphinx"
 
