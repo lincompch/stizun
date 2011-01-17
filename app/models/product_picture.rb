@@ -8,7 +8,7 @@ class ProductPicture < ActiveRecord::Base
   has_attached_file :file,  :styles => { :medium => ["400>x400>", :jpg], 
                                          :thumb => ["x80>", :jpg] },
                             :convert_options => {
-                                         :all => "-strip -background white -flatten"
+                                         :all => "-limit memory 10485760 -limit map 20971520 -strip -background white -flatten"
                                        }
 
                               
