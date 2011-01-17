@@ -6,7 +6,7 @@ class ProductPicture < ActiveRecord::Base
   belongs_to :product
   
   has_attached_file :file,  :styles => { :medium => ["400>x400>", :jpg], 
-                                         :thumb => ["x80>", :jpg] },
+                                         :thumb => ["80x80>", :jpg] },
                             :convert_options => {
                                          :all => "-limit memory 10485760 -limit map 20971520 -strip -background white -flatten"
                                        }
