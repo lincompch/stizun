@@ -48,9 +48,6 @@ namespace :deploy do
    end 
 end
 
-
-
-
 after "deploy:symlink", :link_config
 after "link_config", "install_gems"
 after "install_gems", "configure_sphinx"

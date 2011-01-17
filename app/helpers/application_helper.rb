@@ -57,7 +57,7 @@ module ApplicationHelper
           if admin == true
             output += "\t<li class=\"#{li_classname}\">" + link_to(node.name, admin_category_products_path(node)) + "</li>\n"
           else
-            if node.children.count > 0
+            if node.children.count == 0
               output += "\t<li class=\"#{li_classname}\">" + link_to(node.name, category_products_path(node)) + "</li>\n"
             else
               output += "\t<li class=\"#{li_classname}\">#{node.name}</li>\n"
