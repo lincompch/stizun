@@ -7,13 +7,27 @@
 <%= error_messages_for(:address) %>
 
 
-<%= form_for @order do |f| %>
 
 <h4><%= t("stizun.order.order_summary") %></h4>
 
+<%= form_for @cart do |f| %>
   <div id="order_table">
-  <%= render :partial => 'documents/document_table', :locals => { :document => @cart } %>
+  <%= render :partial => 'documents/document_table', :locals => { :document => @cart, :f => f } %>
   </div>
+  
+  <table>
+  <tr>
+    <td style="vertical-align: middle">
+    <%= submit_tag(t("stizun.cart.update_quantities"), {:class => 'real_button'}) %>
+    </td>  
+    <td style="vertical-align: middle">
+    </td>
+  </tr>
+</table>
+  
+<% end %>
+
+<%= form_for @order do |f| %>
 
   <% if current_user %>
   <%= render :partial => "user_information" %>

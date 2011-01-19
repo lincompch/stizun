@@ -1,9 +1,7 @@
 <% if (controller.controller_name == 'carts') or (controller.controller_name == 'orders' and controller.action_name == 'new') %>
   
-  <% if controller.controller_name == 'carts' %>
+  <% if controller.controller_name == 'carts' or (controller.controller_name == 'orders' and controller.action_name == 'new') %>
     <%= t("stizun.cart.please_use_big_cart") %>
-    <% elsif (controller.controller_name == 'orders' and controller.action_name == 'new') %>
-    <%= t("stizun.cart.cart_disabled") %>    
     <% else %>
   <% end %>
 
