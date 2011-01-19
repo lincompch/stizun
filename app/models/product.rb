@@ -28,6 +28,9 @@ class Product < ActiveRecord::Base
   scope :available, :conditions => { :is_available => true }
   scope :supplied, :conditions => "supply_item_id IS NOT NULL"
   scope :loss_leaders, :conditions => { :is_loss_leader => true }
+  scope :on_sale, :conditions => { :sale_state => true }
+  
+  before_save :set_explicit_sale_state
 
   
   # Thinking Sphinx configuration
@@ -303,9 +306,10 @@ class Product < ActiveRecord::Base
   end
   
   def on_sale?
-    self.rebate > 0
+    rebate > 0
   end
-   
+
+  
     # Is this product priced via an absolutely defined sales price?
   def absolutely_priced?
     if sales_price.nil? or sales_price.blank? or sales_price == BigDecimal.new("0.0")
@@ -332,6 +336,10 @@ class Product < ActiveRecord::Base
     return pic
   end
   
+  def set_explicit_sale_state
+    self.sale_state = false
+    self.sale_state = true if on_sale?
+  end
   
   # Attribute overrides
   
