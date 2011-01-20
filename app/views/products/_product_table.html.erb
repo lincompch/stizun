@@ -22,9 +22,14 @@
       <% end %>
 
       <td>
-        <% unless p.thumbnail_picture.nil? %>
+        <% if p.thumbnail_picture.nil? %>
+        <div class="product_picture">
+          Kein Bild
+        </div>
+        <% else %>
           <%= image_tag p.thumbnail_picture.file.url(:thumb) %>
         <% end %>
+        
 
       </td>
 
