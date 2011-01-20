@@ -75,6 +75,14 @@ class Invoice < ActiveRecord::Base
     return invoice_lines.sum("gross_price")
   end
   
+  def products_price
+    return invoice_lines.sum("single_price")
+  end
+  
+  def products_taxed_price
+    return invoice_lines.sum("taxed_price")
+  end
+  
   # Alias for order_lines so that generic (order|invoice).lines works
   def lines
     invoice_lines

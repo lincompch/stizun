@@ -535,17 +535,17 @@ a.fake_button {
   padding: 2px 4px 2px 4px;
 }
 
-#cart_table table, #order_table table {
+#cart_table table, #order_table table, #invoice_table table {
   width: 100%;
   border-collapse: collapse;
 }
 
-#cart_table th, #order_table th {
+#cart_table th, #order_table th, #invoice_table th {
   white-space: nowrap;
   text-align: left;
 }
 
-#cart_table td, #order_table td {
+#cart_table td, #order_table td, #invoice_table td {
   padding-left: 0.4em;
   padding-right: 0.4em;
 
@@ -555,26 +555,35 @@ a.fake_button {
   width: 5em;
 }
 
-#cart_table tr.spacer td, #order_table tr.spacer td {
+#cart_table tr.spacer td, #order_table tr.spacer td, #invoice_table tr.spacer td {
   border-bottom: 1px solid #000;
 }
 
-#cart_table tr.underline td, #order_table tr.underline td {
+#cart_table tr.underline td, #order_table tr.underline td, #invoice_table tr.underline td {
   border-bottom: 1px solid #ccc;
 }
 
 
-#cart_table tr.odd td, #order_table tr.odd td  {
+#cart_table tr.odd td, #order_table tr.odd td, #invoice_table tr.odd td {
   background: #FAFAFA;
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef
 }
 
-#cart_table td.vertborders, #order_table td.vertborders  {
+#cart_table td.vertborders, #order_table td.vertborders, #invoice_table td.vertborders  {
   border-left: 1px solid #cdcdcd;
   border-right: 1px solid #cdcdcd;
 }
 
+
+/* Invoice */
+
+table.invoice_addresses td {
+}
+
+table.invoice_addresses td.shipping_address {
+  padding-left: 5em;
+}
 
 /* Global-ish stuff */
 

@@ -1,25 +1,85 @@
 <table>
-      <% invoice_table.invoice_lines.each do |il| %>
-        <%= render :partial => 'invoice_line', :object => il %>
-      <% end %>
-      
-      <tr>
-        <td> </td>
-        <td><%= t("stizun.order.shipping_cost") %></td>
-        <td> </td>
-        <td> </td>
-        <td class="price"><%= pretty_price(invoice_table.shipping_cost) %></td>
-      </tr>
-      
-      <tr>
-        <td> </td>
-        <td><strong>Total</strong></td>
-        <td> </td>
-        <td> </td>
-        <td class="price"><strong><%= pretty_price(invoice_table.taxed_price) %></strong></td>
-      </tr>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th colspan="2" style="text-align: center;">MwSt.</th>
+    <th></th>
+  </tr>
+  <tr>
+    <th>Anz.</th>
+    <th></th>
+    <th style="text-align: center;">&#37;</th>
+    <th style="text-align: center;">exkl.</th>
+    <th style="text-align: center;">inkl.</th>
+    <th style="text-align: right;">Total</th>
+  </tr>
+
+
+  <% invoice.lines.each do |il| %>
+    <tr class="<%= cycle('even', 'odd')%>">
+      <td><%= il.quantity %></td>
+      <td class="product"><%= il.text %></td>
+      <td class="price"><%= il.tax_percentage %></td>
+      <td class="price vertborders"><%= pretty_price(il.single_price, "") %></td>
+      <td class="price vertborders"><%= pretty_price(il.taxed_price, "") %></td>
+      <td class="price"><%= pretty_price(il.taxed_price, "") %></td>
+      <td></td>
+    </tr>
+  <% end %>
+
+  <tr class="spacer">
+    <td colspan="7">&nbsp;</td>
+  </tr>
+
+  <tr class="spacer-bottom">
+    <td colspan="7">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td>Produkte exkl. MwSt.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="price"><%= pretty_price(invoice.products_price.rounded, "") %></td>
+    <td></td>
+  </tr>
+  <tr class="underline">
+    <td></td>
+    <td>Mehrwertsteuer</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="price"><%= pretty_price(invoice.taxes, "") %></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Produkte inkl. MwSt.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="price"><%= pretty_price(invoice.products_taxed_price.rounded, "") %></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Versand</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="price"><%= pretty_price(invoice.shipping_cost, "") %></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><strong>Gesamttotal</strong></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="price"><strong><%= pretty_price invoice.taxed_price %></strong></td>
+    <td></td>
+  </tr>
 
 </table>
-
-<p><%= t("stizun.order.included_vat") %>: <%= pretty_price(invoice_table.total_taxes)%>
-</p>
