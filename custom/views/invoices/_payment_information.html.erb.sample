@@ -1,0 +1,3 @@
+<h3>Payment information</h3>
+
+<p>Put the payment information for your customers here and rename this to payment_information.html.erb. Then this will appear at the bottom of all your invoices (at least when viewed from the web)</p>
