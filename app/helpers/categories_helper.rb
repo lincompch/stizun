@@ -1,7 +1,7 @@
 module CategoriesHelper
   
   def categories_breadcrumb_path(current, linked = false, admin = false)
-    if linked == true
+    if linked == true and current.children.count == 0
       links = []
       current.ancestor_chain.each do |category|
         if admin == true

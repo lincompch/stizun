@@ -1,0 +1,14 @@
+
+<% # not really working 
+%>
+<% @categories.shift %>
+<% ul_classname = "noindent" if category_tree_item.level == 0 %>
+<% li_classname = "super" if category_tree_item.children.count > 0 %>
+
+<li class="<%= "#{li_classname}" %>"><%= category_tree_item.name %> <%= category_tree_item.level %>
+  <% unless category_tree_item.leaf? %>
+  <ul class="<%= "#{ul_classname}" %>">
+    <%= render :partial => 'shared/category_tree_item', :collection => @categories.select{|i| i.parent_id == category_tree_item.id} %>
+  </ul>
+  <% end %>
+</li>
