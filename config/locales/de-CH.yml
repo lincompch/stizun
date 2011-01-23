@@ -284,6 +284,8 @@ de-CH:
       description: "Beschreibung"
       short_description: "Kurzbeschreibung"
       no_picture: "Kein Bild für dieses Produkt"
+      search_query_too_short: "Ihr Suchbegriff ist zu kurz. Verwenden Sie bitte mindestens 3 Buchstaben."
+      search_found_no_results: "Keine Resultate für Ihre Suche."
     store_mailer:
       order_confirmation_subject: "Bestätigung Ihrer Bestellung"
       invoice_notification_subject: "Elektronische Rechnung"

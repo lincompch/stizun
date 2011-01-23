@@ -374,6 +374,7 @@ class Product < ActiveRecord::Base
   
 
   private
+ 
   
   def calculated_rounded_gross_price
     calculated_rounded_sales_price = calculated_gross_price.round(1)

@@ -85,6 +85,20 @@
                   <% @cart = Cart.get_from_session(session) %>
                   <%= render :partial => 'carts/sidebar_box' %>
 
+                  <div class="box" id="category_box"> 
+                    <div class="box_hd"> 
+                        <h3 class="rightBoxHeading">Produktsuche</h3> 
+                    </div> 
+                    <div class="box_ct"> 
+                      <div id="categoriesContent" class=" sideBoxContent centeredContent">
+                        <%= render :partial => 'shared/product_search_box' %>
+                      </div>
+                      </div> 
+                    <div class="box_ft"> 
+                        &nbsp;
+                    </div> 
+                  </div> 
+
 
                   <div class="box" id="category_box"> 
                     <div class="box_hd"> 
@@ -98,11 +112,11 @@
                     <div class="box_ft"> 
                         &nbsp;
                     </div> 
-
-
                   </div> 
   
-                </div>
+
+
+            </div>
                   
             <%= image_tag("templates/lincomp/gnu_and_pingu_small.png", :style => 'margin-left: 15px;') %>
             

@@ -9,6 +9,13 @@ class ProductsController < ApplicationController
         @products = Product.available.paginate(:page => params[:page], :per_page => Product.per_page)
       end
       
+      if params[:q]
+        if params[:q].length < 3
+          flash[:error] = t('stizun.product.search_query_too_short')
+        else
+          @products = Product.search(params[:q]).paginate(:page => params[:page], :per_page => Product.per_page)
+        end
+      end
       
       respond_to do |format|
       format.html

@@ -1,7 +1,3 @@
-<%= #render :partial => 'carts/compact' unless @cart.cart_lines.count == 0 
-%>
-
-
 <div id="product_list">
 
 <h3><%= t("stizun.product.products") %></h3>
@@ -9,6 +5,8 @@
   <% if @products.count == 0 %>
     <% if @category %>
       <%= t("stizun.category.no_products_in_this_category") %>
+    <% elsif params[:q] %>
+      <%= t("stizun.product.search_found_no_results") %> 
     <% else %>
       <%= t("stizun.product.no_products") %>
     <% end %>
