@@ -38,7 +38,7 @@ class Product < ActiveRecord::Base
   define_index do
     # fields
     indexes name, :sortable => true
-    indexes short_description, description, supplier_product_code, manufacturer_product_code
+    indexes manufacturer, short_description, description, supplier_product_code, manufacturer_product_code
     
     # attributes
     has id, created_at, updated_at
@@ -245,6 +245,8 @@ class Product < ActiveRecord::Base
   def self.new_from_supply_item(si)
     p = self.new
     p.name = si.name
+    p.manufacturer = si.manufacturer
+    p.product_link = si.product_link
     p.description = si.description
     p.purchase_price = si.purchase_price
     # Can be improved by flexibly reading the tax percentage from the CSV file in a first

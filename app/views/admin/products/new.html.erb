@@ -14,6 +14,12 @@
 
 
 <table class="dataentry">
+
+  <tr>
+    <td><%= f.label :manufacturer, "Manufacturer" %></td>
+    <td><%= f.text_field :manufacturer, :size => 50 %></td>
+  </tr>
+
   <tr>
     <td><%= f.label :name, "Name" %></td>
     <td><%= f.text_field :name, :size => 100 %></td>
@@ -65,10 +71,14 @@
   </script>
 
   <tr>
+    <td><%= f.label :product_link, "Product Link" %></td>
+    <td><%= f.text_field :product_link, :size => 110 %></td>
+  </tr>
+
+  <tr>
     <td><%= f.label :tax_class_id, "Tax Class" %></td>
     <td><%= f.collection_select(:tax_class_id, TaxClass.find(:all, :order => 'name ASC'), :id, :name, {:prompt => true}) %></td>
   </tr>
-
 
   <tr>
     <td><%= f.label :purchase_price, "Purchase price" %></td>

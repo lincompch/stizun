@@ -15,7 +15,7 @@ class SupplyItem < ActiveRecord::Base
   define_index do
     # fields
     indexes name, :sortable => true
-    indexes description, supplier_product_code, manufacturer_product_code
+    indexes manufacturer, description, supplier_product_code, manufacturer_product_code
     
     # attributes
     has created_at, updated_at
@@ -43,7 +43,11 @@ class SupplyItem < ActiveRecord::Base
     si = self.new
     si.supplier_product_code = csv['Artikelnummer 2']
     si.name = "#{csv['Bezeichung']} #{csv['Bezeichung 2']}"
+    si.manufacturer = "#{csv['Hersteller']}"
+    si.product_link = "#{csv['WWW-Link']}"
+
     si.weight = csv['Gewicht']
+    
     si.supplier = Supplier.find_or_create_by_name("Alltron AG")
     si.manufacturer_product_code = csv['Artikelnummer']
     si.description = "#{csv['Webtext']} #{csv['Webtext 2']}"
