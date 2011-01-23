@@ -1,6 +1,7 @@
 class PageController < ApplicationController
 
   def index
+    @products = Product.on_sale.all.paginate
     render_custom_page(self.action_name.to_s)
   end
 

@@ -13,7 +13,7 @@ class InvoicesController < ApplicationController
     @invoices =[]
     if params[:user_id]
       if current_user == User.find(params[:user_id])
-        @invoices = Invoice.find(:all, :conditions => { :user_id => params[:user_id] }, :order => 'status_constant ASC, created_at DESC'  )
+        @invoices = Invoice.where( :user_id => params[:user_id]).order("status_constant ASC, created_at DESC")        
       end
     end
   

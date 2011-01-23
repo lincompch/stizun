@@ -433,7 +433,7 @@ table.productlist .compact_add_to_cart_box {
 
 #product_details h3, #product_list h3 {
   font-size: 1.4em;
-  text-shadow: 0.15em 0.15em 0.4em #bbb;
+  text-shadow: 0.1em 0.1em 0.4em #bbb;
 }
 
 
@@ -587,7 +587,24 @@ table.invoice_addresses td.shipping_address {
 
 /* Global-ish stuff */
 
+#lincomp_explanation {
+  border: 2px solid #A77753;
+  background: #FFF7DB;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+  padding-top: 0;
+  padding-bottom: 1.2em;
+}
 
+#lincomp_explanation h2 {
+  padding: 0;
+  margin: 0;
+}
+
+#lincomp_explanation p {
+  margin-top: 0.8em;
+  margin-bottom: 0.2em;
+}
 
 input.real_button:hover, a.fake_button:hover {
   color: #666;

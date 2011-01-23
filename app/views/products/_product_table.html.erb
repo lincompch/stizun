@@ -27,14 +27,15 @@
           Kein Bild
         </div>
         <% else %>
-          <%= image_tag p.thumbnail_picture.file.url(:thumb) %>
+          <%= link_to(image_tag(p.thumbnail_picture.file.url(:thumb)), :controller => 'products', 
+                                                                      :action => 'show', 
+                                                                      :id => p)  %>
         <% end %>
         
-
       </td>
 
       <td>
-        <%= link_to p.name, :action => 'show', :id => p %>
+        <%= link_to p.name, :controller => 'products', :action => 'show', :id => p %>
         <% unless p.short_description.blank? %>
         <br />
           <%= Sanitize.clean(p.short_description, Sanitize::Config::STIZUN).html_safe %>

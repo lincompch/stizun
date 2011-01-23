@@ -41,7 +41,7 @@ class Product < ActiveRecord::Base
     indexes short_description, description, supplier_product_code, manufacturer_product_code
     
     # attributes
-    has created_at, updated_at
+    has id, created_at, updated_at
     
     set_property :delta => true
   end

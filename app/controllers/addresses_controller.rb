@@ -7,7 +7,7 @@ class AddressesController < ApplicationController
   # is logged in and then using the user ID again.
   def index
     if current_user
-      @addresses = Address.active.find(:all, :conditions => {:user_id => current_user.id})
+      @addresses = Address.active.where(:user_id => current_user.id).all
     else
       flash[:info] = I18n.t("stizun.address.must_be_logged_in")
       redirect_to account_path
