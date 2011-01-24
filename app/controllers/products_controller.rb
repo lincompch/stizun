@@ -13,7 +13,7 @@ class ProductsController < ApplicationController
         if params[:q].length < 3
           flash[:error] = t('stizun.product.search_query_too_short')
         else
-          @products = Product.search(params[:q]).paginate(:page => params[:page], :per_page => Product.per_page)
+          @products = Product.search(params[:q], :page => params[:page], :per_page => Product.per_page)
         end
       end
       
