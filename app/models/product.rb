@@ -137,7 +137,12 @@ class Product < ActiveRecord::Base
     # Safeguard to prevent calculation on straightforward simple products
     if componentized?  
       self.product_sets.each do |ps|
-        purchase_price += ps.quantity * ps.component.purchase_price
+        # Components can disappear if their supply items disappear.
+        # This is handled more elegantly by disabling these components from outside
+        # when this occurs, but let's check for this here just to be safe.
+        unless ps.component.nil?
+          purchase_price += ps.quantity * ps.component.purchase_price
+        end
       end
       # We must use the compound product's tax class for legal reasons, no matter what
       # tax class the constituent components may have.
