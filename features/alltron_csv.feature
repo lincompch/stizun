@@ -15,7 +15,7 @@ Feature: Importing products and supply items from Alltron CSV files
   Scenario: Importing list of 500 base products
     When I import the file "features/data/500_products.csv"
     Then there are 500 supply items in the database
-    And the following supply items exist:
+    And the following supply items should exist:
     |product_code|weight|price|stock|
     |        1289|  0.54|40.38|    4|
     |        2313|  0.06|24.49|    3|
@@ -30,7 +30,7 @@ Feature: Importing products and supply items from Alltron CSV files
   Scenario: Importing list with 5 changes
     When I import the file "features/data/500_products_with_5_changes.csv"
     Then there are 500 supply items in the database
-    And the following supply items exist:
+    And the following supply items should exist:
     |product_code|weight|price|stock|
     |        1289|  0.54|40.00|    4|
     |        2313|  0.06|24.49|  100|
@@ -42,7 +42,7 @@ Feature: Importing products and supply items from Alltron CSV files
     When I import the file "features/data/500_products.csv"
     And I import the file "features/data/485_products_utf8.csv"
     Then there are 485 supply items in the database
-    And the following supply items do not exist:
+    And the following supply items should not exist:
     |product_code|
     |1227|
     |1510|
