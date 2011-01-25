@@ -34,7 +34,7 @@ gem 'fastercsv'
 gem 'later_dude', '>= 0.3.1'
 gem "hoptoad_notifier", "~> 2.3"
 
-group :cucumber do
+group :cucumber, :test, :development do
   gem 'capybara'
   gem 'database_cleaner'
   gem 'cucumber-rails'
@@ -43,6 +43,7 @@ group :cucumber do
   gem 'spork'
   gem 'launchy' 
   gem 'ruby-debug'
+  gem 'steak'
 end
 
 group :development do 
