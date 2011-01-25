@@ -59,12 +59,12 @@ Feature: Shipping rate calculation and package count
         |       4|Fish  |   1.0|          false|Alltron AG|
       When I calculate the shipping rate for the order
       Then the order's total weight should be 4.9
-      And the order's outgoing shipping price should be 10.80
+      And the order's outgoing shipping price should be 11.016
       And the order's incoming shipping price should be 54.00
       And the order's outgoing package count should be 1
       And the order's incoming package count should be 1
-      And the order's shipping taxes should be 4.80
-      And the order's total shipping price should be 64.80
+      And the order's shipping taxes should be 4.816
+      And the order's total shipping price should be 65.016
 
     Scenario: Calculate taxes on indirect shipping for multiple products
       Given an order with the following products:
@@ -73,8 +73,8 @@ Feature: Shipping rate calculation and package count
         |       8|Fish  |   1.0|          false|Alltron AG|
       When I calculate the shipping rate for the order
       Then the order's total weight should be 9.8 
-      And the order's outgoing shipping price should be 14.04
+      And the order's outgoing shipping price should be 11.988
       And the order's incoming shipping price should be 108.0
       And the order's outgoing package count should be 1
       And the order's incoming package count should be 2
-      And the order's shipping taxes should be 9.04
+      And the order's shipping taxes should be 8.888

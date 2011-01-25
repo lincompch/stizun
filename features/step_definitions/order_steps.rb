@@ -7,6 +7,7 @@ Then /^the order's outgoing shipping price should be (\d+\.\d+)$/ do |num|
 end
 
 Then /^the order's shipping taxes should be (\d+\.\d+)$/ do |num|
+  puts "foo is #{@order.shipping_taxes.to_s}"
   @order.shipping_taxes.should == BigDecimal.new(num.to_s)
 end
 
