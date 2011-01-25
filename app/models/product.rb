@@ -29,6 +29,8 @@ class Product < ActiveRecord::Base
   scope :supplied, :conditions => "supply_item_id IS NOT NULL"
   scope :loss_leaders, :conditions => { :is_loss_leader => true }
   scope :on_sale, :conditions => { :sale_state => true }
+
+
   
   before_save :set_explicit_sale_state
 
@@ -45,6 +47,12 @@ class Product < ActiveRecord::Base
     
     set_property :delta => true
   end
+
+  sphinx_scope(:sphinx_available) {
+    {
+    :conditions => { :is_available => true}
+    }
+  }
   
   
   # Pagination with will_paginate
