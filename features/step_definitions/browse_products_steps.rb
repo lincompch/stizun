@@ -109,18 +109,18 @@ Then /^I should see a product named "([^\"]*)"$/ do |arg1|
 end  
 
 Then /^there should be a product called "([^\"]*)"$/ do |arg1|
-  @prod = Product.find(:first, :conditions => {:name => arg1})
+  @prod = Product.where(:name => arg1).first
   @prod.should_not == nil
 end
 
 Then /^there should not be a product called "([^\"]*)"$/ do |arg1|
-  @prod = Product.find(:first, :conditions => {:name => arg1})
+  @prod = Product.where(:name => arg1).first
   @prod.should == nil
 end
 
 Then /^the category "([^\"]*)" should contain a product named "([^\"]*)"$/ do |arg1, arg2|
   @cat = Category.find_by_name(arg1)
-  @prod = Product.find(:first, :conditions => {:name => arg2})
+  @prod = Product.where(:name => arg2).first
   @cat.products.should include @prod
 end
 
