@@ -30,5 +30,4 @@ Given /^there are the following supply items:$/ do |table|
     si.weight = s['weight'].to_f
     si.save
   end
-  puts SupplyItem.all.inspect
 end
