@@ -3,6 +3,11 @@ Then /^the order's total weight should be (\d+\.\d+)$/ do |num|
 end    
 
 Then /^the order's outgoing shipping price should be (\d+\.\d+)$/ do |num|
+#   
+#   puts "this rate: #{@order.shipping_rate.inspect}"
+#   puts "this out cost: #{@order.shipping_rate.outgoing_cost.to_s}"
+#   puts "all rates: #{ShippingRate.all.inspect}"
+#   
   @order.shipping_rate.outgoing_cost.should == BigDecimal.new(num.to_s)
 end
 

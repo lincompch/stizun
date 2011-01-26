@@ -42,10 +42,7 @@ When /^I visit the checkout$/ do
 end
 
 When /^I submit my order$/ do
-  click_button "Bestellung aufgeben"
-  puts "all orders: #{Order.all.inspect}"
-  puts "all invoices: #{Invoice.all.inspect}"
-  
+  click_button "Bestellung aufgeben"  
 end
 
 Then /^I should see an order summary$/ do
@@ -87,9 +84,5 @@ Then /^the subject of e\-mail (\d+) should be "([^"]*)"$/ do |num, subject|
   # positions used in the .feature text
   index = num.to_i - 1
   @emails[index].subject.should == subject
-#   @email.from.should == "admin@example.com"
-#   @email.to.should == @user.email
-#   @email.body.should include("some key word or something....")
-  
 end
 
