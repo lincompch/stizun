@@ -6,8 +6,14 @@ feature "Component Products", %q{
   the component prices (and their quantities)
 } do
 
-  scenario "Gimme a category" do
-    Category.create(:name => 'foobar')
-    Category.all.first.should_not == nil
+  
+  background do
+    create_supply_items.count.should > 0
+    
   end
+  
+  scenario "Gimme a category" do
+
+  end
+  
 end
