@@ -28,10 +28,10 @@ end
 
 # Include DatabaseCleaner automatically
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
   end
 
