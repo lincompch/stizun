@@ -23,8 +23,11 @@ describe Product do
         { 'name' => 'Defective screen', 'purchase_price' => 200.0,
           'weight' => 2.8, 'tax_percentage' => 8.0 }
       ]
+      
+      DatabaseCleaner.start
       supply_items = create_supply_items(array)
       SupplyItem.all.count.should == 5
+      DatabaseCleaner.clean
     end
   end
   
