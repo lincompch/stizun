@@ -54,6 +54,19 @@ describe AlltronUtil do
                       :type_const => History::SUPPLY_ITEM_CHANGE).first.nil?.should == false
     end
     
+    it "should change items when they have changed in the CSV file" do
+      
+    end
+    
+    it "should mark items as deleted when they were removed from the CSV file" do
+      
+    end
+    
+    it "should disable products whose supply items were removed" do
+      
+    end
+    
+    
   end
   
 #    
