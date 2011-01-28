@@ -31,3 +31,10 @@ def create_supplier(name)
   s.save
   return s
 end
+
+def supply_item_should_be(supplier_product_code, weight, purchase_price, stock)        
+  si = SupplyItem.where(:supplier_product_code => supplier_product_code).first
+  si.weight.should == weight
+  si.purchase_price.should == purchase_price
+  si.stock.should == stock
+end

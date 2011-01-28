@@ -43,21 +43,12 @@ describe AlltronUtil do
         AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
         SupplyItem.count.should == 500
         
-        puts "first chosen SI: #{SupplyItem.where(:supplier_product_code => 1289, :purchase_price => 40.38,
-                                                  :stock => 4).first.inspect}"
-        
-        SupplyItem.where(:supplier_product_code => 1289, :weight => 0.54, 
-                         :purchase_price => 40.38, :stock => 4).first.nil?.should == false
-        
-        
-        SupplyItem.where(:supplier_product_code => 2313, :weight => 0.06, 
-                         :purchase_price => 24.49, :stock => 3).first.nil?.should == false
-        SupplyItem.where(:supplier_product_code => 3188, :weight => 0.28, 
-                         :purchase_price => 36.90, :stock => 55).first.nil?.should == false        
-        SupplyItem.where(:supplier_product_code => 5509, :weight => 0.08, 
-                         :purchase_price => 19.80, :stock => 545).first.nil?.should == false        
-        SupplyItem.where(:supplier_product_code => 6591, :weight => 0.07, 
-                         :purchase_price => 20.91, :stock => 2).first.nil?.should == false        
+                         # supplier_product_code, weight, purchase_price, stock
+        supply_item_should_be(1289, 0.54, 40.38, 4)
+        supply_item_should_be(2313, 0.06, 24.49, 3)
+        supply_item_should_be(3188, 0.28, 36.90, 55)
+        supply_item_should_be(5509, 0.08, 19.80, 545)
+        supply_item_should_be(6591, 0.07, 20.91, 2)
 
         History.where(:text => "Supply item added during sync: 2313 Tinte Canon BJC 2000/4x00/5000 Nachfüllpatrone farbig",
                       :type_const => History::SUPPLY_ITEM_CHANGE).first.nil?.should == false
