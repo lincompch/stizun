@@ -1,5 +1,5 @@
 class Product < ActiveRecord::Base
-
+  
   validates_uniqueness_of :name
   validates_presence_of :name, :description, :weight, :tax_class_id, :supplier_id
   validates_numericality_of :purchase_price, :weight
@@ -299,7 +299,7 @@ class Product < ActiveRecord::Base
     end
     # We use string interpolation notation (#{foo}) so that nil errors are already
     # handled gracefully without any extra work.
-    ["#{id}", "#{manufacturer_product_code}", "#{name}", "#{description}", "#{price.rounded}", "#{taxed_price.rounded}", "#{shipped_price}", "#{taxes}", "#{c.shipping_cost.rounded}", "#{stock}", "#{availability}", "#{weight}", "#{url_for self, :only_path => false}"]
+    ["#{id}", "#{manufacturer_product_code}", "#{name}", "#{description}", "#{price.rounded}", "#{taxed_price.rounded}", "#{shipped_price}", "#{taxes}", "#{c.shipping_cost.rounded}", "#{stock}", "#{availability}", "#{weight}", "http://www.lincomp.ch/products/#{self.id}"]
   end
   
   def calculated_margin_percentage
