@@ -284,7 +284,7 @@ class Product < ActiveRecord::Base
   # Generate a header matching the kind of columns that are actually available for
   # our Product objects.
   def self.csv_header
-    ["id","manufacturer_product_code","name","description", "price_excluding_vat", "price_including_vat", "price_including_shipping", "vat", "shipping_cost", "stock", "availability", "weight_in_kg"]
+    ["id","manufacturer_product_code","name","description", "price_excluding_vat", "price_including_vat", "price_including_shipping", "vat", "shipping_cost", "stock", "availability", "weight_in_kg", "link"]
   end
   
   # Convert this particular product instance into a CSV-compatible representation
@@ -292,14 +292,14 @@ class Product < ActiveRecord::Base
   def to_csv_array
     c = Cart.new
     c.add_product(self)
-    shipped_price = (taxed_price.rounded + c.shipping_cost)
+    shipped_price = (taxed_price.rounded + c.shipping_cost.rounded)
     availability = "48h"
     if stock < 1
       availability = "ask"
     end
     # We use string interpolation notation (#{foo}) so that nil errors are already
     # handled gracefully without any extra work.
-    ["#{id}", "#{manufacturer_product_code}", "#{name}", "#{description}", "#{price.rounded}", "#{taxed_price.rounded}", "#{shipped_price}", "#{taxes}", "#{c.shipping_cost}", "#{stock}", "#{availability}", "#{weight}"]
+    ["#{id}", "#{manufacturer_product_code}", "#{name}", "#{description}", "#{price.rounded}", "#{taxed_price.rounded}", "#{shipped_price}", "#{taxes}", "#{c.shipping_cost.rounded}", "#{stock}", "#{availability}", "#{weight}", "#{url_for self, :only_path => false}"]
   end
   
   def calculated_margin_percentage
