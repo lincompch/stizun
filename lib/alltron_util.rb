@@ -64,14 +64,7 @@ class AlltronUtil
     
   end
 
-  def self.disable_product(product)
-    product.is_available = false
-    if product.save
-      History.add("Disabled product #{product.to_s}.", History::PRODUCT_CHANGE, product)
-    else
-      History.add("Could not disable product #{product.to_s}.", History::PRODUCT_CHANGE, product)
-    end
-  end
+
   
   # Compare all products that are related to a supply item with
   # the supply item's current stock level and price. Make adjustments
@@ -162,38 +155,12 @@ class AlltronUtil
                     .supply_items \
                     .collect(&:supplier_product_code)
       to_delete = total_codes - received_codes
-          
       to_delete.each do |td|
         supply_item = SupplyItem.find_by_supplier_product_code(td)
         
-        # If this supply item was used as a product component, remove it from the
-        # product, disable the product.
-        affected_products = supply_item.component_of
-        affected_products.each do |ap|
-          # Tries to brute force removing all counts of this component by hardcoding
-          # 99999999 as component count. TODO: Count components, do this properly, or add
-          # a remove_components method to Product
-          ap.remove_component(td, 99999999)
-          ap.is_available = false
-          ap.save
-          History.add("Component #{td} was removed from product #{ap} because the supply item has become unavailable.", History::PRODUCT_CHANGE, ap)
-          # Just adding text here because the supply_item object will soon no longer exist
-          History.add("Component #{td} was removed from product #{ap} because the supply item has become unavailable.", History::SUPPLY_ITEM_CHANGE)
-        end
-        
-        # Destroy the supply item relationship in case a product was based on it. 
-        # This is different to above, above we only disable parts used as _components_
-        unless supply_item.product.blank?
-          supply_item.product.supply_item = nil
-          self.disable_product(supply_item.product)
-          if supply_item.product.save
-            History.add("Disassociated Supply Item with ID #{supply_item.id} (#{supply_item.to_s}) from its product because it's about to be destroyed.", History::SUPPLY_ITEM_CHANGE)
-          else
-            History.add("Failed to disassociate Supply Item with ID #{supply_item.id} (#{supply_item.to_s}) from its product, but it's about to be destroyed anyhow. Errors: #{supply_item.product.errors.full_messages.to_s}", History::SUPPLY_ITEM_CHANGE)
-          end
-        end
-        supply_item.destroy
-        History.add("Deleted Supply Item with supplier code #{td}", History::SUPPLY_ITEM_CHANGE)
+        supply_item.status_constant = SupplyItem::DELETED
+        supply_item.save
+        History.add("Marked Supply Item with supplier code #{td} as deleted", History::SUPPLY_ITEM_CHANGE)
       end
     end
   end

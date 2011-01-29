@@ -180,6 +180,8 @@ de-CH:
       awaiting_payment: "Wartet auf Zahlung"
       to_ship: "Versandbereit"
       shipped: "Versandt"
+      available: "Verfügbar"
+      deleted: "Gelöscht"
     account:
       account_information: "Konto-Informationen"
       your_pending_orders: "Ihre offenen Bestellungen"

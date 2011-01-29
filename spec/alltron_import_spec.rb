@@ -75,17 +75,28 @@ describe AlltronUtil do
       product_codes = [1227, 1510, 1841, 1847, 2180, 2193, 2353, 2379, 3220, 4264, 5048, 5768, 5862, 5863, 8209]
       ids = SupplyItem.where(:supplier_product_code => product_codes, :supplier_id => supplier).collect(&:id)
       supply_items_should_be_marked_deleted(ids, supplier)
-      history_should_exist(:text => "Deleted Supply Item with supplier code 1227", 
+      history_should_exist(:text => "Marked Supply Item with supplier code 1227 as deleted", 
                            :type_const => History::SUPPLY_ITEM_CHANGE)
-      history_should_exist(:text => "Deleted Supply Item with supplier code 3220", 
+      history_should_exist(:text => "Marked Supply Item with supplier code 3220 as deleted", 
                            :type_const => History::SUPPLY_ITEM_CHANGE)
-      history_should_exist(:text => "Deleted Supply Item with supplier code 8209", 
+      history_should_exist(:text => "Marked Supply Item with supplier code 8209 as deleted", 
                            :type_const => History::SUPPLY_ITEM_CHANGE)
       
     end
     
     it "should disable products whose supply items were removed" do
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
+      supply_item = SupplyItem.where(:supplier_product_code => 1227).first
+      product = Product.new_from_supply_item(supply_item)
+      product.save.should == true
+      product.available?.should == true      
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/485_products_utf8.csv")
+      supply_item.reload
+      supply_item.status_constant.should == SupplyItem::DELETED
       
+      product.reload
+      product.available?.should == false      
+
     end
     
     

@@ -20,6 +20,7 @@
     <th>ID</th>
     <th>Code</th>
     <th>Name</th>
+    <th>Status</th>
     <th>Purchase price</th>
     <th>Action</th>
 
@@ -30,6 +31,7 @@
     <td><%=h item.id %></td>
     <td><%=h item.supplier_product_code %></td>
     <td><%=h item.name %></td>
+    <td><%=h item.status_human %></td>
     <td class="price"><%= item.purchase_price %></td>
     <td>
       <%= link_to 'Create Product', new_from_supply_item_admin_products_path(:supply_item_id => item), :class => 'fancybox' %>

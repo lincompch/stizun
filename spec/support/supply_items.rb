@@ -40,5 +40,5 @@ def supply_item_should_be(supplier_product_code, weight, purchase_price, stock)
 end
 
 def supply_items_should_be_marked_deleted(ids, supplier)
-  SupplyItem.where(:id => ids, :supplier_id => supplier).collect(&:status_const).uniq.first.should == SupplyItem::DELETED
+  SupplyItem.where(:id => ids, :supplier_id => supplier).collect(&:status_constant).uniq.first.should == SupplyItem::DELETED
 end

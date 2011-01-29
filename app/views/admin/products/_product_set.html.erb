@@ -6,6 +6,7 @@
   </td>
 
   <td>
+  <%= "[COMPONENT MISSING]" if product_set.component.status_constant != SupplyItem::AVAILABLE %>
   <%= product_set.component.name %>
   </td>
 

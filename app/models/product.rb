@@ -387,6 +387,31 @@ class Product < ActiveRecord::Base
     end    
   end
   
+  
+  def disable_product
+    self.is_available = false
+    if self.save
+      History.add("Disabled product #{self.to_s}.", History::PRODUCT_CHANGE, self)
+    else
+      History.add("Could not disable product #{self.to_s}.", History::PRODUCT_CHANGE, self)
+    end
+  end
+
+  def has_unavailable_supply_item?
+    unless self.supply_item.blank?
+      self.supply_item.status_constant != SupplyItem::AVAILABLE
+    end
+  end
+  
+  def has_unavailable_components?
+      self.components.unavailable.count > 0
+  end
+  
+  def unavailable_components
+    if self.componentized?
+      self.components.unavailable
+    end
+  end
 
   private
  
