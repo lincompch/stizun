@@ -103,7 +103,6 @@ class SupplyItem < ActiveRecord::Base
   def handle_supply_item_deletion
     if self.status_constant_was == SupplyItem::AVAILABLE and \
        self.status_constant == SupplyItem::DELETED
-      puts "DELETION OUGHT TO HAPPEN", self.id.to_s, "----_______------___"
       # If this supply item was used as a product component, remove it from the
       # product, disable the product.
       affected_products = self.component_of
