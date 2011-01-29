@@ -23,12 +23,12 @@
   <% end %>
 
   <li>
-   <% google_link = "http://images.google.com/images?q=" + CGI.escape("#{@product.manufacturer} #{@product.name}") %>
+   <% google_link = "http://images.google.com/images?q=" + CGI.escape("#{@product.manufacturer} #{@product.manufacturer_product_code}") %>
    <%= link_to 'Google Image Search for this product', google_link, :target => '_blank' %></li>
   </li>
 
   <li>
-    <% bing_link  = "http://www.bing.com/images/search?q=" + CGI.escape("#{@product.manufacturer} #{@product.name}") %>
+    <% bing_link  = "http://www.bing.com/images/search?q=" + CGI.escape("#{@product.manufacturer} #{@product.manufacturer_product_code}") %>
     <%= link_to 'Bing Image Search for this product', bing_link, :target => '_blank' %>
   </li>
 

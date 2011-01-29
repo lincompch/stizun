@@ -293,13 +293,13 @@ class Product < ActiveRecord::Base
     c = Cart.new
     c.add_product(self)
     shipped_price = (taxed_price.rounded + c.shipping_cost)
-    availability = "24h"
+    availability = "48h"
     if stock < 1
       availability = "ask"
     end
     # We use string interpolation notation (#{foo}) so that nil errors are already
     # handled gracefully without any extra work.
-    ["#{id}", "#{manufacturer_product_code}", "#{name}", "#{description}", "#{net_price}", "#{taxed_price.rounded}", "#{shipped_price}", "#{taxes}", "#{c.shipping_cost}", "#{stock}", "#{availability}", "#{weight}"]
+    ["#{id}", "#{manufacturer_product_code}", "#{name}", "#{description}", "#{price.rounded}", "#{taxed_price.rounded}", "#{shipped_price}", "#{taxes}", "#{c.shipping_cost}", "#{stock}", "#{availability}", "#{weight}"]
   end
   
   def calculated_margin_percentage
