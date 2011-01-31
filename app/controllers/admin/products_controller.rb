@@ -71,7 +71,8 @@ class Admin::ProductsController <  Admin::BaseController
     else
       flash[:error] = "Error updating product."
     end
-    render :action => 'edit', :layout => 'admin_blank'
+    #render :action => 'edit', :layout => 'admin_blank'
+    redirect_to :back
   end
   
   def destroy

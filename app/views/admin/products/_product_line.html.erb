@@ -1,7 +1,14 @@
   <tr class="<%= cycle('odd','even') %>">
     <td><%= product_line.id %></td>
     <td>
-      <%= " [AVAILABLE] <br>".html_safe if product_line.available? %>
+      
+
+      <%= form_for [:admin, product_line] do |f| %>
+        <%= f.check_box :is_available %> Available for sale <br>
+        <%= f.check_box :direct_shipping %> Direct shipping <br>
+        <%= f.submit 'Save' %>
+      <% end %>
+
       <%= " <span class='danger'>[LOSS LEADER]</span><br>".html_safe if product_line.is_loss_leader? %>
       <%= " <span class='danger'>[UNPROFITABLE]</span><br>".html_safe if !product_line.profitable? %>
       <%= " <span class='danger'>[MISSING COMPONENTS]</span><br>".html_safe if product_line.has_unavailable_components? %>
