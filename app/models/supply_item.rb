@@ -76,7 +76,7 @@ class SupplyItem < ActiveRecord::Base
   
   def component_of
     product_sets = ProductSet.find_all_by_component_id(self.id)
-    product_sets.collect(&:product).uniq
+    product_sets.collect(&:product).uniq.compact
   end
   
   # TODO: Move this method to lib/alltron_util.rb since it is specific
