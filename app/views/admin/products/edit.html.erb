@@ -17,69 +17,83 @@
 
 <%= form_for [:admin, @product] do |f| %>
 
-<table class="dataentry">
+
+<table>
   <tr>
-    <td><%= f.label :manufacturer, "Manufacturer" %></td>
-    <td><%= f.text_field :manufacturer, :size => 50 %></td>
-  </tr>
+  <td>
 
-  <tr>
-    <td><%= f.label :product_link, "Product Link" %></td>
-    <td><%= f.text_field :product_link, :size => 110 %></td>
-  </tr>
+  <table class="dataentry">
+    <tr>
+      <td><%= f.label :manufacturer, "Manufacturer" %></td>
+      <td><%= f.text_field :manufacturer, :size => 50 %></td>
+    </tr>
 
-  <tr>
-    <td><%= f.label :name, "Name" %></td>
-    <td><%= f.text_field :name, :size => 100 %></td>
-  </tr>
+    <tr>
+      <td><%= f.label :product_link, "Product Link" %></td>
+      <td><%= f.text_field :product_link, :size => 70 %></td>
+    </tr>
 
-  <tr>
-    <td><%= f.label :short_description, "Short description" %></td>
-    <td><%= f.text_area :short_description, :rows => 2, :cols => 100 %></td>
-  </tr>
+    <tr>
+      <td><%= f.label :name, "Name" %></td>
+      <td><%= f.text_field :name, :size => 70 %></td>
+    </tr>
 
-  <tr>
-    <td><%= f.label :description_editor, "Description" %></td>
-    <td><%= #f.cktext_area :description, :toolbar=>'Stizun', :width=>'600px', :height=>'250px' 
-    %>
-    <a href="#" onClick="toggle_ckeditor();">Toggle WYSIWYG editor</a><br>
-    <%= f.text_area :description, :id => 'product_description_editor', :rows => 25, :cols => 100 %></td>
-    
-  </tr>
-  <script type="text/javascript">
+    <tr>
+      <td><%= f.label :short_description, "Short description" %></td>
+      <td><%= f.text_area :short_description, :rows => 2, :cols => 70 %></td>
+    </tr>
 
-    /* Load CKEditor for description field no matter what */
-
-    if (CKEDITOR.instances.product_description_editor) {       
-      CKEDITOR.instances.product_description_editor.destroy();
-    } 
-    insert_ckeditor();
+    <tr>
+      <td><%= f.label :description_editor, "Description" %></td>
+      <td><%= #f.cktext_area :description, :toolbar=>'Stizun', :width=>'600px', :height=>'250px' 
+      %>
+      <a href="#" onClick="toggle_ckeditor();">Toggle WYSIWYG editor</a><br>
+      <%= f.text_area :description, :id => 'product_description_editor', :rows => 25, :cols => 70 %></td>
       
-    function insert_ckeditor() {
-      CKEDITOR.replace('product_description_editor', 
-                          { filebrowserBrowseUrl: '/ckeditor/files',
-                            filebrowserUploadUrl: '/ckeditor/create/file',
-                            filebrowserImageBrowseUrl: '/ckeditor/images',
-                            toolbar: 'Stizun',
-                            filebrowserImageUploadUrl: '/ckeditor/create/image',
-                            width: '600px',
-                            language: 'de-CH',
-                            height: '250px' });
-    }
+    </tr>
+    <script type="text/javascript">
 
-    function toggle_ckeditor() {
+      /* Load CKEditor for description field no matter what */
 
       if (CKEDITOR.instances.product_description_editor) {       
         CKEDITOR.instances.product_description_editor.destroy();
-      } else {
-        insert_ckeditor();
+      } 
+      insert_ckeditor();
+        
+      function insert_ckeditor() {
+        CKEDITOR.replace('product_description_editor', 
+                            { filebrowserBrowseUrl: '/ckeditor/files',
+                              filebrowserUploadUrl: '/ckeditor/create/file',
+                              filebrowserImageBrowseUrl: '/ckeditor/images',
+                              toolbar: 'Stizun',
+                              filebrowserImageUploadUrl: '/ckeditor/create/image',
+                              width: '600px',
+                              language: 'de-CH',
+                              height: '250px' });
       }
-    }
 
-  </script>
+      function toggle_ckeditor() {
+
+        if (CKEDITOR.instances.product_description_editor) {       
+          CKEDITOR.instances.product_description_editor.destroy();
+        } else {
+          insert_ckeditor();
+        }
+      }
+
+    </script>
+
+    </table>
+    </td>
+
+    <td>
+      <%= render :partial => 'category_editor', :locals => { :f => f, :product => @product } %>
+    </td>
+  </tr>
+  
+</table>
 
 
-  </table>
   <hr>
 
   <h3>Components</h3>
@@ -237,16 +251,6 @@
 
 </table>
 
-<p><%= f.label :category_ids, "Categories" %></p>
-<p>
-<%= f.collection_select :category_ids, 
-            Category.find(:all), 
-            :id, :fully_qualified_name, 
-            { :selected => @product.category_ids }, 
-            { :multiple => true, :name => 'product[category_ids][]' } 
-%>
-</p>
-<p>Hold CTRL to select multiple.</p>
 
 <%= f.hidden_field :supply_item_id %>
 <%= f.hidden_field :manufacturer_product_code %>
