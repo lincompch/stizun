@@ -21,6 +21,11 @@
   </tr>
 
   <tr>
+    <td><%= f.label :product_link, "Product Link" %></td>
+    <td><%= f.text_field :product_link, :size => 110 %></td>
+  </tr>
+
+  <tr>
     <td><%= f.label :name, "Name" %></td>
     <td><%= f.text_field :name, :size => 100 %></td>
   </tr>
@@ -70,11 +75,26 @@
 
   </script>
 
+  </table>
+  <hr>
+  <table>
+
+
+  
   <tr>
-    <td><%= f.label :product_link, "Product Link" %></td>
-    <td><%= f.text_field :product_link, :size => 110 %></td>
+    <td><%= f.label :weight, "Weight in kg" %></td>
+    <td><%= f.text_field :weight, :size => 5 %></td>
   </tr>
 
+  <tr>
+    <td><%= f.label :supplier_id, "Supplier" %></td>
+    <td><%= f.select(:supplier_id, options_from_collection_for_select(Supplier.all, :id, :name, @product.supplier_id)) %></td>
+  </tr>
+
+  <tr>
+    <td><%= f.label :supplier_product_code, "Supplier's product code" %></td>
+    <td><%= f.text_field :supplier_product_code, :size => 15 %></td>
+  </tr>
   <tr>
     <td><%= f.label :tax_class_id, "Tax Class" %></td>
     <td><%= f.collection_select(:tax_class_id, TaxClass.find(:all, :order => 'name ASC'), :id, :name, {:prompt => true}) %></td>
@@ -94,25 +114,9 @@
     <td><%= f.label :sales_price, "Sales price" %></td>
     <td><%= f.text_field :sales_price, :size => 8, :value => '' %> (Leave empty to make the system auto-calculate the sales price based on margin)</td>
   </tr>
-  
-  <tr>
-    <td><%= f.label :weight, "Weight in kg" %></td>
-    <td><%= f.text_field :weight, :size => 5 %></td>
-  </tr>
-
-  <tr>
-    <td><%= f.label :supplier_id, "Supplier" %></td>
-    <td><%= f.select(:supplier_id, options_from_collection_for_select(Supplier.all, :id, :name, @product.supplier_id)) %></td>
-  </tr>
-
-  <tr>
-    <td><%= f.label :supplier_product_code, "Supplier's product code" %></td>
-    <td><%= f.text_field :supplier_product_code, :size => 15 %></td>
-  </tr>
-
 </table>
 
-<hr />
+<hr>
 
 <h3>Extended properties</h3>
 

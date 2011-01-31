@@ -24,6 +24,11 @@
   </tr>
 
   <tr>
+    <td><%= f.label :product_link, "Product Link" %></td>
+    <td><%= f.text_field :product_link, :size => 110 %></td>
+  </tr>
+
+  <tr>
     <td><%= f.label :name, "Name" %></td>
     <td><%= f.text_field :name, :size => 100 %></td>
   </tr>
@@ -74,12 +79,73 @@
   </script>
 
 
+  </table>
+  <hr>
+
+  <h3>Components</h3>
+
+  <% if @product.new_record? %>
+
+    <p>You must first save this product before you can add components.</p>
+
+  <% else %>
+
+    <p><%= link_to "Edit components", admin_product_components_path(@product) %></p>
+
+  <% end %>
+
+  <% if @product.componentized? %>
+
+    <%= render :partial => 'product_sets', :object => @product.product_sets %>
+
+  <% else %>
+
+  <p>This product has no components.</p>
+
+  <% end %>
+
+  <hr>
+
+
+
+  <table>
+
+ 
+
+
+  <% if @product.componentized? %>
+
+    <tr>
+      <td><%= f.label :weight, "Weight in kg" %></td>
+      <td><%= @product.weight %> kg</td>
+    </tr>
+  <% else %>
+    <tr>
+      <td><%= f.label :weight, "Weight in kg" %></td>
+      <td><%= f.text_field :weight, :size => 5 %></td>
+    </tr>
+  <% end %>
+
   <tr>
-    <td><%= f.label :product_link, "Product Link" %></td>
-    <td><%= f.text_field :product_link, :size => 110 %></td>
+    <td><%= f.label :supplier_id, "Supplier" %></td>
+    <td><%= f.select(:supplier_id, options_from_collection_for_select(Supplier.all, :id, :name, @product.supplier_id)) %></td>
   </tr>
 
   <tr>
+    <td><%= f.label :supplier_product_code, "Supplier's product code" %></td>
+    <td><%= f.text_field :supplier_product_code, :size => 15 %></td>
+  </tr>
+
+  <% unless @product.supply_item.nil? %>
+  <tr>
+    <td>Related supply item</td>
+    <td><%= @product.supply_item.to_s %><br />
+        Supplier: <%= link_to(@product.supply_item.supplier.name,  admin_supplier_supply_items_path(@product.supplier),{ :target => '_top' }) %>
+        </td>
+  </tr> 
+  <% end %>
+
+ <tr>
     <td><%= f.label :tax_class_id, "Tax Class" %></td>
     <td><%= f.collection_select(:tax_class_id, TaxClass.find(:all, :order => 'name ASC'), :id, :name, {:prompt => true}) %></td>
   </tr>
@@ -98,7 +164,6 @@
     </tr>
 
   <% end %>
-
 
   <tr>
     <td><%= f.label :margin_percentage, "Profit margin (in percent)" %></td>
@@ -122,86 +187,26 @@
   <tr>
     <td><%= f.label :percentage_rebate, "Rebate in %" %></td>
     <td><%= f.text_field :percentage_rebate, :size => 8 %> (Takes precedence over rebate in CHF)</td>
-  </tr>  
+  </tr>
 
   <tr>
     <td><%= f.label :absolute_rebate, "Rebate in CHF" %></td>
     <td><%= f.text_field :absolute_rebate, :size => 8 %></td>
-  </tr>  
+  </tr>
 
   <tr>
     <td><%= f.label :rebate_until, "Rebate end date/time" %></td>
     <td><%= f.datetime_select :rebate_until %></td>
-  </tr>  
+  </tr>
 
   <tr>
     <td> </td>
     <td><%= f.check_box :is_loss_leader %> Loss leader. This product's sales price may go below its purchase price, either through negative margins, a fixed sales price or large rebates.</td>
   </tr>  
 
-
-  <% if @product.componentized? %>
-
-    <tr>
-      <td><%= f.label :weight, "Weight in kg" %></td>
-      <td><%= @product.weight %> kg</td>
-    </tr>
-  <% else %>
-    <tr>
-      <td><%= f.label :weight, "Weight in kg" %></td>
-      <td><%= f.text_field :weight, :size => 5 %></td>
-    </tr>
-  <% end %>
-
-
-
-  <tr>
-    <td><%= f.label :supplier_id, "Supplier" %></td>
-    <td><%= f.select(:supplier_id, options_from_collection_for_select(Supplier.all, :id, :name, @product.supplier_id)) %></td>
-  </tr>
-
-  <tr>
-    <td><%= f.label :supplier_product_code, "Supplier's product code" %></td>
-    <td><%= f.text_field :supplier_product_code, :size => 15 %></td>
-  </tr>
-
-  <% unless @product.supply_item.nil? %>
-  <tr>
-    <td>Related supply item</td>
-    <td><%= @product.supply_item.to_s %><br />
-        Supplier: <%= link_to(@product.supply_item.supplier.name,  admin_supplier_supply_items_path(@product.supplier),{ :target => '_top' }) %>
-        </td>
-  </tr> 
-  <% end %>
-
 </table>
 
-
-<hr />
-
-<h3>Components</h3>
-
-<% if @product.new_record? %>
-
-  <p>You must first save this product before you can add components.</p>
-
-<% else %>
-
-  <p><%= link_to "Edit components", admin_product_components_path(@product) %></p>
-
-<% end %>
-
-<% if @product.componentized? %>
-
-  <%= render :partial => 'product_sets', :object => @product.product_sets %>
-
-<% else %>
-
-<p>This product has no components.</p>
-
-<% end %>
-
-<hr />
+<hr>
 
 <h3>Extended properties</h3>
 
