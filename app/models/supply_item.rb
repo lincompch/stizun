@@ -91,7 +91,7 @@ class SupplyItem < ActiveRecord::Base
     si.weight = csv['Gewicht']
     
     si.supplier = Supplier.find_or_create_by_name("Alltron AG")
-    si.manufacturer_product_code = csv['Artikelnummer']
+    si.manufacturer_product_code = "#{csv['Herstellernummer']}"
     si.description = "#{csv['Webtext']} #{csv['Webtext 2']}"
     si.purchase_price = BigDecimal.new(csv['Preis (exkl. MWSt)'].to_s)
     # TODO: Read actual tax percentage from import file and create class as needed
