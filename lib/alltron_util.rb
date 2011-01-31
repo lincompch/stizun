@@ -147,6 +147,13 @@ class AlltronUtil
             local_supply_item.save
             History.add("Changed stock for #{local_supply_item.to_s} from #{old_stock} to #{local_supply_item.stock}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
           end
+
+          # Adapt the manufacturer product code in any case
+          local_supply_item.manufacturer_product_code = "#{sp['Herstellernummer']}"
+          local_supply_item.save
+          History.add("Changed manufacturer number for #{local_supply_item.to_s} to #{sp['Herstellernummer']}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
+          
+          
         end
       end
       
