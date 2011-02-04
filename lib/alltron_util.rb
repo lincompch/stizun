@@ -1,4 +1,6 @@
-class AlltronUtil
+require 'supplier_util'
+
+class AlltronUtil < SupplierUtil
   
   
   def self.data_directory
@@ -65,76 +67,23 @@ class AlltronUtil
   end
 
   # Synchronize all supply items from a supplier's provided CSV file
-  # Currently only one supplier is supported. This is enough for the
-  # prototype developed as part of the dissertation, but in the final
-  # product this needs to be modular and allow each supplier to provide
-  # either files or an API to synchronize from.
   def self.import_supply_items(filename = self.import_filename)
-    SupplyItem.suspended_delta do
-        
-      require 'lib/alltron_csv'
-      # TODO: Create Alltron's very own shipping rate right here, perhaps based ona config file
-      self.create_shipping_rate
-      supplier = Supplier.find_or_create_by_name(:name => 'Alltron AG')
-      acsv = AlltronCSV.new(filename)
-      fcsv = acsv.get_faster_csv_instance
-      received_codes = []
-      fcsv.each do |sp|
-        # Keep track of which products we received, so we can later determine which ones
-        # we are stocking but shouldn't be stocking anymore
-        received_codes << sp['Artikelnummer 2']
-        # check if we have product too
-        local_supply_item = SupplyItem.find_by_supplier_product_code(sp['Artikelnummer 2'])
-        
-        # We do not have that supply item yet
-        if local_supply_item.nil?
-          si= SupplyItem.new_from_csv_record(sp)
-          
-          if si.save
-            History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
-          else
-            History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", History::SUPPLY_ITEM_CHANGE, si)
-          end
-        
-        # We already have that supply item and need to update supply item
-        # and related product information
-        else
-          if local_supply_item.purchase_price != BigDecimal(sp['Preis (exkl. MWSt)'].to_s)
-            old_price = local_supply_item.purchase_price
-            local_supply_item.purchase_price = BigDecimal(sp['Preis (exkl. MWSt)'].to_s)
-            local_supply_item.save
-            History.add("Changed price for #{local_supply_item.to_s} from #{old_price} to #{local_supply_item.purchase_price}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
-          end
-          
-          if local_supply_item.stock != sp['Lagerbestand'].gsub("'","").to_i
-            old_stock = local_supply_item.stock
-            local_supply_item.stock = sp['Lagerbestand'].gsub("'","").to_i
-            local_supply_item.save
-            History.add("Changed stock for #{local_supply_item.to_s} from #{old_stock} to #{local_supply_item.stock}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
-          end
-
-          # Adapt the manufacturer product code in any case
-          local_supply_item.manufacturer_product_code = "#{sp['Herstellernummer']}"
-          local_supply_item.save
-          History.add("Changed manufacturer number for #{local_supply_item.to_s} to #{sp['Herstellernummer']}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
-          
-          
-        end
-      end
-      
-      # Find out which items we need to delete locally
-      total_codes = supplier \
-                    .supply_items \
-                    .collect(&:supplier_product_code)
-      to_delete = total_codes - received_codes
-      to_delete.each do |td|
-        supply_item = SupplyItem.find_by_supplier_product_code(td)
-        
-        supply_item.status_constant = SupplyItem::DELETED
-        supply_item.save
-        History.add("Marked Supply Item with supplier code #{td} as deleted", History::SUPPLY_ITEM_CHANGE)
-      end
-    end
+    
+    # Set the variable sources here
+  
+    require 'lib/alltron_csv'
+    # TODO: Create Alltron's very own shipping rate right here, perhaps based ona config file
+    self.create_shipping_rate
+    supplier = Supplier.find_or_create_by_name(:name => 'Alltron AG')
+    acsv = AlltronCSV.new(filename)
+    fcsv = acsv.get_faster_csv_instance
+    
+    field_names = { :supplier_product_code => 'Artikelnummer 2',
+                    :price_excluding_vat => 'Preis (exkl. MWSt)',
+                    :stock_level => 'Lagerbestand',
+                    :manufacturer_product_code => 'Herstellernummer' }
+    super
+    
   end
   
   
