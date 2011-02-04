@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'lib/alltron_util'
+require 'lib/ingram_util'
 
-describe AlltronUtil do
+describe IngramUtil do
   before(:each) do
     describe "at the start of the tests, the system" do
       it "should have no supply items" do
@@ -12,18 +12,9 @@ describe AlltronUtil do
         tax_class = TaxClass.find_or_create_by_percentage(:name => "8.0", :percentage => 8.0)
         sr = ShippingRate.new
         sr.tax_class = tax_class
-        sr.name = "Alltron AG"
-        sr.shipping_costs << ShippingCost.new(:weight_min => 0, :weight_max => 1000,
-                                              :price => 10, :tax_class => tax_class)
-        sr.shipping_costs << ShippingCost.new(:weight_min => 1001, :weight_max => 2000,
-                                              :price => 20, :tax_class => tax_class)      
-        sr.shipping_costs << ShippingCost.new(:weight_min => 2001, :weight_max => 3000,
-                                              :price => 30, :tax_class => tax_class)   
-        sr.shipping_costs << ShippingCost.new(:weight_min => 3001, :weight_max => 4000,
-                                              :price => 40, :tax_class => tax_class)      
-        sr.shipping_costs << ShippingCost.new(:weight_min => 4001, :weight_max => 5000,
-                                              :price => 50, :tax_class => tax_class)         
-        
+        sr.name = "Ingram Micro GmbH"
+        sr.shipping_costs << ShippingCost.new(:weight_min => 0, :weight_max => 999999,
+                                              :price => 14, :tax_class => tax_class)
         if !sr.save
           puts sr.errors.full_messages.inspect
         end
@@ -31,9 +22,9 @@ describe AlltronUtil do
         
       end
       
-      it "should have a supplier called 'Alltron AG'" do
-        Supplier.find_or_create_by_name(:name => "Alltron AG", 
-                                        :shipping_rate => ShippingRate.where(:name => "Alltron AG").first)
+      it "should have a supplier called 'Ingram Micro GmbH'" do
+        Supplier.find_or_create_by_name(:name => "Ingram Mico GmbH", 
+                                        :shipping_rate => ShippingRate.where(:name => "Ingram Micro GmbH").first)
       end
       
     end
@@ -41,11 +32,11 @@ describe AlltronUtil do
   
   describe "importing supply items from CSV" do
     
-    it "should import 500 items" do
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
-      SupplyItem.count.should == 500
-      supplier = Supplier.where(:name => 'Alltron AG').first
-      
+    it "should import 370 items" do
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/370_im_products.csv")
+      SupplyItem.count.should == 370
+      supplier = Supplier.where(:name => 'Ingram Mico GmbH').first
+
                         # supplier_product_code, weight, purchase_price, stock
       supply_item_should_be(supplier, 1289, 0.54, 40.38, 4)
       supply_item_should_be(supplier, 2313, 0.06, 24.49, 3)
@@ -59,9 +50,10 @@ describe AlltronUtil do
     
     it "should change items when they have changed in the CSV file" do
       SupplyItem.count.should == 0
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products_with_5_changes.csv")
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/370_im_products_with_4_changes.csv")
       SupplyItem.count.should == 500
-      supplier = Supplier.where(:name => 'Alltron AG').first
+      supplier = Supplier.where(:name => 'Ingram Mico GmbH').first
+
       supply_item_should_be(supplier, 1289, 0.54, 40.00, 4)
       supply_item_should_be(supplier, 2313, 0.06, 24.49, 100)
       supply_item_should_be(supplier, 3188, 0.50, 36.90, 55)
@@ -71,9 +63,10 @@ describe AlltronUtil do
     end
     
     it "should mark items as deleted when they were removed from the CSV file" do
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/485_products_utf8.csv")
-      supplier = Supplier.where(:name => 'Alltron AG').first
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/370_im_products.csv")
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/360_im_products.csv")
+      supplier = Supplier.where(:name => 'Ingram Mico GmbH').first
+
       product_codes = [1227, 1510, 1841, 1847, 2180, 2193, 2353, 2379, 3220, 4264, 5048, 5768, 5862, 5863, 8209]
       ids = SupplyItem.where(:supplier_product_code => product_codes, :supplier_id => supplier).collect(&:id)
       supply_items_should_be_marked_deleted(ids, supplier)
@@ -92,7 +85,7 @@ describe AlltronUtil do
       product = Product.new_from_supply_item(supply_item)
       product.save.should == true
       product.available?.should == true      
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/485_products_utf8.csv")
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/360_im_products.csv")
       supply_item.reload
       supply_item.status_constant.should == SupplyItem::DELETED
       
