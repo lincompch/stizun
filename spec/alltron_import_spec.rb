@@ -46,12 +46,26 @@ describe AlltronUtil do
       SupplyItem.count.should == 500
       supplier = Supplier.where(:name => 'Alltron AG').first
       
-                        # supplier_product_code, weight, purchase_price, stock
-      supply_item_should_be(supplier, 1289, 0.54, 40.38, 4)
-      supply_item_should_be(supplier, 2313, 0.06, 24.49, 3)
-      supply_item_should_be(supplier, 3188, 0.28, 36.90, 55)
-      supply_item_should_be(supplier, 5509, 0.08, 19.80, 545)
-      supply_item_should_be(supplier, 6591, 0.07, 20.91, 2)
+
+      supply_item_should_be(supplier, 1289, { :weight => 0.54,
+                                              :purchase_price => 40.38,
+                                              :stock => 4} )
+      
+      supply_item_should_be(supplier, 2313, { :weight => 0.06,
+                                              :purchase_price => 24.49,
+                                              :stock => 3} )
+
+      supply_item_should_be(supplier, 3188, { :weight => 0.28,
+                                              :purchase_price => 36.90,
+                                              :stock => 55} )
+      
+      supply_item_should_be(supplier, 5509, { :weight => 0.08,
+                                              :purchase_price => 19.80,
+                                              :stock => 545} )
+
+      supply_item_should_be(supplier, 6591, { :weight => 0.07,
+                                              :purchase_price => 20.91,
+                                              :stock => 2} )
 
       History.where(:text => "Supply item added during sync: 2313 Tinte Canon BJC 2000/4x00/5000 Nachfüllpatrone farbig",
                     :type_const => History::SUPPLY_ITEM_CHANGE).first.nil?.should == false
@@ -62,11 +76,27 @@ describe AlltronUtil do
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products_with_5_changes.csv")
       SupplyItem.count.should == 500
       supplier = Supplier.where(:name => 'Alltron AG').first
-      supply_item_should_be(supplier, 1289, 0.54, 40.00, 4)
-      supply_item_should_be(supplier, 2313, 0.06, 24.49, 100)
-      supply_item_should_be(supplier, 3188, 0.50, 36.90, 55)
-      supply_item_should_be(supplier, 5509, 0.50, 25.00, 545)
-      supply_item_should_be(supplier, 6591, 2.00, 40.00, 18)
+      
+      
+      supply_item_should_be(supplier, 1289, { :weight => 0.54,
+                                              :purchase_price => 40.00,
+                                              :stock => 4} )
+      
+      supply_item_should_be(supplier, 2313, { :weight => 0.06,
+                                              :purchase_price => 24.49,
+                                              :stock => 100} )
+      
+      supply_item_should_be(supplier, 3188, { :weight => 0.50,
+                                              :purchase_price => 36.90,
+                                              :stock => 55} )
+     
+      supply_item_should_be(supplier, 5509, { :weight => 0.50,
+                                              :purchase_price => 25.00,
+                                              :stock => 545} )
+      
+      supply_item_should_be(supplier, 6591, { :weight => 2.00,
+                                              :purchase_price => 40.00,
+                                              :stock => 18} )
    
     end
     
