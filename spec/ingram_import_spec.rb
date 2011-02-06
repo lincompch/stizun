@@ -37,14 +37,28 @@ describe IngramUtil do
       SupplyItem.count.should == 370
       supplier = Supplier.where(:name => 'Ingram Mico GmbH').first
 
-                        # supplier_product_code, weight, purchase_price, stock
-      supply_item_should_be(supplier, 1289, 0.54, 40.38, 4)
-      supply_item_should_be(supplier, 2313, 0.06, 24.49, 3)
-      supply_item_should_be(supplier, 3188, 0.28, 36.90, 55)
-      supply_item_should_be(supplier, 5509, 0.08, 19.80, 545)
-      supply_item_should_be(supplier, 6591, 0.07, 20.91, 2)
-
-      History.where(:text => "Supply item added during sync: 2313 Tinte Canon BJC 2000/4x00/5000 Nachfüllpatrone farbig",
+      supply_item_should_be(supplier, "180538", { :manufacturer => 'Dymo',
+                                                :weight => 0.23,
+                                                :purchase_price => 18.70,
+                                                :stock => 110} )
+      
+      supply_item_should_be(supplier, "180631", { :manufacturer => 'Dymo',
+                                                :weight => 0.05,
+                                                :purchase_price => 15.30,
+                                                :stock => 41} )
+      
+      supply_item_should_be(supplier, "018Z055", { :manufacturer => 'Dymo',
+                                                :weight => 0.06,
+                                                :purchase_price => 16.70,
+                                                :stock => 33} )
+      
+      supply_item_should_be(supplier, "711186", { :manufacturer => 'Netgear',
+                                                :weight => 8.21,
+                                                :purchase_price => 863.80,
+                                                :stock => 0} )
+            
+      
+      History.where(:text => "Supply item added during sync: 711186 ReadyNas NV+ 2TB Gigabit Desk",
                     :type_const => History::SUPPLY_ITEM_CHANGE).first.nil?.should == false
     end
     
@@ -54,12 +68,27 @@ describe IngramUtil do
       SupplyItem.count.should == 370
       supplier = Supplier.where(:name => 'Ingram Mico GmbH').first
 
-      supply_item_should_be(supplier, 1289, 0.54, 40.00, 4)
-      supply_item_should_be(supplier, 2313, 0.06, 24.49, 100)
-      supply_item_should_be(supplier, 3188, 0.50, 36.90, 55)
-      supply_item_should_be(supplier, 5509, 0.50, 25.00, 545)
-      supply_item_should_be(supplier, 6591, 2.00, 40.00, 18)
-   
+      
+      supply_item_should_be(supplier, "180538", { :manufacturer => 'Dymo',
+                                                :weight => 0.23,
+                                                :purchase_price => 19.70,
+                                                :stock => 110} )
+      
+      supply_item_should_be(supplier, "180631", { :manufacturer => 'Dymo',
+                                                :weight => 0.10,
+                                                :purchase_price => 15.30,
+                                                :stock => 41} )
+      
+      supply_item_should_be(supplier, "018Z055", { :manufacturer => 'Dymo',
+                                                :weight => 0.06,
+                                                :purchase_price => 16.70,
+                                                :stock => 100} )
+      
+      supply_item_should_be(supplier, "711186", { :manufacturer => 'Netgear',
+                                                :weight => 12.4,
+                                                :purchase_price => 1233.40,
+                                                :stock => 15} )
+      
     end
     
     it "should mark items as deleted when they were removed from the CSV file" do
@@ -70,21 +99,21 @@ describe IngramUtil do
       SupplyItem.count.should == 370 # but 10 of them marked deleted
       supplier = Supplier.where(:name => 'Ingram Mico GmbH').first
 
-      product_codes = [1227, 1510, 1841, 1847, 2180, 2193, 2353, 2379, 3220, 4264, 5048, 5768, 5862, 5863, 8209]
+      product_codes = ["0711642", "0712027", "0712259", "0712530", "0712577", "07701A5", "07701F4", "07702U8", "07702V2", "0770987"]
       ids = SupplyItem.where(:supplier_product_code => product_codes, :supplier_id => supplier).collect(&:id)
       supply_items_should_be_marked_deleted(ids, supplier)
-      history_should_exist(:text => "Marked Supply Item with supplier code 1227 as deleted", 
+      history_should_exist(:text => "Marked Supply Item with supplier code 0712027 as deleted", 
                            :type_const => History::SUPPLY_ITEM_CHANGE)
-      history_should_exist(:text => "Marked Supply Item with supplier code 3220 as deleted", 
+      history_should_exist(:text => "Marked Supply Item with supplier code 07701A5 as deleted", 
                            :type_const => History::SUPPLY_ITEM_CHANGE)
-      history_should_exist(:text => "Marked Supply Item with supplier code 8209 as deleted", 
+      history_should_exist(:text => "Marked Supply Item with supplier code 07702U8 as deleted", 
                            :type_const => History::SUPPLY_ITEM_CHANGE)
       
     end
     
     it "should disable products whose supply items were removed" do
-      IngramTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
-      supply_item = SupplyItem.where(:supplier_product_code => 1227).first
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/370_im_products.csv")
+      supply_item = SupplyItem.where(:supplier_product_code => "0712259").first
       product = Product.new_from_supply_item(supply_item)
       product.save.should == true
       product.available?.should == true      

@@ -63,7 +63,7 @@ class IngramUtil < SupplierUtil
     # Set the variable sources here
   
     require 'lib/ingram_csv'
-    # TODO: Create Alltron's very own shipping rate right here, perhaps based ona config file
+    
     IngramUtil.create_shipping_rate
     @supplier = Supplier.find_or_create_by_name(:name => 'Ingram Micro GmbH')
     icsv = IngramCSV.new(filename)
@@ -110,7 +110,9 @@ class IngramUtil < SupplierUtil
                                                          :price => c[2], 
                                                          :tax_class => tc)
       end
-      shipping_rate.save     
+      if shipping_rate.save     
+        puts "SAVED RATE"
+      end
       supplier.shipping_rate = shipping_rate
       supplier.save
       return shipping_rate
