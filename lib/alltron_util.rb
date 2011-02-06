@@ -67,21 +67,22 @@ class AlltronUtil < SupplierUtil
   end
 
   # Synchronize all supply items from a supplier's provided CSV file
-  def self.import_supply_items(filename = self.import_filename)
+  def import_supply_items(filename = self.import_filename)
     
     # Set the variable sources here
   
     require 'lib/alltron_csv'
     # TODO: Create Alltron's very own shipping rate right here, perhaps based ona config file
-    self.create_shipping_rate
-    supplier = Supplier.find_or_create_by_name(:name => 'Alltron AG')
+    AlltronUtil.create_shipping_rate
+    @supplier = Supplier.find_or_create_by_name(:name => 'Alltron AG')
     acsv = AlltronCSV.new(filename)
-    fcsv = acsv.get_faster_csv_instance
+    @fcsv = acsv.get_faster_csv_instance
     
-    field_names = { :supplier_product_code => 'Artikelnummer 2',
+    @field_names = { :supplier_product_code => 'Artikelnummer 2',
                     :price_excluding_vat => 'Preis (exkl. MWSt)',
                     :stock_level => 'Lagerbestand',
                     :manufacturer_product_code => 'Herstellernummer' }
+    
     super
     
   end
