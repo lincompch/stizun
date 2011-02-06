@@ -19,7 +19,8 @@ class SupplierUtil
         
         # We do not have that supply item yet
         if local_supply_item.nil?
-          si= SupplyItem.new_from_csv_record(sp)
+          si = SupplierUtil.supply_item_from_csv_row(@supplier, sp, @field_names)
+          
           
           if si.save
             History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
@@ -68,4 +69,23 @@ class SupplierUtil
     end
   end
 
+  
+  def self.supply_item_from_csv_row(supplier, row, field_names)
+    si = supplier.supply_items.new
+    si.supplier_product_code = row[field_names[:supplier_product_code]]
+    si.name = "#{row[field_names[:name01]].gsub("ß","ss")}" 
+    si.name += " #{row[field_names[:name02]].to_s.gsub("ß","ss")}" unless field_names[:name02].blank?
+    si.manufacturer = "#{row[field_names[:manufacturer]]}"
+    si.product_link = "#{row[field_names[:product_link]]}"
+    si.weight = row[field_names[:weight]].gsub(",",".").to_f
+    si.manufacturer_product_code = "#{row[field_names[:manufacturer_product_code]]}"
+    si.description = "#{row[field_names[:description01]].gsub("ß","ss")}"
+    si.description += "#{row[field_names[:description02]].to_s.gsub("ß","ss")}" unless field_names[:description02].blank? 
+    si.purchase_price = BigDecimal.new(row[field_names[:price_excluding_vat]].to_s.gsub(",","."))
+    # TODO: Read actual tax percentage from import file and create class as needed
+    si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
+    si.stock = row[field_names[:stock_level]].gsub("'","").to_i
+    return si
+  end
+  
 end

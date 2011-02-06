@@ -79,26 +79,6 @@ class SupplyItem < ActiveRecord::Base
     product_sets.collect(&:product).uniq.compact
   end
   
-  # TODO: Move this method to lib/alltron_util.rb since it is specific
-  # to supply items from that supplier.
-  def self.new_from_csv_record(csv)
-    si = self.new
-    si.supplier_product_code = csv['Artikelnummer 2']
-    si.name = "#{csv['Bezeichung']} #{csv['Bezeichung 2']}"
-    si.manufacturer = "#{csv['Hersteller']}"
-    si.product_link = "#{csv['WWW-Link']}"
-
-    si.weight = csv['Gewicht']
-    
-    si.supplier = Supplier.find_or_create_by_name("Alltron AG")
-    si.manufacturer_product_code = "#{csv['Herstellernummer']}"
-    si.description = "#{csv['Webtext']} #{csv['Webtext 2']}"
-    si.purchase_price = BigDecimal.new(csv['Preis (exkl. MWSt)'].to_s)
-    # TODO: Read actual tax percentage from import file and create class as needed
-    si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
-    si.stock = csv['Lagerbestand'].gsub("'","").to_i
-    si
-  end
   
   def handle_supply_item_deletion
     if self.status_constant_was == SupplyItem::AVAILABLE and \

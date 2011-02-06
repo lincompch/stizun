@@ -51,6 +51,7 @@ end
 
 namespace :deploy do
    task :restart, :roles => :app, :except => { :no_release => true } do
+     run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:migrate"
      run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
    end
 

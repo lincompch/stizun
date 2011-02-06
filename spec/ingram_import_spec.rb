@@ -33,7 +33,7 @@ describe IngramUtil do
   describe "importing supply items from CSV" do
     
     it "should import 370 items" do
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/370_im_products.csv")
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/370_im_products.csv")
       SupplyItem.count.should == 370
       supplier = Supplier.where(:name => 'Ingram Mico GmbH').first
 
@@ -50,8 +50,8 @@ describe IngramUtil do
     
     it "should change items when they have changed in the CSV file" do
       SupplyItem.count.should == 0
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/370_im_products_with_4_changes.csv")
-      SupplyItem.count.should == 500
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/370_im_products_with_4_changes.csv")
+      SupplyItem.count.should == 370
       supplier = Supplier.where(:name => 'Ingram Mico GmbH').first
 
       supply_item_should_be(supplier, 1289, 0.54, 40.00, 4)
@@ -63,8 +63,11 @@ describe IngramUtil do
     end
     
     it "should mark items as deleted when they were removed from the CSV file" do
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/370_im_products.csv")
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/360_im_products.csv")
+      SupplyItem.count.should == 0
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/370_im_products.csv")
+      SupplyItem.count.should == 370
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/360_im_products.csv")
+      SupplyItem.count.should == 370 # but 10 of them marked deleted
       supplier = Supplier.where(:name => 'Ingram Mico GmbH').first
 
       product_codes = [1227, 1510, 1841, 1847, 2180, 2193, 2353, 2379, 3220, 4264, 5048, 5768, 5862, 5863, 8209]
@@ -80,12 +83,12 @@ describe IngramUtil do
     end
     
     it "should disable products whose supply items were removed" do
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
       supply_item = SupplyItem.where(:supplier_product_code => 1227).first
       product = Product.new_from_supply_item(supply_item)
       product.save.should == true
       product.available?.should == true      
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/360_im_products.csv")
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/360_im_products.csv")
       supply_item.reload
       supply_item.status_constant.should == SupplyItem::DELETED
       
