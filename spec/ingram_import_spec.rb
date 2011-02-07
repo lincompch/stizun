@@ -37,14 +37,13 @@ describe IngramUtil do
       IngramTestHelper.import_from_file(Rails.root + "spec/data/370_im_products.csv")
       SupplyItem.count.should == 370
       supplier = Supplier.where(:name => 'Ingram Micro GmbH').first
-
             
-      supply_item_should_be(supplier, "180631", { :manufacturer => 'Dymo',
+      supply_item_should_be(supplier, "0180631", { :manufacturer => 'Dymo',
                                                 :weight => 0.05,
                                                 :purchase_price => 15.30,
                                                 :stock => 41} )
       
-      supply_item_should_be(supplier, "180538", { :manufacturer => 'Dymo',
+      supply_item_should_be(supplier, "0180538", { :manufacturer => 'Dymo',
                                                 :weight => 0.23,
                                                 :purchase_price => 18.70,
                                                 :stock => 110} )
@@ -54,13 +53,13 @@ describe IngramUtil do
                                                 :purchase_price => 16.70,
                                                 :stock => 33} )
       
-      supply_item_should_be(supplier, "711186", { :manufacturer => 'Netgear',
+      supply_item_should_be(supplier, "0711186", { :manufacturer => 'Netgear',
                                                 :weight => 8.21,
                                                 :purchase_price => 863.80,
                                                 :stock => 0} )
             
       
-      History.where(:text => "Supply item added during sync: 711186 ReadyNas NV+ 2TB Gigabit Desk",
+      History.where(:text => "Supply item added during sync: 0711186 ReadyNas NV+ 2TB Gigabit Desk",
                     :type_const => History::SUPPLY_ITEM_CHANGE).first.nil?.should == false
     end
     
@@ -70,13 +69,14 @@ describe IngramUtil do
       SupplyItem.count.should == 370
       supplier = Supplier.where(:name => 'Ingram Micro GmbH').first
 
-  
-      supply_item_should_be(supplier, "180631", { :manufacturer => 'Dymo',
+#       debugger
+      
+      supply_item_should_be(supplier, "0180631", { :manufacturer => 'Dymo',
                                                 :weight => 0.10,
                                                 :purchase_price => 15.30,
                                                 :stock => 41} )      
       
-      supply_item_should_be(supplier, "180538", { :manufacturer => 'Dymo',
+      supply_item_should_be(supplier, "0180538", { :manufacturer => 'Dymo',
                                                 :weight => 0.23,
                                                 :purchase_price => 19.70,
                                                 :stock => 110} )
@@ -86,7 +86,7 @@ describe IngramUtil do
                                                 :purchase_price => 16.70,
                                                 :stock => 100} )
       
-      supply_item_should_be(supplier, "711186", { :manufacturer => 'Netgear',
+      supply_item_should_be(supplier, "0711186", { :manufacturer => 'Netgear',
                                                 :weight => 12.4,
                                                 :purchase_price => 1233.40,
                                                 :stock => 15} )

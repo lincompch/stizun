@@ -20,20 +20,10 @@ class SupplierUtil
         # We do not have that supply item yet
         if local_supply_item.nil?
           si = SupplierUtil.supply_item_from_csv_row(@supplier, sp, @field_names)
-            
-            if si.supplier_product_code.to_s == "180538"
-              puts "making fresh" 
-            end
-            
           
           if si.save
-            puts "saved new: #{si.inspect}"
-            puts "IT'S ALL GOOD__________________" if si.supplier_product_code.to_s == "180538"
             History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
           else
-            puts "IT'S ALL SHIT_________" if si.supplier_product_code.to_s == "180538"
-            puts si.errors.full_messages
-
             History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", History::SUPPLY_ITEM_CHANGE, si)
           end
         
@@ -80,16 +70,28 @@ class SupplierUtil
 
   
   def self.supply_item_from_csv_row(supplier, row, field_names)
+    require 'iconv'
+ 
+    
     si = supplier.supply_items.new
     si.supplier_product_code = row[field_names[:supplier_product_code]]
     si.name = "#{row[field_names[:name01]].gsub("ß","ss")}" 
     si.name += " #{row[field_names[:name02]].to_s.gsub("ß","ss")}" unless field_names[:name02].blank?
+    si.name = Iconv.conv('utf-8', 'iso-8859-1', si.name)
+    si.name = si.name.strip
+    
     si.manufacturer = "#{row[field_names[:manufacturer]]}"
+    si.manufacturer = Iconv.conv('utf-8', 'iso-8859-1', si.manufacturer)
+    
     si.product_link = "#{row[field_names[:product_link]]}"
     si.weight = row[field_names[:weight]].gsub(",",".").to_f
     si.manufacturer_product_code = "#{row[field_names[:manufacturer_product_code]]}"
+    
     si.description = "#{row[field_names[:description01]].gsub("ß","ss")}"
     si.description += "#{row[field_names[:description02]].to_s.gsub("ß","ss")}" unless field_names[:description02].blank? 
+    si.description = Iconv.conv('utf-8', 'iso-8859-1', si.description)
+    si.description = si.description.strip
+    
     si.purchase_price = BigDecimal.new(row[field_names[:price_excluding_vat]].to_s.gsub(",","."))
     # TODO: Read actual tax percentage from import file and create class as needed
     si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first

@@ -40,12 +40,9 @@ end
 #   si.stock.should == stock
 # end
 
-def supply_item_should_be(supplier, supplier_product_code, attributes = {})  
-  si = SupplyItem.where(:supplier_id => supplier, :supplier_product_code => supplier_product_code).first
-  puts "si under inspection: #{si.inspect} from #{supplier.inspect}"
-  
+def supply_item_should_be(supplier, supplier_product_code, attributes = {})
+  si = supplier.supply_items.where(:supplier_product_code => supplier_product_code).first
   attributes.each do |k,v|
-    puts "trying for attribute #{k.inspect} and value #{v.inspect}"
     si.send(k).should == v
   end
 end
