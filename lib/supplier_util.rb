@@ -20,11 +20,20 @@ class SupplierUtil
         # We do not have that supply item yet
         if local_supply_item.nil?
           si = SupplierUtil.supply_item_from_csv_row(@supplier, sp, @field_names)
-          
+            
+            if si.supplier_product_code.to_s == "180538"
+              puts "making fresh" 
+            end
+            
           
           if si.save
+            puts "saved new: #{si.inspect}"
+            puts "IT'S ALL GOOD__________________" if si.supplier_product_code.to_s == "180538"
             History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
           else
+            puts "IT'S ALL SHIT_________" if si.supplier_product_code.to_s == "180538"
+            puts si.errors.full_messages
+
             History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", History::SUPPLY_ITEM_CHANGE, si)
           end
         

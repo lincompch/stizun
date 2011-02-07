@@ -23,8 +23,9 @@ describe IngramUtil do
       end
       
       it "should have a supplier called 'Ingram Micro GmbH'" do
-        Supplier.find_or_create_by_name(:name => "Ingram Mico GmbH", 
-                                        :shipping_rate => ShippingRate.where(:name => "Ingram Micro GmbH").first)
+        supplier = Supplier.find_or_create_by_name(:name => "Ingram Micro GmbH", 
+                                                   :shipping_rate => ShippingRate.where(:name => "Ingram Micro GmbH").first)
+        supplier.name.should == "Ingram Micro GmbH"
       end
       
     end
@@ -35,17 +36,18 @@ describe IngramUtil do
     it "should import 370 items" do
       IngramTestHelper.import_from_file(Rails.root + "spec/data/370_im_products.csv")
       SupplyItem.count.should == 370
-      supplier = Supplier.where(:name => 'Ingram Mico GmbH').first
+      supplier = Supplier.where(:name => 'Ingram Micro GmbH').first
 
-      supply_item_should_be(supplier, "180538", { :manufacturer => 'Dymo',
-                                                :weight => 0.23,
-                                                :purchase_price => 18.70,
-                                                :stock => 110} )
-      
+            
       supply_item_should_be(supplier, "180631", { :manufacturer => 'Dymo',
                                                 :weight => 0.05,
                                                 :purchase_price => 15.30,
                                                 :stock => 41} )
+      
+      supply_item_should_be(supplier, "180538", { :manufacturer => 'Dymo',
+                                                :weight => 0.23,
+                                                :purchase_price => 18.70,
+                                                :stock => 110} )
       
       supply_item_should_be(supplier, "018Z055", { :manufacturer => 'Dymo',
                                                 :weight => 0.06,
@@ -66,18 +68,18 @@ describe IngramUtil do
       SupplyItem.count.should == 0
       IngramTestHelper.import_from_file(Rails.root + "spec/data/370_im_products_with_4_changes.csv")
       SupplyItem.count.should == 370
-      supplier = Supplier.where(:name => 'Ingram Mico GmbH').first
+      supplier = Supplier.where(:name => 'Ingram Micro GmbH').first
 
+  
+      supply_item_should_be(supplier, "180631", { :manufacturer => 'Dymo',
+                                                :weight => 0.10,
+                                                :purchase_price => 15.30,
+                                                :stock => 41} )      
       
       supply_item_should_be(supplier, "180538", { :manufacturer => 'Dymo',
                                                 :weight => 0.23,
                                                 :purchase_price => 19.70,
                                                 :stock => 110} )
-      
-      supply_item_should_be(supplier, "180631", { :manufacturer => 'Dymo',
-                                                :weight => 0.10,
-                                                :purchase_price => 15.30,
-                                                :stock => 41} )
       
       supply_item_should_be(supplier, "018Z055", { :manufacturer => 'Dymo',
                                                 :weight => 0.06,
@@ -97,7 +99,7 @@ describe IngramUtil do
       SupplyItem.count.should == 370
       IngramTestHelper.import_from_file(Rails.root + "spec/data/360_im_products.csv")
       SupplyItem.count.should == 370 # but 10 of them marked deleted
-      supplier = Supplier.where(:name => 'Ingram Mico GmbH').first
+      supplier = Supplier.where(:name => 'Ingram Micro GmbH').first
 
       product_codes = ["0711642", "0712027", "0712259", "0712530", "0712577", "07701A5", "07701F4", "07702U8", "07702V2", "0770987"]
       ids = SupplyItem.where(:supplier_product_code => product_codes, :supplier_id => supplier).collect(&:id)

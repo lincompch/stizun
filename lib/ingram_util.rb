@@ -11,7 +11,6 @@ class IngramUtil < SupplierUtil
     return @infile = self.data_directory + "something.txt"
   end
   
-  
   # Processes the AL_Artikeldaten.txt CSV file to extract
   # all unique combinations of categories, then builds this category
   # tree in the system as belonging to Alltron as supplier.
@@ -110,9 +109,7 @@ class IngramUtil < SupplierUtil
                                                          :price => c[2], 
                                                          :tax_class => tc)
       end
-      if shipping_rate.save     
-        puts "SAVED RATE"
-      end
+      shipping_rate.save
       supplier.shipping_rate = shipping_rate
       supplier.save
       return shipping_rate
