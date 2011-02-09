@@ -48,7 +48,6 @@ def supply_item_should_be(supplier, supplier_product_code, attributes = {})
 end
 
 
-
 def supply_items_should_be_marked_deleted(ids, supplier)
   SupplyItem.where(:id => ids, :supplier_id => supplier).collect(&:status_constant).uniq.first.should == SupplyItem::DELETED
 end

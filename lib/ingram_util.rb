@@ -78,7 +78,8 @@ class IngramUtil < SupplierUtil
                     :manufacturer_product_code => 'HSTNUMMER',
                     :manufacturer => 'HERSTELLER',
                     :weight => 'Gewicht',
-                    :product_link => 'DATENBLATT1'}    
+                    :product_link => 'DATENBLATT1',
+                    :image_url => 'BILD1'}    
    
     super
     

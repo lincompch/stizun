@@ -49,7 +49,6 @@ class SupplierUtil
           local_supply_item.save
           History.add("Changed manufacturer number for #{local_supply_item.to_s} to #{sp[@field_names[:manufacturer_product_code]]}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
           
-          
         end
       end
       
@@ -72,7 +71,6 @@ class SupplierUtil
   def self.supply_item_from_csv_row(supplier, row, field_names)
     require 'iconv'
  
-    
     si = supplier.supply_items.new
     si.supplier_product_code = row[field_names[:supplier_product_code]]
     si.name = "#{row[field_names[:name01]].gsub("ß","ss")}" 
@@ -96,6 +94,10 @@ class SupplierUtil
     # TODO: Read actual tax percentage from import file and create class as needed
     si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
     si.stock = row[field_names[:stock_level]].gsub("'","").to_i
+    
+    si.image_url = "#{row[field_names[:image_url]]}" unless field_names[:image_url].blank?
+    
+    
     return si
   end
   
