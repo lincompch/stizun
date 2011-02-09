@@ -1,8 +1,9 @@
-<p>Create new product</p>
-
 <%= error_messages_for(:product) %>
 
 <%= form_for [:admin, @product] do |f| %>
+
+<%= f.submit 'Create new product' %>
+
 
 <%=
   # Can't seem to use this partial here, because the product is not yet saved and
@@ -156,7 +157,7 @@
 <%= f.hidden_field :manufacturer_product_code unless @product.manufacturer_product_code.blank? %>
 
 
-<%= f.submit 'Create' %>
+<%= f.submit 'Create new product' %>
 <%= link_to 'Close', :onclick => '$.fancybox.close();' %>
 <% end %>
 

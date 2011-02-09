@@ -21,10 +21,13 @@
 
 <%= will_paginate @products %>
 
+<%= link_to "Create new product", new_admin_product_path, :class => 'fancybox' %>
+
 <table>
 <tr>
   <th>ID</th>
   <th>Status</th>
+  <th>Manufacturer</th>
   <th>Name</th>
   <th>Price calculation</th>
   <th>Actions</th>

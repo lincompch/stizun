@@ -19,6 +19,7 @@
   <tr>
     <th>ID</th>
     <th>Code</th>
+    <th>Manufacturer</th>
     <th>Name</th>
     <th>Status</th>
     <th>Purchase price</th>
@@ -30,6 +31,7 @@
   <tr class="<%= cycle('odd','even') %>">
     <td><%=h item.id %></td>
     <td><%=h item.supplier_product_code %></td>
+    <td><%=h item.manufacturer %></td>
     <td><%=h item.name %></td>
     <td><%=h item.status_human %></td>
     <td class="price"><%= item.purchase_price %></td>

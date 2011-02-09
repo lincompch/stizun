@@ -15,6 +15,11 @@
       <%= " <span class='danger'>[MISSING SUPPLY ITEM]</span><br>".html_safe if product_line.has_unavailable_supply_item? %>
 
     </td>
+    
+    <td>
+      <%= product_line.manufacturer %>
+    </td>
+
     <td>
       <%= product_line.name %>
     </td>
