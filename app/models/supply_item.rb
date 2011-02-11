@@ -83,7 +83,7 @@ class SupplyItem < ActiveRecord::Base
   def retrieve_product_image
     unless self.product.blank?
       require 'lib/image_handler'
-      image_path = ImageHandler.get_image_by_http(self.image_url)
+      image_path = ImageHandler.get_image_by_http(self.image_url, self.id)
       unless image_path.blank?
         # TODO: attach the image to the product via carrierwave or paperclip.
       end
