@@ -70,6 +70,7 @@ class SupplyItem < ActiveRecord::Base
     "#{supplier_product_code} #{name}" 
   end
   
+  # This should really be done as a default on the database instead
   def set_status_to_available_if_nil
     self.status_constant = SupplyItem::AVAILABLE if self.status_constant == nil
   end
@@ -77,6 +78,16 @@ class SupplyItem < ActiveRecord::Base
   def component_of
     product_sets = ProductSet.find_all_by_component_id(self.id)
     product_sets.collect(&:product).uniq.compact
+  end
+  
+  def retrieve_product_image
+    unless self.product.blank?
+      require 'lib/image_handler'
+      image_path = ImageHandler.get_image_by_http(self.image_url)
+      unless image_path.blank?
+        # TODO: attach the image to the product via carrierwave or paperclip.
+      end
+    end
   end
   
   
