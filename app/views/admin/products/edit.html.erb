@@ -17,7 +17,17 @@
 
 <%= form_for [:admin, @product] do |f| %>
 
-<%= f.submit 'Save product' %>
+<div class="buttonbar">
+  <div class="left">
+    <%= f.submit 'Save changes' %>
+  </div>
+  <div class="right">
+    <%= f.submit 'Save changes' %>
+  </div>
+<div style="clear: both;"></div>
+
+</div>
+
 
 <table>
   <tr>
@@ -260,5 +270,16 @@
 
 
 
-<%= f.submit 'Save product' %>
+
+<div class="buttonbar">
+  <div class="left">
+    <%= f.submit 'Save changes' %>
+  </div>
+  <div class="right">
+    <%= f.submit 'Save changes' %>
+  </div>
+<div style="clear: both;"></div>
+
+</div>
+
 <% end %>

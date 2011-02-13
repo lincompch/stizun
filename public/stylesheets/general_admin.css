@@ -96,3 +96,16 @@
 .thumbnail_list td {
   text-align: center;
 }
+
+
+.buttonbar {
+  background: #efefef;
+}
+
+.buttonbar .left {
+  float: left;
+}
+
+.buttonbar .right {
+  float: right;
+}

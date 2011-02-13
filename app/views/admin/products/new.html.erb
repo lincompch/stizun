@@ -2,7 +2,15 @@
 
 <%= form_for [:admin, @product] do |f| %>
 
-<%= f.submit 'Create new product' %>
+<div class="buttonbar">
+  <div class="left">
+    <%= f.submit 'Create new product' %>
+  </div>
+  <div class="right">
+    <%= f.submit 'Create new product' %>
+  </div>
+<div style="clear: both;"></div>
+</div>
 
 
 <%=
@@ -157,8 +165,19 @@
 <%= f.hidden_field :manufacturer_product_code unless @product.manufacturer_product_code.blank? %>
 
 
-<%= f.submit 'Create new product' %>
-<%= link_to 'Close', :onclick => '$.fancybox.close();' %>
+
+<div class="buttonbar">
+  <div class="left">
+    <%= f.submit 'Create new product' %>
+  </div>
+  <div class="right">
+    <%= f.submit 'Create new product' %>
+  </div>
+<div style="clear: both;"></div>
+
+</div>
+
+ <%= link_to 'Close', :onclick => '$.fancybox.close();' %>
 <% end %>
 
 <p>Note: This form only allows creation of prodcuts using the most basic product information. Additional items such as categories etc. are assigned in a later step.</p>
