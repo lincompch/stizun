@@ -23,10 +23,11 @@ class ImageHandler
           
         end
       end
-      
-    rescue
-      puts "Couldn't retrieve image #{url} due to a network error or 404"
-      return nil
+      rescue Errno::ENOENT
+        puts "Can't open file for writing"
+     rescue
+       puts "Couldn't retrieve image #{url} due to a network error or 404"
+       return nil
     end
   end
 

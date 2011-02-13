@@ -80,12 +80,21 @@ class SupplyItem < ActiveRecord::Base
     product_sets.collect(&:product).uniq.compact
   end
   
-  def retrieve_product_image
+  def retrieve_product_picture
     unless self.product.blank?
       require 'lib/image_handler'
       image_path = ImageHandler.get_image_by_http(self.image_url, self.id)
       unless image_path.blank?
-        # TODO: attach the image to the product via carrierwave or paperclip.
+        prod = self.product
+        
+        pp = ProductPicture.new
+        pp.file = File.open(image_path, "r")
+        prod.product_pictures << pp
+        if prod.save
+          puts "Product picture attached to #{prod.to_s}"
+        else
+          puts "Couldn't attach product picture to #{prod.to_s}"
+        end
       end
     end
   end
