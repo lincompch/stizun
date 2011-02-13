@@ -6,13 +6,16 @@
     <td class="<%= picture_class %>">
       
       <div>
-        <%= image_tag pp.file.url(:thumb) %>
+        <%= image_tag pp.file.url(:thumb)  %>
       </div>
       <%= if pp.is_main_picture?
             "Main picture"
           else
             link_to 'Set main', admin_product_picture_path(pp, :set_main_picture => true), :method => :put 
           end  %>
+
+      <br>
+      <%= link_to 'Delete', admin_product_picture_path(pp), :confirm => "Are you sure?", :method => :delete %>
                                 
                             
     </td>             

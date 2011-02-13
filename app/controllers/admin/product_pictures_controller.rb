@@ -18,8 +18,17 @@ class Admin::ProductPicturesController < Admin::BaseController
   
   def create
     @product = Product.find(params[:product_id])
-    @product.product_pictures.create( params[:product_picture] )
-    redirect_to edit_admin_product_path(@product)
+    unless params[:product_picture][:file].blank?
+      pp = @product.product_pictures.new( params[:product_picture] )
+      if pp.save
+        flash[:info] = "Product picture created"
+        redirect_to edit_admin_product_path(@product)
+      else
+        flash[:error] = "Error saving product picture"
+        render :action => 'new'
+      end
+    end
+    
   end
  
   def edit
@@ -40,6 +49,17 @@ class Admin::ProductPicturesController < Admin::BaseController
   end
                                     
   def destroy
+    pp = ProductPicture.find(params[:id])
+    product = pp.product
+    
+    # If there are at least two pictures, shift the main picture
+    if pp.is_main_picture? and product.product_pictures.count > 1
+      product.product_pictures.first.set_main_picture
+    end
+    pp.remove_file!
+    pp.destroy
+    
+    redirect_to edit_admin_product_path(product)
   end
   
 end

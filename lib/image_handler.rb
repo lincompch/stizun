@@ -9,7 +9,7 @@ class ImageHandler
 
     begin
       open(url) do |input|
-        file_path = Rails.root + "tmp/downloads/#{id}#{File.extname(url)}"
+        file_path = Rails.root + "tmp/downloads/#{id}_#{File.basename(url)}"
         if ["image/gif", "image/png", "image/jpeg"].include?(input.content_type)
 
           if File.exists?(file_path)

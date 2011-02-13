@@ -5,13 +5,18 @@ class ProductPicture < ActiveRecord::Base
   
   belongs_to :product
   
-  has_attached_file :file,  :styles => { :medium => ["400>x400>", :jpg], 
-                                         :thumb => ["80x80>", :jpg] },
-                            :convert_options => {
-                                         :all => "-limit memory 10485760 -limit map 20971520 -strip -background white -flatten"
-                                       }
+  mount_uploader :file, ProductPictureUploader, :mount_on => :file_file_name
+  
+  
+  
+#   has_attached_file :file,  :styles => { :medium => ["400>x400>", :jpg], 
+#                                          :thumb => ["80x80>", :jpg] },
+#                             :convert_options => {
+#                                          :all => "-limit memory 10485760 -limit map 20971520 -strip -background white -flatten"
+#                                        }
 
-                              
+  
+      
   def is_main_picture?
     is_main_picture
   end

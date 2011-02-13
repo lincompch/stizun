@@ -7,7 +7,11 @@
 
 <%= form_for [:admin, @product, @product_picture], :html => { :multipart => true } do |f| %>
 
+    <%= image_tag(@product_picture.file.thumb.url) if @product_picture.file? %>
+
     <%= f.file_field :file %>
+    <%= f.hidden_field :file_cache %>
+
     <%= f.submit %>
 <% end %>
 
