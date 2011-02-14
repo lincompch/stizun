@@ -27,7 +27,7 @@ task :link_config do
 end
 
 task :link_files do
-    run "ln -s #{shared_dir}/tmp/downloads #{release_path}/tmp/downloads"
+    run "ln -s #{deploy_to}/#{shared_dir}/tmp/downloads #{release_path}/tmp/downloads"
 end
 
 task :install_gems do
