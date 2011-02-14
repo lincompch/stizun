@@ -25,6 +25,11 @@ task :link_config do
   run "ln -s #{release_path}/public #{release_path}/test"
 end
 
+task :link_files do
+  run "rmdir #{release_path}/tmp/downloads"
+  run "ln -s #{shared_dir}/tmp/downloads #{release_path}/tmp/downloads"
+end
+
 task :install_gems do
   run "cd #{release_path} && RAILS_ENV=production bundle install --deployment --without cucumber development"
 end
@@ -49,6 +54,7 @@ namespace :deploy do
 end
 
 after "deploy:symlink", :link_config
+after "link_config", "link_files"
 after "link_config", "install_gems"
 after "install_gems", "configure_sphinx"
 after "configure_sphinx", "restart_sphinx"

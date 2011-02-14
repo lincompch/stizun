@@ -24,9 +24,11 @@ task :link_config do
   run "ln -s #{db_config} #{release_path}/config/database.yml"
   run "rm #{release_path}/config/email.yml"
   run "ln -s #{email_config} #{release_path}/config/email.yml"
+end
 
-#  run "rm -r #{release_path}/test"
-#  run "ln -s #{release_path}/public #{release_path}/test"
+task :link_files do
+    run "rmdir #{release_path}/tmp/downloads"
+    run "ln -s #{shared_dir}/tmp/downloads #{release_path}/tmp/downloads"
 end
 
 task :install_gems do
@@ -62,6 +64,7 @@ end
 
 after "deploy:symlink", :link_config
 after "link_config", "install_gems"
+after "link_config", "link_files"
 after "install_gems", "configure_sphinx"
 after "install_gems", "overwrite_custom"
 after "configure_sphinx", "restart_sphinx"
