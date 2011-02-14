@@ -91,9 +91,11 @@ class SupplyItem < ActiveRecord::Base
         pp.file = File.open(image_path, "r")
         prod.product_pictures << pp
         if prod.save
-          puts "Product picture attached to #{prod.to_s}"
+          logger.info "Product picture attached to #{prod.to_s}"
+          return true
         else
-          puts "Couldn't attach product picture to #{prod.to_s}"
+          logger.error "Couldn't attach product picture to #{prod.to_s}"
+          return false
         end
       end
     end

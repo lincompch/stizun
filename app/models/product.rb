@@ -33,7 +33,8 @@ class Product < ActiveRecord::Base
 
   
   before_save :set_explicit_sale_state
-
+  after_create :try_to_get_product_picture
+  
   
   # Thinking Sphinx configuration
   # Must come AFTER associations
@@ -450,7 +451,17 @@ class Product < ActiveRecord::Base
     end    
   end
 
-  
+
+  def try_to_get_product_picture
+    unless self.supply_item.nil?
+      if self.supply_item.retrieve_product_picture
+        if self.product_pictures.count == 1
+          self.product_pictures.first.set_main_picture
+        end
+      end
+    end
+  end
+
   private
  
   
