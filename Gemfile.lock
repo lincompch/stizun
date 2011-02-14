@@ -92,6 +92,9 @@ GEM
       subexec (~> 0.0.4)
     mysql2 (0.2.6)
     nokogiri (1.4.4)
+    paperclip (2.3.8)
+      activerecord
+      activesupport
     polyglot (0.3.1)
     rack (1.2.1)
     rack-mount (0.6.13)
@@ -178,6 +181,7 @@ DEPENDENCIES
   launchy
   mini_magick
   mysql2
+  paperclip
   rails (= 3.0.3)
   rails3-generators
   rspec-rails
