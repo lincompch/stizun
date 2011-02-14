@@ -26,7 +26,6 @@ task :link_config do
 end
 
 task :link_files do
-  run "rmdir #{release_path}/tmp/downloads"
   run "ln -s #{shared_dir}/tmp/downloads #{release_path}/tmp/downloads"
 end
 
