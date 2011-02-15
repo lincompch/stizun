@@ -30,15 +30,17 @@ class FileDownloader
             return file.path
           end
         else
-          logger.error "Content type for #{url} not accepted by this downloader instance."
+          # need to send this to the logger at some point
+          #logger.error "Content type for #{url} not accepted by this downloader instance."
+          puts "[FileDownloader] Content type for #{url} not accepted by this downloader instance."
           return nil
         end
       end
       rescue Errno::ENOENT
-        logger.error "Can't open file for writing"
+        puts "[FileDownloader] Can't open file for writing"
         return nil
-     rescue
-       logger.error "Couldn't retrieve file #{url} due to a network error or 404"
+      rescue
+       puts "[FileDownloader] Couldn't retrieve file #{url} due to a network error or 404"
        return nil
     end
   end

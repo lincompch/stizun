@@ -95,6 +95,7 @@ class SupplyItem < ActiveRecord::Base
           return true
         else
           logger.error "Couldn't attach product picture to #{prod.to_s}"
+          logger.error "Error was: #{prod.errors.full_messages}"
           return false
         end
       end
