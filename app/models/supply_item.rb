@@ -81,7 +81,7 @@ class SupplyItem < ActiveRecord::Base
   end
   
   def retrieve_product_picture
-    unless self.product.blank?
+    unless self.product.blank? or self.image_url.blank?
       require 'lib/image_handler'
       image_path = ImageHandler.get_image_by_http(self.image_url, self.id)
       unless image_path.blank?
