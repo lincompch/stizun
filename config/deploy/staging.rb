@@ -30,7 +30,7 @@ task :link_files do
 end
 
 task :install_gems do
-  run "cd #{release_path} && RAILS_ENV=production bundle install --deployment --without cucumber development"
+  run "cd #{release_path} && RAILS_ENV=production bundle install --deployment --without cucumber test development"
 end
 
 task :configure_sphinx do
