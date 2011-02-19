@@ -15,8 +15,6 @@ class CartsController < ApplicationController
     else
       redirect_to(:back)
     end
-
-    redirect_to @cart
   end
   
   def remove_one
