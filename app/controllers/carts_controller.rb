@@ -6,11 +6,17 @@ class CartsController < ApplicationController
     @cart.add_product(product, params[:quantity])
     if @cart.save
       flash[:notice] = t("stizun.cart.product_added")
-      redirect_to(:back)
     else
       flash[:error] = t("stizun.cart.product_not_added")
+    end
+
+    if request.env["HTTP_REFERER"].blank?  
+      redirect_to @cart
+    else
       redirect_to(:back)
     end
+
+    redirect_to @cart
   end
   
   def remove_one
