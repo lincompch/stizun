@@ -70,6 +70,7 @@ class IngramUtil < SupplierUtil
 
     @field_names = {:name01 => 'HERSTELLER',
                     :name02 => 'ARTIKEL1',
+                    :name03 => 'HSTNUMMER',
                     :description01 => 'ARTIKEL2',
                     :description02 => '',
                     :supplier_product_code => 'ARTIKEL_NR',

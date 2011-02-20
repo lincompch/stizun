@@ -75,6 +75,8 @@ class SupplierUtil
     si.supplier_product_code = row[field_names[:supplier_product_code]]
     si.name = "#{row[field_names[:name01]].gsub("ß","ss")}" 
     si.name += " #{row[field_names[:name02]].to_s.gsub("ß","ss")}" unless field_names[:name02].blank?
+    si.name += " (#{row[field_names[:name03]].to_s.gsub("ß","ss")})" unless field_names[:name03].blank?
+    
     si.name = Iconv.conv('utf-8', 'iso-8859-1', si.name)
     si.name = si.name.strip
     
