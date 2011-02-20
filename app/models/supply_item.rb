@@ -103,6 +103,28 @@ class SupplyItem < ActiveRecord::Base
   end
   
   
+  def retrieve_pdf
+    unless self.product.blank? or self.pdf_url.blank?
+      require 'lib/pdf_handler'
+      pdf_path = PdfHandler.get_image_by_http(self.image_url, self.id)
+      unless pdf_path.blank?
+        att = Attachment.new
+        att.file = File.open(pdf_path, "r")
+        prod = self.product
+        prod.attachments << att
+        if prod.save
+          logger.info "PDF attachment added to #{prod.to_s}"
+          return true
+        else
+          logger.error "Couldn't attach PDF to #{prod.to_s}"
+          logger.error "Error was: #{prod.errors.full_messages}"
+          return false
+        end
+      end
+    end
+  end
+  
+  
   def handle_supply_item_deletion
     if self.status_constant_was == SupplyItem::AVAILABLE and \
        self.status_constant == SupplyItem::DELETED

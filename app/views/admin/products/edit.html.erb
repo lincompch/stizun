@@ -94,6 +94,11 @@
 
     </script>
 
+  <tr>
+    <td>Attachments</td>
+    <td><%= render :partial => 'attachments', :locals => { :attachments => @product.attachments } %></td>
+  </tr>
+
     </table>
     </td>
 
@@ -102,6 +107,9 @@
     </td>
   </tr>
   
+ 
+
+
 </table>
 
 
@@ -260,7 +268,7 @@
     <td><%= f.check_box :direct_shipping %> </td>
     <td>Ship directly to customer (this has no effect on products with components)</td>
   </tr>
- 
+
 
 </table>
 

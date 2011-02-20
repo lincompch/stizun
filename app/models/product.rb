@@ -17,6 +17,7 @@ class Product < ActiveRecord::Base
   has_many :product_sets, :foreign_key => 'product_id', :class_name => 'ProductSet'
   
   has_many :product_pictures
+  has_many :attachments
   
   belongs_to :tax_class
   belongs_to :supply_item

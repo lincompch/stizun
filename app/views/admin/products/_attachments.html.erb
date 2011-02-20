@@ -1,0 +1,10 @@
+
+<% if attachments.count > 0 %>
+  <ul>
+    <% attachments.each do |att| %>
+      <li><%= link_to File.basename(att.file.current_path), att.file.url %></li>
+    <% end %>
+  </ul>
+<% else %>
+  No attachments.
+<% end %>

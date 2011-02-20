@@ -157,14 +157,13 @@
     <td><%= f.check_box :direct_shipping %> </td>
     <td>Ship directly to customer</td>
   </tr>
-  
-</table>
 
+
+
+</table>
 
 <%= f.hidden_field :supply_item_id unless @product.supply_item_id.blank? %>
 <%= f.hidden_field :manufacturer_product_code unless @product.manufacturer_product_code.blank? %>
-
-
 
 <div class="buttonbar">
   <div class="left">
