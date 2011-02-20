@@ -13,6 +13,6 @@ class IngramCSV
   end
 
   def get_faster_csv_instance
-    return @fastercsv ||= FasterCSV.new(File.open(@infile), :col_sep => "\t", :headers => :first_row)
+    return @fastercsv ||= FasterCSV.new(File.open(@infile), :col_sep => "\t", :quote_char => "'", :headers => :first_row)
   end
 end
