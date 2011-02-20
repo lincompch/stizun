@@ -25,6 +25,16 @@
   <h4><%= t('stizun.product.description') %></h4>
   <p><%= Sanitize.clean(@product.description, Sanitize::Config::STIZUN).html_safe %></p>
 
+
+  <% if @product.attachments.count > 0 %>
+    <h4><%= t('stizun.product.attachments') %></h4>
+    <ul>
+      <% @product.attachments.each do |att| %>
+        <li><%= link_to File.basename(att.file.current_path), att.file.url %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
   <p style="clear: both;"></p>
 
   <div id="product_categories">
