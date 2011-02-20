@@ -68,8 +68,8 @@ class IngramUtil < SupplierUtil
     icsv = IngramCSV.new(filename)
     @fcsv = icsv.get_faster_csv_instance
 
-    @field_names = {:name01 => 'ARTIKEL1',
-                    :name02 => '',
+    @field_names = {:name01 => 'HERSTELLER',
+                    :name02 => 'ARTIKEL1',
                     :description01 => 'ARTIKEL2',
                     :description02 => '',
                     :supplier_product_code => 'ARTIKEL_NR',
