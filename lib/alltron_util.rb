@@ -88,6 +88,7 @@ class AlltronUtil < SupplierUtil
                     :manufacturer_product_code => 'Herstellernummer',
                     :manufacturer => 'Hersteller',
                     :weight => 'Gewicht',
+                    :pdf_url => '',
                     :product_link => 'WWW-Link'}
     
     super

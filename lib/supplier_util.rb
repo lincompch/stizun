@@ -82,6 +82,8 @@ class SupplierUtil
     si.manufacturer = Iconv.conv('utf-8', 'iso-8859-1', si.manufacturer)
     
     si.product_link = "#{row[field_names[:product_link]]}"
+    si.pdf_url= "#{row[field_names[:pdf_url]]}"
+    
     si.weight = row[field_names[:weight]].gsub(",",".").to_f
     si.manufacturer_product_code = "#{row[field_names[:manufacturer_product_code]]}"
     
