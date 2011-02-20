@@ -1,6 +1,6 @@
 class Product < ActiveRecord::Base
   
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :manufacturer_product_code
   validates_presence_of :name, :description, :weight, :tax_class_id, :supplier_id
   validates_numericality_of :purchase_price, :weight
   
@@ -34,7 +34,7 @@ class Product < ActiveRecord::Base
 
   
   before_save :set_explicit_sale_state
-  after_create :try_to_get_product_picture
+  after_create :try_to_get_product_files
   
   
   # Thinking Sphinx configuration
@@ -453,13 +453,14 @@ class Product < ActiveRecord::Base
   end
 
 
-  def try_to_get_product_picture
+  def try_to_get_product_files
     unless self.supply_item.nil?
       if self.supply_item.retrieve_product_picture
         if self.product_pictures.count == 1
           self.product_pictures.first.set_main_picture
         end
       end
+      self.supply_item.retrieve_pdf
     end
   end
 

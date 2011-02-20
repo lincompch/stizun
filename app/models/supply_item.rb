@@ -106,7 +106,7 @@ class SupplyItem < ActiveRecord::Base
   def retrieve_pdf
     unless self.product.blank? or self.pdf_url.blank?
       require 'lib/pdf_handler'
-      pdf_path = PdfHandler.get_image_by_http(self.image_url, self.id)
+      pdf_path = PdfHandler.get_pdf_by_http(self.pdf_url, self.id)
       unless pdf_path.blank?
         att = Attachment.new
         att.file = File.open(pdf_path, "r")
