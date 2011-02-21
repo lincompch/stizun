@@ -75,6 +75,8 @@ class SupplierUtil
     si.supplier_product_code = row[field_names[:supplier_product_code]]
     si.name = "#{row[field_names[:name01]].gsub("ß","ss")}" 
     si.name += " #{row[field_names[:name02]].to_s.gsub("ß","ss")}" unless field_names[:name02].blank?
+    si.name += " (#{row[field_names[:name03]].to_s.gsub("ß","ss")})" unless field_names[:name03].blank?
+    
     si.name = Iconv.conv('utf-8', 'iso-8859-1', si.name)
     si.name = si.name.strip
     
@@ -82,6 +84,8 @@ class SupplierUtil
     si.manufacturer = Iconv.conv('utf-8', 'iso-8859-1', si.manufacturer)
     
     si.product_link = "#{row[field_names[:product_link]]}"
+    si.pdf_url= "#{row[field_names[:pdf_url]]}"
+    
     si.weight = row[field_names[:weight]].gsub(",",".").to_f
     si.manufacturer_product_code = "#{row[field_names[:manufacturer_product_code]]}"
     

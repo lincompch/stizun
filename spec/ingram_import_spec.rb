@@ -57,9 +57,8 @@ describe IngramUtil do
                                                 :weight => 8.21,
                                                 :purchase_price => 863.80,
                                                 :stock => 0} )
-            
-      
-      History.where(:text => "Supply item added during sync: 0711186 ReadyNas NV+ 2TB Gigabit Desk",
+                  
+      History.where(:text => "Supply item added during sync: 0711186 Netgear ReadyNas NV+ 2TB Gigabit Desk (RND4450-100EUS)",
                     :type_const => History::SUPPLY_ITEM_CHANGE).first.nil?.should == false
     end
     

@@ -80,6 +80,7 @@ class AlltronUtil < SupplierUtil
     
     @field_names = {:name01 => 'Bezeichung',
                     :name02 => 'Bezeichung 2',
+                    :name03 => '',
                     :description01 => 'Webtext',
                     :description02 => 'Webtext 2',
                     :supplier_product_code => 'Artikelnummer 2',
@@ -88,6 +89,7 @@ class AlltronUtil < SupplierUtil
                     :manufacturer_product_code => 'Herstellernummer',
                     :manufacturer => 'Hersteller',
                     :weight => 'Gewicht',
+                    :pdf_url => '',
                     :product_link => 'WWW-Link'}
     
     super
