@@ -67,7 +67,8 @@ describe AlltronUtil do
                                               :purchase_price => 20.91,
                                               :stock => 2} )
 
-      History.where(:text => "Supply item added during sync: 2313 Tinte Canon BJC 2000/4x00/5000 Nachfüllpatrone farbig",
+      
+      History.where(:text => "Supply item added during sync: 2313 Tinte Canon BJC 2000/4x00/5000 Nachfüllpatrone farbig (0955A002)",
                     :type_const => History::SUPPLY_ITEM_CHANGE).first.nil?.should == false
     end
     

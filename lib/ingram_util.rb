@@ -81,7 +81,10 @@ class IngramUtil < SupplierUtil
                     :weight => 'Gewicht',
                     :product_link => '',
                     :pdf_url => 'DATENBLATT1',
-                    :image_url => 'BILD1'}    
+                    :image_url => 'BILD1',
+                    :category01 => 'GRUPPE1',
+                    :category02 => 'GRUPPE2',
+                    :category03 => 'GRUPPE3'}    
    
     super
     

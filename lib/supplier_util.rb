@@ -30,25 +30,13 @@ class SupplierUtil
         # We already have that supply item and need to update supply item
         # and related product information
         else
-          if local_supply_item.purchase_price != BigDecimal(sp[@field_names[:price_excluding_vat]].to_s)
-            old_price = local_supply_item.purchase_price
-            local_supply_item.purchase_price = BigDecimal(sp[@field_names[:price_excluding_vat]].to_s)
-            local_supply_item.save
-            History.add("Changed price for #{local_supply_item.to_s} from #{old_price} to #{local_supply_item.purchase_price}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
-          end
-          
-          if local_supply_item.stock != sp[@field_names[:stock_level]].gsub("'","").to_i
-            old_stock = local_supply_item.stock
-            local_supply_item.stock = sp[@field_names[:stock_level]].gsub("'","").to_i
-            local_supply_item.save
-            History.add("Changed stock for #{local_supply_item.to_s} from #{old_stock} to #{local_supply_item.stock}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
-          end
-
-          # Adapt the manufacturer product code in any case
-          local_supply_item.manufacturer_product_code = "#{sp[@field_names[:manufacturer_product_code]]}"
+          overwrite_field(local_supply_item, "purchase_price", sp[@field_names[:price_excluding_vat]].to_s)
+          overwrite_field(local_supply_item, "stock", sp[@field_names[:stock_level]].gsub("'","").to_i)
+          populate_field(local_supply_item, "manufacturer_product_code", sp[@field_names[:manufacturer_product_code]])
+          overwrite_field(local_supply_item, "category01", sp[@field_names[:category01]])
+          overwrite_field(local_supply_item, "category02", sp[@field_names[:category02]])
+          overwrite_field(local_supply_item, "category03", sp[@field_names[:category03]])
           local_supply_item.save
-          History.add("Changed manufacturer number for #{local_supply_item.to_s} to #{sp[@field_names[:manufacturer_product_code]]}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
-          
         end
       end
       
@@ -65,6 +53,20 @@ class SupplierUtil
         History.add("Marked Supply Item with supplier code #{td} as deleted", History::SUPPLY_ITEM_CHANGE)
       end
     end
+  end
+  
+  def overwrite_field(item, field, data)
+    unless (data.blank? or data == item.send(field))
+      if item.update_attributes(:"#{field}" => data)
+        History.add("Supply item change: #{item.to_s}: #{field} = #{data}", History::SUPPLY_ITEM_CHANGE, item)
+      else
+        History.add("Supply item change FAILED: #{item.to_s}: #{field} = #{data}. Errors: #{item.errors.full_messages}", History::SUPPLY_ITEM_CHANGE, item)
+      end
+    end
+  end
+  
+  def populate_field(item, field, data)
+    overwrite_field(item, field, data) if item.send(field).blank?
   end
 
   
@@ -101,6 +103,9 @@ class SupplierUtil
     
     si.image_url = "#{row[field_names[:image_url]]}" unless field_names[:image_url].blank?
     
+    si.category01 = "#{row[field_names[:category01]]}"
+    si.category02 = "#{row[field_names[:category02]]}" 
+    si.category03 = "#{row[field_names[:category03]]}"
     
     return si
   end
