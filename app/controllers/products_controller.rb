@@ -10,7 +10,7 @@ class ProductsController < ApplicationController
       if params[:category_id]
         @category = Category.find params[:category_id]
         @products = @category.products.available.order(order_string).paginate(:page => params[:page], 
-                                                          :per_page => Product.per_page).order(order_string)
+                                                          :per_page => Product.per_page)
       else
         @products = Product.available.order(order_string).paginate(:page => params[:page], 
                                                :per_page => Product.per_page)
