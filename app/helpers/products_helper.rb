@@ -42,15 +42,22 @@ module ProductsHelper
   
   
   def sortable_header(string, field)
-#     new_params = []
-#     new_params['odir'] = params['odir'] 
-#     new_params['odir'] = "DESC" if new_params['odir'] == "ASC" 
-    #params.merge(new_params)
-#     return link_to string, url_for({:controller => controller.controller_name, 
-#                                     :action => controller.action_name,
-#                                     :params => params})
-    #how to redirect to same action with some new query string params?
-    return string
+   old_params = params.clone
+   new_params = params.clone
+ 
+    # We're on the same field, so we want to reverse sort order
+    if old_params['ofield'] == field
+      if old_params['odir'] == "DESC"
+        new_params['odir'] = "ASC"
+      elsif old_params['odir'] == "ASC"
+        new_params['odir'] = "DESC"
+      else
+        new_params['odir'] = "ASC"
+      end
+    end
+    
+    new_params['ofield'] = field
+    return link_to string, new_params
   end
   
 end

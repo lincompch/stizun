@@ -2,9 +2,11 @@ class ProductsController < ApplicationController
 
     def index
       # Resource was accessed in nested form through /categories/n/products
+      params['ofield'] = "price" if params['ofield'].blank?
+      params['odir'] = "ASC"  if params['odir'].blank?
       
       order_string = build_order_string(params['ofield'], 
-                                        order_dir = params['odir'])
+                                        params['odir'])
 
       
       if params[:category_id]
@@ -13,7 +15,7 @@ class ProductsController < ApplicationController
                                                           :per_page => Product.per_page)
       else
         @products = Product.available.order(order_string).paginate(:page => params[:page], 
-                                               :per_page => Product.per_page)
+                                                                   :per_page => Product.per_page)
       end
       
       if params[:q]
@@ -22,7 +24,7 @@ class ProductsController < ApplicationController
         else
           @products = Product.sphinx_available.search(params[:q], :page => params[:page], 
                                                                   :per_page => Product.per_page,
-                                                                   :order => order_string)
+                                                                  :order => order_string)
         end
       end
       
@@ -67,7 +69,7 @@ class ProductsController < ApplicationController
       # delete the account
     end
 
-    def build_order_string(field = "purchase_price", dir = "ASC")
+    def build_order_string(field = "price", dir = "ASC")
       field = "purchase_price" if field == "price"
       return "#{field} #{dir}"
     end
