@@ -2,28 +2,38 @@ class ProductsController < ApplicationController
 
     def index
       # Resource was accessed in nested form through /categories/n/products
+      
+      order_string = build_order_string(params['ofield'], 
+                                        order_dir = params['odir'])
+
+      
       if params[:category_id]
         @category = Category.find params[:category_id]
-        @products = @category.products.available.paginate(:page => params[:page], :per_page => Product.per_page)
+        @products = @category.products.available.order(order_string).paginate(:page => params[:page], 
+                                                          :per_page => Product.per_page).order(order_string)
       else
-        @products = Product.available.paginate(:page => params[:page], :per_page => Product.per_page)
+        @products = Product.available.order(order_string).paginate(:page => params[:page], 
+                                               :per_page => Product.per_page)
       end
       
       if params[:q]
         if params[:q].length < 3
           flash[:error] = t('stizun.product.search_query_too_short')
         else
-          @products = Product.sphinx_available.search(params[:q], :page => params[:page], :per_page => Product.per_page)
+          @products = Product.sphinx_available.search(params[:q], :page => params[:page], 
+                                                                  :per_page => Product.per_page,
+                                                                   :order => order_string)
         end
       end
       
       respond_to do |format|
       format.html
       format.csv do
+       @products = Product.all
        csv_string = FasterCSV.generate do |csv|
          csv << Product.csv_header
-       @products.each do |p|
-         csv << p.to_csv_array
+         @products.each do |p|
+           csv << p.to_csv_array
          end
        end
        
@@ -57,6 +67,9 @@ class ProductsController < ApplicationController
       # delete the account
     end
 
-
+    def build_order_string(field = "purchase_price", dir = "ASC")
+      field = "purchase_price" if field == "price"
+      return "#{field} #{dir}"
+    end
       
 end

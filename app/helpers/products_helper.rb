@@ -41,5 +41,16 @@ module ProductsHelper
   end
   
   
+  def sortable_header(string, field)
+#     new_params = []
+#     new_params['odir'] = params['odir'] 
+#     new_params['odir'] = "DESC" if new_params['odir'] == "ASC" 
+    #params.merge(new_params)
+#     return link_to string, url_for({:controller => controller.controller_name, 
+#                                     :action => controller.action_name,
+#                                     :params => params})
+    #how to redirect to same action with some new query string params?
+    return string
+  end
   
 end

@@ -42,6 +42,7 @@ class Product < ActiveRecord::Base
   define_index do
     # fields
     indexes name, :sortable => true
+    indexes purchase_price, :sortable => true
     indexes manufacturer, short_description, description, supplier_product_code, manufacturer_product_code
     
     # attributes
