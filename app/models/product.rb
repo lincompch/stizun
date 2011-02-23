@@ -31,8 +31,6 @@ class Product < ActiveRecord::Base
   scope :loss_leaders, :conditions => { :is_loss_leader => true }
   scope :on_sale, :conditions => { :sale_state => true }
 
-
-  
   before_save :set_explicit_sale_state
   after_create :try_to_get_product_files
   
