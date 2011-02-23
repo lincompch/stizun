@@ -444,12 +444,13 @@ class Product < ActiveRecord::Base
           p.save
           History.add("Disabled product #{p.to_s} because purchase price is higher than absolute sales price.", History::PRODUCT_CHANGE,  p)
           
-        # Nothing special to do to this product -- just update price and stock
+        # Nothing special to do to this product -- just update some fields
         else
           old_stock = p.stock
           old_price = p.purchase_price.to_s
           p.stock = p.supply_item.stock
           p.purchase_price = p.supply_item.purchase_price
+          p.manufacturer_product_code = p.supply_item.manufacturer_product_code if p.manufacturer_product_code.blank?
           p.save
           History.add("Product update: #{p.to_s} price from #{old_price} to #{p.purchase_price}, stock from #{old_stock} to #{p.stock}", History::PRODUCT_CHANGE, p)
         end

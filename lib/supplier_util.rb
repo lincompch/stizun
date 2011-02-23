@@ -32,10 +32,10 @@ class SupplierUtil
         else
           overwrite_field(local_supply_item, "purchase_price", sp[@field_names[:price_excluding_vat]].to_s)
           overwrite_field(local_supply_item, "stock", sp[@field_names[:stock_level]].gsub("'","").to_i)
-          populate_field(local_supply_item, "manufacturer_product_code", sp[@field_names[:manufacturer_product_code]])
-          overwrite_field(local_supply_item, "category01", sp[@field_names[:category01]])
-          overwrite_field(local_supply_item, "category02", sp[@field_names[:category02]])
-          overwrite_field(local_supply_item, "category03", sp[@field_names[:category03]])
+          overwrite_field(local_supply_item, "manufacturer_product_code", sp[@field_names[:manufacturer_product_code]])
+          populate_field(local_supply_item, "category01", sp[@field_names[:category01]])
+          populate_field(local_supply_item, "category02", sp[@field_names[:category02]])
+          populate_field(local_supply_item, "category03", sp[@field_names[:category03]])
           local_supply_item.save
         end
       end
