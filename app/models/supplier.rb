@@ -9,5 +9,8 @@ class Supplier < ActiveRecord::Base
 
   # === Validations
   validates_presence_of :shipping_rate_id
+
+
+
   
 end

@@ -8,7 +8,14 @@
   </td>
     
   <td>
-  <%= order_line.product.supplier.name if order_line.product.supplier %>
+  <%= order_line.product.supplier.name if order_line.product.supplier %><br>
+
+    <% if order_line.product.supplier_detail_link.blank? %>
+      <%= order_line.product.supplier_product_code  %>
+    <% else %>
+      <%= link_to(order_line.product.supplier_product_code, order_line.product.supplier_detail_link) %>
+    <% end %>
+
   </td>
 
   <td>

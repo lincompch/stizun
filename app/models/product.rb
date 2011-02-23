@@ -1,6 +1,6 @@
 class Product < ActiveRecord::Base
   
-  validates_uniqueness_of :name, :manufacturer_product_code
+  validates_uniqueness_of :manufacturer_product_code
   validates_presence_of :name, :description, :weight, :tax_class_id, :supplier_id
   validates_numericality_of :purchase_price, :weight
   
@@ -415,8 +415,14 @@ class Product < ActiveRecord::Base
     end
   end
 
-  
-  
+  # Returns a URL pointing to that particular product on the supplier's web page
+  def supplier_detail_link
+    if supplier.product_base_url.blank? or self.supplier_product_code.blank?
+      return nil
+    else
+      return "#{supplier.product_base_url}#{self.supplier_product_code}"
+    end
+  end
 
   
   # Compare all products that are related to a supply item with
@@ -464,6 +470,7 @@ class Product < ActiveRecord::Base
     end
   end
 
+  
   private
  
   

@@ -250,8 +250,13 @@ class Invoice < ActiveRecord::Base
       
       res = AccountTransaction.transfer(user_account, sales_income_account, self.taxed_price, "Invoice #{self.document_id}", self)
       TaxBookers::TaxBooker.record_invoice(self)
-      StoreMailer.invoice(self).deliver
+
+      require 'net/smtp'
+      begin
+        StoreMailer.invoice(self).deliver
+      rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
+        History.add("Could not send invoice confirmation for #{self.document_id} during checkout: #{e.to_s}", History::GENERAL, self)
+      end
     end
   end
-
 end

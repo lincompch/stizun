@@ -21,6 +21,8 @@
   <td>
     <%= link_to "Resend invoice", resend_invoice_admin_invoices_path(:id => detail_row), :method => :post %>
     <%= link_to "Edit", edit_admin_invoice_path(detail_row) %>
+    <%= link_to "View",  url_for(:controller => '/invoices', :action => 'uuid', :uuid => detail_row.uuid) %>
+
     <!-- We don't want to allow deleting for now, for reasons of bookkeeping. -->
     <!--<%= link_to "Destroy", admin_invoice_path(detail_row), :confirm => 'Are you sure?', :method => :delete %>-->
   </td>
