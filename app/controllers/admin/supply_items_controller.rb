@@ -10,19 +10,22 @@ class Admin::SupplyItemsController < Admin::BaseController
 
       @category01_array = Rails.cache.read("supplier_#{@supplier}_category01")
       if @category01_array.nil?
-        @category01_array = @supplier.supply_items.group("category01").collect(&:category01).sort
+        @category01_array = @supplier.supply_items.group("category01").collect(&:category01)
+        @category01_array.sort! unless @category01_array.nil?
         Rails.cache.write("supplier_#{@supplier}_category01", @category01_array)
       end
          
       @category02_array = Rails.cache.read("supplier_#{@supplier}_category02")
       if @category02_array.nil?
-        @category02_array = @supplier.supply_items.group("category02").collect(&:category02).sort
+        @category02_array = @supplier.supply_items.group("category02").collect(&:category02)
+        @category02_array.sort! unless @category02_array.nil?
         Rails.cache.write("supplier_#{@supplier}_category02", @category01_array)
       end
       
       @category03_array = Rails.cache.read("supplier_#{@supplier}_category03")
       if @category03_array.nil?
-        @category03_array = @supplier.supply_items.group("category03").collect(&:category03).sort
+        @category03_array = @supplier.supply_items.group("category03").collect(&:category03)
+        @category03_array.sort! unless @category03_array.nil?
         Rails.cache.write("supplier_#{@supplier}_category03", @category01_array)
       end
       
