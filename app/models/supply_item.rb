@@ -55,6 +55,7 @@ class SupplyItem < ActiveRecord::Base
     # fields
     indexes name, :sortable => true
     indexes manufacturer, description, supplier_product_code, manufacturer_product_code
+    indexes category01, category02, category03
     
     # attributes
     has created_at, updated_at

@@ -1,16 +1,35 @@
-<h1>Listing supply items</h1>
-<h2><%= @supplier.name %></h2>
+<h2>Supply items for <%= @supplier.name %></h2>
 
 
 
 <%= form_tag({:action => 'index'}, {:method => 'get'}) do %>
-<p>Search for: <%= text_field :search, :keyword, :size => 15 %> <%= submit_tag 'Search' %>
+
+
+  <p>Search for: <%= text_field :search, :keyword, :size => 25 %> <%= submit_tag 'Search' %>
+
+  <p>Limit to Categories:</p>
+
+  <p>
+    <%= select_tag :category01, 
+        options_for_select([""] + @category01_array,
+        params[:category01]) %>
+    <%= select_tag :category02, 
+        options_for_select([""] + @category02_array,
+        params[:category02])%>
+    <%= select_tag :category03, 
+        options_for_select([""] + @category03_array,
+        params[:category03])%>
+  </p>
+
+
 <% end %>
 
 
 <% unless params[:search].blank? %>
 <p>Search results for: <%= params[:search][:keyword] %></p>
 <% end %>
+
+
 
 
 <%= will_paginate @supply_items %>
