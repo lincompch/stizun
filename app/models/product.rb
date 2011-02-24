@@ -446,16 +446,23 @@ class Product < ActiveRecord::Base
           
         # Nothing special to do to this product -- just update some fields
         else
-          old_stock = p.stock
-          old_price = p.purchase_price.to_s
-          p.stock = p.supply_item.stock
-          p.purchase_price = p.supply_item.purchase_price
-          p.manufacturer_product_code = p.supply_item.manufacturer_product_code if p.manufacturer_product_code.blank?
-          p.save
-          History.add("Product update: #{p.to_s} price from #{old_price} to #{p.purchase_price}, stock from #{old_stock} to #{p.stock}", History::PRODUCT_CHANGE, p)
+          p.sync_from_supply_item(p.supply_item)
         end
       end
     end    
+  end
+  
+  def sync_from_supply_item(supply_item = self.supply_item)
+    old_stock = self.stock
+    old_price = self.purchase_price.to_s
+    self.stock = self.supply_item.stock
+    self.purchase_price = self.supply_item.purchase_price
+    self.manufacturer_product_code = self.supply_item.manufacturer_product_code
+    result = self.save
+    if result == true
+      History.add("Product update: #{self.to_s} price from #{old_price} to #{self.purchase_price}, stock from #{old_stock} to #{self.stock}", History::PRODUCT_CHANGE, p)
+    end
+    return result
   end
 
 
