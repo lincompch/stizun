@@ -103,9 +103,9 @@ class SupplierUtil
     
     si.image_url = "#{row[field_names[:image_url]]}" unless field_names[:image_url].blank?
     
-    si.category01 = "#{row[field_names[:category01]]}"
-    si.category02 = "#{row[field_names[:category02]]}" 
-    si.category03 = "#{row[field_names[:category03]]}"
+    si.category01 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category01]])}"
+    si.category02 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category02]])}" 
+    si.category03 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category03]])}"
     
     return si
   end
