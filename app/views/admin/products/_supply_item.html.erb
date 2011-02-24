@@ -1,0 +1,22 @@
+  <% unless @product.supply_item.nil? %>
+  <tr>
+    <td>Related supply item</td>
+    <td><%= @product.supply_item.to_s %><br />
+        Supplier: <%= link_to(@product.supply_item.supplier.name,  admin_supplier_supply_items_path(@product.supplier),{ :target => '_top' }) %>
+        </td>
+  </tr> 
+  
+  <% if @product.alternative_supply_items? %>
+  <tr>
+    <td>Alternative supply items</td>
+    <td>
+      <ul>
+      <% @product.alternative_supply_items.each do |si| %>
+        <li><%= si %></li>
+      <% end %>
+      </ul>
+    </td>
+  </tr>
+  <% end %>
+  
+  <% end %>

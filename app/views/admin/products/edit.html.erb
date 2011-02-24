@@ -174,14 +174,8 @@
     <td><%= f.text_field :supplier_product_code, :size => 15 %></td>
   </tr>
 
-  <% unless @product.supply_item.nil? %>
-  <tr>
-    <td>Related supply item</td>
-    <td><%= @product.supply_item.to_s %><br />
-        Supplier: <%= link_to(@product.supply_item.supplier.name,  admin_supplier_supply_items_path(@product.supplier),{ :target => '_top' }) %>
-        </td>
-  </tr> 
-  <% end %>
+  <%= render :partial => 'supply_item' %>
+
 
  <tr>
     <td><%= f.label :tax_class_id, "Tax Class" %></td>

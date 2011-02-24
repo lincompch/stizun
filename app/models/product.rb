@@ -476,6 +476,15 @@ class Product < ActiveRecord::Base
       self.supply_item.retrieve_pdf
     end
   end
+  
+  def alternative_supply_items?
+    alternative_supply_items.count > 0
+  end
+  
+  def alternative_supply_items
+    SupplyItem.where(:manufacturer_product_code => supply_item.manufacturer_product_code) - [supply_item]
+
+  end
 
   
   private
