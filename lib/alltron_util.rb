@@ -92,8 +92,8 @@ class AlltronUtil < SupplierUtil
                     :pdf_url => '',
                     :product_link => 'WWW-Link',
                     :category01 => 'Kategorie 1',
-                    :category02 => 'Kategorie 1',
-                    :category03 => 'Kategorie 1'}
+                    :category02 => 'Kategorie 2',
+                    :category03 => 'Kategorie 3'}
     
     super
     
