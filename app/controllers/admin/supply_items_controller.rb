@@ -34,7 +34,7 @@ class Admin::SupplyItemsController < Admin::BaseController
       conditions[:category02] = params[:category02] unless params[:category02].blank?
       conditions[:category03] = params[:category03] unless params[:category03].blank?
       
-      @supply_items = @supplier.supply_items.search(params[:search][:keyword],
+      @supply_items = @supplier.supply_items.search(keyword,
                                                     :conditions => conditions,
                                                     :per_page => SupplyItem.per_page,
                                                     :page => params[:page],
