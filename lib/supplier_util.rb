@@ -112,15 +112,10 @@ class SupplierUtil
     
     si.image_url = "#{row[field_names[:image_url]]}" unless field_names[:image_url].blank?
 
-    puts "----________------______-----______"
-    puts "creating fresh, before conversion: #{row[field_names[:category01]]}"
-    puts "creating fresh, after conversion: #{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category01]])}"
-    
     si.category01 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category01]])}"
     si.category02 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category02]])}" 
     si.category03 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category03]])}"
-    puts "creating fresh, what will be saved: #{si.category01}"
-    puts "-----___----___---___--____"
+
     return si
   end
   
