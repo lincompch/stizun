@@ -180,20 +180,14 @@ class ShippingRate < ActiveRecord::Base
     sr = ShippingRate.where(:default => true).first
     if sr.nil?
       sr = ShippingRate.new(:name => 'Auto-created default shipping rate', :default => true)  
-      sr.tax_class = TaxClass.find_or_create_by_percentage("8.0")
+      tc = TaxClass.find_or_create_by_percentage_and_name("8.0", "Auto-created default tax class")
+      sr.tax_class = tc
       # Source: http://www.post.ch/post-startseite/post-privatkunden/post-versenden/post-pakete-inland/post-pakete-inland-preise.htm
-      
-      sr.shipping_costs << ShippingCost.new(:weight_min => 0, :weight_max => 2000, :price => 8.35)
-      sr.shipping_costs << ShippingCost.new(:weight_min => 2001, :weight_max => 5000, :price => 10.20)
-      sr.shipping_costs << ShippingCost.new(:weight_min => 5001, :weight_max => 10000, :price => 11.10)
-      sr.shipping_costs << ShippingCost.new(:weight_min => 10001, :weight_max => 20000, :price => 16.70)
-      sr.shipping_costs << ShippingCost.new(:weight_min => 20001, :weight_max => 30000, :price => 23.15)
-      
-      # This default tax class for shipping would need to be made configurable in the 
-      # final system, especially if it is going to be released as Free Software.
-      sr.shipping_costs.each do |sc|
-        sc.tax_class = sr.tax_class
-      end
+      sr.shipping_costs << ShippingCost.create(:weight_min => 0, :weight_max => 2000, :price => 8.35, :tax_class => tc)
+      sr.shipping_costs << ShippingCost.create(:weight_min => 2001, :weight_max => 5000, :price => 10.20, :tax_class => tc)
+      sr.shipping_costs << ShippingCost.create(:weight_min => 5001, :weight_max => 10000, :price => 11.10, :tax_class => tc)
+      sr.shipping_costs << ShippingCost.create(:weight_min => 10001, :weight_max => 20000, :price => 16.70, :tax_class => tc)
+      sr.shipping_costs << ShippingCost.create(:weight_min => 20001, :weight_max => 30000, :price => 23.15, :tax_class => tc)
       
       sr.save
     end

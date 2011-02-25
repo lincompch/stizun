@@ -4,8 +4,14 @@ describe Product do
   
   describe "the system in general" do
     it "should have some supply items" do
-      create_supplier("Alltron AG")
-      create_supply_items.count.should > 0
+      supplier = create_supplier("Alltron AG")
+      supply_items = create_supply_items(@supplier)
+      supply_items.count.should > 0
+    end
+    
+    it "should have a tax class" do
+      @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
+      TaxClass.where(:name => 'Test Tax Class', :percentage => 8.0).first.should_not == nil
     end
   end
   
@@ -23,12 +29,34 @@ describe Product do
         { 'name' => 'Defective screen', 'purchase_price' => 200.0,
           'weight' => 2.8, 'tax_percentage' => 8.0 }
       ]
-      
-      DatabaseCleaner.start
-      supply_items = create_supply_items(array)
+      supplier = create_supplier("Alltron AG")
+      supply_items = create_supply_items(supplier, array)
       SupplyItem.all.count.should == 5
-      DatabaseCleaner.clean
     end
   end
+  
+  describe "a product" do
+ 
+    it "should have basic information" do
+      supplier = create_supplier("Alltron AG")
+      puts "sup: #{supplier.inspect}"
+      supply_items = create_supply_items(supplier)
+      supply_items.count.should > 0
+      
+      tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
+      
+      p = Product.new
+      p.tax_class = tax_class
+      p.name = "Something"
+      p.description = "Some stuff"
+      p.weight = 1.0
+      p.supplier = supplier
+      p.save.should == true
+    end
+    
+      
+    
+  end
+  
   
 end
