@@ -454,8 +454,6 @@ class Product < ActiveRecord::Base
   end
   
   def sync_from_supply_item(supply_item = self.supply_item)
-    old_stock = self.stock
-    old_price = self.purchase_price.to_s
     self.stock = self.supply_item.stock
     self.purchase_price = self.supply_item.purchase_price
     self.manufacturer_product_code = self.supply_item.manufacturer_product_code
@@ -463,6 +461,8 @@ class Product < ActiveRecord::Base
     result = self.save
     if result == true
       History.add("Product update: #{self.to_s}. Changes: #{changes.inspect}", History::PRODUCT_CHANGE, p)
+    else
+      History.add("Product update failed: #{self.to_s}. Changes: #{changes.inspect}. Errors: #{self.errors.full_messages}", History::PRODUCT_CHANGE, p)
     end
     return result
   end
