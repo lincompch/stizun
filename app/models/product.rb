@@ -428,28 +428,29 @@ class Product < ActiveRecord::Base
   # the supply item's current stock level and price. Make adjustments
   # as necessary.
   def self.update_price_and_stock
-    
-    Product.supplied.each do |p|
-      # The supply item is no longer available, thus we need to
-      # make our own copy of it unavailable as well
-      
-      # The product has a supplier, but its supply item is gone
-      if p.supply_item.nil? and !p.supplier_id.blank?
-        self.disable_product(p)
-        History.add("Disabled product #{p.to_s} because its supply item is gone.", History::PRODUCT_CHANGE,  p)
-      else
-        # Disabling product because we would be incurring a loss otherwise
-        if (p.absolutely_priced? and p.supply_item.purchase_price > p.sales_price)
-          p.is_available = false
-          p.save
-          History.add("Disabled product #{p.to_s} because purchase price is higher than absolute sales price.", History::PRODUCT_CHANGE,  p)
-          
-        # Nothing special to do to this product -- just update some fields
+    Product.suspended_delta do
+      Product.supplied.each do |p|
+        # The supply item is no longer available, thus we need to
+        # make our own copy of it unavailable as well
+
+        # The product has a supplier, but its supply item is gone
+        if p.supply_item.nil? and !p.supplier_id.blank?
+          self.disable_product(p)
+          History.add("Disabled product #{p.to_s} because its supply item is gone.", History::PRODUCT_CHANGE,  p)
         else
-          p.sync_from_supply_item(p.supply_item)
+          # Disabling product because we would be incurring a loss otherwise
+          if (p.absolutely_priced? and p.supply_item.purchase_price > p.sales_price)
+            p.is_available = false
+            p.save
+            History.add("Disabled product #{p.to_s} because purchase price is higher than absolute sales price.", History::PRODUCT_CHANGE,  p)
+
+          # Nothing special to do to this product -- just update some fields
+          else
+            p.sync_from_supply_item(p.supply_item)
+          end
         end
       end
-    end    
+    end
   end
   
   def sync_from_supply_item(supply_item = self.supply_item)
