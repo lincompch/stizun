@@ -8,7 +8,8 @@ feature "Component Products", %q{
 
   
   background do
-    create_supply_items.count.should > 0
+    supplier = create_supplier("Some Distributor")
+    create_supply_items(supplier).count.should > 0
     
   end
   

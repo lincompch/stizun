@@ -2,7 +2,8 @@ class SupplierUtil
 
 # Synchronize all supply items from a supplier's provided CSV file
   def import_supply_items(filename = self.import_filename)
-    
+    require 'iconv'
+
     # before calling this in a descended class, you must set up these variables:
     # TODO
     
@@ -22,6 +23,7 @@ class SupplierUtil
           si = SupplierUtil.supply_item_from_csv_row(@supplier, sp, @field_names)
           
           if si.save
+            puts "[#{DateTime.now.to_s}] SupplyItem create: #{si.inspect}"
             History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
           else
             History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", History::SUPPLY_ITEM_CHANGE, si)
@@ -33,10 +35,21 @@ class SupplierUtil
           overwrite_field(local_supply_item, "purchase_price", sp[@field_names[:price_excluding_vat]].to_s)
           overwrite_field(local_supply_item, "stock", sp[@field_names[:stock_level]].gsub("'","").to_i)
           overwrite_field(local_supply_item, "manufacturer_product_code", sp[@field_names[:manufacturer_product_code]])
-          overwrite_field(local_supply_item, "category01", sp[@field_names[:category01]])
-          overwrite_field(local_supply_item, "category02", sp[@field_names[:category02]])
-          overwrite_field(local_supply_item, "category03", sp[@field_names[:category03]])
-          local_supply_item.save
+          overwrite_field(local_supply_item, "category01", Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category01]]))
+          overwrite_field(local_supply_item, "category02", Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category02]]))
+          overwrite_field(local_supply_item, "category03", Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category03]]))
+
+          unless local_supply_item.changes.empty?
+            changes = local_supply_item.changes
+            if local_supply_item.save
+              puts "[#{DateTime.now.to_s}] SupplyItem change: #{changes.inspect}"
+              History.add("Supply item change: #{local_supply_item.to_s}: #{changes.inspect}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
+            else
+              History.add("Supply item change FAILED: #{local_supply_item.to_s}: #{local_supply_item.changes.inspect}. Errors: #{local_supply_item.errors.full_messages}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
+            end
+          else
+            puts "[#{DateTime.now.to_s}] SupplyItem identical, thus not changed: #{local_supply_item.to_s}"
+          end
         end
       end
       
@@ -57,11 +70,7 @@ class SupplierUtil
   
   def overwrite_field(item, field, data)
     unless (data.blank? or data == item.send(field))
-      if item.update_attributes(:"#{field}" => data)
-        History.add("Supply item change: #{item.to_s}: #{field} = #{data}", History::SUPPLY_ITEM_CHANGE, item)
-      else
-        History.add("Supply item change FAILED: #{item.to_s}: #{field} = #{data}. Errors: #{item.errors.full_messages}", History::SUPPLY_ITEM_CHANGE, item)
-      end
+      item.send "#{field}=", data
     end
   end
   
@@ -91,7 +100,7 @@ class SupplierUtil
     si.weight = row[field_names[:weight]].gsub(",",".").to_f
     si.manufacturer_product_code = "#{row[field_names[:manufacturer_product_code]]}"
     
-    si.description = "#{row[field_names[:description01]].gsub("ß","ss")}"
+    si.description = "#{row[field_names[:description01]].to_s.gsub("ß","ss")}"
     si.description += "#{row[field_names[:description02]].to_s.gsub("ß","ss")}" unless field_names[:description02].blank? 
     si.description = Iconv.conv('utf-8', 'iso-8859-1', si.description)
     si.description = si.description.strip
@@ -106,7 +115,7 @@ class SupplierUtil
     si.category01 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category01]])}"
     si.category02 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category02]])}" 
     si.category03 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category03]])}"
-    
+
     return si
   end
   

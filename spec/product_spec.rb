@@ -39,7 +39,6 @@ describe Product do
  
     it "should have basic information" do
       supplier = create_supplier("Alltron AG")
-      puts "sup: #{supplier.inspect}"
       supply_items = create_supply_items(supplier)
       supply_items.count.should > 0
       

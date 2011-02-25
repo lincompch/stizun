@@ -23,43 +23,12 @@ class AlltronCSV
   
   def initialize(import_filename = AlltronUtil.import_filename)    
     @infile = import_filename
-    @outfile = AlltronUtil.converted_filename
-    
-    convert_file
-
   end
 
   def get_faster_csv_instance
-    return @fastercsv ||= FasterCSV.new(File.open(@outfile), :col_sep => "\t", :headers => :first_row)
-  end
-  
-  def convert_file
-    # Grab the original Alltron file, remove the " characters (FasterCSV does not approve)
-    # rewrite as UTF-8
-
-    puts "infile: #{@infile}"
-    puts "outfile: #{@outfile}"
-    
-    puts "Trying to convert file"
-    if File.exist?(@infile)
-      file = File.open(@infile, "r")
-      lines = file.readlines
-      file.close
-    else
-      "File #{@infile} not found."
-    end
-
-    changes = false
-    lines.each do |line|
-      line.gsub!(/\"/, " Zoll")
-    end
-
-    file = File.new(@outfile,'w')
-    lines.each do |line|
-      line = Iconv.conv('utf-8', 'iso-8859-1', line)
-      file.write(line)
-    end
-    file.close
+    # Setting quote_char to | because | doesn't actually appear in the file, and the file uses no quoting at all, but does
+    # use ' sometimes and " a lot, so neither ' nor " can be used as quote_char.
+    return @fastercsv ||= FasterCSV.new(File.open(@infile), :col_sep => "\t", :quote_char => "|", :headers => :first_row)
   end
 
 
