@@ -101,7 +101,7 @@ describe AlltronUtil do
     
     it "should mark items as deleted when they were removed from the CSV file" do
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/485_products_utf8.csv")
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/485_products.csv")
       supplier = Supplier.where(:name => 'Alltron AG').first
       product_codes = [1227, 1510, 1841, 1847, 2180, 2193, 2353, 2379, 3220, 4264, 5048, 5768, 5862, 5863, 8209]
       ids = SupplyItem.where(:supplier_product_code => product_codes, :supplier_id => supplier).collect(&:id)
@@ -121,7 +121,7 @@ describe AlltronUtil do
       product = Product.new_from_supply_item(supply_item)
       product.save.should == true
       product.available?.should == true      
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/485_products_utf8.csv")
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/485_products.csv")
       supply_item.reload
       supply_item.status_constant.should == SupplyItem::DELETED
       

@@ -35,9 +35,9 @@ class SupplierUtil
           overwrite_field(local_supply_item, "purchase_price", sp[@field_names[:price_excluding_vat]].to_s)
           overwrite_field(local_supply_item, "stock", sp[@field_names[:stock_level]].gsub("'","").to_i)
           overwrite_field(local_supply_item, "manufacturer_product_code", sp[@field_names[:manufacturer_product_code]])
-          overwrite_field(local_supply_item, "category01", Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category01]]))
-          overwrite_field(local_supply_item, "category02", Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category02]]))
-          overwrite_field(local_supply_item, "category03", Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category03]]))
+          overwrite_field(local_supply_item, "category01", "#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category01]])}")
+          overwrite_field(local_supply_item, "category02", "#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category02]])}")
+          overwrite_field(local_supply_item, "category03", "#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category03]])}")
 
           unless local_supply_item.changes.empty?
             changes = local_supply_item.changes
@@ -111,11 +111,16 @@ class SupplierUtil
     si.stock = row[field_names[:stock_level]].gsub("'","").to_i
     
     si.image_url = "#{row[field_names[:image_url]]}" unless field_names[:image_url].blank?
+
+    puts "----________------______-----______"
+    puts "creating fresh, before conversion: #{row[field_names[:category01]]}"
+    puts "creating fresh, after conversion: #{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category01]])}"
     
     si.category01 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category01]])}"
     si.category02 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category02]])}" 
     si.category03 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category03]])}"
-
+    puts "creating fresh, what will be saved: #{si.category01}"
+    puts "-----___----___---___--____"
     return si
   end
   

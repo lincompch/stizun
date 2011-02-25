@@ -18,8 +18,6 @@ require 'active_record'
 require 'alltron_util'
 
 class AlltronCSV
-
-  attr_reader :outfile
   
   def initialize(import_filename = AlltronUtil.import_filename)    
     @infile = import_filename

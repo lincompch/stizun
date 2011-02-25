@@ -37,8 +37,8 @@
 <table>
   <tr>
     <th>ID</th>
-    <th>Code</th>
     <th>Manufacturer</th>
+    <th>Supplier Code/Mfg. Code</th>
     <th>Name</th>
     <th>Status</th>
     <th>Purchase price</th>
@@ -49,8 +49,8 @@
 <% @supply_items.each do |item| %>
   <tr class="<%= cycle('odd','even') %>">
     <td><%=h item.id %></td>
-    <td><%=h item.supplier_product_code %></td>
     <td><%=h item.manufacturer %></td>
+    <td><%=h item.supplier_product_code %> / <%=h item.manufacturer_product_code %></td>
     <td><%=h item.name %></td>
     <td><%=h item.status_human %></td>
     <td class="price"><%= item.purchase_price %></td>
