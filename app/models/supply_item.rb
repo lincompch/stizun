@@ -56,16 +56,22 @@ class SupplyItem < ActiveRecord::Base
     indexes name, :sortable => true
     indexes manufacturer, description, supplier_product_code, manufacturer_product_code
     indexes category01, category02, category03
+    indexes status_constant
     
     # attributes
     has created_at, updated_at
     has supplier_id
-    #has suppliers(:id), :as => :supplier_id
-    #has suppliers(:id), :as => :supplier_ids
-    
+
     set_property :delta => true
 
   end
+
+  # Sphinx scopes
+  sphinx_scope(:sphinx_available_items) {
+    {
+    :conditions => { :status_constant => SupplyItem::AVAILABLE }
+    }
+  }
   
   def to_s
     "#{supplier_product_code} #{name}" 

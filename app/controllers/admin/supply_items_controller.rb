@@ -34,11 +34,11 @@ class Admin::SupplyItemsController < Admin::BaseController
       conditions[:category02] = params[:category02] unless params[:category02].blank?
       conditions[:category03] = params[:category03] unless params[:category03].blank?
       
-      @supply_items = @supplier.supply_items.search(keyword,
+      @supply_items = @supplier.supply_items.sphinx_available_items.search(keyword,
                                                     :conditions => conditions,
                                                     :per_page => SupplyItem.per_page,
                                                     :page => params[:page],
-                                                    :max_matches => 10000)
+                                                    :max_matches => 100000)
   end
     
 end

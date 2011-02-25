@@ -1,15 +1,14 @@
 development:
   enable_star: true
   min_prefix_len: 3
-  max_matches: 10000
+  max_matches: 100000
   port: 9312
 test:
   enable_star: true
   min_prefix_len: 3
-  max_matches: 10000
+  max_matches: 100000
   port: 9313
 production:
   enable_star: true
   min_prefix_len: 3
-  max_matches: 10000
-  port: 9312
+  max_matches: 100000

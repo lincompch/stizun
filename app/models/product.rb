@@ -459,9 +459,10 @@ class Product < ActiveRecord::Base
     self.stock = self.supply_item.stock
     self.purchase_price = self.supply_item.purchase_price
     self.manufacturer_product_code = self.supply_item.manufacturer_product_code
+    changes = self.changes
     result = self.save
     if result == true
-      History.add("Product update: #{self.to_s} price from #{old_price} to #{self.purchase_price}, stock from #{old_stock} to #{self.stock}", History::PRODUCT_CHANGE, p)
+      History.add("Product update: #{self.to_s}. Changes: #{changes.inspect}", History::PRODUCT_CHANGE, p)
     end
     return result
   end

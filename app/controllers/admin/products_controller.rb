@@ -92,7 +92,18 @@ class Admin::ProductsController <  Admin::BaseController
     @product = Product.new_from_supply_item(@supply_item)
     render :action => 'new', :layout => 'admin_blank'
   end
-  
+
+  def switch_to_supply_item
+   @supply_item = SupplyItem.find(params[:supply_item_id])
+   @product = Product.find(params[:id])
+   @product.supply_item = @supply_item
+   if @product.sync_from_supply_item
+     flash[:notice] = "Product metamorphosis complete."
+   else
+     flash[:error] = "Sorry, could not metamorphosize product."
+   end
+   redirect_to edit_admin_product_path(@product)
+  end
 
   
 end

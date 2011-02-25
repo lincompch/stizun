@@ -39,6 +39,9 @@ Stizun::Application.routes.draw do
       collection do
         get 'new_from_supply_item'
       end
+      member do
+        get 'switch_to_supply_item'
+      end
     end
    
     resources :product_pictures 

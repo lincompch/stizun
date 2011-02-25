@@ -12,7 +12,7 @@
     <td>
       <ul>
       <% @product.alternative_supply_items.each do |si| %>
-        <li><%= si %></li>
+        <li><%= si.supplier.name %>: <%= si %> <%= link_to 'Switch to this', switch_to_supply_item_admin_product_path(@product, :supply_item_id => si.id) %></li>
       <% end %>
       </ul>
     </td>
