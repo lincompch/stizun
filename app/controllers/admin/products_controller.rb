@@ -15,15 +15,23 @@ class Admin::ProductsController <  Admin::BaseController
     search_object ||= Product
     @categories ||= Category.roots
     
-    if params[:search].blank? or params[:search][:keyword].blank?
-
-      @products = search_object.all.paginate(:page => params[:page], :per_page => Product.per_page)
-    else
-      @products = search_object.search(params[:search][:keyword],
-                                       :max_matches => 10000,
-                                       :per_page => Product.per_page,
-                                       :page => params[:page])
+    @manufacturers_array = Rails.cache.read("all_manufacturers")
+    if @manufacturers_array.nil?
+      @manufacturers_array = Product.group("manufacturer").collect(&:manufacturer).compact.sort
+      Rails.cache.write("all_manufacturers", @manufacturers_array)
     end
+    
+    keyword = nil
+    keyword = params[:search][:keyword] unless params[:search].blank? or params[:search][:keyword].blank?
+    conditions = {}   
+    conditions[:manufacturer] = params[:manufacturer] unless params[:manufacturer].blank?
+
+    @products = search_object.search(keyword,
+                                     :conditions => conditions,
+                                     :max_matches => 10000,
+                                     :per_page => Product.per_page,
+                                     :page => params[:page])
+   
   end
   
   def create
