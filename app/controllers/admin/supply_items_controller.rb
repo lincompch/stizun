@@ -23,13 +23,13 @@ class Admin::SupplyItemsController < Admin::BaseController
       @category02_array = Rails.cache.read("supplier_#{@supplier}_category02")
       if @category02_array.nil?
         @category02_array = @supplier.supply_items.group("category02").collect(&:category02).compact.sort
-        Rails.cache.write("supplier_#{@supplier}_category02", @category01_array)
+        Rails.cache.write("supplier_#{@supplier}_category02", @category03_array)
       end
       
       @category03_array = Rails.cache.read("supplier_#{@supplier}_category03")
       if @category03_array.nil?
         @category03_array = @supplier.supply_items.group("category03").collect(&:category03).compact.sort
-        Rails.cache.write("supplier_#{@supplier}_category03", @category01_array)
+        Rails.cache.write("supplier_#{@supplier}_category03", @category03_array)
       end
       
     
