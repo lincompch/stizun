@@ -102,7 +102,8 @@ class Admin::ProductsController <  Admin::BaseController
    else
      flash[:error] = "Sorry, could not metamorphosize product."
    end
-   redirect_to edit_admin_product_path(@product)
+   #redirect_to edit_admin_product_path(@product)
+   redirect_to :back
   end
 
   
