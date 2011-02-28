@@ -456,6 +456,7 @@ class Product < ActiveRecord::Base
   def sync_from_supply_item(supply_item = self.supply_item)
     self.stock = self.supply_item.stock
     self.purchase_price = self.supply_item.purchase_price
+    self.manufacturer = self.supply_item.manufacturer
     self.manufacturer_product_code = self.supply_item.manufacturer_product_code
     changes = self.changes
     result = self.save
