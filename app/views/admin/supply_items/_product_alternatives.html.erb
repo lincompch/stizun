@@ -1,0 +1,10 @@
+<% (Product.where(:manufacturer_product_code => item.manufacturer_product_code) - [item.product]).each do |product| %>
+    <tr>
+    <td colspan="2"></td>
+    <td colspan="3" style="border-left: 2px solid #bbb; padding-left: 8px;">Products that can be switched to this item: <br><%= product.supply_item.supplier.name %>: <%= product.supply_item %></td>
+    <td class="price"><%= product.supply_item.purchase_price %></td>
+    <td>
+      <%= link_to 'Switch product to this supply item', switch_to_supply_item_admin_product_path(product, :supply_item_id => item.id) %>
+    </td>
+    </tr>
+   <% end %>
