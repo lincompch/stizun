@@ -461,7 +461,9 @@ class Product < ActiveRecord::Base
     changes = self.changes
     result = self.save
     if result == true
-      History.add("Product update: #{self.to_s}. Changes: #{changes.inspect}", History::PRODUCT_CHANGE, p)
+      unless changes.empty?
+        History.add("Product update: #{self.to_s}. Changes: #{changes.inspect}", History::PRODUCT_CHANGE, p)
+      end
     else
       History.add("Product update failed: #{self.to_s}. Changes: #{changes.inspect}. Errors: #{self.errors.full_messages}", History::PRODUCT_CHANGE, p)
     end
