@@ -24,7 +24,7 @@ class SupplierUtil
           
           if si.save
             puts "[#{DateTime.now.to_s}] SupplyItem create: #{si.inspect}"
-            History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
+            #History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
           else
             History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", History::SUPPLY_ITEM_CHANGE, si)
           end
@@ -44,7 +44,7 @@ class SupplierUtil
             changes = local_supply_item.changes
             if local_supply_item.save
               puts "[#{DateTime.now.to_s}] SupplyItem change: #{changes.inspect}"
-              History.add("Supply item change: #{local_supply_item.to_s}: #{changes.inspect}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
+              #History.add("Supply item change: #{local_supply_item.to_s}: #{changes.inspect}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
             else
               History.add("Supply item change FAILED: #{local_supply_item.to_s}: #{local_supply_item.changes.inspect}. Errors: #{local_supply_item.errors.full_messages}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
             end
