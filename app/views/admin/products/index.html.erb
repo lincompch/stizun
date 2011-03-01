@@ -12,6 +12,12 @@
 
 <%= form_tag({:controller => 'admin/products', :action => 'index'}, {:method => 'get'}) do %>
   <p>Search by name: <%= text_field :search, :keyword, :size => 15 %> <%= submit_tag 'Search' %>
+
+  <p>Limit to Manufacturer:</p>
+
+  <%= select_tag :manufacturer,
+      options_for_select([""] + @manufacturers_array,
+      params[:manufacturer]) %>
 <% end %>
 
 
