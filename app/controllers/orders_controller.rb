@@ -65,7 +65,7 @@ class OrdersController < ApplicationController
       flash[:notice] = I18n.t("stizun.order.thanks_for_your_order")
       
       # Redirect to a summary page instead
-      redirect_to products_path
+      redirect_to :controller => 'users', :action => 'me'
     else
       flash[:error] = I18n.t("stizun.order.problem_with_your_order")
       render :action => 'new'
