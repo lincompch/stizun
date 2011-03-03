@@ -1,37 +1,36 @@
 class Admin::ProductsController <  Admin::BaseController
   
   def index
-   
-     # Resource was accessed in nested form through /admin/categories/n/products
-    if params[:category_id]
-      @category = Category.find params[:category_id]
-      # Which categories to display on top of the product list for deeper
-      # navigation into the category tree.
-      @categories = @category.children
-      search_object = @category.products
-    end
-  
-    # Search inside a category if it is defined, otherwise all products.
-    search_object ||= Product
-    @categories ||= Category.roots
-    
+
     @manufacturers_array = Rails.cache.read("all_manufacturers")
     if @manufacturers_array.nil?
       @manufacturers_array = Product.group("manufacturer").collect(&:manufacturer).compact.sort
       Rails.cache.write("all_manufacturers", @manufacturers_array)
     end
     
-    keyword = nil
-    keyword = params[:search][:keyword] unless params[:search].blank? or params[:search][:keyword].blank?
-    conditions = {}   
-    conditions[:manufacturer] = params[:manufacturer] unless params[:manufacturer].blank?
+     # Resource was accessed in nested form through /admin/categories/n/products
+    if params[:category_id]
+      @category = Category.find params[:category_id]
+      # Which categories to display on top of the product list for deeper
+      # navigation into the category tree.
+      @categories = @category.children
+      @products = @category.products.paginate(:per_page => Product.per_page, :page => params[:page])
 
-    @products = search_object.search(keyword,
-                                     :conditions => conditions,
-                                     :max_matches => 10000,
-                                     :per_page => Product.per_page,
-                                     :page => params[:page])
-   
+    else
+      @categories ||= Category.roots
+
+      keyword = nil
+      keyword = params[:search][:keyword] unless params[:search].blank? or params[:search][:keyword].blank?
+      conditions = {}
+      conditions[:manufacturer] = params[:manufacturer] unless params[:manufacturer].blank?
+
+      @products =       Product.search(keyword,
+                                      :conditions => conditions,
+                                      :max_matches => 10000,
+                                      :per_page => Product.per_page,
+                                      :page => params[:page])
+    end
+    
   end
   
   def create
