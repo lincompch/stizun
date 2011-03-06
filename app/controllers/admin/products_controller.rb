@@ -26,7 +26,7 @@ class Admin::ProductsController <  Admin::BaseController
 
       @products =       Product.search(keyword,
                                       :conditions => conditions,
-                                      :max_matches => 10000,
+                                      :max_matches => 100000,
                                       :per_page => Product.per_page,
                                       :page => params[:page])
     end
