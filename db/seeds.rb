@@ -17,6 +17,9 @@ ConfigurationItem.create(:name => 'Currency', :key => 'currency', :value => 'CHF
 # Your shop's postal address separated by \n for newlines
 ConfigurationItem.create(:name => 'Address', :key => 'address', :value => 'Something Co.\nSomewhere Way\nSomeplace City\n1234 Somewhere', :description => 'Your shop\'s postal address, separated by \n for newlines.')
 
+# Your company's VAT registration number 
+ConfigurationItem.create(:name => 'VAT registration number', :key => 'vat_number', :value => '123 456', :description => 'Your shop\'s VAT registration number.')
+
 
 
 
