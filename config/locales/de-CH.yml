@@ -252,6 +252,7 @@ de-CH:
       no_products_in_this_category: "Es gibt keine Produkte in dieser Kategorie."
     invoice:
       invoice: "Rechnung"
+      invoice_date: "Rechnungsdatum"
       invoice_overview: "Rechnungsübersicht"
       view_invoice: "Rechnung ansehen"
     order:
