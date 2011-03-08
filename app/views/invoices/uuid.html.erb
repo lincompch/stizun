@@ -9,6 +9,13 @@
 <%= t("stizun.invoice.invoice_date")%>: <%= short_date(@invoice.created_at) %>
 
 <hr>
+<h3>Rechnungssteller</h3>
+
+<p><%= ConfigurationItem.get('address').value.gsub("\\n","<br>").html_safe %></p>
+
+<p><%= t("stizun.invoice.vat_number")%>: <%= ConfigurationItem.get('vat_number').value %></p>
+
+<hr>
 
   <table class="invoice_addresses">
     <tr>
@@ -30,7 +37,7 @@
 
 <hr>
 
-  <h3><%= t("stizun.general.products")%></h3>
+<!--  <h3><%= t("stizun.general.products")%></h3>-->
 
   <div id="invoice_table">
     <%= render :partial => 'invoice_table', :locals => { :invoice => @invoice } %>
