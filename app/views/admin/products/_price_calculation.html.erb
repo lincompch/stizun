@@ -1,0 +1,31 @@
+     <table style="width: 250px">
+        <tr>
+          <td>Purchase price</td><td class="price"><%= sprintf "%.2f", product.purchase_price %></td>
+        </tr>
+        <tr>
+          <td>Calculated margin</td><td class="price"><%= pretty_margin(product) %></td>
+        </tr>
+
+        <% if product.on_sale? %>
+          <tr>
+            <td>Gross price</td><td class="price"><%= pretty_price(product.gross_price) %></td>
+          </tr>
+
+          <tr>
+            <td>Rebate</td><td class="price">./. <%= pretty_price(product.rebate) %></td>
+          </tr>
+
+          <tr>
+            <td>Price</td><td class="price"><%= pretty_price(product.price) %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <td>Taxes</td><td class="price"><%= pretty_taxes(product) %></td>
+        </tr>
+        <tr>
+          <td>Total</td><td class="price"><%= pretty_price( product.taxed_price ) %></td>
+        </tr>
+        <tr>
+          <td>Rounded</td><td class="price"><%= pretty_price( product.taxed_price.rounded ) %></td>
+        </tr>
+      </table>
