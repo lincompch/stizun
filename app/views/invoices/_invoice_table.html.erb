@@ -68,5 +68,5 @@
 </table>
 
 
-<p style="margin-top: 3em; text-align: right;">Produkte exkl. MwSt.: <%= pretty_price(invoice.products_price.rounded, ConfigurationItem.get('currency').value) %><br>
+<p style="margin-top: 3em; text-align: right;">Produkte exkl. MwSt.: <%= pretty_price(invoice.gross_price.to_s, ConfigurationItem.get('currency').value) %><br>
 Enthaltene MwSt.: <%= pretty_price(invoice.total_taxes, ConfigurationItem.get('currency').value) %></p>

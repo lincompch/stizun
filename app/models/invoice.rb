@@ -75,10 +75,6 @@ class Invoice < ActiveRecord::Base
     return invoice_lines.sum("gross_price")
   end
   
-  def products_price
-    return invoice_lines.sum("single_price")
-  end
-  
   def products_taxed_price
     return invoice_lines.sum("taxed_price")
   end
