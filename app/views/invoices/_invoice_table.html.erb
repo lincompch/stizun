@@ -45,16 +45,7 @@
     <td class="price"><%= pretty_price(invoice.products_price.rounded, "") %></td>
     <td></td>
   </tr>
-  <tr class="underline">
-    <td></td>
-    <td>Mehrwertsteuer</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td class="price"><%= pretty_price(invoice.taxes, "") %></td>
-    <td></td>
-  </tr>
-  <tr>
+  <!-- <tr>
     <td></td>
     <td>Produkte inkl. MwSt.</td>
     <td></td>
@@ -62,7 +53,7 @@
     <td></td>
     <td class="price"><%= pretty_price(invoice.products_taxed_price.rounded, "") %></td>
     <td></td>
-  </tr>
+  </tr>-->
   <tr>
     <td></td>
     <td>Versand</td>
@@ -72,6 +63,17 @@
     <td class="price"><%= pretty_price(invoice.shipping_cost, "") %></td>
     <td></td>
   </tr>
+
+  <tr class="underline">
+    <td></td>
+    <td>Mehrwertsteuer</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="price"><%= pretty_price(invoice.total_taxes, "") %></td>
+    <td></td>
+  </tr>
+
   <tr>
     <td></td>
     <td><strong>Gesamttotal</strong></td>

@@ -1,0 +1,4 @@
+
+<p>If you want a custom invoice layout, put it in here. You can render partials from app/views/invoices in this location as well:</p>
+
+    <%= render :partial => 'invoice_table', :locals => { :invoice => @invoice } %>
