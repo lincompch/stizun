@@ -3,12 +3,8 @@
 <table class="invoice_addresses">
   <tr>
     <td class="billing_address">
-    <% if @invoice.shipping_address.blank? or (@invoice.shipping_address == @invoice.billing_address) %>
-      <h3><%= t("stizun.address.shipping_and_billing_address")%></h3>
-    <% else %>
-      <h3><%= t("stizun.address.billing_address")%></h3>
-    <% end %>
-    <%= simple_format @invoice.billing_address.block_summary %>
+      <h3><%= t("stizun.address.billing_address")%></h3>  
+      <%= simple_format @invoice.billing_address.block_summary %>
     </td>
   
   <% unless @invoice.shipping_address.blank? %>
@@ -25,7 +21,7 @@
 <h3><%= t("stizun.general.products")%></h3>
 
 <div id="invoice_table">
-<%= render :partial => 'invoice_table', :locals => { :invoice => @invoice } %>
+  <%= render :partial => 'invoice_table', :locals => { :invoice => @invoice } %>
 </div>
 
 <%= render :partial => 'payment_information' %>
