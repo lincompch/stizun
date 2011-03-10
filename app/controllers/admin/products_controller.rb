@@ -14,7 +14,7 @@ class Admin::ProductsController <  Admin::BaseController
       # Which categories to display on top of the product list for deeper
       # navigation into the category tree.
       @categories = @category.children
-      @products = @category.products.paginate(:per_page => Product.per_page, :page => params[:page])
+      @products = @category.products.all.paginate(:per_page => Product.per_page, :page => params[:page])
 
     else
       @categories ||= Category.roots
