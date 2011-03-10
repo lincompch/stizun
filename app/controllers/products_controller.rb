@@ -30,19 +30,6 @@ class ProductsController < ApplicationController
       
       respond_to do |format|
       format.html
-      format.csv do
-       @products = Product.all
-       csv_string = FasterCSV.generate do |csv|
-         csv << Product.csv_header
-         @products.each do |p|
-           csv << p.to_csv_array
-         end
-       end
-       
-       send_data csv_string,
-                :type => 'text/csv; charset=utf-8; header=present',
-                :disposition => "attachment; filename=lincomp_products.csv"
-        end
       end
     end
 

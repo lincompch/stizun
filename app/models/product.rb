@@ -285,7 +285,7 @@ class Product < ActiveRecord::Base
   # Generate a header matching the kind of columns that are actually available for
   # our Product objects.
   def self.csv_header
-    ["id","manufacturer_product_code","name","description", "price_excluding_vat", "price_including_vat", "price_including_shipping", "vat", "shipping_cost", "stock", "availability", "weight_in_kg", "link"]
+    ["id","manufacturer","manufacturer_product_code","name","description", "price_excluding_vat", "price_including_vat", "price_including_shipping", "vat", "shipping_cost", "stock", "availability", "weight_in_kg", "link"]
   end
   
   # Convert this particular product instance into a CSV-compatible representation
@@ -300,7 +300,7 @@ class Product < ActiveRecord::Base
     end
     # We use string interpolation notation (#{foo}) so that nil errors are already
     # handled gracefully without any extra work.
-    ["#{id}", "#{manufacturer_product_code}", "#{name}", "#{description}", "#{price.rounded}", "#{taxed_price.rounded}", "#{shipped_price}", "#{taxes}", "#{c.shipping_cost.rounded}", "#{stock}", "#{availability}", "#{weight}", "http://www.lincomp.ch/products/#{self.id}"]
+    ["#{id}", "#{manufacturer}" ,"#{manufacturer_product_code}", "#{name}", "#{description}", "#{price.rounded}", "#{taxed_price.rounded}", "#{shipped_price}", "#{taxes}", "#{c.shipping_cost.rounded}", "#{stock}", "#{availability}", "#{weight}", "http://www.lincomp.ch/products/#{self.id}"]
   end
   
   def calculated_margin_percentage
@@ -491,6 +491,17 @@ class Product < ActiveRecord::Base
 
   end
 
+
+  def self.export_available_to_csv(filename)
+
+    FasterCSV.open(filename, "w", :col_sep => ",", :quote_char => '"') do |csv|
+      csv << Product.csv_header
+      Product.available.each do |p|
+        csv << p.to_csv_array
+      end
+    end
+
+  end
   
   private
  
