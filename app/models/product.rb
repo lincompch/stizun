@@ -31,7 +31,7 @@ class Product < ActiveRecord::Base
   scope :loss_leaders, :conditions => { :is_loss_leader => true }
   scope :on_sale, :conditions => { :sale_state => true }
 
-  before_save :set_explicit_sale_state
+  before_save :set_explicit_sale_state, :cache_calculations
   after_create :try_to_get_product_files
   
   
@@ -60,13 +60,18 @@ class Product < ActiveRecord::Base
   def self.per_page
     return 50
   end
+
+  def cache_calculations
+    self.cached_price = gross_price - calculate_rebate(gross_price)
+    self.cached_taxed_price = cached_price + taxes
+  end
   
   def price
-    gross_price - calculate_rebate(gross_price)
+    cached_price || gross_price - calculate_rebate(gross_price)
   end
   
   def taxed_price
-    price + taxes
+    cached_taxed_price || price + taxes
   end
   
   # The gross price is the price + margin (or sales price, in case of absolutely
