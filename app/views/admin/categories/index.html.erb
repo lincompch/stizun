@@ -1,0 +1,31 @@
+
+<h3>Categories</h3>
+
+<%= link_to 'Create new', new_admin_category_path %>
+
+<table>
+  <tr>
+    <th>Status</th>
+    <th>Name</th>
+    <th></th>
+  </tr>
+
+
+  <% @categories.each do |cat| %>
+    <tr>
+      <td>
+        <%= "[ROOT]" if cat.root? %>
+        <%= " [LEAF]" if cat.children.empty? %>
+
+      </td>
+      <td><%= cat.fully_qualified_name %></td>
+      <td><%= link_to "Delete", admin_category_path(cat), :method => 'delete', :confirm => 'Are you sure?' %> <%= link_to "Edit", edit_admin_category_path(cat) %></td>
+    </tr>
+  <% end %>
+
+</table>
+
+<h4>Status Explanation</h4>
+
+<p>[ROOT] = Category is a root category, it has no parents and is at the root of the tree.</p>
+<p>[LEAF] = Category is a leaf category. This is where products can go.</p>

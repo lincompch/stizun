@@ -16,4 +16,8 @@ module CategoriesHelper
     end
   end
   
+  def categories_text_path(current)
+    current.ancestor_chain.collect(&:name).join(" >> ")
+  end
+  
 end

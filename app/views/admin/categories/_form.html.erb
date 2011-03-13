@@ -1,0 +1,17 @@
+<%= form_for [:admin, @category] do |f| %>
+
+<table class="dataentry">
+
+  <tr>
+    <td><%= f.label :parent_id, "Parent" %></td>
+    <td><%= f.collection_select(:parent_id, Category.all, :id, :fully_qualified_name, :include_blank => true ) %></td>
+  </tr>
+
+  <tr>
+    <td><%= f.label :name, "Name" %></td>
+    <td><%= f.text_field :name %></td>
+  </tr>
+
+</table>
+<%= f.submit 'Go' %>
+<% end %>
