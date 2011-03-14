@@ -1,5 +1,7 @@
 <h3>Edit product</h3>
 
+<%= "<p><span class='danger'>[UNPROFITALE] We are losing money on this product.</span></p>".html_safe if @!product.profitable? %>
+
 <%= error_messages_for(@product) %>
 
 <h4>Product pictures</h4>
@@ -8,6 +10,8 @@
 <%= render :partial => 'product_picture_info', :locals => { :product => @product } %>
 
 <h4>Product properties</h4>
+
+
 
 <% if @product.componentized? %>
 

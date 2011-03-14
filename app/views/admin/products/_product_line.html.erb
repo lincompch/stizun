@@ -10,7 +10,6 @@
       <% end %>
 
       <%= " <span class='danger'>[LOSS LEADER]</span><br>".html_safe if product_line.is_loss_leader? %>
-      <%= " <span class='danger'>[UNPROFITABLE]</span><br>".html_safe if !product_line.profitable? %>
       <%= " <span class='danger'>[MISSING COMPONENTS]</span><br>".html_safe if product_line.has_unavailable_components? %>
       <%= " <span class='danger'>[MISSING SUPPLY ITEM]</span><br>".html_safe if product_line.has_unavailable_supply_item? %>
 
