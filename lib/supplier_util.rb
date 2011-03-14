@@ -1,5 +1,10 @@
 class SupplierUtil
 
+
+  def supplier_logger
+    @supplier_logger ||= Logger.new("#{Rails.root}/log/supplier_import_#{DateTime.now.to_s.gsub(":","-")}.log")
+  end
+  
 # Synchronize all supply items from a supplier's provided CSV file
   def import_supply_items(filename = self.import_filename)
     require 'iconv'
@@ -23,9 +28,10 @@ class SupplierUtil
           si = SupplierUtil.supply_item_from_csv_row(@supplier, sp, @field_names)
           
           if si.save
-            puts "[#{DateTime.now.to_s}] SupplyItem create: #{si.inspect}"
+            supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem create: #{si.inspect}")
             #History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
           else
+            supplier_logger.error("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}")
             History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", History::SUPPLY_ITEM_CHANGE, si)
           end
         
@@ -43,13 +49,13 @@ class SupplierUtil
           unless local_supply_item.changes.empty?
             changes = local_supply_item.changes
             if local_supply_item.save
-              puts "[#{DateTime.now.to_s}] SupplyItem change: #{changes.inspect}"
+              supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem change: #{changes.inspect}")
               #History.add("Supply item change: #{local_supply_item.to_s}: #{changes.inspect}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
             else
               History.add("Supply item change FAILED: #{local_supply_item.to_s}: #{local_supply_item.changes.inspect}. Errors: #{local_supply_item.errors.full_messages}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
             end
           else
-            puts "[#{DateTime.now.to_s}] SupplyItem identical, thus not changed: #{local_supply_item.to_s}"
+            supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem identical, thus not changed: #{local_supply_item.to_s}")
           end
         end
       end
