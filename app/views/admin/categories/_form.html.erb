@@ -4,7 +4,7 @@
 
   <tr>
     <td><%= f.label :parent_id, "Parent" %></td>
-    <td><%= f.collection_select(:parent_id, Category.all, :id, :fully_qualified_name, :include_blank => true ) %></td>
+    <td><%= f.collection_select(:parent_id, Category.all - [@category], :id, :fully_qualified_name, :include_blank => true ) %></td>
   </tr>
 
   <tr>

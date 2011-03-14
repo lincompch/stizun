@@ -3,3 +3,5 @@
 <p>Editing: <%= categories_text_path(@category) %></p>
 
 <%= render :partial => 'form' %>
+
+<p><%= link_to 'Products in this category', admin_category_products_path(@category) %></p>
