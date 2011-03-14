@@ -6,12 +6,12 @@ in Ruby on Rails.
 
 Main features:
 
- * Built-in miniature double-entry accounting system.
- * High degree of automation. Invoices are booked automatically.
  * Unique shipping calculation system for stores that don't have
    their own warehouses but ship directly from suppliers to their
    customers (just-in-time). Can also calculate shipping for a mix
    of various suppliers in one order.
+ * Importers for product catalog CSV files of large European distributors 
+   (Ingram Micro, Alltron). Can be extended with your own CSV importers.
  * UUID-based invoice generator: Users don't need to remember their
    login details just to follow a link from an e-mail to their
    invoice.
@@ -22,7 +22,7 @@ It's not quite ready for production yet, but we're getting there!
 Copryight and licensing statement
 =================================
 
-Stizun, (C) 2010 Ramón Cahenzli
+Stizun, (C) 2010 - 2011 Ramón Cahenzli
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -45,3 +45,4 @@ It is possible that this source code distribution includes code (libraries,
 plugins, extensions, samples, etc.) that belong to other owners than the one
 stated above. In such a case, the license included with the code in question
 has precedence over the GNU Affero General Public License.
+
