@@ -2,6 +2,8 @@
 
       <tr>
         <th>Qty</th>
+        <th>Manuf.</th>
+        <th>Manuf. code</th>
         <th>Product</th>
         <th>Supplier/No.</th>
         <th>VAT</th>
@@ -14,6 +16,8 @@
       
       <tr>
         <td> </td>
+        <td> </td>
+        <td> </td>
         <td>Shipping (incoming)</td>
         <td><%=order_table.shipping_rate.incoming_package_count%> pkg(s) </td>
         <td> </td>
@@ -22,6 +26,8 @@
       </tr>
 
       <tr>
+        <td> </td>
+        <td> </td>
         <td> </td>
         <td>Shipping (outgoing)</td>
         <td><%=order_table.shipping_rate.outgoing_package_count%> pkg(s)</td>
@@ -32,6 +38,8 @@
 
       <tr>
         <td> </td>
+        <td> </td>
+        <td> </td>
         <td><em>Shipping (total)</em></td>
         <td><%= order_table.weight.to_s%>kg</td>
         <td>incl. <%= pretty_price(order_table.shipping_rate.total_taxes)%> VAT</td>
@@ -41,6 +49,8 @@
       
       <tr>
         <td></td>
+        <td> </td>
+        <td> </td>
         <td><strong>Total</strong></td>
         <td> </td>
         <td></td>

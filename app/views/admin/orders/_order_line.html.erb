@@ -4,6 +4,15 @@
   </td>
 
   <td>
+  <%= order_line.product.manufacturer %>
+  </td>
+
+  <td>
+  <%= order_line.product.manufacturer_product_code %>
+  </td>
+
+
+  <td>
   <%= link_to order_line.product.name, edit_admin_product_path(order_line.product), :class => 'fancybox' %>
   </td>
     
