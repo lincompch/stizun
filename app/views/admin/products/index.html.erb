@@ -6,7 +6,11 @@
   <% if params[:supplier_id].to_i == sup.id %>
     <strong>
   <% end %>
-  <%= link_to(sup.name, admin_supplier_products_path(sup)) %>
+  <% if @category %>
+    <%= link_to(sup.name, admin_supplier_category_products_path(sup, @category)) %>
+  <% else %>
+     <%= link_to(sup.name, admin_supplier_products_path(sup)) %>
+  <% end %>
   <% if params[:supplier_id].to_i == sup.id %>
     </strong>
   <% end %>
