@@ -1,5 +1,17 @@
 <h2>Products</h2>
 
+<p>Full list by supplier: 
+
+<% Supplier.all.each do |sup| %>
+  <% if params[:supplier_id].to_i == sup.id %>
+    <strong>
+  <% end %>
+  <%= link_to(sup.name, admin_supplier_products_path(sup)) %>
+  <% if params[:supplier_id].to_i == sup.id %>
+    </strong>
+  <% end %>
+<% end %>
+
 <% if @category %>
   <div id="admin_category_breadcrumb">
   You are here: <%= categories_breadcrumb_path(@category, linked = true, admin = true) %>
@@ -10,19 +22,22 @@
   <%= render :partial => 'admin/categories/category_summary', :object => @categories %>
 
 
-<%= form_tag({:controller => 'admin/products', :action => 'index'}, {:method => 'get'}) do %>
-  <p>Search by name: <%= text_field :search, :keyword, :size => 15 %> <%= submit_tag 'Search' %>
+<%= form_tag({}, {:method => 'get'}) do %>
+  <p>Search: <%= text_field :search, :keyword, :size => 15 %> <%= submit_tag 'Search' %>
 
-  <p>Limit to Manufacturer:</p>
-
+  <p>Limit to Manufacturer:
   <%= select_tag :manufacturer,
       options_for_select([""] + @manufacturers_array,
       params[:manufacturer]) %>
+
+  Limit to Supplier:
+
+  <%= select_tag(:supplier_id, options_from_collection_for_select(Supplier.all, :id, :name, params[:supplier_id]), :include_blank => true) %>
+  </p>
 <% end %>
 
-
 <% unless params[:search].blank? %>
-<p>Search results for: <%= params[:search][:keyword] %></p>
+  <p>Search results for: <%= params[:search][:keyword] %></p>
 <% end %>
 
 <%= will_paginate @products %>
