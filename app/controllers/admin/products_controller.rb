@@ -8,20 +8,25 @@ class Admin::ProductsController <  Admin::BaseController
       Rails.cache.write("all_manufacturers", @manufacturers_array)
     end
     
+    conditions = {}
+    if params[:supplier_id]
+     conditions.merge!({:supplier_id => params[:supplier_id]})
+    end
+    
      # Resource was accessed in nested form through /admin/categories/n/products
     if params[:category_id]
       @category = Category.find params[:category_id]
       # Which categories to display on top of the product list for deeper
       # navigation into the category tree.
       @categories = @category.children
-      @products = @category.products.all.paginate(:per_page => Product.per_page, :page => params[:page])
+      
+      @products = @category.products.where(conditions).paginate(:per_page => Product.per_page, :page => params[:page])
 
     else
       @categories ||= Category.roots
 
       keyword = nil
       keyword = params[:search][:keyword] unless params[:search].blank? or params[:search][:keyword].blank?
-      conditions = {}
       conditions[:manufacturer] = params[:manufacturer] unless params[:manufacturer].blank?
 
       @products =       Product.search(keyword,

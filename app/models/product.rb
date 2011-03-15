@@ -41,7 +41,7 @@ class Product < ActiveRecord::Base
     # fields
     indexes name, :sortable => true
     indexes purchase_price, :sortable => true
-    indexes manufacturer, short_description, description, supplier_product_code, manufacturer_product_code
+    indexes supplier_id, manufacturer, short_description, description, supplier_product_code, manufacturer_product_code
     
     # attributes
     has id, created_at, updated_at, is_available
