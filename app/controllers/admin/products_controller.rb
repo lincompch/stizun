@@ -10,7 +10,7 @@ class Admin::ProductsController <  Admin::BaseController
     
     conditions = {}
     
-    if params[:supplier_id]
+    if !params[:supplier_id].blank?
      conditions.merge!({:supplier_id => params[:supplier_id]})
 
       @manufacturers_array = Rails.cache.read("supplier_#{params[:supplier_id]}_manufacturers")
@@ -36,7 +36,7 @@ class Admin::ProductsController <  Admin::BaseController
       keyword = nil
       keyword = params[:search][:keyword] unless params[:search].blank? or params[:search][:keyword].blank?
       conditions[:manufacturer] = params[:manufacturer] unless params[:manufacturer].blank?
-
+            
       @products =       Product.search(keyword,
                                       :conditions => conditions,
                                       :max_matches => 100000,
