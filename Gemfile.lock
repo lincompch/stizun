@@ -99,6 +99,7 @@ GEM
     rack (1.2.1)
     rack-mount (0.6.13)
       rack (>= 1.0.0)
+    rack-ssl-enforcer (0.2.2)
     rack-test (0.5.6)
       rack (>= 1.0)
     rails (3.0.3)
@@ -182,6 +183,7 @@ DEPENDENCIES
   mini_magick
   mysql2
   paperclip
+  rack-ssl-enforcer
   rails (= 3.0.3)
   rails3-generators
   rspec-rails

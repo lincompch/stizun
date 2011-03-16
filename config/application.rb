@@ -48,6 +48,8 @@ module Stizun
     
     # For CKEditor Rails integration (mostly for the uploads, which we've disabled)
     config.autoload_paths += %W( #{config.root}/app/models/ckeditor )
+
+
     
   end
 end
