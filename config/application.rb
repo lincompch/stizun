@@ -48,6 +48,9 @@ module Stizun
     
     # For CKEditor Rails integration (mostly for the uploads, which we've disabled)
     config.autoload_paths += %W( #{config.root}/app/models/ckeditor )
+
+
+    config.middleware.use Rack::SslEnforcer, :only => [/^\/admin/, /^\/users/, /^\/orders/, /^\/login/, /\/^user_sessions/]
     
   end
 end
