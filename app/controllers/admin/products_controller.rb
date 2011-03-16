@@ -9,9 +9,17 @@ class Admin::ProductsController <  Admin::BaseController
     end
     
     conditions = {}
+    
     if params[:supplier_id]
      conditions.merge!({:supplier_id => params[:supplier_id]})
+
+      @manufacturers_array = Rails.cache.read("supplier_#{params[:supplier_id]}_manufacturers")
+      if @manufacturers_array.nil?
+        @manufacturers_array = Product.where(:supplier_id => params[:supplier_id]).group("manufacturer").collect(&:manufacturer).compact.sort
+        Rails.cache.write("supplier_#{params[:supplier_id]}_manufacturers", @manufacturers_array)
+      end
     end
+    
     
      # Resource was accessed in nested form through /admin/categories/n/products
     if params[:category_id]
