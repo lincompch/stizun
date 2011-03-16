@@ -14,9 +14,9 @@ set :db_config, "/home/lincomp/database_prod.yml"
 set :email_config, "/home/lincomp/email.yml"
 set :custom_directory, "/home/lincomp/custom"
 
-role :web, "lincomp@www.lincomp.org"                          # Your HTTP server, Apache/etc
-role :app, "lincomp@www.lincomp.org"                          # This may be the same as your `Web` server
-role :db,  "lincomp@www.lincomp.org", :primary => true # This is where Rails migrations will run
+role :web, "lincomp@www.lincomp.ch"                          # Your HTTP server, Apache/etc
+role :app, "lincomp@www.lincomp.ch"                          # This may be the same as your `Web` server
+role :db,  "lincomp@www.lincomp.ch", :primary => true # This is where Rails migrations will run
 
 task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
