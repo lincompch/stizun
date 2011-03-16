@@ -23,6 +23,7 @@ task :link_config do
   run "ln -s #{db_config} #{release_path}/config/database.yml"
   run "rm -r #{release_path}/test"
   run "ln -s #{release_path}/public #{release_path}/test"
+  run "sed -i 's:config.middleware.use.*::' #{release_path}/config/environments/production.rb"
 end
 
 task :link_files do
