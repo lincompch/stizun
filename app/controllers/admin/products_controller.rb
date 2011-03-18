@@ -35,6 +35,7 @@ class Admin::ProductsController <  Admin::BaseController
       keyword = nil
       keyword = params[:search][:keyword] unless params[:search].blank? or params[:search][:keyword].blank?
       conditions[:manufacturer] = params[:manufacturer] unless params[:manufacturer].blank?
+      
       with = {}
       with.merge!(:category_id => params[:category_id]) unless params[:category_id].blank?
       
@@ -46,6 +47,18 @@ class Admin::ProductsController <  Admin::BaseController
                                       :page => params[:page])
       puts "with was #{with}"
     
+  end
+  
+  def having_unavailable_supply_item
+    @manufacturers_array = Rails.cache.read("all_manufacturers")
+    if @manufacturers_array.nil?
+      @manufacturers_array = Product.group("manufacturer").collect(&:manufacturer).compact.sort
+      Rails.cache.write("all_manufacturers", @manufacturers_array)
+    end
+    
+    @categories = Category.roots
+    @products = Product.having_unavailable_supply_item.paginate(:per_page => Product.per_page, :page => params[:page])
+    render :action => :index
   end
   
   def create

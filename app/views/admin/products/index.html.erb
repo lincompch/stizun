@@ -1,5 +1,8 @@
 <h2>Products</h2>
 
+
+<p><%= link_to 'Products with missing supply items', :controller => 'admin/products', :action => 'having_unavailable_supply_item' %></p>
+
 <p>Full list by supplier: 
 
 <% Supplier.all.each do |sup| %>
@@ -45,6 +48,7 @@
 <% unless params[:search].blank? %>
   <p>Search results for: <%= params[:search][:keyword] %></p>
 <% end %>
+
 
 <%= will_paginate @products %>
 
