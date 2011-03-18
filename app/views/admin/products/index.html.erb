@@ -38,6 +38,8 @@
 
   <%= select_tag(:supplier_id, options_from_collection_for_select(Supplier.all, :id, :name, params[:supplier_id]), :include_blank => true) %>
   </p>
+
+  <%= hidden_field_tag(:category_id, params[:category_id]) if !params[:category_id].blank? %>
 <% end %>
 
 <% unless params[:search].blank? %>

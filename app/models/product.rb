@@ -39,12 +39,14 @@ class Product < ActiveRecord::Base
   # Must come AFTER associations
   define_index do
     # fields
-    indexes name, :sortable => true
+    indexes(:name, :sortable => true)
     indexes purchase_price, :sortable => true
     indexes supplier_id, manufacturer, short_description, description, supplier_product_code, manufacturer_product_code
     
+    has categories(:id), :as => :category_id
+    
     # attributes
-    has id, created_at, updated_at, is_available
+    has(:id, created_at, updated_at, is_available)
     
     set_property :delta => true
   end

@@ -28,21 +28,23 @@ class Admin::ProductsController <  Admin::BaseController
       # navigation into the category tree.
       @categories = @category.children
       
-      @products = @category.products.where(conditions).paginate(:per_page => Product.per_page, :page => params[:page])
-
-    else
+    end
+    
       @categories ||= Category.roots
 
       keyword = nil
       keyword = params[:search][:keyword] unless params[:search].blank? or params[:search][:keyword].blank?
       conditions[:manufacturer] = params[:manufacturer] unless params[:manufacturer].blank?
-            
+      with = {}
+      with.merge!(:category_id => params[:category_id]) unless params[:category_id].blank?
+      
       @products =       Product.search(keyword,
                                       :conditions => conditions,
+                                      :with => with,
                                       :max_matches => 100000,
                                       :per_page => Product.per_page,
                                       :page => params[:page])
-    end
+      puts "with was #{with}"
     
   end
   
