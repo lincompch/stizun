@@ -4,6 +4,9 @@
   <td>
   <%= product_set.quantity %>
   </td>
+  <td> 
+    <%= "#{product_set.component.supplier.name}" %> / <%= "#{product_set.component.supplier_product_code}" %>
+  </td>
 
   <td>
   <%= "[COMPONENT MISSING]" if product_set.component.status_constant != SupplyItem::AVAILABLE %>

@@ -20,6 +20,8 @@ class Admin::ComponentsController <  Admin::BaseController
     @product = Product.find(params[:product_id])
 
     if @product.add_component(component, quantity)
+      @product.touch
+      @product.save
       flash[:notice] = "Component added."
     else
       flash[:error] = "Component could not be added."
@@ -42,6 +44,8 @@ class Admin::ComponentsController <  Admin::BaseController
     product = @product_set.product
     
     if @product_set.destroy
+      product.touch
+      product.save
       flash[:notice] = "Component removed"
     else
       flash[:error] = "Component could not be removed"

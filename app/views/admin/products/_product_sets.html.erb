@@ -2,17 +2,18 @@
 <table>
   <tr>
     <th>Qty</th>
+    <th>Supplier/Prd. code</th>
     <th>Name</th>
     <th>Single</th>
     <th>Total</th>
   </tr>
   
   <% product_sets.each do |ps| %>
-  <%= render :partial => 'product_set', :object => ps %>
-
+    <%= render :partial => 'product_set', :object => ps %>
   <% end %>
 
 <tr>
+  <td></td>
   <td></td>
   <td>
   Total
