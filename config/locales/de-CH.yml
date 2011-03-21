@@ -256,6 +256,7 @@ de-CH:
       invoice_overview: "Rechnungsübersicht"
       view_invoice: "Rechnung ansehen"
       vat_number: "MwSt.-Nummer"
+      no_unpaid_invoices: "Sie haben momentan keine unbezahlten Rechnungen."
     order:
       place_order: "Bestellen"
       order_summary: "Zusammenfassung Ihrer Bestellung"
@@ -298,6 +299,7 @@ de-CH:
       account_not_created: "Das Konto konnte nicht erstellt werden."
       account_created_successfully: "Ihr Konto ist erstellt worden."
       overview: "Benutzerübersicht"
+      change_password_or_email: "Passwort/E-Mail ändern"
       attributes:
         email: "E-Mail-Adresse"
         password: "Passwort"
