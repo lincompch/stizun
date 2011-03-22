@@ -19,6 +19,12 @@
 
 <%= form_for [:admin, @order] do |f| %>
 <table>
+
+  <tr>
+    <td>Payment method</td>
+    <td><%= @order.payment_method.name %></td>
+  </tr>
+
   <tr>
     <td>Status</td>
     <td><%= f.select :status_constant, options_for_select(Order::status_hash_for_select, @order.status_constant) %></td>

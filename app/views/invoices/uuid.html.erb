@@ -37,11 +37,11 @@
 
 <hr>
 
-<!--  <h3><%= t("stizun.general.products")%></h3>-->
-
   <div id="invoice_table">
     <%= render :partial => 'invoice_table', :locals => { :invoice => @invoice } %>
   </div>
 
+  <p>Gewählte Zahlungsart: <%= @invoice.payment_method.name %></p>
+  
   <%= render :partial => 'payment_information' %>
 <% end %>

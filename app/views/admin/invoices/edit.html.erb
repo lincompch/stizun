@@ -21,6 +21,12 @@
 
 <%= form_for [:admin, @invoice] do |f| %>
 <table>
+
+  <tr>
+    <td>Payment method</td>
+    <td><%= @invoice.payment_method.name %></td>
+  </tr>
+
   <tr>
     <td>Status</td>
     <td><%= f.select :status_constant, options_for_select(Invoice::status_hash_for_select, @invoice.status_constant) %></td>
