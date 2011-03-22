@@ -49,7 +49,7 @@ class SupplierUtil
           unless local_supply_item.changes.empty?
             changes = local_supply_item.changes
             if local_supply_item.save
-              supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem change: #{changes.inspect}")
+              supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem change: #{local_supply_item.to_s}:  #{changes.inspect}")
               #History.add("Supply item change: #{local_supply_item.to_s}: #{changes.inspect}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
             else
               History.add("Supply item change FAILED: #{local_supply_item.to_s}: #{local_supply_item.changes.inspect}. Errors: #{local_supply_item.errors.full_messages}", History::SUPPLY_ITEM_CHANGE, local_supply_item)

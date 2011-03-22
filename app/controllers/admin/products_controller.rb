@@ -9,9 +9,17 @@ class Admin::ProductsController <  Admin::BaseController
     end
     
     conditions = {}
-    if params[:supplier_id]
+    
+    if !params[:supplier_id].blank?
      conditions.merge!({:supplier_id => params[:supplier_id]})
+
+      @manufacturers_array = Rails.cache.read("supplier_#{params[:supplier_id]}_manufacturers")
+      if @manufacturers_array.nil?
+        @manufacturers_array = Product.where(:supplier_id => params[:supplier_id]).group("manufacturer").collect(&:manufacturer).compact.sort
+        Rails.cache.write("supplier_#{params[:supplier_id]}_manufacturers", @manufacturers_array)
+      end
     end
+    
     
      # Resource was accessed in nested form through /admin/categories/n/products
     if params[:category_id]
@@ -20,22 +28,37 @@ class Admin::ProductsController <  Admin::BaseController
       # navigation into the category tree.
       @categories = @category.children
       
-      @products = @category.products.where(conditions).paginate(:per_page => Product.per_page, :page => params[:page])
-
-    else
+    end
+    
       @categories ||= Category.roots
 
       keyword = nil
       keyword = params[:search][:keyword] unless params[:search].blank? or params[:search][:keyword].blank?
       conditions[:manufacturer] = params[:manufacturer] unless params[:manufacturer].blank?
-
+      
+      with = {}
+      with.merge!(:category_id => params[:category_id]) unless params[:category_id].blank?
+      
       @products =       Product.search(keyword,
                                       :conditions => conditions,
+                                      :with => with,
                                       :max_matches => 100000,
                                       :per_page => Product.per_page,
                                       :page => params[:page])
+      puts "with was #{with}"
+    
+  end
+  
+  def having_unavailable_supply_item
+    @manufacturers_array = Rails.cache.read("all_manufacturers")
+    if @manufacturers_array.nil?
+      @manufacturers_array = Product.group("manufacturer").collect(&:manufacturer).compact.sort
+      Rails.cache.write("all_manufacturers", @manufacturers_array)
     end
     
+    @categories = Category.roots
+    @products = Product.having_unavailable_supply_item.paginate(:per_page => Product.per_page, :page => params[:page])
+    render :action => :index
   end
   
   def create

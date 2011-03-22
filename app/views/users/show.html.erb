@@ -1,12 +1,15 @@
 <h2><%= t("stizun.account.account_information") %></h2>
 
-
 <table>
   <td class="bold"><%= t("stizun.account.email") %></td>
   <td><%=h @user.email %> (<%= t("stizun.account.also_your_login") %>)</td>
-
 </table>
 
+<p class="rightalign">
+  <%= link_to t("stizun.users.change_password_or_email"), edit_user_path(current_user) %>
+</p>
+
+<hr>
 <h3><%= t("stizun.account.your_pending_orders") %></h3>
 
 <h4><%= t("stizun.order.orders_awaiting_payment") %></h4>
@@ -42,12 +45,15 @@
   <p><%= t("stizun.order.no_orders_in_processing_or_ready_to_ship") %></p>
 <% end %>
 
-<%= link_to t("stizun.account.view_all_orders"), user_orders_path(@user) %>, <%= t("stizun.order.also_past_orders")%>.
+<p class="rightalign">
+  <%= link_to t("stizun.account.view_all_orders"), user_orders_path(@user) %>
+</p>
 
 
-<% if @invoices.count > 0 %>
+<hr>
   <h3><%= t("stizun.account.your_unpaid_invoices") %></h3>
 
+<% if @invoices.count > 0 %>
     <table>
       <tr>
         <th><%= t("stizun.table_headers.number") %></th>
@@ -61,16 +67,19 @@
         <%= render :partial => 'invoices/invoice', :object => i %>
       <% end %>
     </table>
+<% else %>
 
-<%= link_to t("stizun.account.view_all_invoices"), user_invoices_path(@user) %>
+  <%= t("stizun.invoice.no_unpaid_invoices") %>
+
 <% end %>
 
+<p class="rightalign">
+  <%= link_to t("stizun.account.view_all_invoices"), user_invoices_path(@user) %>
+</p>
 
 <hr />
 
-<h2><%= t("stizun.address.addresses") %></h2>
-
-<%= link_to t("stizun.address.add_new_address"), new_address_path %>
+<h3><%= t("stizun.address.addresses") %></h3>
 
 <% if @addresses.count > 0 %>
   <p><%= t("stizun.address.you_have_the_following_saved_addresses") %></p>
@@ -87,11 +96,11 @@
 
 <% end %>
 
-<hr />
 
- 
+<p class="rightalign">
+  <%= link_to t("stizun.address.add_new_address"), new_address_path %>
+</p>
 
-<%= link_to t("stizun.general.edit"), edit_user_path(current_user) %>
-<% if current_user %>
- | <%= link_to("Logout", logout_path) if current_user %>
-<% end %>
+<hr>
+
+<%= link_to("Logout", logout_path) if current_user %>

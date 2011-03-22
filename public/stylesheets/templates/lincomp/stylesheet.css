@@ -587,6 +587,10 @@ table.invoice_addresses td.shipping_address {
 
 /* Global-ish stuff */
 
+.rightalign {
+  text-align: right;
+}
+
 #lincomp_explanation {
   border: 2px solid #A77753;
   background: #FFF7DB;

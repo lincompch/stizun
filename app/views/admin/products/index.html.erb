@@ -1,5 +1,8 @@
 <h2>Products</h2>
 
+
+<p><%= link_to 'Products with missing supply items', :controller => 'admin/products', :action => 'having_unavailable_supply_item' %></p>
+
 <p>Full list by supplier: 
 
 <% Supplier.all.each do |sup| %>
@@ -38,11 +41,14 @@
 
   <%= select_tag(:supplier_id, options_from_collection_for_select(Supplier.all, :id, :name, params[:supplier_id]), :include_blank => true) %>
   </p>
+
+  <%= hidden_field_tag(:category_id, params[:category_id]) if !params[:category_id].blank? %>
 <% end %>
 
 <% unless params[:search].blank? %>
   <p>Search results for: <%= params[:search][:keyword] %></p>
 <% end %>
+
 
 <%= will_paginate @products %>
 
@@ -51,6 +57,7 @@
 <table>
 <tr>
   <th>ID</th>
+  <th>Pics</th>
   <th>Status</th>
   <th>Manufacturer</th>
   <th>Name</th>

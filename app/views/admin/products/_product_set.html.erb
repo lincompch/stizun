@@ -1,21 +1,22 @@
-
 <tr>
-
   <td>
   <%= product_set.quantity %>
   </td>
+  <td>
+    <%= "#{product_set.component.supplier.name}" %> / <%= "#{product_set.component.supplier_product_code}" %>
+  </td>
 
   <td>
-  <%= "[COMPONENT MISSING]" if product_set.component.status_constant != SupplyItem::AVAILABLE %>
-  <%= product_set.component.name %>
+    <%= "[COMPONENT MISSING]" if product_set.component.status_constant != SupplyItem::AVAILABLE %>
+    <%= product_set.component.name %>
   </td>
 
   <td class="price">
-  <%= pretty_price(product_set.component.purchase_price) %>
+    <%= pretty_price(product_set.component.purchase_price) %>
   </td>
 
   <td class="price">
-  <%= pretty_price( product_set.purchase_price ) %>
+    <%= pretty_price( product_set.purchase_price ) %>
   </td>
 
 </tr>

@@ -53,7 +53,7 @@ class SupplyItem < ActiveRecord::Base
   # Must come AFTER associations
   define_index do
     # fields
-    indexes name, :sortable => true
+    indexes(:name, :sortable => true)
     indexes manufacturer, description, supplier_product_code, manufacturer_product_code
     indexes category01, category02, category03
     indexes status_constant

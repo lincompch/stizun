@@ -30,7 +30,8 @@ class Product < ActiveRecord::Base
   scope :supplied, :conditions => "supply_item_id IS NOT NULL"
   scope :loss_leaders, :conditions => { :is_loss_leader => true }
   scope :on_sale, :conditions => { :sale_state => true }
-
+  scope :having_unavailable_supply_item, joins(:supply_item).where("supply_items.status_constant != #{SupplyItem::AVAILABLE}")
+  
   before_save :set_explicit_sale_state, :cache_calculations
   after_create :try_to_get_product_files
   
@@ -39,12 +40,14 @@ class Product < ActiveRecord::Base
   # Must come AFTER associations
   define_index do
     # fields
-    indexes name, :sortable => true
+    indexes(:name, :sortable => true)
     indexes purchase_price, :sortable => true
     indexes supplier_id, manufacturer, short_description, description, supplier_product_code, manufacturer_product_code
     
+    has categories(:id), :as => :category_id
+    
     # attributes
-    has id, created_at, updated_at, is_available
+    has(:id, created_at, updated_at, is_available)
     
     set_property :delta => true
   end
@@ -405,7 +408,7 @@ class Product < ActiveRecord::Base
 
   def has_unavailable_supply_item?
     unless self.supply_item.blank?
-      self.supply_item.status_constant != SupplyItem::AVAILABLE
+      Product.having_unavailable_supply_item.where(:id => self.id).count == 1
     end
   end
   
