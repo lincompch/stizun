@@ -25,7 +25,7 @@ class StoreMailer < ActionMailer::Base
     subject = "#{APP_CONFIG['email_subject_prefix']} #{t("stizun.store_mailer.order_confirmation_subject")}"
     
     mail(:to => order.notification_email_addresses,
-         :bcc => @from,
+         :cc => @from,
          :subject => subject) do |format|
       format.text { render StoreMailer.template_path("order_confirmation") }
     end
@@ -36,7 +36,7 @@ class StoreMailer < ActionMailer::Base
     subject = "#{APP_CONFIG['email_subject_prefix']} #{t("stizun.store_mailer.invoice_notification_subject")}"
     @invoice = invoice
     mail(:to => invoice.notification_email_addresses,
-         :bcc => @from,
+         :cc => @from,
          :subject => subject) do |format|
       
       
