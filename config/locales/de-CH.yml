@@ -254,7 +254,7 @@ de-CH:
       invoice: "Rechnung"
       invoice_date: "Rechnungsdatum"
       invoice_overview: "Rechnungsübersicht"
-      view_invoice: "Rechnung ansehen"
+      view_invoice: "Rechnung ansehen/bezahlen"
       vat_number: "MwSt.-Nummer"
       no_unpaid_invoices: "Sie haben momentan keine unbezahlten Rechnungen."
     order:

@@ -36,31 +36,26 @@
 </p>
 
 <hr>
-  <h3><%= t("stizun.account.your_unpaid_invoices") %></h3>
+  <div class="invoices">
+    <h3><%= t("stizun.account.your_unpaid_invoices") %></h3>
 
-<% if @invoices.count > 0 %>
-    <table>
-      <tr>
-        <th><%= t("stizun.table_headers.number") %></th>
-        <th><%= t("stizun.table_headers.date") %></th>
-        <th><%= t("stizun.table_headers.status") %></th>
-        <th><%= t("stizun.table_headers.total") %></th>
-        <th></th>
-      </tr>
+  <% if @invoices.count > 0 %>
+      <table>        
+        <% @invoices.each do |i| %>
+          <%= render :partial => 'invoices/invoice', :object => i %>
+        <% end %>
+      </table>
+  <% else %>
 
-      <% @invoices.each do |i| %>
-        <%= render :partial => 'invoices/invoice', :object => i %>
-      <% end %>
-    </table>
-<% else %>
+    <%= t("stizun.invoice.no_unpaid_invoices") %>
 
-  <%= t("stizun.invoice.no_unpaid_invoices") %>
+  <% end %>
 
-<% end %>
+  <p class="rightalign">
+    <%= link_to t("stizun.account.view_all_invoices"), user_invoices_path(@user) %>
+  </p>
 
-<p class="rightalign">
-  <%= link_to t("stizun.account.view_all_invoices"), user_invoices_path(@user) %>
-</p>
+</div>
 
 <hr />
 

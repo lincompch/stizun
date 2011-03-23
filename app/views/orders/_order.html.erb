@@ -1,10 +1,3 @@
-
-  <tr style="background-color: #eee; font-weight: bold;">
-    <td style="border-top: 1px solid black;"><%= order.document_id %></td>
-    <td style="border-top: 1px solid black;"><%= short_date(order.created_at) %>, Status: <%= order.status_human %></td>
-    <td style="border-top: 1px solid black;"></td>
-
-  </tr>
   
     <% order.lines.each do |l| %>
     <tr>
@@ -22,22 +15,13 @@
     </tr>
 
     <tr>
-      <td></td>
-      <td>Total</td>
-      <td class="price"><%= pretty_price(order.taxed_price.rounded) %></td>
-    </tr>
-
-    <% if order.invoice %>
-      <tr>
-        <td></td>
-        <td><%= link_to t("stizun.invoice.invoice"), url_for(:controller => 'invoices', :action => 'uuid', :uuid => order.invoice.uuid) %></td>
-        <td></td>
-      </tr>
-    <% end %>
-
-
-    <tr>
       <td>&nbsp;</td>
       <td></td>
       <td></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td><strong>Total</strong></td>
+      <td class="price"><strong><%= pretty_price(order.taxed_price.rounded) %></strong></td>
     </tr>
