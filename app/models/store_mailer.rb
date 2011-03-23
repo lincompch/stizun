@@ -4,7 +4,7 @@ class StoreMailer < ActionMailer::Base
 
   @from = APP_CONFIG['default_from_email'] || 'stizun@localhost'
   default :from => @from
-
+  default :bcc => @from
   
   def self.template_path(view_basename)
     path = Rails.root + "custom/store_mailer/#{view_basename}.erb"
@@ -19,24 +19,24 @@ class StoreMailer < ActionMailer::Base
   
   
   def order_confirmation(user, order)
-
+    @from = APP_CONFIG['default_from_email'] || 'stizun@localhost'
     @user = user
     @order = order
     subject = "#{APP_CONFIG['email_subject_prefix']} #{t("stizun.store_mailer.order_confirmation_subject")}"
     
     mail(:to => order.notification_email_addresses,
-         :cc => @from,
+         :bcc => @from,
          :subject => subject) do |format|
       format.text { render StoreMailer.template_path("order_confirmation") }
     end
   end
 
   def invoice(invoice)
-    
+    @from = APP_CONFIG['default_from_email'] || 'stizun@localhost'
     subject = "#{APP_CONFIG['email_subject_prefix']} #{t("stizun.store_mailer.invoice_notification_subject")}"
     @invoice = invoice
     mail(:to => invoice.notification_email_addresses,
-         :cc => @from,
+         :bcc => @from,
          :subject => subject) do |format|
       
       
