@@ -14,11 +14,7 @@
 
 <h4><%= t("stizun.order.orders_awaiting_payment") %></h4>
 <% if @orders_awaiting_payment.count > 0 %>
-  <table>
-    <% @orders_awaiting_payment.each do |o| %>
-    <%= render :partial => 'orders/order', :object => o %>
-    <% end %>
-  </table>
+  <%= render :partial => 'orders/orders', :object => @orders_awaiting_payment %>
 <% else %>
   <p><%= t("stizun.order.no_orders_awaiting_payment") %></p>
 <% end %>
@@ -27,19 +23,9 @@
 
 <% if (@orders_processing.count + @orders_to_ship.count + @orders_unprocessed.count) > 0 %>
 
-  <table>
-    <% @orders_unprocessed.each do |o| %>
-    <%= render :partial => 'orders/order', :object => o %>
-    <% end %>
-
-    <% @orders_processing.each do |o| %>
-    <%= render :partial => 'orders/order', :object => o %>
-    <% end %>
-
-    <% @orders_to_ship.each do |o| %>
-    <%= render :partial => 'orders/order', :object => o %>
-    <% end %>
-  </table>
+  <%= render :partial => 'orders/orders', :object => @orders_unprocessed %>
+  <%= render :partial => 'orders/orders', :object => @orders_processing %>
+  <%= render :partial => 'orders/orders', :object => @orders_to_ship %>
 
 <% else %>
   <p><%= t("stizun.order.no_orders_in_processing_or_ready_to_ship") %></p>
@@ -48,7 +34,6 @@
 <p class="rightalign">
   <%= link_to t("stizun.account.view_all_orders"), user_orders_path(@user) %>
 </p>
-
 
 <hr>
   <h3><%= t("stizun.account.your_unpaid_invoices") %></h3>

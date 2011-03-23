@@ -535,6 +535,9 @@ a.fake_button {
   padding: 2px 4px 2px 4px;
 }
 
+
+/* Order, Cart and Invoice */
+
 #cart_table table, #order_table table, #invoice_table table {
   width: 100%;
   border-collapse: collapse;
@@ -576,7 +579,20 @@ a.fake_button {
 }
 
 
-/* Invoice */
+/* Order List View (Frontend) */
+/*
+.orders .even {
+  background: green;
+font-size: 24pt;
+}
+
+.orders .odd {
+  background: blue;
+  font-size: 24pt;
+}*/
+
+
+/* Invoice Detail View */
 
 table.invoice_addresses td {
 }
@@ -584,6 +600,9 @@ table.invoice_addresses td {
 table.invoice_addresses td.shipping_address {
   padding-left: 5em;
 }
+
+
+
 
 /* Global-ish stuff */
 

@@ -1,9 +1,9 @@
 <h1><%= t("stizun.order.overview")%></h1>
 
-
-
-<table>
+<table class="orders">
   <% @orders.each do |o| %>
-    <%= render :partial => 'order', :object => o %>
+    <div class="<%= cycle('even', 'odd') %>">
+      <%= render :partial => 'order', :object => o %>
+    </div>
   <% end %>
 </table>
