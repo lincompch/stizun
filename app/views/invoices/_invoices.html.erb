@@ -1,0 +1,11 @@
+
+
+<div class="invoices">
+  <% invoices.each do |i| %>
+    <div class="invoice <%= cycle('even', 'odd')%>">
+      <table>
+        <%= render :partial => 'invoices/invoice', :object => i %>
+      </table>
+    </div>
+  <% end %>
+</div>

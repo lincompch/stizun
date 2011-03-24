@@ -40,11 +40,7 @@
     <h3><%= t("stizun.account.your_unpaid_invoices") %></h3>
 
   <% if @invoices.count > 0 %>
-      <table>        
-        <% @invoices.each do |i| %>
-          <%= render :partial => 'invoices/invoice', :object => i %>
-        <% end %>
-      </table>
+   <%= render :partial => 'invoices/invoices', :object => @invoices %>
   <% else %>
 
     <%= t("stizun.invoice.no_unpaid_invoices") %>

@@ -2,12 +2,4 @@
 
 
 
-<table>
-
-  <% @invoices.each do |i| %>
-  
-    <%= render :partial => 'invoice', :object => i %>
-
-  <% end %>
-
-</table>
+<%= render :partial => 'invoices/invoices', :object => @invoices %>
