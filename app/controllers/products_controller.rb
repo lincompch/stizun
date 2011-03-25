@@ -2,31 +2,40 @@ class ProductsController < ApplicationController
 
     def index
       # Resource was accessed in nested form through /categories/n/products
-      params['ofield'] = "price" if params['ofield'].blank?
-      params['odir'] = "ASC"  if params['odir'].blank?
+      ofield = "price" if params['ofield'].blank?
+      odir = "ASC"  if params['odir'].blank?
+      session['ofield'] = params['ofield'] if params['ofield']
+      session['odir'] = params['odir'] if params['odir']
       
-      order_string = build_order_string(params['ofield'], 
-                                        params['odir'])
+      ofield = session['ofield'] if session['ofield']
+      odir = session['odir'] if session['odir']
+      
+      order_string = build_order_string(ofield, 
+                                        odir)
 
-      
-      if params[:category_id]
-        @category = Category.find params[:category_id]
-        @products = @category.products.available.order(order_string).paginate(:page => params[:page], 
-                                                          :per_page => Product.per_page)
-      else
-        @products = Product.available.order(order_string).paginate(:page => params[:page], 
-                                                                   :per_page => Product.per_page)
-      end
-      
+      keyword = nil
       if params[:q]
         if params[:q].length < 3
           flash[:error] = t('stizun.product.search_query_too_short')
         else
-          @products = Product.sphinx_available.search(params[:q], :page => params[:page], 
-                                                                  :per_page => Product.per_page,
-                                                                  :order => order_string)
+          keyword = params[:q]
         end
       end
+      
+      with = {}
+      conditions = {}
+      
+      if params[:category_id]
+        @category = Category.find params[:category_id]
+        with.merge!(:category_id => params[:category_id])
+      end
+      
+      @products = Product.sphinx_available.search(keyword,
+                                                  :conditions => conditions,
+                                                  :with => with,
+                                                  :order => order_string,
+                                                  :page => params[:page], 
+                                                  :per_page => Product.per_page)
       
       respond_to do |format|
       format.html
@@ -57,7 +66,7 @@ class ProductsController < ApplicationController
     end
 
     def build_order_string(field = "price", dir = "ASC")
-      field = "purchase_price" if field == "price"
+      field = "cached_taxed_price" if field == "price"
       return "#{field} #{dir}"
     end
       
