@@ -60,6 +60,8 @@ class ProductsController < ApplicationController
       # Fields for ordering (order field, order direction)   
       unless params['odir'].blank?
         session['odir'] = params['odir']
+      else
+        params['odir'] = "ASC"
       end
       
       if session['odir']
@@ -69,6 +71,8 @@ class ProductsController < ApplicationController
       
       unless params['ofield'].blank?
         session['ofield'] = params['ofield']
+      else
+        params['ofield'] = "price"
       end
       
       if session['ofield']
@@ -76,10 +80,8 @@ class ProductsController < ApplicationController
         params['ofield'] = ofield 
       end
             
-      ofield ||= "price"
-      ofield = "cached_taxed_price" if ofield == "price"
-      odir ||= "ASC"
-      puts ",,,,,,,,,,,,,,,,; giving: #{ofield} #{odir}" 
+      ofield = "cached_taxed_price" if params['ofield'] == "price"
+      odir = params['odir']
       return "#{ofield} #{odir}" 
     end
     
