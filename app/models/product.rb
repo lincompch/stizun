@@ -62,7 +62,7 @@ class Product < ActiveRecord::Base
   
   # Pagination with will_paginate
   def self.per_page
-    return 50
+    return 30
   end
 
   def cache_calculations
