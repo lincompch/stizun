@@ -1,6 +1,9 @@
 
 <% categories = Category.where(:supplier_id => nil) %>
-<%= tree_recursive(categories).html_safe %>
+
+<% cache('frontpage_category_tree') do %>
+  <%= tree_recursive(categories).html_safe %>
+<% end %>
 
 <div id="categorytree">
 

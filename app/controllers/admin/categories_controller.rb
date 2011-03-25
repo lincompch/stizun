@@ -13,6 +13,7 @@ class Admin::CategoriesController < Admin::BaseController
     @category = Category.new
     @category.update_attributes(params[:category])
     if @category.save
+      expire_fragment('frontend_category_tree')
       flash[:notice] = "Category created."
     else
       flash[:error] = "Error creating category."
@@ -30,6 +31,7 @@ class Admin::CategoriesController < Admin::BaseController
     @category.update_attributes(params[:category])
     
     if @category.save
+      expire_fragment('frontend_category_tree')
       flash[:notice] = "Category updated."
     else
       flash[:error] = "Error updating category."
@@ -44,6 +46,7 @@ class Admin::CategoriesController < Admin::BaseController
       flash[:error] = "Can't destroy this category because it still contains products."
     else
       if @category.destroy
+        expire_fragment('frontend_category_tree')
         flash[:notice] = "Category deleted."
       else
         flash[:error] = "Error deleting category."
