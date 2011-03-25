@@ -1,18 +1,9 @@
 class ProductsController < ApplicationController
 
     def index
-      # Resource was accessed in nested form through /categories/n/products
-      ofield = "price" if params['ofield'].blank?
-      odir = "ASC"  if params['odir'].blank?
-      session['ofield'] = params['ofield'] if params['ofield']
-      session['odir'] = params['odir'] if params['odir']
       
-      ofield = session['ofield'] if session['ofield']
-      odir = session['odir'] if session['odir']
+      order_string = build_order_string
       
-      order_string = build_order_string(ofield, 
-                                        odir)
-
       keyword = nil
       if params[:q]
         if params[:q].length < 3
@@ -65,9 +56,32 @@ class ProductsController < ApplicationController
       # delete the account
     end
 
-    def build_order_string(field = "price", dir = "ASC")
-      field = "cached_taxed_price" if field == "price"
-      return "#{field} #{dir}"
+    def build_order_string
+      # Fields for ordering (order field, order direction)   
+      unless params['odir'].blank?
+        session['odir'] = params['odir']
+      end
+      
+      if session['odir']
+        odir = session['odir']
+        params['odir'] = odir
+      end
+      
+      unless params['ofield'].blank?
+        session['ofield'] = params['ofield']
+      end
+      
+      if session['ofield']
+        ofield = session['ofield']
+        params['ofield'] = ofield 
+      end
+            
+      ofield ||= "price"
+      ofield = "cached_taxed_price" if ofield == "price"
+      odir ||= "ASC"
+      puts ",,,,,,,,,,,,,,,,; giving: #{ofield} #{odir}" 
+      return "#{ofield} #{odir}" 
     end
+    
       
 end
