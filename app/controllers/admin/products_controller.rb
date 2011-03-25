@@ -43,7 +43,7 @@ class Admin::ProductsController <  Admin::BaseController
                                       :conditions => conditions,
                                       :with => with,
                                       :max_matches => 100000,
-                                      :per_page => Product.per_page,
+                                      :per_page => 50,
                                       :page => params[:page])
       puts "with was #{with}"
     
