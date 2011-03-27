@@ -21,7 +21,7 @@
       <td><%= il.quantity %></td>
       <td class="product"><%= il.text %></td>
       <td class="price"><%= il.tax_percentage %></td>
-      <td class="price vertborders"><%= pretty_price(il.single_price, "") %></td>
+      <td class="price vertborders"><%= pretty_price(il.quantity * il.single_price, "") %></td>
       <td class="price vertborders"><%= pretty_price(il.taxed_price, "") %></td>
       <td class="price"><%= pretty_price(il.taxed_price, "") %></td>
       <td></td>
