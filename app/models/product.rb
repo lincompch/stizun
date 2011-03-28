@@ -55,7 +55,7 @@ class Product < ActiveRecord::Base
 
   sphinx_scope(:sphinx_available) {
     {
-    :conditions => { :is_available => 1}
+    :with => { :is_available => 1}
     }
   }
   
