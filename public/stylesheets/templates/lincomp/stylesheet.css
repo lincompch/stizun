@@ -67,7 +67,6 @@ td {
 	height: 100%;
 	margin-right: auto;
 	margin-left: auto;
-
 }
 
 #page {
@@ -75,12 +74,18 @@ td {
 }
 
 #header {
-	background: url('../../../images/templates/lincomp/bg_header.png');
 	height: 80px;
 	top: 0px;
 	width: 896px;
 	position: absolute;
+  background: #fff;
 }
+
+#logo {
+  margin-top: 15px;
+  margin-left: 32px;
+}
+
 #nav {
   background: url('../../../images/templates/lincomp/headernav_bg.png');
 	background-color: #545454;
