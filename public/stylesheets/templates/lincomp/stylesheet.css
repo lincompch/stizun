@@ -63,7 +63,7 @@ td {
 }
 
 #wrapper {
-	width: 896px;
+	width: 1000px;
 	height: 100%;
 	margin-right: auto;
 	margin-left: auto;
@@ -76,7 +76,7 @@ td {
 #header {
 	height: 80px;
 	top: 0px;
-	width: 896px;
+	width: 1000px;
 	position: absolute;
   background: #fff;
 }
@@ -91,7 +91,7 @@ td {
 	background-color: #545454;
   height: 35px;
 	padding-left: 25px;
-	width: 871px;
+	width: 975px;
 	position: absolute;
 	top: 80px;
 }
@@ -99,6 +99,8 @@ td {
 #nav a {
 	color: #ffffff;
 	text-decoration: none;
+
+
 }
 
 #nav_menu {
@@ -141,10 +143,9 @@ td {
 }
 
 #content {
-	/*background: #FFFFFF url('../../../images/templates/lincomp/bg_nav_refl_de.jpg') no-repeat;*/
   background: #FFFFFF;
 	padding-top: 20px;
-	width: 896px;
+	width: 1000px;
 	position: absolute;
 	top: 115px;
 }
@@ -152,8 +153,8 @@ td {
 #ct_main {
 	float: left;
 	top: 0;
-	width: 620px;
-	padding-left: 40px;
+	width: 740px;
+	padding-left: 35px;
 
 }
 
@@ -231,21 +232,23 @@ td {
 #ft_top {
 	background-image: url("../../../images/templates/lincomp/bg_ct_btm-white.png");
 	height: 34px;
-	width: 896px;
+	width: 1000px;
 	padding-top: 20px;
 	color: #666666;
 }
+
 #ft_btm {
-	/*background-image: url("../../../images/templates/lincomp/bg_ct_btm_refl3-blue.png");*/
   background-color: #EFEFEF;
 
   height: 206px;
-	width: 896px;
+	width: 1000px;
 	font-family: "Bitstream Vera Sans", "Vera Sans", "Deja Vu Sans", "Helvetica", sans-serif;
 	font-weight: bold;
 	color: #999999;
 	font-size: 0.8em;
 }
+
+
 #ft_left {
 	float: left;
 	margin-left: 25px;
@@ -417,8 +420,6 @@ table.productlist thead th, table.productlist tfoot th {
   background: #EDEDED;
   border-top: 1px solid #D1D1D1;
   border-bottom: 1px solid #D1D1D1;
-  /*border-left: 1px solid #EDEDED;
-  border-right: 1px solid #EDEDED;*/
 
 }
 
@@ -437,8 +438,8 @@ table.productlist .compact_add_to_cart_box {
 
 
 #product_details h3, #product_list h3 {
-  font-size: 1.4em;
-  text-shadow: 0.1em 0.1em 0.4em #bbb;
+  font-size: 1.3em;
+/*   text-shadow: 0.1em 0.1em 0.4em #bbb; */
 }
 
 
