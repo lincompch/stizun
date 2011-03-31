@@ -4,6 +4,7 @@ class Order < Document
   belongs_to :user
   has_many :order_lines
   has_one :invoice 
+  belongs_to :shipping_carrier
   
   belongs_to :shipping_address, :polymorphic => true
   belongs_to :billing_address, :polymorphic => true
