@@ -29,6 +29,13 @@
     <td>Status</td>
     <td><%= f.select :status_constant, options_for_select(Order::status_hash_for_select, @order.status_constant) %></td>
   </tr>
+
+  <tr>
+    <td>Carrier</td>
+    <td><%= f.collection_select :shipping_carrier_id, ShippingCarrier.all, :id, :name, {:include_blank => true} %></td>
+  </tr>
+
+
 </table>
 
 <%= f.submit "Submit" %>
