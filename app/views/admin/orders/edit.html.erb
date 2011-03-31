@@ -31,10 +31,9 @@
   </tr>
 
   <tr>
-    <td>Carrier</td>
-    <td><%= f.collection_select :shipping_carrier_id, ShippingCarrier.all, :id, :name, {:include_blank => true} %></td>
+    <td>Carrier/Tracking no.</td>
+    <td><%= f.collection_select :shipping_carrier_id, ShippingCarrier.all, :id, :name, {:include_blank => true} %> <%= f.text_field :tracking_number %></td>
   </tr>
-
 
 </table>
 
