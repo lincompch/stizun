@@ -92,6 +92,20 @@ class Order < Document
     return !invoice.blank?
   end
 
+  def has_tracking_information?
+    !tracking_number.blank? && !shipping_carrier_id.nil?
+  end
+  
+  # Pretty primitive, but mostly effective provided that tracking_base_url end
+  # in a query string (e.g. http://www.foo.com/tracking?blah=lala&foo=)
+  def tracking_url
+    if has_tracking_information?
+      return "#{shipping_carrier.tracking_base_url}#{tracking_number}"
+    else
+      return false
+    end
+  end
+  
   def document_id
     return "O-#{document_number}"
   end

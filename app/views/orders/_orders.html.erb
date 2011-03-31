@@ -3,10 +3,19 @@
 <% orders.each do |o| %>
   <div class="order <%= cycle('even', 'odd') %>">
     <h5><%= short_date(o.created_at) %>, Bestellnr. <%= o.document_id %> (<%= o.status_human %>)</h5>
+    
+
       <table>
           <%= render :partial => 'orders/order', :object => o %>
       </table>
-    <p class="rightalign"><%= link_to t("stizun.invoice.view_invoice"), url_for(:controller => 'invoices', :action => 'uuid', :uuid => o.invoice.uuid), { :class => 'fake_button'} if o.invoice %></p>
+    
+    <p class="rightalign">
+      <% if o.has_tracking_information? %>
+        <%= link_to "Paket verfolgen", o.tracking_url, { :class => 'fake_button'}  %>
+      <% end %>
+
+      <%= link_to t("stizun.invoice.view_invoice"), url_for(:controller => 'invoices', :action => 'uuid', :uuid => o.invoice.uuid), { :class => 'fake_button'} if o.invoice %>
+    </p>
     </div>
 <% end %>
 </div>
