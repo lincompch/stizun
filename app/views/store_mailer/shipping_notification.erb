@@ -1,0 +1,11 @@
+Hi there.
+
+Your stuff is on its way!
+
+<% if @order.has_tracking_information? %>
+To track your order, click the following tracking link: 
+<%= @order.tracking_url %>
+
+Your tracking number for the carrier <%= "#{@order.shipping_carrier.name}" %> is: <%= @order.tracking_number %>
+<% end %>
+That's just the kind of news you'd been waiting for, no?

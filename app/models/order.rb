@@ -19,8 +19,10 @@ class Order < Document
   
   validate :must_be_authorized_for_payment_method
   
+  # === Callbacks
+  
   after_initialize :assign_payment_method, :assign_document_number 
-
+  before_save :send_shipping_notification
   
   # This doesn't seem to work at all, or at least not as advertised
   # Might be fixed in Rails 3.0 (polymorphic association + nested forms)
@@ -200,6 +202,20 @@ class Order < Document
   
   def assign_document_number
     self.document_number ||= Numerator.get_number
+  end
+  
+  def send_shipping_notification
+    # Order went from something else to SHIPPED, let's send a notification
+    if status_constant_was != SHIPPED && status_constant == SHIPPED
+      # Is this require really required? Just to have some errors
+      # that we can rescue?
+      require 'net/smtp'
+      begin
+        StoreMailer.shipping_notification(self).deliver
+      rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
+        History.add("Could not send shipping notification for order  #{self.document_id}: #{e.to_s}", History::GENERAL, self)
+      end
+    end
   end
   
 end

@@ -1,0 +1,31 @@
+Liebe Lincomp-Kundin
+Lieber Lincomp-Kunde
+
+Die bestellte Ware aus Bestellung <%= @order.document_id %> ist auf dem Weg zu Ihnen.
+
+<% if @order.has_tracking_information? %>
+Um Ihr Paket zu verfolgen, verwenden Sie bitte den folgenden Link: 
+<%= @order.tracking_url %>
+
+Lieferdienst: <%= "#{@order.shipping_carrier.name}" %>
+Tracking-Nummer: <%= @order.tracking_number %>
+<% end %>
+
+
+Falls Sie ein persönliches Konto bei Lincomp eingerichtet haben, können
+Sie die Paketverfolgung auch jederzeit über Ihre persönliche Seite
+starten:
+
+http://www.lincomp.ch/users/me
+
+Dort finden Sie auch vergangene Bestellungen, können Ihre Adressliste
+bearbeiten usw.
+
+
+Freundliche Grüsse
+
+Lincomp GmbH
+
+--
+
+info@lincomp.ch | http://www.lincomp.ch
