@@ -5,7 +5,7 @@ Die bestellte Ware aus Bestellung <%= @order.document_id %> ist auf dem Weg zu I
 
 <% if @order.has_tracking_information? %>
 Um Ihr Paket zu verfolgen, verwenden Sie bitte den folgenden Link: 
-<%= @order.tracking_url %>
+<%= raw @order.tracking_url %>
 
 Lieferdienst: <%= "#{@order.shipping_carrier.name}" %>
 Tracking-Nummer: <%= @order.tracking_number %>

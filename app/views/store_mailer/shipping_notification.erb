@@ -4,7 +4,7 @@ Your stuff is on its way!
 
 <% if @order.has_tracking_information? %>
 To track your order, click the following tracking link: 
-<%= @order.tracking_url %>
+<%= raw @order.tracking_url %>
 
 Your tracking number for the carrier <%= "#{@order.shipping_carrier.name}" %> is: <%= @order.tracking_number %>
 <% end %>
