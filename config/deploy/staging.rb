@@ -24,6 +24,7 @@ task :link_config do
   run "rm -r #{release_path}/test"
   run "ln -s #{release_path}/public #{release_path}/test"
   run "sed -i 's:config.middleware.use.*::' #{release_path}/config/environments/production.rb"
+  run "sed -i 's,default_from_email:.*,default_from_email: \"rca@psy-q.ch\",' #{release_path}/config/stizun.yml"
 end
 
 task :link_files do
