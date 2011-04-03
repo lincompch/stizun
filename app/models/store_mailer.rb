@@ -20,7 +20,7 @@ class StoreMailer < ActionMailer::Base
   
   def order_confirmation(user, order)
     @from = APP_CONFIG['default_from_email'] || 'stizun@localhost'
-    @user = user
+    @user = user # This variable is never used?
     @order = order
     subject = "#{APP_CONFIG['email_subject_prefix']} #{t("stizun.store_mailer.order_confirmation_subject")}"
     

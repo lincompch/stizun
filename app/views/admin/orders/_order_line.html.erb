@@ -4,16 +4,16 @@
   </td>
 
   <td>
-  <%= order_line.product.manufacturer %>
+  <%= order_line.manufacturer %>
   </td>
 
   <td>
-  <%= order_line.product.manufacturer_product_code %>
+  <%= order_line.manufacturer_product_code %>
   </td>
 
 
   <td>
-  <%= link_to order_line.product.name, edit_admin_product_path(order_line.product), :class => 'fancybox' %>
+  <%= link_to order_line.text, edit_admin_product_path(order_line.product), :class => 'fancybox' %>
   </td>
     
   <td>
@@ -28,15 +28,15 @@
   </td>
 
   <td>
-  <%= order_line.product.tax_class.percentage %>%
+  <%= order_line.tax_percentage %>%
   </td>
   
   <td class="price">
-  <%= pretty_price(order_line.product.taxed_price.rounded) %>
+  <%= pretty_price(order_line.single_price) %>
   </td>
   
   <td class="price">
-  <%= pretty_price(order_line.taxed_price.rounded) %>
+  <%= pretty_price(order_line.taxed_price) %>
   </td>
 
 </tr>

@@ -22,6 +22,7 @@ class Product < ActiveRecord::Base
   belongs_to :tax_class
   belongs_to :supply_item
   has_many :document_lines
+  has_many :static_document_lines
   has_and_belongs_to_many :categories
   
   belongs_to :supplier

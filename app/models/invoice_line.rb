@@ -1,3 +1,3 @@
-class InvoiceLine < ActiveRecord::Base
+class InvoiceLine < StaticDocumentLine
   belongs_to :invoice
 end

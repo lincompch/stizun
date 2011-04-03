@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
     
     if params[:user_id]
       if current_user == User.find(params[:user_id])
-        @orders = Order.where(:user_id => params[:user_id]).order('status_constant ASC, created_at DESC')
+        @orders = Order.where(:user_id => current_user.id).order('status_constant ASC, created_at DESC')
       end
     end
   end
@@ -49,9 +49,7 @@ class OrdersController < ApplicationController
     
     # Copy lines from the cart to the order
     @cart = load_cart
-    @order.order_lines_from_cart(@cart)
-    
-    
+    @order.clone_from_cart(@cart)    
     
     if @order.save
       @cart.destroy

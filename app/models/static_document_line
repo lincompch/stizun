@@ -1,0 +1,3 @@
+class StaticDocumentLine < ActiveRecord::Base
+  belongs_to :static_document
+end

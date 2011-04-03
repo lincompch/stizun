@@ -1,10 +1,14 @@
-class Order < StaticDocument
+class OldOrder < Document
 
   # === Associations
   belongs_to :user
-  has_many :order_lines
+  has_many :old_order_lines
   has_one :invoice 
   belongs_to :shipping_carrier
+  
+  belongs_to :shipping_address, :polymorphic => true
+  belongs_to :billing_address, :polymorphic => true
+  belongs_to :payment_method
   
   # === Validations
   
@@ -63,16 +67,16 @@ class Order < StaticDocument
   end
   
   def status_human
-    return Order::status_to_human(status_constant)
+    return OldOrder::status_to_human(status_constant)
   end  
   
   # === Named scopes
   
-  scope :unprocessed, :conditions => { :status_constant => Order::UNPROCESSED }
-  scope :processing, :conditions => { :status_constant => Order::PROCESSING }
-  scope :awaiting_payment, :conditions => { :status_constant => Order::AWAITING_PAYMENT }
-  scope :shipped, :conditions => { :status_constant => Order::SHIPPED }
-  scope :to_ship, :conditions => { :status_constant => Order::TO_SHIP }
+  scope :unprocessed, :conditions => { :status_constant => OldOrder::UNPROCESSED }
+  scope :processing, :conditions => { :status_constant => OldOrder::PROCESSING }
+  scope :awaiting_payment, :conditions => { :status_constant => OldOrder::AWAITING_PAYMENT }
+  scope :shipped, :conditions => { :status_constant => OldOrder::SHIPPED }
+  scope :to_ship, :conditions => { :status_constant => OldOrder::TO_SHIP }
   
   scope :pending_from_user_perspective, :conditions => "status_constant == ?" # TODO: is this working yet?
   
@@ -108,45 +112,25 @@ class Order < StaticDocument
     return "O-#{document_number}"
   end
   
-  def direct_shipping?
-    direct_shipping
-  end
-  
-  def self.new_from_cart(cart)    
+  # Static method, should be used whenever creating an order
+  # based on a pre-existing cart, e.g. during checkout
+  def self.create_from_cart(cart)
     order = self.new
-    order.clone_from_cart(cart)
+    order.old_order_lines_from_cart(cart)
     return order
   end
   
-  def clone_from_cart(cart)
-    self.shipping_cost = cart.shipping_rate.total_cost.rounded
-    self.shipping_taxes = cart.shipping_taxes
-    self.direct_shipping = true if cart.direct_shipping? == true
-    self.order_lines_from_cart(cart)   
-    return self
-  end
-  
-  
-  def order_lines_from_cart(cart)
+  # The same, but works with an existing OldOrder object
+  def old_order_lines_from_cart(cart)
+    order = self
     cart.cart_lines.each do |cl|
-      ol = OrderLine.new
-      ol.quantity = cl.quantity
-      ol.text = cl.product.name
-      ol.product = cl.product
-      ol.taxed_price = cl.taxed_price.rounded      
-      ol.gross_price = cl.gross_price
-      ol.single_price = cl.product.taxed_price.rounded
-      ol.single_untaxed_price = cl.product.gross_price.rounded
-      ol.tax_percentage = cl.product.tax_class.percentage
-      ol.manufacturer = cl.product.manufacturer
-      ol.manufacturer_product_code = cl.product.manufacturer_product_code
-      ol.taxes = cl.taxes
-      ol.weight = cl.product.weight
-      self.order_lines << ol
+      ol = OldOrderLine.create(cl.attributes)
+      ol.cart_id = nil
+      order.old_order_lines << ol
     end
-    return self
+    return order
   end
-  
+    
   
   # This is used in validation.
   # If neither address is filled in, validate both.
@@ -163,13 +147,13 @@ class Order < StaticDocument
     end
   end
   
-  # Alias for order_lines so that generic order|invoice.lines works
+  # Alias for old_order_lines so that generic order|invoice.lines works
   def lines
-    order_lines
+    old_order_lines
   end
 
   
-  # A locked order's order_lines may not be changed anymore.
+  # A locked order's old_order_lines may not be changed anymore.
   # This is to prevent invoiced orders from being changed, otherwise
   # the invoice would no longer be correct.
   # TODO: This is probably no longer necessary now that we save invoices
@@ -177,7 +161,7 @@ class Order < StaticDocument
   # references.
   def locked?
     locked = false
-    status_constant == Order::UNPROCESSED ? locked = false : locked = true
+    status_constant == OldOrder::UNPROCESSED ? locked = false : locked = true
     locked = true unless invoice.blank?
     return locked
   end
@@ -221,7 +205,7 @@ class Order < StaticDocument
   end
   
   def send_shipping_notification
-    # Order went from something else to SHIPPED, let's send a notification
+    # OldOrder went from something else to SHIPPED, let's send a notification
     if status_constant_was != SHIPPED && status_constant == SHIPPED
       # Is this require really required? Just to have some errors
       # that we can rescue?

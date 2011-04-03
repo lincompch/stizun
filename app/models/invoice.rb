@@ -1,7 +1,7 @@
 # Most of the tax booking functionality is required here.
 require 'tax_bookers/tax_booker'
 
-class Invoice < ActiveRecord::Base
+class Invoice < StaticDocument
 
   # === Associations
   
@@ -9,20 +9,8 @@ class Invoice < ActiveRecord::Base
   has_many :invoice_lines
   belongs_to :order
   
-  belongs_to :shipping_address, :polymorphic => true
-  belongs_to :billing_address, :polymorphic => true
-  belongs_to :payment_method
-  
-  
-  # === Validations
-  
-  validates_presence_of :billing_address
-  validates_associated :billing_address, :message => 'is incomplete'
-
-  
   # === AR Callbacks
   
-  before_create :assign_uuid
   before_save :handle_autobooking
   before_validation :move_paid_status
   after_create :record_income
@@ -67,40 +55,9 @@ class Invoice < ActiveRecord::Base
     return "I-#{document_number}"
   end
 
-  def taxed_price
-    return invoice_lines.sum("taxed_price") + shipping_cost
-  end
-
-  def gross_price
-    return invoice_lines.sum("gross_price")
-  end
-  
-  def products_taxed_price
-    return invoice_lines.sum("taxed_price")
-  end
-  
   # Alias for order_lines so that generic (order|invoice).lines works
   def lines
     invoice_lines
-  end
-
-  def weight
-    weight = 0.0
-    lines.each do |l|
-      weight += l.quantity * l.weight unless l.weight.blank?
-    end
-    return weight
-  end
-  
-  def taxes
-    product_taxes = lines.sum('taxes')
-    # This kills the poor bookkeeper
-    #return product_taxes + shipping_taxes
-    return product_taxes
-  end
-
-  def total_taxes
-    taxes + shipping_taxes
   end
   
   # Static method, should be used whenever creating an invoice
@@ -131,7 +88,7 @@ class Invoice < ActiveRecord::Base
        self.shipping_address_type = order.shipping_address_type
        self.billing_address = order.billing_address
        self.shipping_address = order.shipping_address
-       self.shipping_cost = order.shipping_rate.total_cost.rounded
+       self.shipping_cost = order.shipping_cost
        self.shipping_taxes = order.shipping_taxes
        self.status_constant = Invoice::UNPAID
        self.invoice_lines_from_order(order)
@@ -142,46 +99,14 @@ class Invoice < ActiveRecord::Base
   def invoice_lines_from_order(order)
     invoice = self
     order.order_lines.each do |ol|
-      il = InvoiceLine.new
-      il.quantity = ol.quantity
-      il.text = ol.product.name
-      il.taxed_price = ol.taxed_price.rounded      
-      il.gross_price = ol.gross_price
-      il.single_price = ol.product.price.rounded
-      il.tax_percentage = ol.product.tax_class.percentage
-      il.taxes = ol.taxes
-      il.weight = ol.product.weight
+      il = InvoiceLine.create(ol.attributes)
+      il.order_id = nil
       self.invoice_lines << il
     end
     return invoice
   end
-  
-  
-  # Unfortunate duplication introduced by the splitting of Invoices from Documents.
-  # must be refactored.
-  def notification_email_addresses
-    emails = []
-    if self.billing_address.email.blank? and self.shipping_address.email.blank? and !self.user.nil?
-      emails << self.user.email
-    elsif self.shipping_address.nil? and !self.billing_address.email.blank?
-      emails << self.billing_address.email
-    else
-      if (!self.user.nil? and !self.user.email.blank?)
-        emails << self.user.email
-      end
-      emails << self.billing_address.email unless self.billing_address.email.blank?
-      emails << self.shipping_address.email unless self.shipping_address.email.blank?
-    end
-    
-    return emails.uniq
-  end
 
   # ActiveRecord before_* and after_* callbacks
-  
-  def assign_uuid
-    self.uuid = UUIDTools::UUID.random_create.to_s
-    self.document_number ||= Numerator.get_number
-  end
   
   def move_paid_status
     # This is not a transformation, it's just to prevent accounting problems, an invoice

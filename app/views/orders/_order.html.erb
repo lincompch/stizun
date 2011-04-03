@@ -2,8 +2,8 @@
     <% order.lines.each do |l| %>
     <tr>
       <td><%= l.quantity %></td>
-      <td><%= l.product.name %></td>
-      <td class="price"><%= pretty_price(l.product.taxed_price.rounded) %></td>
+      <td><%= l.text %></td>
+      <td class="price"><%= pretty_price(l.taxed_price) %></td>
     </tr>
     <% end %>
 
@@ -11,7 +11,7 @@
     <tr>
       <td></td>
       <td><%= t("stizun.order.shipping_cost")%></td>
-      <td class="price"><%= pretty_price(order.shipping_rate.total_cost) %></td>
+      <td class="price"><%= pretty_price(order.shipping_cost) %></td>
     </tr>
 
     <tr>
@@ -23,5 +23,5 @@
     <tr>
       <td></td>
       <td><strong>Total</strong></td>
-      <td class="price"><strong><%= pretty_price(order.taxed_price.rounded) %></strong></td>
+      <td class="price"><strong><%= pretty_price(order.taxed_price) %></strong></td>
     </tr>
