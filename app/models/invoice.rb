@@ -102,9 +102,7 @@ class Invoice < StaticDocument
       # order_lines are static_document_lines, so they can be assigned to an invoice
       # at the same time, ensuring that the invoice always reflects the order 100%.
       ol.invoice = invoice
-      #il = InvoiceLine.create(ol.attributes)
-      #il.order_id = nil
-      #self.invoice_lines << il
+      ol.save
     end
     return invoice
   end
