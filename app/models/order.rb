@@ -222,7 +222,9 @@ class Order < StaticDocument
   
   def send_shipping_notification
     # Order went from something else to SHIPPED, let's send a notification
-    if status_constant_was != SHIPPED && status_constant == SHIPPED
+    
+    previous_status = [UNPROCESSED, PROCESSING, AWAITING_PAYMENT, TO_SHIP]
+    if previous_status.include?(status_constant_was) && status_constant == SHIPPED
       # Is this require really required? Just to have some errors
       # that we can rescue?
       require 'net/smtp'

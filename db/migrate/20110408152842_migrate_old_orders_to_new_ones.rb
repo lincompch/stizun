@@ -26,6 +26,7 @@ class MigrateOldOrdersToNewOnes < ActiveRecord::Migration
         oo.invoice.lines.each do |il|
           il.order_id = o.id
           il.product_id = Product.where(:name => il.text).first.id
+          il.single_untaxed_price = Product.where(:name => il.text).first.gross_price.rounded          
           puts " --- ARGH, no product!" if il.product_id.nil?
           if il.save
             puts " --- invoice line #{il.id} saved"
