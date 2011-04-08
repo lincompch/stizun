@@ -49,6 +49,8 @@ Stizun::Application.configure do
   
   config.action_mailer.default_url_options = { :host => "www.lincomp.ch" }
 
+  config.action_mailer.perform_deliveries = false
+
   config.middleware.use Rack::SslEnforcer, :only => [/^\/admin/, /^\/users/, /^\/orders/, /^\/login/, /\/^user_sessions/]
   
 end

@@ -2,7 +2,7 @@ set :application, "lincomp"
 
 set :scm, :git
 set :repository, "git://github.com/psy-q/stizun.git"
-set :branch, "master"
+set :branch, "merged_orders"
 set :deploy_via, :remote_cache
 set :keep_releases, 2 
 
@@ -25,6 +25,7 @@ task :link_config do
   run "ln -s #{release_path}/public #{release_path}/test"
   run "sed -i 's:config.middleware.use.*::' #{release_path}/config/environments/production.rb"
   run "sed -i 's,default_from_email:.*,default_from_email: \"rca@psy-q.ch\",' #{release_path}/config/stizun.yml"
+  run "sed -i 's,config.action_mailer.perform_deliveries = false,config.action_mailer.perform_deliveries = true' #{release_path}/config/environments/production.rb"
 end
 
 task :link_files do
