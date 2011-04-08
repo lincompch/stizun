@@ -1,3 +1,3 @@
 class OldOrderLine < DocumentLine
-  belongs_to :order
+  belongs_to :old_order
 end
