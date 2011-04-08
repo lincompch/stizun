@@ -24,6 +24,8 @@ task :link_config do
   run "ln -s #{db_config} #{release_path}/config/database.yml"
   run "rm #{release_path}/config/email.yml"
   run "ln -s #{email_config} #{release_path}/config/email.yml"
+
+  run "sed -i 's,config.action_mailer.perform_deliveries = false,config.action_mailer.perform_deliveries = true' #{release_path}/config/environments/production.rb"
 end
 
 task :link_files do
