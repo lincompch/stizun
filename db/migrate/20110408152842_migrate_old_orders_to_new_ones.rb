@@ -4,7 +4,6 @@ class MigrateOldOrdersToNewOnes < ActiveRecord::Migration
     OldOrder.all.each do |oo|
       o = Order.new
       o.user = oo.user
-      o.product = oo.product
       o.document_number = oo.document_number
       o.status_constant = oo.status_constant
       o.created_at = oo.created_at
@@ -26,13 +25,18 @@ class MigrateOldOrdersToNewOnes < ActiveRecord::Migration
         puts "order #{o.id} has an invoice, importing lines:"
         oo.invoice.lines.each do |il|
           il.order_id = o.id
+          il.product_id = Product.where(:name => il.text).first.id
+          puts " --- ARGH, no product!" if il.product_id.nil?
           if il.save
             puts " --- invoice line #{il.id} saved"
           else
             puts " --- invoice line #{il.id} could not be changed"
           end
         end
+        o.invoice = oo.invoice
       end
+      
+      
       
       puts " +++"
       
