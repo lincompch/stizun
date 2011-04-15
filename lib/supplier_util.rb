@@ -125,5 +125,12 @@ class SupplierUtil
 
     return si
   end
+
+
+  # If you want to implement a live update method for your own supplier util, subclass this class and override
+  # live_update to return a changes hash like ActiveRecord does.
+  def live_update
+    return nil
+  end
   
 end
