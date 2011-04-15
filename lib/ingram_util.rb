@@ -168,10 +168,10 @@ class IngramUtil < SupplierUtil
 
         if response.code == "200"
           product_code, stock, price_in_cents, time, delivery_date = response.body.split(";")
-          new_price = BigDecimal.new( (price_in_cents.to_i / 100.0).to_s )
+          new_purchase_price = BigDecimal.new( (price_in_cents.to_i / 100.0).to_s )
           new_stock = stock
 
-          product.purchase_price = new_price
+          product.purchase_price = new_purchase_price
           product.stock = stock
 
           if product.changes.empty?
@@ -179,8 +179,10 @@ class IngramUtil < SupplierUtil
             return nil
           else
             changes = product.changes.clone
+            old_price = product.taxed_price
             if product.save
               logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, changes: #{changes.inspect}"
+              changes.merge! { :price => [old_price, product.taxed_price] }
             else
               logger.error "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there was an error saving them: #{product.errors.full_messages}"
             end

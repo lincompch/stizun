@@ -1,5 +1,12 @@
 class CartsController < ApplicationController
 
+  before_filter :set_up_product_updates
+
+
+  def set_up_product_updates
+    @product_updates = {}
+  end
+  
   def add_product
     @cart = Cart.get_from_session(session)
     product = Product.find(params[:product_id])
@@ -37,6 +44,7 @@ class CartsController < ApplicationController
   
   def checkout
     @cart = Cart.get_from_session(session)
+    live_update_products
   end
   
   def change_quantity
@@ -73,6 +81,12 @@ class CartsController < ApplicationController
     @cart = Cart.get_from_session(session)
   end
   
-  
+
+  def live_update_products
+    @cart.lines.each do |line|
+      @product_updates[line.id => line.product.live_update]
+    end
+    @cart.reload
+  end
   
 end
