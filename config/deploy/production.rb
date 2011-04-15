@@ -11,6 +11,7 @@ set :deploy_to, "/home/lincomp/production"
 
 
 set :db_config, "/home/lincomp/database_prod.yml"
+set :stizun_config, "/home/lincomp/stizun.yml"
 set :email_config, "/home/lincomp/email.yml"
 set :custom_directory, "/home/lincomp/custom"
 
@@ -22,6 +23,8 @@ task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
   run "rm #{release_path}/config/database.yml"
   run "ln -s #{db_config} #{release_path}/config/database.yml"
+  run "rm #{release_path}/config/stizun.yml"
+  run "ln -s #{stizun_config} #{release_path}/config/stizun.yml"
   run "rm #{release_path}/config/email.yml"
   run "ln -s #{email_config} #{release_path}/config/email.yml"
 

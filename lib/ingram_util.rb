@@ -122,5 +122,82 @@ class IngramUtil < SupplierUtil
     end
     return supplier.shipping_rate
   end
+
+
+  # Update a product's information (stock level, price) from Ingram Micro's live update URL
+  def self.live_update(product)
+
+
+    logger = Logger.new("#{Rails.root}/log/ingram_live_update_#{Time.now.strftime("%Y-%m-%d")}.log")
+    
+    # e.g. from Ingram Micro GmbH:
+    # http://CH27KNR000@www.ingrammicro.de/cgi-bin/scripts/get_avail.pl?CCD=CH&BNR=27&KNR=999999&SKU=016Z006~016Z007&QTY=10~100&SYS=CF
+    #
+    # KNR: ihre Kundennummer z.B. CH27620030000
+    # PWD: ihr Passwort für die INGRAM MICRO Online Systeme (IM.Order)
+    # CCD: CompanyCode "CH" für die Schweiz
+    # KNR: ihre sechsstellige Kundennummer
+    # BNR: BranchNbr  (27)
+    # SKU: INGRAM MICRO Artikelnummer mit ~ getrennt können auch mehrere Artikelnummern übergeben werden
+    # HST: Alternativ zur INGRAM MICRO Artikelnummer kann auch die Hersteller Artikelnummer übergeben werden. Auch hier können mehrere Artikel mit ~ getrennt übergeben werden.
+    # QTY: gewünschte Menge für jeden Artikel mit ~ getrennt (optional, Standard=1)
+    # SYS: steuert den Response. Mögliche Parameter sind CF, CF_QTY und XML.
+    #
+    # Response:
+    # SYS=CF     Artikelnummer;Lagerbestand;Preis in Schweizer Rappen;Zeit;Liefertermin;
+    # SYS=CF_QTY      Lagerbestand
+    # SYS=XML
+
+    customer_no = APP_CONFIG['ingram_customer_number']
+    username = "CH27" + customer_no + "000"
+    password = APP_CONFIG['ingram_password']
+    
+    require 'net/https'
+
+    host = "www.ingrammicro.de"
+    port = 443
+    path = "/cgi-bin/scripts/get_avail.pl?CCD=CH&BNR=27&KNR=#{customer_no}&SKU=#{product.supplier_product_code}&QTY=1&SYS=CF"
+
+    begin
+      http = Net::HTTP.new(host, 443)
+      http.use_ssl = true
+      http.start do |http|
+        req = Net::HTTP::Get.new(path)
+        req.basic_auth(username, password)
+        response = http.request(req)
+
+        if response.code == "200"
+          product_code, stock, price_in_cents, time, delivery_date = response.body.split(";")
+          new_price = BigDecimal.new( (price_in_cents.to_i / 100.0).to_s )
+          new_stock = stock
+
+          product.purchase_price = new_price
+          product.stock = stock
+
+          if product.changes.empty?
+            logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there were no changes."
+            return nil
+          else
+            changes = product.changes.clone
+            if product.save
+              logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, changes: #{changes.inspect}"
+            else
+              logger.error "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there was an error saving them: #{product.errors.full_messages}"
+            end
+            return changes
+          end
+
+        end
+      end
+
+    rescue Exception => e
+      logger.error "[#{DateTime.now.to_s}] Exception during Ingram Micro HTTPS product update for #{product}"
+      logger.error e.message
+      logger.error e.backtrace.inspect
+    end
+
+  end
+
+
   
 end
