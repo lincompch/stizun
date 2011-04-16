@@ -155,10 +155,8 @@ class IngramUtil < SupplierUtil
     password = APP_CONFIG['ingram_password']
     
     products = lines.collect(&:product)
-    puts "products are #{products.inspect}"
     supplier_product_codes = products.collect(&:supplier_product_code)
     supplier_product_code_string = supplier_product_codes.join("~")
-    puts "codes are #{supplier_product_codes.inspect}"
     quantities = (["1"] * supplier_product_codes.size).join("~")
     
     require 'net/https'
@@ -180,28 +178,36 @@ class IngramUtil < SupplierUtil
         if response.code == "200"
           puts "body is: #{response.body}"
           
-#  This one is for single product
-#           product_code, stock, price_in_cents, time, delivery_date = response.body.split(";")
-#           new_purchase_price = BigDecimal.new( (price_in_cents.to_i / 100.0).to_s )
-#           new_stock = stock
-# 
-#           product.purchase_price = new_purchase_price
-#           product.stock = stock
-# 
-#           if product.changes.empty?
-#             logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there were no changes."
-#             return nil
-#           else
-#             changes = product.changes.clone
-#             old_price = product.taxed_price
-#             if product.save
-#               logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, changes: #{changes.inspect}"
-#               #changes.merge! { :price => [old_price, product.taxed_price] }
-#             else
-#               logger.error "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there was an error saving them: #{product.errors.full_messages}"
-#             end
-#             return changes
-#           end
+          update_lines = response.body.split("\n")
+          update_lines.each do |line|
+            product_code, stock, price_in_cents, time, delivery_date = line.split(";")
+            product = Product.where(:supplier_product_code => product_code).first
+            old_price = product.taxed_price.rounded
+            new_purchase_price = BigDecimal.new( (price_in_cents.to_i / 100.0).to_s )
+            new_stock = stock
+            product.purchase_price = new_purchase_price
+            product.stock = stock
+            
+            if product.changes.empty?
+                            puts "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there were no changes."
+
+              logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there were no changes."
+              #return nil
+            else
+              changes = product.changes.clone
+              if true # product.save
+                changes.merge!({ "price" => [old_price, product.taxed_price.rounded] }) unless changes['purchase_price'].blank?
+                puts "[#{DateTime.now.to_s}] Live update for #{product} was triggered, changes: #{changes.inspect}"
+                logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, changes: #{changes.inspect}"
+              else
+                logger.error "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there was an error saving them: #{product.errors.full_messages}"
+              end
+              #return changes
+            end                  
+            
+          end
+                    
+
 
         end
       end
