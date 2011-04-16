@@ -164,8 +164,6 @@ class IngramUtil < SupplierUtil
     host = "www.ingrammicro.de"
     port = 443
     path = "/cgi-bin/scripts/get_avail.pl?CCD=CH&BNR=27&KNR=#{customer_no}&SKU=#{supplier_product_code_string}&QTY=#{quantities}&SYS=CF"
-
-    puts "trying #{path}"
     
     begin
       http = Net::HTTP.new(host, 443)
@@ -176,8 +174,7 @@ class IngramUtil < SupplierUtil
         response = http.request(req)
 
         if response.code == "200"
-          puts "body is: #{response.body}"
-          
+          total_changes = {}
           update_lines = response.body.split("\n")
           update_lines.each do |line|
             product_code, stock, price_in_cents, time, delivery_date = line.split(";")
@@ -189,33 +186,31 @@ class IngramUtil < SupplierUtil
             product.stock = stock
             
             if product.changes.empty?
-                            puts "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there were no changes."
-
               logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there were no changes."
-              #return nil
             else
               changes = product.changes.clone
-              if true # product.save
+              if product.save
                 changes.merge!({ "price" => [old_price, product.taxed_price.rounded] }) unless changes['purchase_price'].blank?
-                puts "[#{DateTime.now.to_s}] Live update for #{product} was triggered, changes: #{changes.inspect}"
                 logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, changes: #{changes.inspect}"
               else
                 logger.error "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there was an error saving them: #{product.errors.full_messages}"
               end
-              #return changes
+              # Fill a hash with changes using the product id as key
+              total_changes[product.id] = changes
+              puts total_changes.inspect
             end                  
-            
           end
                     
-
+          return total_changes
 
         end
       end
 
     rescue Exception => e
-      logger.error "[#{DateTime.now.to_s}] Exception during Ingram Micro HTTPS product update for #{product}"
+      logger.error "[#{DateTime.now.to_s}] Exception during Ingram Micro HTTPS document lines/product live update"
       logger.error e.message
       logger.error e.backtrace.inspect
+      return false
     end
 
   end
