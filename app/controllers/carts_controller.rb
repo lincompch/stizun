@@ -79,12 +79,18 @@ class CartsController < ApplicationController
   def show
     # This is reused as the checkout view
     @cart = Cart.get_from_session(session)
+    live_update_products
   end
   
 
   def live_update_products
     @product_updates = @cart.live_update_products
-    @cart.reload
+    unless @product_updates.blank?
+      @cart.reload
+      @cart.lines.each do |line|
+        line.reload
+      end
+    end
   end
   
 end

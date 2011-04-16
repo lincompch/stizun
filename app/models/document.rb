@@ -164,12 +164,12 @@ class Document < ActiveRecord::Base
   end
 
   def live_update_products
-    @product_updates ||= []
+    product_updates ||= []
     suppliers.each do |sup|
       if !sup.utility_class_name.blank?
         begin
           require "lib/#{sup.utility_class_name.underscore}"
-          @product_updates << sup.utility_class_name.constantize.live_update(lines_by_supplier(sup))
+          product_updates << sup.utility_class_name.constantize.live_update(lines_by_supplier(sup))
         rescue LoadError => e
           logger.error "Could not require lib/#{sup.utility_class_name.underscore} for live update: #{e.message}"
         end
@@ -177,7 +177,7 @@ class Document < ActiveRecord::Base
         logger.error "No utility_class_name set for supplier #{sup.name}. You must set one and write a live_update method inside that supplier's utility class if you want to use this feature."
       end
     end
-    return @product_updates
+    return product_updates
   end
   
 end

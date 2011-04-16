@@ -1,3 +1,14 @@
+
+<% unless @product_updates.blank? %>
+<div class="product_updates">
+  <h3>Neue Preise und veränderte Lagerbestände</h3>
+  <p>In der Zwischenzeit gab es Veränderungen bei den von Ihnen ausgewählten Produkten:</p>
+  <% @product_updates.each do |upd| %>
+    UPDATE INFO HERE
+  <% end %>
+</div>
+<% end %>
+
 <div id="cart" class="standalone">
 
 <%= form_for @cart, :url => { :controller => 'carts', :action => 'update' } do |f| %>
