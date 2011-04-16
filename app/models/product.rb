@@ -513,21 +513,6 @@ class Product < ActiveRecord::Base
 
   end
 
-
-  def live_update_from_supplier
-    if !self.supplier.blank? && !self.supplier.utility_class_name.blank?
-      begin
-        require "lib/#{self.supplier.utility_class_name.underscore}"
-        return self.supplier.utility_class_name.constantize.live_update(self)
-      rescue LoadError => e
-        logger.error "Could not require lib/#{self.supplier.utility_class_name.underscore} for live update: #{e.message}"
-        return false
-      end
-    else
-      logger.error "No supplier or utility_class_name set for product #{self}. You must set one and write a live_update method inside that class if you want to use this feature."
-      return false
-    end
-  end
   
   private
  

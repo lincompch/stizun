@@ -67,6 +67,14 @@ class Document < ActiveRecord::Base
     products.collect(&:supplier).uniq
   end
   
+  def lines_by_supplier(supplier)
+    supplier_lines = []
+    lines.each do |line|
+      supplier_lines << line if !line.product.blank? and line.product.supplier == supplier
+    end
+    return supplier_lines
+  end
+  
   
   # This returns only IDs of suppliers that have a matching entry in our database
   # It's a precaution for the ShippingRate calculation methods. This shouldn't be necessary
@@ -155,5 +163,23 @@ class Document < ActiveRecord::Base
     return products.collect(&:componentized?).uniq.include?(true)    
   end
 
+  def live_update_products
+    @product_updates ||= []
+    suppliers.each do |sup|
+      if !sup.utility_class_name.blank?
+        begin
+          require "lib/#{sup.utility_class_name.underscore}"
+          @product_updates << sup.utility_class_name.constantize.live_update(lines_by_supplier(sup))
+        rescue LoadError => e
+          puts "Could not require lib/#{sup.utility_class_name.underscore} for live update: #{e.message}"
+          logger.error "Could not require lib/#{sup.utility_class_name.underscore} for live update: #{e.message}"
+        end
+      else
+        puts "No utility_class_name set for supplier #{sup.name}. You must set one and write a live_update method inside that supplier's utility class if you want to use this feature."
+        logger.error "No utility_class_name set for supplier #{sup.name}. You must set one and write a live_update method inside that supplier's utility class if you want to use this feature."
+      end
+    end
+    return @product_updates
+  end
   
 end

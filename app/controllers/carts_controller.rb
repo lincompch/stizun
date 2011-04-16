@@ -83,9 +83,7 @@ class CartsController < ApplicationController
   
 
   def live_update_products
-    @cart.lines.each do |line|
-      @product_updates[line.id => line.product.live_update]
-    end
+    @product_updates = @cart.live_update_products
     @cart.reload
   end
   

@@ -50,6 +50,22 @@ class StaticDocument < ActiveRecord::Base
     taxes + shipping_taxes
   end
   
+  def products
+    self.lines.collect(&:product).compact
+  end
+  
+  def suppliers
+    products.collect(&:supplier).uniq
+  end
+  
+  def lines_by_supplier(supplier)
+    supplier_lines = []
+    lines.each do |line|
+      supplier_lines << line if !line.product.blank? and line.product.supplier == supplier
+    end
+    return supplier_lines
+  end
+  
   # Unfortunate duplication introduced by the splitting of Invoices from Documents.
   # must be refactored.
   def notification_email_addresses
@@ -69,11 +85,15 @@ class StaticDocument < ActiveRecord::Base
     return emails.uniq
   end
 
+  
+  
+  
   # ActiveRecord before_* and after_* callbacks
   
   def assign_uuid
     self.uuid = UUIDTools::UUID.random_create.to_s
     self.document_number ||= Numerator.get_number
   end
+  
   
 end

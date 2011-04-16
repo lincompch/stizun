@@ -125,8 +125,10 @@ class IngramUtil < SupplierUtil
 
 
   # Update a product's information (stock level, price) from Ingram Micro's live update URL
-  def self.live_update(product)
-
+  # Input: DocumentLines
+  # Output: A hash with the product ID as an index, pointing to a hash of arrays of changes with
+  #         the changed attribute as an index (similar to ActiveRecord changes)
+  def self.live_update(lines)
 
     logger = Logger.new("#{Rails.root}/log/ingram_live_update_#{Time.now.strftime("%Y-%m-%d")}.log")
     
@@ -152,12 +154,21 @@ class IngramUtil < SupplierUtil
     username = "CH27" + customer_no + "000"
     password = APP_CONFIG['ingram_password']
     
+    products = lines.collect(&:product)
+    puts "products are #{products.inspect}"
+    supplier_product_codes = products.collect(&:supplier_product_code)
+    supplier_product_code_string = supplier_product_codes.join("~")
+    puts "codes are #{supplier_product_codes.inspect}"
+    quantities = (["1"] * supplier_product_codes.size).join("~")
+    
     require 'net/https'
 
     host = "www.ingrammicro.de"
     port = 443
-    path = "/cgi-bin/scripts/get_avail.pl?CCD=CH&BNR=27&KNR=#{customer_no}&SKU=#{product.supplier_product_code}&QTY=1&SYS=CF"
+    path = "/cgi-bin/scripts/get_avail.pl?CCD=CH&BNR=27&KNR=#{customer_no}&SKU=#{supplier_product_code_string}&QTY=#{quantities}&SYS=CF"
 
+    puts "trying #{path}"
+    
     begin
       http = Net::HTTP.new(host, 443)
       http.use_ssl = true
@@ -167,27 +178,30 @@ class IngramUtil < SupplierUtil
         response = http.request(req)
 
         if response.code == "200"
-          product_code, stock, price_in_cents, time, delivery_date = response.body.split(";")
-          new_purchase_price = BigDecimal.new( (price_in_cents.to_i / 100.0).to_s )
-          new_stock = stock
-
-          product.purchase_price = new_purchase_price
-          product.stock = stock
-
-          if product.changes.empty?
-            logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there were no changes."
-            return nil
-          else
-            changes = product.changes.clone
-            old_price = product.taxed_price
-            if product.save
-              logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, changes: #{changes.inspect}"
-              changes.merge! { :price => [old_price, product.taxed_price] }
-            else
-              logger.error "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there was an error saving them: #{product.errors.full_messages}"
-            end
-            return changes
-          end
+          puts "body is: #{response.body}"
+          
+#  This one is for single product
+#           product_code, stock, price_in_cents, time, delivery_date = response.body.split(";")
+#           new_purchase_price = BigDecimal.new( (price_in_cents.to_i / 100.0).to_s )
+#           new_stock = stock
+# 
+#           product.purchase_price = new_purchase_price
+#           product.stock = stock
+# 
+#           if product.changes.empty?
+#             logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there were no changes."
+#             return nil
+#           else
+#             changes = product.changes.clone
+#             old_price = product.taxed_price
+#             if product.save
+#               logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, changes: #{changes.inspect}"
+#               #changes.merge! { :price => [old_price, product.taxed_price] }
+#             else
+#               logger.error "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there was an error saving them: #{product.errors.full_messages}"
+#             end
+#             return changes
+#           end
 
         end
       end
