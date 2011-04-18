@@ -179,6 +179,9 @@ class IngramUtil < SupplierUtil
           update_lines.each do |line|
             product_code, stock, price_in_cents, time, delivery_date = line.split(";")
             product = Product.where(:supplier_product_code => product_code).first
+            # Skip if the product already had an update less than 30 minutes ago
+            next if (DateTime.now - 30.minutes) > product.updated_at
+            
             old_price = product.taxed_price.rounded
             new_purchase_price = BigDecimal.new( (price_in_cents.to_i / 100.0).to_s )
             new_stock = stock
