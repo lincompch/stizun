@@ -194,13 +194,13 @@ class IngramUtil < SupplierUtil
               changes = product.changes.clone
               if product.save
                 changes.merge!({ "price" => [old_price, product.taxed_price.rounded] }) unless changes['purchase_price'].blank?
+                changes.merge!({ "product_id" => id }) unless changes['purchase_price'].blank?
                 logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, changes: #{changes.inspect}"
               else
                 logger.error "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there was an error saving them: #{product.errors.full_messages}"
               end
               # Fill a hash with changes using the product id as key
-              total_changes[product.id] = changes
-              puts total_changes.inspect
+              total_changes << changes
             end                  
           end
                     

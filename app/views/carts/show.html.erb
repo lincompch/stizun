@@ -4,7 +4,7 @@
   <h3>Neue Preise und veränderte Lagerbestände</h3>
   <p>In der Zwischenzeit gab es Veränderungen bei den von Ihnen ausgewählten Produkten:</p>
   <% @product_updates.each do |upd| %>
-    UPDATE INFO HERE
+    <%= upd.inspect %>
   <% end %>
 </div>
 <% end %>
