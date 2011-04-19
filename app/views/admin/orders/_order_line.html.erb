@@ -39,4 +39,8 @@
   <%= pretty_price(order_line.taxed_price) %>
   </td>
 
+  <td>
+  <%= link_to 'Edit Line', edit_admin_order_order_line_path(order_line.order, order_line) %>
+  </td>
+
 </tr>

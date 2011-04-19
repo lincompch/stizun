@@ -1,0 +1,41 @@
+
+<h3>Edit order line</h3>
+
+<p>DANGER: You can create a lot of losses by lowering the price too much. There is no validation and no safety, the system expects you to know what you're doing.</p>
+
+<%= form_for [:admin, @order_line.order, @order_line] do |f| %>
+
+<p>Quantity: <%= f.text_field :quantity %></p>
+
+<p>Text: <%= f.text_field :text, :size => 80 %></p>
+
+<p>Single price excl. VAT: <%= f.text_field :single_untaxed_price %></p>
+
+<p><%= f.submit %>
+
+<% end %>
+
+<h4>Calculated values</h4>
+
+<table>
+  <tr>
+    <td>Single price incl VAT:</td><td><%= @order_line.single_price%></td>
+  </tr>
+  <tr>
+    <td>Gross price:</td><td><%= @order_line.gross_price%></td>
+  </tr>
+  <tr>
+    <td>VAT:</td><td><%= @order_line.taxes%> (<%= @order_line.tax_percentage %>)</td>
+  </tr>
+  <tr>
+    <td>Taxed price:</td><td><%= @order_line.taxed_price%></td>
+  </tr>
+
+</table>
+
+
+<%= link_to "Go to order", edit_admin_order_path(@order_line.order) %>
+
+<!--
+<%= @order_line.inspect %>
+-->

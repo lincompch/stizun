@@ -48,7 +48,9 @@ Stizun::Application.routes.draw do
    
     resources :product_pictures 
     resources :tax_classes
-    resources :orders
+    resources :orders do
+      resources :order_lines
+    end
     resources :countries
     
     resources :invoices do
