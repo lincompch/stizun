@@ -2,7 +2,7 @@ set :application, "lincomp"
 
 set :scm, :git
 set :repository, "git://github.com/psy-q/stizun.git"
-set :branch, "master"
+set :branch, "experimental"
 set :deploy_via, :remote_cache
 set :keep_releases, 2 
 
@@ -21,6 +21,7 @@ task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
   run "rm #{release_path}/config/database.yml"
   run "ln -s #{db_config} #{release_path}/config/database.yml"
+  run "rm #{release_path}/config/stizun.yml"
   run "ln -s #{stizun_config} #{release_path}/config/stizun.yml"
 
   run "rm -r #{release_path}/test"
