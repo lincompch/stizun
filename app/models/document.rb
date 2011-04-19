@@ -169,7 +169,7 @@ class Document < ActiveRecord::Base
       if !sup.utility_class_name.blank?
         begin
           require "lib/#{sup.utility_class_name.underscore}"
-          product_updates << sup.utility_class_name.constantize.live_update(lines_by_supplier(sup))
+          product_updates += sup.utility_class_name.constantize.live_update(lines_by_supplier(sup))
         rescue LoadError => e
           logger.error "Could not require lib/#{sup.utility_class_name.underscore} for live update: #{e.message}"
         end

@@ -1,19 +1,17 @@
 
-<% unless @product_updates.blank? %>
-<div class="product_updates">
-  <h3>Neue Preise und veränderte Lagerbestände</h3>
-  <p>In der Zwischenzeit gab es Veränderungen bei den von Ihnen ausgewählten Produkten:</p>
-  <% @product_updates.each do |upd| %>
-    <%= upd.inspect %>
-  <% end %>
-</div>
-<% end %>
+
 
 <div id="cart" class="standalone">
 
 <%= form_for @cart, :url => { :controller => 'carts', :action => 'update' } do |f| %>
 
   <h3><%= t("stizun.cart.shopping_cart")%></h3>
+
+
+  <% unless @product_updates.empty? %>
+    <%= render :partial => 'product_updates' %>
+  <% end %>
+
 
     <% if @cart.cart_lines.count == 0 %>
       <%= t("stizun.cart.your_cart_is_empty") %>

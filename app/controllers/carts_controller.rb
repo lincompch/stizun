@@ -4,7 +4,7 @@ class CartsController < ApplicationController
 
 
   def set_up_product_updates
-    @product_updates = {}
+    @product_updates = nil
   end
   
   def add_product
@@ -85,10 +85,9 @@ class CartsController < ApplicationController
 
   def live_update_products
     @product_updates = @cart.live_update_products
-    unless @product_updates.blank?
-      @cart.reload
+    unless @product_updates.empty?
       @cart.lines.each do |line|
-        line.reload
+        line.product.reload
       end
     end
   end

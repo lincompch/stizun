@@ -1,0 +1,16 @@
+<div class="product_updates">
+  <h4>Neue Preise und veränderte Lagerbestände</h4>
+  <p>In der Zwischenzeit gab es Veränderungen bei den von Ihnen ausgewählten Produkten:</p>
+  <ul>
+  <% @product_updates.each do |upd|
+    product = Product.find(upd['product_id'].to_i)
+    string = "#{product.name}"
+    string += "<ul>"
+    string += "<li>Preis: <strong>#{pretty_price(product.taxed_price.rounded)}</strong> (vorher: #{pretty_price(upd['price'][0].rounded)})</li>" unless upd['price'].blank?
+    string += "<li>Verfügbare Stückzahl: <strong>#{product.stock}</strong> (vorher: #{upd['stock'][0]})</li>" unless upd['stock'].blank?
+    string += "</ul>"
+    %>
+    <li><%= string.html_safe %></li>
+  <% end %>
+  </ul>
+</div>

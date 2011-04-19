@@ -174,7 +174,7 @@ class IngramUtil < SupplierUtil
         response = http.request(req)
 
         if response.code == "200"
-          total_changes = {}
+          total_changes = []
           update_lines = response.body.split("\n")
           update_lines.each do |line|
             product_code, stock, price_in_cents, time, delivery_date = line.split(";")
@@ -193,27 +193,33 @@ class IngramUtil < SupplierUtil
             else
               changes = product.changes.clone
               if product.save
+                changes.merge!({ "product_id" => product.id })
                 changes.merge!({ "price" => [old_price, product.taxed_price.rounded] }) unless changes['purchase_price'].blank?
-                changes.merge!({ "product_id" => id }) unless changes['purchase_price'].blank?
                 logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, changes: #{changes.inspect}"
               else
                 logger.error "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there was an error saving them: #{product.errors.full_messages}"
               end
               # Fill a hash with changes using the product id as key
               total_changes << changes
-            end                  
+            end
           end
-                    
+
+          puts " FOOOOOOOOOOOOOO: returning total changes #{total_changes.inspect}"
           return total_changes
 
         end
       end
 
     rescue Exception => e
+      puts "[#{DateTime.now.to_s}] Exception during Ingram Micro HTTPS document lines/product live update"
+      puts e.message
+      puts e.backtrace.inspect
+      
       logger.error "[#{DateTime.now.to_s}] Exception during Ingram Micro HTTPS document lines/product live update"
       logger.error e.message
       logger.error e.backtrace.inspect
-      return false
+      # A blank array indicates that nothing useful happened
+      return []
     end
 
   end

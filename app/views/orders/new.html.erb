@@ -7,6 +7,10 @@
 <%= error_messages_for(:address) %>
 
 
+<% unless @product_updates.empty? %>
+  <%= render :partial => 'carts/product_updates' %>
+<% end %>
+
 
 <h4><%= t("stizun.order.order_summary") %></h4>
 
