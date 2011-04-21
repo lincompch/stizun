@@ -38,7 +38,7 @@ class SupplierUtil
         # We already have that supply item and need to update supply item
         # and related product information
         else
-          overwrite_field(local_supply_item, "purchase_price", sp[@field_names[:price_excluding_vat]].to_s)
+          overwrite_field(local_supply_item, "purchase_price", sp[@field_names[:price_excluding_vat]].to_s) unless sp[@field_names[:price_excluding_vat]].to_f == 0
           overwrite_field(local_supply_item, "stock", sp[@field_names[:stock_level]].gsub("'","").to_i)
           overwrite_field(local_supply_item, "manufacturer", Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:manufacturer]]))
           overwrite_field(local_supply_item, "manufacturer_product_code", sp[@field_names[:manufacturer_product_code]])
