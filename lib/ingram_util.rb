@@ -179,8 +179,11 @@ class IngramUtil < SupplierUtil
           update_lines.each do |line|
             product_code, stock, price_in_cents, time, delivery_date = line.split(";")
             product = Product.where(:supplier_product_code => product_code).first
-            # Skip if the product already had an update less than 30 minutes ago
-            next if (DateTime.now - 30.minutes) > product.updated_at
+            
+            # Skip if the product already had an update less than 30 minutes ago, and assign
+            # a reasonably early date if it is nil
+            product.auto_updated_at = DateTime.parse("1900-01-01") if product.auto_updated_at.nil?
+            next if (DateTime.now - 30.minutes) < product.auto_updated_at
             
             old_price = product.taxed_price.rounded
             new_purchase_price = BigDecimal.new( (price_in_cents.to_i / 100.0).to_s )
@@ -192,6 +195,7 @@ class IngramUtil < SupplierUtil
               logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there were no changes."
             else
               changes = product.changes.clone
+              product.auto_updated_at = DateTime.now
               if product.save
                 changes.merge!({ "product_id" => product.id })
                 changes.merge!({ "price" => [old_price, product.taxed_price.rounded] }) unless changes['purchase_price'].blank?
@@ -204,16 +208,12 @@ class IngramUtil < SupplierUtil
             end
           end
 
-          puts " FOOOOOOOOOOOOOO: returning total changes #{total_changes.inspect}"
           return total_changes
 
         end
       end
 
     rescue Exception => e
-      puts "[#{DateTime.now.to_s}] Exception during Ingram Micro HTTPS document lines/product live update"
-      puts e.message
-      puts e.backtrace.inspect
       
       logger.error "[#{DateTime.now.to_s}] Exception during Ingram Micro HTTPS document lines/product live update"
       logger.error e.message
