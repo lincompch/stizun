@@ -199,6 +199,7 @@ class IngramUtil < SupplierUtil
               if product.save
                 changes.merge!({ "product_id" => product.id })
                 changes.merge!({ "price" => [old_price, product.taxed_price.rounded] }) unless changes['purchase_price'].blank?
+                changes.delete('auto_updated_at') # We're not interested in this, since it might happen that this is the only value that changed, and that's not very interesting
                 logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, changes: #{changes.inspect}"
               else
                 logger.error "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there was an error saving them: #{product.errors.full_messages}"
