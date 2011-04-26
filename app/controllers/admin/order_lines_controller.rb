@@ -7,7 +7,7 @@ class Admin::OrderLinesController <  Admin::BaseController
   def update
     @order_line = OrderLine.find(params[:id])
     @order_line.single_untaxed_price = params[:order_line][:single_untaxed_price]
-    @order_line.recalculate_totals
+    @order_line.single_rebate = params[:order_line][:single_rebate]
     if @order_line.save
       flash[:notice] = "Changes saved"
     else

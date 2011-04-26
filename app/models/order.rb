@@ -133,14 +133,14 @@ class Order < StaticDocument
       ol.quantity = cl.quantity
       ol.text = cl.product.name
       ol.product = cl.product
-      ol.taxed_price = cl.taxed_price.rounded      
-      ol.gross_price = cl.gross_price
-      ol.single_price = cl.product.taxed_price.rounded
+      #ol.taxed_price = cl.taxed_price.rounded # Now calculated automatically in StaticDocumentLine#recalculate_totals
+      #ol.gross_price = cl.gross_price  # Now calculated automatically in StaticDocumentLine#recalculate_totals
+      #ol.single_price = cl.product.taxed_price.rounded  # Now calculated automatically in StaticDocumentLine#recalculate_totals
       ol.single_untaxed_price = cl.product.gross_price.rounded
       ol.tax_percentage = cl.product.tax_class.percentage
       ol.manufacturer = cl.product.manufacturer
       ol.manufacturer_product_code = cl.product.manufacturer_product_code
-      ol.taxes = cl.taxes
+      #ol.taxes = cl.taxes  # Now calculated automatically in StaticDocumentLine#recalculate_totals
       ol.weight = cl.product.weight
       self.order_lines << ol
     end

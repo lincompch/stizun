@@ -19,6 +19,8 @@ class StaticDocument < ActiveRecord::Base
   
   before_create :assign_uuid
 
+  # === Methods
+  
   def taxed_price
     return lines.sum("taxed_price") + shipping_cost
   end
@@ -41,8 +43,6 @@ class StaticDocument < ActiveRecord::Base
   
   def taxes
     product_taxes = lines.sum('taxes')
-    # This kills the poor bookkeeper
-    #return product_taxes + shipping_taxes
     return product_taxes
   end
 
