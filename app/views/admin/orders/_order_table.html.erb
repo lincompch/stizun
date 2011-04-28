@@ -13,7 +13,26 @@
       <% order_table.order_lines.each do |ol| %>
         <%= render :partial => 'order_line', :object => ol %>
       <% end %>
-      
+
+      <tr>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td colspan="2">Tax reduction due to rebate</td>
+        <td></td>
+        <td> </td>
+        <td class="price"><em><%= pretty_price(order_table.tax_reduction) %></em></td>
+      </tr>
+
+      <tr>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td colspan="2">Taxes (total, after rebate)</td>
+        <td></td>
+        <td> </td>
+        <td class="price"><em><%= pretty_price(order_table.total_taxes) %></em></td>
+      </tr>      
 
       <tr>
         <td> </td>
