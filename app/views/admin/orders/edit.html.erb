@@ -21,6 +21,12 @@
 <table>
 
   <tr>
+    <td>Rebate for whole order</td>
+    <td><%= f.text_field :rebate, :size => 8 %></td>
+  </tr>
+
+
+  <tr>
     <td>Payment method</td>
     <td><%= @order.payment_method.name %></td>
   </tr>
