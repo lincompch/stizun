@@ -14,21 +14,34 @@
         <%= render :partial => 'order_line', :object => ol %>
       <% end %>
 
+
+      <% if order_table.rebate != BigDecimal.new("0.0") %>
       <tr>
         <td> </td>
         <td> </td>
         <td> </td>
-        <td colspan="2">Tax reduction due to rebate</td>
+        <td colspan="2">- Rebate for whole order</td>
         <td></td>
         <td> </td>
-        <td class="price"><em><%= pretty_price(order_table.tax_reduction) %></em></td>
-      </tr>
+        <td class="price"><em><%= pretty_price(order_table.rebate) %></em></td>
+      </tr>   
 
       <tr>
         <td> </td>
         <td> </td>
         <td> </td>
-        <td colspan="2">Taxes (total, after rebate)</td>
+        <td colspan="2">- Tax reduction due to rebate</td>
+        <td></td>
+        <td> </td>
+        <td class="price"><em><%= pretty_price(order_table.tax_reduction) %></em></td>
+      </tr>
+      <% end %>
+
+      <tr>
+        <td> </td>
+        <td> </td>
+        <td> </td>
+        <td colspan="2">Taxes</td>
         <td></td>
         <td> </td>
         <td class="price"><em><%= pretty_price(order_table.total_taxes) %></em></td>
