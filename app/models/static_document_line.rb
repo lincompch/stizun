@@ -12,5 +12,9 @@ class StaticDocumentLine < ActiveRecord::Base
     self.single_price = single_untaxed_price_after_rebate + ((single_untaxed_price_after_rebate / BigDecimal.new("100.0")) * self.tax_percentage)
     self.single_price = self.single_price.rounded
   end
+
+  def has_rebate?
+    !single_rebate.blank? and single_rebate > BigDecimal.new("0.0")
+  end
   
 end

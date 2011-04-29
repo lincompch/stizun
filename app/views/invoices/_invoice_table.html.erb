@@ -17,9 +17,12 @@
 
 
   <% invoice.lines.each do |il| %>
+    <% rebate_string = ""
+       rebate_string = " (#{pretty_price(il.single_rebate, "")} Rabatt)" if il.has_rebate? %>
+
     <tr class="<%= cycle('even', 'odd')%>">
       <td><%= il.quantity %></td>
-      <td class="product"><%= il.text %></td>
+      <td class="product"><%= il.text %><%= rebate_string %></td>
       <td class="price"><%= il.tax_percentage %></td>
       <td class="price vertborders"><%= pretty_price(il.single_untaxed_price, "") %></td>
       <td class="price vertborders"><%= pretty_price(il.single_price, "") %></td>
@@ -36,6 +39,51 @@
     <td colspan="7">&nbsp;</td>
   </tr>
 
+
+  <% if invoice.has_rebate? %>
+  <tr>
+    <td></td>
+    <td>Produkte exkl. MwSt. vor Rabatt</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="price"><% price = invoice.gross_price + invoice.rebate %>
+                      <%= pretty_price(price, "") %></td>
+    <td></td>
+  </tr>
+
+  <tr class="underline">
+    <td></td>
+    <td>- Rabatt exkl. MwSt.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="price">- <%= pretty_price(invoice.rebate.rounded, "") %></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td>Produkte exkl. MwSt. nach Rabatt.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="price"><%= pretty_price(invoice.gross_price, "") %></td>
+    <td></td>
+  </tr>
+
+  <tr class="underline">
+    <td></td>
+    <td>Mehrwertsteuer</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="price"><%= pretty_price(invoice.taxes, "") %></td>
+    <td></td>
+  </tr>
+  <% end %>
+
+
   <tr>
     <td></td>
     <td>Produkte inkl. MwSt.</td>
@@ -45,7 +93,8 @@
     <td class="price"><%= pretty_price(invoice.products_taxed_price.rounded, "") %></td>
     <td></td>
   </tr>
-  <tr class="underline">
+
+  <tr>
     <td></td>
     <td>Versand inkl. MwSt.</td>
     <td></td>

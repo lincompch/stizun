@@ -52,7 +52,7 @@ class StaticDocument < ActiveRecord::Base
 
   # Tax reduction that happens due to a rebate on the whole order
   def tax_reduction
-    unless rebate.blank? or rebate == BigDecimal.new("0.0")
+    if has_rebate?
       rebate_in_percent_of_gross = (BigDecimal.new("100.0") / gross_price) * rebate
       previous_taxes = taxes + shipping_taxes
       tax_reduction = (previous_taxes / BigDecimal.new("100.0")) * rebate_in_percent_of_gross
@@ -60,6 +60,10 @@ class StaticDocument < ActiveRecord::Base
       tax_reduction = BigDecimal.new("0.0")
     end
     return tax_reduction
+  end
+
+  def has_rebate?
+    !rebate.blank? and rebate > BigDecimal.new("0.0")
   end
   
   def products
