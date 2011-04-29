@@ -90,6 +90,7 @@ class Invoice < StaticDocument
        self.shipping_address = order.shipping_address
        self.shipping_cost = order.shipping_cost
        self.shipping_taxes = order.shipping_taxes
+       self.rebate = order.rebate
        self.status_constant = Invoice::UNPAID
        self.invoice_lines_from_order(order)
     end    
