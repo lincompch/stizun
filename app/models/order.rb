@@ -217,6 +217,7 @@ class Order < StaticDocument
     # Normalize this, we don't want nil values in the rebate field because that's
     # used in very central bits of code.
     self.rebate = BigDecimal.new("0.0") if self.rebate.nil?
+    self.rebate = self.rebate.rounded
   end
 
   # If a new rebate is added to this order, of course the old invoice becomes invalid
