@@ -182,6 +182,7 @@ de-CH:
       shipped: "Versandt"
       available: "Verfügbar"
       deleted: "Gelöscht"
+      canceled: "Storniert"
     account:
       account_information: "Konto-Informationen"
       your_pending_orders: "Ihre offenen Bestellungen"

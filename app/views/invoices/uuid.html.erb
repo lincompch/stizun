@@ -8,6 +8,8 @@
 
 <%= t("stizun.invoice.invoice_date")%>: <%= short_date(@invoice.created_at) %>
 
+<%= render :partial => 'invoice_canceled' %>
+
 <hr>
 <h3>Rechnungssteller</h3>
 
@@ -40,6 +42,9 @@
   <div id="invoice_table">
     <%= render :partial => 'invoice_table', :locals => { :invoice => @invoice } %>
   </div>
+
+<%= render :partial => 'invoice_canceled' %>
+
 
   <p>Gewählte Zahlungsart: <%= @invoice.payment_method.name %></p>
   

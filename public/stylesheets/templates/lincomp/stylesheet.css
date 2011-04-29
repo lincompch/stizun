@@ -704,3 +704,21 @@ span.rebate_string {
   background: #B61313;
   padding: 0.2em;
 }
+
+
+/* Little box that appears on an invoice (frontend) if it is canceled */
+.invoice_canceled {
+  border: 2px solid #ff3333;
+  background: #fcf4f4;
+  font-size: 1.2em;
+  padding: 0.8em;
+}
+
+.invoice_canceled p {
+  margin-bottom: 0;
+}
+
+.invoice_canceled h4 {
+  padding: 0;
+  margin: 0;
+}

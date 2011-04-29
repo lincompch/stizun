@@ -18,7 +18,7 @@ class Order < StaticDocument
   # === Callbacks
   
   after_initialize :assign_payment_method, :assign_document_number 
-  before_save :send_shipping_notification, :normalize_rebate
+  before_save :send_shipping_notification, :normalize_rebate, :replace_invoice_on_rebate_change
   
   # This doesn't seem to work at all, or at least not as advertised
   # Might be fixed in Rails 3.0 (polymorphic association + nested forms)
@@ -217,6 +217,17 @@ class Order < StaticDocument
     # Normalize this, we don't want nil values in the rebate field because that's
     # used in very central bits of code.
     self.rebate = BigDecimal.new("0.0") if self.rebate.nil?
+  end
+
+  # If a new rebate is added to this order, of course the old invoice becomes invalid
+  # and needs to be replaced with a new one
+  def replace_invoice_on_rebate_change
+    if self.rebate_changed? and !self.invoice.blank?
+      new_invoice = self.invoice.create_replacement
+      self.invoice = new_invoice
+      self.invoice.rebate = self.rebate
+      self.invoice.save
+    end
   end
     
   def assign_payment_method

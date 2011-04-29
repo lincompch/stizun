@@ -1,0 +1,10 @@
+
+<% if @invoice.status_constant == Invoice::CANCELED %>
+  <div class="invoice_canceled">
+    <h4>Rechnung storniert</h4>
+    <p>Diese Rechnung ist storniert worden. Bitte bezahlen Sie sie <strong>nicht</strong>.</p>
+    <% unless @invoice.replacement.blank? %>
+      <p>Die Rechnung wurde ersetzt durch eine neue: <%= link_to "Rechnung #{@invoice.replacement.document_id}", url_for(:controller => 'invoices', :action => 'uuid', :uuid => @invoice.replacement.uuid) %></p>
+    <% end %>
+  </div>
+<% end %>

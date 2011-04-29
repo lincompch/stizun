@@ -9,6 +9,8 @@ class Invoice < StaticDocument
   has_many :invoice_lines
   belongs_to :order
   
+  has_one :replacement, :class_name => 'Invoice', :foreign_key => 'replacement_id'
+  
   # === AR Callbacks
   
   before_save :handle_autobooking
@@ -19,14 +21,17 @@ class Invoice < StaticDocument
     
   UNPAID = 1
   PAID = 2
+  CANCELED = 3
   
   STATUS_HASH = { UNPAID     => 'stizun.constants.unpaid',
-                  PAID       => 'stizun.constants.paid'}
+                  PAID       => 'stizun.constants.paid',
+                  CANCELED  => 'stizun.constants.canceled'}
 
   # === Named scopes
 
   scope :unpaid, :conditions => { :status_constant => Invoice::UNPAID }
   scope :paid, :conditions => { :status_constant => Invoice::PAID }
+  scope :canceled, :conditions => { :status_constant => Invoice::CANCELED }
 
   
   # === Methods
@@ -108,6 +113,25 @@ class Invoice < StaticDocument
     return invoice
   end
 
+  # Creates a replacement invoice so that any rebates that might be applied to an order can invalidate
+  # the old invoice and automatically make it point at the replacement
+  def create_replacement
+    new_invoice = self.clone
+    new_invoice.document_number = Numerator.get_number
+    old_invoice = self
+    old_invoice.status_constant = Invoice::CANCELED
+    old_invoice.order_id = nil
+    old_invoice.lines.each do |line|
+      new_invoice.invoice_lines << line.clone
+      line.order_id = nil # Disassociate the order so that things don't appear twice on orders just because there is a replacement invoice
+      line.save
+    end
+    new_invoice.save
+    old_invoice.replacement = new_invoice
+    old_invoice.save
+    return new_invoice
+  end
+  
   # ActiveRecord before_* and after_* callbacks
   
   def move_paid_status
