@@ -18,7 +18,7 @@ class Order < StaticDocument
   # === Callbacks
   
   after_initialize :assign_payment_method, :assign_document_number 
-  before_save :send_shipping_notification
+  before_save :send_shipping_notification, :normalize_rebate
   
   # This doesn't seem to work at all, or at least not as advertised
   # Might be fixed in Rails 3.0 (polymorphic association + nested forms)
@@ -212,6 +212,12 @@ class Order < StaticDocument
   
   
   # === ActiveRecord callbacks
+
+  def normalize_rebate
+    # Normalize this, we don't want nil values in the rebate field because that's
+    # used in very central bits of code.
+    self.rebate = BigDecimal.new("0.0") if self.rebate.nil?
+  end
     
   def assign_payment_method
     self.payment_method ||= PaymentMethod.get_default

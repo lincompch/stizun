@@ -28,6 +28,7 @@ class Admin::OrdersController <  Admin::BaseController
   def update
     @order = Order.find(params[:id])
     @order.update_attributes(params[:order])
+
     if @order.save
       flash[:notice] = "Order updated."
       redirect_to edit_admin_order_path @order
