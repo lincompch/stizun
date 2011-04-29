@@ -30,7 +30,7 @@ class StaticDocument < ActiveRecord::Base
   end
   
   def products_taxed_price
-    return lines.sum("taxed_price")
+    return lines.sum("taxed_price") - rebate - tax_reduction
   end
 
   def weight
