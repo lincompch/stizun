@@ -69,8 +69,9 @@ GEM
       rake (>= 0.8.7)
     gherkin (2.3.3)
       json (~> 1.4.6)
-    hoptoad_notifier (2.3.8)
+    hoptoad_notifier (2.4.8)
       activesupport
+      builder
     i18n (0.5.0)
     jquery-rails (0.2.6)
       rails (~> 3.0)
@@ -176,7 +177,7 @@ DEPENDENCIES
   database_cleaner
   dynamic_form
   fastercsv
-  hoptoad_notifier (~> 2.3)
+  hoptoad_notifier (= 2.4.8)
   jquery-rails
   later_dude (>= 0.3.1)
   launchy

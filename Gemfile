@@ -36,7 +36,7 @@ gem 'will_paginate'
 gem 'uuidtools'
 gem 'fastercsv'
 gem 'later_dude', '>= 0.3.1'
-gem "hoptoad_notifier", "~> 2.3"
+gem "hoptoad_notifier", '2.4.8'
 
 group :cucumber, :test, :development do
   gem 'capybara'
