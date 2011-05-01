@@ -1,5 +1,11 @@
 <h2>Edit Order</h2>
 
+
+<% unless @order.invoice.blank? %>
+  <p><%= link_to "Go to invoice",  url_for(:controller => '/invoices', :action => 'uuid', :uuid => @order.invoice.uuid) %></p>
+<% end %>
+
+
 <h4>Shipping address</h4>
 
 <%= if @order.shipping_address
@@ -49,4 +55,5 @@
 
 <p>
 <%= link_to("Generate invoice", create_from_order_admin_invoices_path(:order_id => @order), :method => :post) if @order.invoice.blank? %>
+
 </p>
