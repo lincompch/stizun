@@ -80,7 +80,7 @@
     <td></td>
     <td></td>
     <td></td>
-    <td class="price"><%= pretty_price(invoice.taxes, "") %></td>
+    <td class="price"><%= pretty_price(invoice.taxes - invoice.tax_reduction, "") %></td>
     <td></td>
   </tr>
   <% end %>
