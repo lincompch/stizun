@@ -33,6 +33,7 @@
   
   <td class="price">
   <%= pretty_price(order_line.single_price) %>
+  <% if order_line.has_rebate? %><br>Rebate: <%= pretty_price(order_line.single_rebate) %><% end %>
   </td>
   
   <td class="price">
@@ -44,3 +45,5 @@
   </td>
 
 </tr>
+
+
