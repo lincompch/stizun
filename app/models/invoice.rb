@@ -1,6 +1,3 @@
-# Most of the tax booking functionality is required here.
-require 'tax_bookers/tax_booker'
-
 class Invoice < StaticDocument
 
   # === Associations
