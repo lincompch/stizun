@@ -1,6 +1,6 @@
 Given /^there is a shipping rate called "([^\"]*)" with the following costs:$/ do |name, table|  
   
-  tax_class = TaxClass.find_or_create_by_percentage(:percentage => 7.6, :name => "7.6%")
+  tax_class = TaxClass.find_or_create_by_percentage(:percentage => 8.0, :name => "8.0%")
   @shipping_rate = ShippingRate.create(:name => name, :tax_class => tax_class)
   
   # Only create and assign new costs if we don't have any yet on this 
@@ -63,11 +63,18 @@ Given /^an order with the following products:$/ do |table|
                              :margin_percentage => margin_percentage,
                              :direct_shipping => direct_shipping)
     
-   
+    puts "THE CREATED PRODUCT IS #{product.inspect}"
     @order.order_lines << OrderLine.new(:quantity => prod['quantity'].to_i, :product => product)
   end
+  puts "THE ORDER LOOKS LIKE: #{@order.order_lines.inspect}"
   @order.user = user
-  @order.save
+  if @order.save
+    puts "SAVED FINE"
+  else
+    puts "PROBLEM"
+  end
+  puts "THE ORDER AFTERWARDS LOOKS LIKE: #{@order.order_lines.inspect}"
+
 end                                                                                                
 
 Given /^there are the following suppliers:$/ do |table|  
