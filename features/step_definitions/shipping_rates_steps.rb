@@ -36,9 +36,10 @@ Given /^an order with the following products:$/ do |table|
   user.payment_methods << PaymentMethod.find_by_name("Invoice")   
   user.payment_methods << PaymentMethod.find_by_name("Prepay")
   user.email = 'elvis@elvis.com'
+  user.password = '123456'
+  user.password_confirmation = '123456'
   user.save
 
-  @order = Order.new(:billing_address => billing_address)
   
 
   
@@ -68,17 +69,22 @@ Given /^an order with the following products:$/ do |table|
                              :margin_percentage => margin_percentage,
                              :direct_shipping => direct_shipping)
     
-    @order.order_lines << OrderLine.new(:quantity => prod['quantity'].to_i, :product => product)
+    @cart = Cart.new
+    @cart.add_product(product, prod['quantity'])
+    @order = Order.new_from_cart(@cart)
+    @order.billing_address = billing_address
+    @order.user = user
+    @order.save
   end
   puts "THE ORDER LOOKS LIKE: #{@order.order_lines.inspect}"
-  puts "USER ERRORS: #{user.errors.full_messages}"
   @order.user = user
   if @order.save
-    puts "SAVED FINE"
+    puts "SAVED FINE","-------___--___--__---___"
   else
-    puts "PROBLEM"
+    puts "PROBLEM","-------___--___--__---___"
   end
-  puts "THE ORDER AFTERWARDS LOOKS LIKE: #{@order.order_lines.inspect}"
+  puts @order.errors.full_messages
+  puts "THE ORDER AFTERWARDS LOOKS LIKE: #{@order.order_lines.inspect}","-------___--___--__---___"
 
 end                                                                                                
 

@@ -5,7 +5,7 @@ class StaticDocumentLine < ActiveRecord::Base
   before_save :recalculate_totals
   
   def recalculate_totals
-    puts "-------_---__---_---","SOME STUFF #{self.single_untaxed_price} AND OTHER STUFF #{self.single_rebate}","--------_---__--____"
+    puts "-------_---__---_---","SOME STUFF #{self.single_untaxed_price.inspect} AND OTHER STUFF #{self.single_rebate.inspect}","--------_---__--____"
     single_untaxed_price_after_rebate = self.single_untaxed_price - self.single_rebate
     self.gross_price = self.quantity * single_untaxed_price_after_rebate
     self.taxes = (self.gross_price / BigDecimal.new("100.0")) * self.tax_percentage
