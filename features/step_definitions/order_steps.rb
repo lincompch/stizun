@@ -12,6 +12,16 @@ Then /^the order's outgoing shipping price should be (\d+\.\d+)$/ do |num|
   @order.shipping_cost.should == BigDecimal.new(num.to_s)
 end
 
+Then /^the order's total shipping price should be (\d+\.\d+)$/ do |num|
+#
+#   puts "this rate: #{@order.shipping_rate.inspect}"
+#   puts "this out cost: #{@order.shipping_rate.outgoing_cost.to_s}"
+#   puts "all rates: #{ShippingRate.all.inspect}"
+#
+
+  @order.shipping_cost.should == BigDecimal.new(num.to_s)
+end
+
 Then /^the order's shipping taxes should be (\d+\.\d+)$/ do |num|
   @order.shipping_taxes.should == BigDecimal.new(num.to_s)
 end

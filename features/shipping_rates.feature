@@ -54,7 +54,7 @@ Feature: Shipping rate calculation and package count
       When I calculate the shipping rate for the order
       Then the order's total weight should be 4.9
       And the order's shipping taxes should be 4.816
-      And the order's total shipping price should be 65.016
+      And the order's total shipping price should be 65.05
 
 
 #    Scenario: Calculate taxes on indirect shipping for multiple products
