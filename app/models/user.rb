@@ -6,7 +6,6 @@ class User < ActiveRecord::Base
   has_many :carts
   has_many :orders
   has_many :addresses
-  has_many :accounts
   has_many :invoices
   has_and_belongs_to_many :payment_methods
   has_and_belongs_to_many :usergroups
@@ -21,31 +20,8 @@ class User < ActiveRecord::Base
     usergroups.collect(&:is_admin).include?(true)
   end
   
-  # At the moment we only deal with one account per
-  # user. Multi-account support may be added in the future.
-  def get_account
-    if self.accounts.blank?
-      account = Account.new
-      account.user = self
-      account.name = self.email
-      account.parent = Account.find_by_id(ConfigurationItem.get("accounts_receivable_id").value)
-      self.accounts << account
-      account.save
-    else
-      account = self.accounts.first
-    end
-    return account
-  end
-  
   def add_default_payment_method
     self.payment_methods << PaymentMethod.get_default
   end
   
-  # BUG: Below breaks user.save if the user hasn't existed before, it leads to
-  # a bizarre "primary key not unique" error even on empty tables
-  # Make sure any new user has an account
-#   def before_create
-#     get_account
-#   end
-
 end

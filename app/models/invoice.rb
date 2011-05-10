@@ -1,6 +1,3 @@
-# Most of the tax booking functionality is required here.
-require 'tax_bookers/tax_booker'
-
 class Invoice < StaticDocument
 
   # === Associations
@@ -13,9 +10,7 @@ class Invoice < StaticDocument
   
   # === AR Callbacks
   
-  before_save :handle_autobooking
   before_validation :move_paid_status
-  after_create :record_income
   
   # === Constants and associated methods
     
@@ -143,67 +138,5 @@ class Invoice < StaticDocument
     end
   end
   
-  def handle_autobooking
-    # Only record the transaction if this invoice was unpaid before and
-    # if autobooking is desired for this invoice.
-    
-    # TODO: Also check whether the order relating to this invoice is even here, and
-    # whether it was paid already before.
-    if autobook == true and \
-       status_constant_was == Invoice::UNPAID and \
-       status_constant == Invoice::PAID
-      record_payment_transaction
-    end
-  end
-  
-  # This invoice was paid -- record its payment in
-  # the accounting system. This should only be done for invoices that have autobooking enabled.
-  def record_payment_transaction
-    
-    # Book the correct entries for payment of this invoice
-    if self.user.blank?
-      user_account = Account.get_anonymous_account(self.billing_address)
-    else
-      user_account = self.user.get_account
-    end
-    
-    bank_account = Account.find_by_id(ConfigurationItem.get("bank_account_id").value)
-    
-    if AccountTransaction.transfer(bank_account, user_account, self.taxed_price, "Invoice payment #{self.document_id}", self)
-      History.add("Payment transaction for invoice #{self.document_id}. Credit: Bank account #{self.taxed_price}", History::ACCOUNTING, self)
-         
-      if self.order
-        # The order is now ready to ship since it was paid
-        self.order.update_attributes(:status_constant => Order::TO_SHIP) if self.order.status_constant == Order::AWAITING_PAYMENT
-      end
-      
-    else
-      History.add("Failed creating payment transaction for #{self.document_id}. Credit: Bank account #{self.taxed_price}", History::ACCOUNTING,  self)                         
-    end
-  end
-  
-  def record_income
-    # OPTIMIZE: May need to map _all_ accounts to addresses instead of users.
-    # that way only one kind of account needs to be handled and we can introduce
-    # a direct association between addresses and accounts.
-    if self.user.blank?
-      user_account = Account.get_anonymous_account(self.billing_address)
-    else
-      user_account = self.user.get_account
-    end
 
-    self.transaction do
-      sales_income_account = Account.find(ConfigurationItem.get('sales_income_account_id').value)
-      
-      res = AccountTransaction.transfer(user_account, sales_income_account, self.taxed_price, "Invoice #{self.document_id}", self)
-      TaxBookers::TaxBooker.record_invoice(self)
-
-      require 'net/smtp'
-      begin
-        StoreMailer.invoice(self).deliver
-      rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
-        History.add("Could not send invoice confirmation for #{self.document_id} during checkout: #{e.to_s}", History::GENERAL, self)
-      end
-    end
-  end
 end

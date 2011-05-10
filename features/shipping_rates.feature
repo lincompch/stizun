@@ -24,7 +24,8 @@ Feature: Shipping rate calculation and package count
       And there are the following suppliers:
         |name|shipping_rate_name|
         |Alltron AG|Alltron AG|
- 
+
+    @work
     Scenario: Calculate direct shipping for one product
       Given an order with the following products:
         |quantity|name  |weight|direct_shipping|supplier  |

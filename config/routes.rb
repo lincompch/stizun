@@ -5,7 +5,6 @@ Stizun::Application.routes.draw do
   resources :products
   resources :invoices
   resource :cart
-  resource :account
   resources :user_sessions
   
   match 'login' => 'user_sessions#new', :as => :login
@@ -16,12 +15,10 @@ Stizun::Application.routes.draw do
     resources :products
   end
 
-  resource :account
   resources :users do
     resources :carts
     resources :orders
     resources :invoices
-    resources :accounts
     resources :addresses
   end
 
@@ -67,16 +64,7 @@ Stizun::Application.routes.draw do
     resources :configuration_items
     
     resources :users do
-      resources :accounts
       resources :addresses
-    end
-    
-    resources :journal_entries
-    resources :account_transactions
-    
-    resources :accounts do
-      resources :account_transactions
-      resources :journal_entries
     end
     
     resources :categories do 

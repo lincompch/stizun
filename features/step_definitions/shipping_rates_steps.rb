@@ -1,6 +1,6 @@
 Given /^there is a shipping rate called "([^\"]*)" with the following costs:$/ do |name, table|  
   
-  tax_class = TaxClass.find_or_create_by_percentage(:percentage => 7.6, :name => "7.6%")
+  tax_class = TaxClass.find_or_create_by_percentage(:percentage => 8.0, :name => "8.0%")
   @shipping_rate = ShippingRate.create(:name => name, :tax_class => tax_class)
   
   # Only create and assign new costs if we don't have any yet on this 
@@ -34,7 +34,8 @@ Given /^an order with the following products:$/ do |table|
   user = User.new
   user.addresses << billing_address
   user.payment_methods << PaymentMethod.find_by_name("Invoice")   
-  user.payment_methods << PaymentMethod.find_by_name("Prepay")   
+  user.payment_methods << PaymentMethod.find_by_name("Prepay")
+  user.email = 'elvis@elvis.com'
   user.save
 
   @order = Order.new(:billing_address => billing_address)
@@ -51,7 +52,11 @@ Given /^an order with the following products:$/ do |table|
     direct_shipping = false
     direct_shipping = true if prod['direct_shipping'] == "true"
     
-    tax_class = TaxClass.find_by_name(prod['tax_class']) 
+    tax_class = TaxClass.where(:percentage => 8.0).first
+    if tax_class.nil?
+      tax_class = TaxClass.create(:percentage => 8.0, :name => "8.0")
+    end
+    
     supplier = Supplier.find_by_name(prod['supplier'])
     product = Product.create(:name => prod['name'],
                              :description => 'foobar',
@@ -63,11 +68,18 @@ Given /^an order with the following products:$/ do |table|
                              :margin_percentage => margin_percentage,
                              :direct_shipping => direct_shipping)
     
-   
     @order.order_lines << OrderLine.new(:quantity => prod['quantity'].to_i, :product => product)
   end
+  puts "THE ORDER LOOKS LIKE: #{@order.order_lines.inspect}"
+  puts "USER ERRORS: #{user.errors.full_messages}"
   @order.user = user
-  @order.save
+  if @order.save
+    puts "SAVED FINE"
+  else
+    puts "PROBLEM"
+  end
+  puts "THE ORDER AFTERWARDS LOOKS LIKE: #{@order.order_lines.inspect}"
+
 end                                                                                                
 
 Given /^there are the following suppliers:$/ do |table|  

@@ -15,21 +15,6 @@ Feature: Ordering
       And there are the following suppliers:
         |name|shipping_rate_name|
         |Alltron AG|Alltron AG|
-      And the following accounts exist:
-      |name  |type|parent|
-      |Assets|Account::ASSETS|none|
-      |Liabilities|Account::LIABILITIES|none|
-      |Income|Account::INCOME|none|
-      |Expense|Account::EXPENSE|none|
-      |Bank|inherited|Assets|
-      |Accounts Receivable|inherited|Assets|
-      |Accounts Payable|inherited|Liabilities|
-      |Product Sales|inherited|Income|
-      |Marketing Expense|inherited|Expense|
-      |Product Stock|inherited|Assets|
-      And the sales income account is configured
-      And the accounts receivable account is configured
-      And there is a configuration item named "tax_booker_class_name" with value "TaxBookers::DummyTaxBooker"
       And ActionMailer is set to test mode
 
     Scenario: Add to cart
