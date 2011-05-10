@@ -40,18 +40,21 @@ Given /^an order with the following products:$/ do |table|
   user.password_confirmation = '123456'
   user.save
 
-  
+  @cart = Cart.new
 
   
   table.hashes.each do |prod|
-    purchase_price = 0
+    purchase_price = BigDecimal.new("0.0")
     purchase_price = BigDecimal.new(prod['purchase_price'].to_s) if prod['purchase_price']
-    margin_percentage = 0.0
+    margin_percentage = BigDecimal.new("0.0")
     margin_percentage = prod['margin_percentage'].to_f if prod['margin_percentage']
     sales_price = nil
     sales_price = BigDecimal.new(prod['sales_price']) if prod['sales_price']
     direct_shipping = false
     direct_shipping = true if prod['direct_shipping'] == "true"
+    weight = 0
+    weight = prod['weight'].to_f if prod['weight']
+    
     
     tax_class = TaxClass.where(:percentage => 8.0).first
     if tax_class.nil?
@@ -61,30 +64,23 @@ Given /^an order with the following products:$/ do |table|
     supplier = Supplier.find_by_name(prod['supplier'])
     product = Product.create(:name => prod['name'],
                              :description => 'foobar',
-                             :weight => prod['weight'],
+                             :weight => weight,
                              :sales_price => sales_price,
                              :supplier => supplier,
                              :tax_class => tax_class,
                              :purchase_price => purchase_price,
                              :margin_percentage => margin_percentage,
                              :direct_shipping => direct_shipping)
-    
-    @cart = Cart.new
     @cart.add_product(product, prod['quantity'])
-    @order = Order.new_from_cart(@cart)
-    @order.billing_address = billing_address
-    @order.user = user
-    @order.save
+    puts "supplier is #{supplier.inspect} with SR #{product.supplier.shipping_rate.inspect}"
   end
+  @order = Order.new_from_cart(@cart)
+  @order.billing_address = billing_address
+  @order.user = user
+  @order.save
   puts "THE ORDER LOOKS LIKE: #{@order.order_lines.inspect}"
   @order.user = user
-  if @order.save
-    puts "SAVED FINE","-------___--___--__---___"
-  else
-    puts "PROBLEM","-------___--___--__---___"
-  end
-  puts @order.errors.full_messages
-  puts "THE ORDER AFTERWARDS LOOKS LIKE: #{@order.order_lines.inspect}","-------___--___--__---___"
+  @order.save
 
 end                                                                                                
 
@@ -120,7 +116,7 @@ end
 
 
 When /^I calculate the shipping rate for the order$/ do
-  @order.shipping_rate
+  #@order.shipping_rate
 end  
 
 
