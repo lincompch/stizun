@@ -1,9 +1,7 @@
 Given /^I have ordered some stuff$/ do
-  Given %{a product named "Fish" from supplier "Alltron AG" in the category "Animals"}
-  And %{a product named "Terminator T-1000" from supplier "Alltron AG" in the category "Cyborgs"}
-  When %{I view the category "Animals"}
+  create_product({'name' => 'Fish', 'category' => 'Animals', 'supplier' => 'Alltron AG', 'purchase_price' => 100.0})
+  create_product({'name' => 'Terminator T-1000', 'category' => 'Cyborgs', 'supplier' => 'Alltron AG', 'purchase_price' => 100.0})
   And %{I add the only product in the category "Animals" to my cart 3 times}
-  And %{I view the category "Cyborgs"}
   And %{I add the only product in the category "Cyborgs" to my cart 2 times}  
 end
 
@@ -28,13 +26,33 @@ When /^I add the store's only product to my cart (\d+) times$/ do |num|
 end
 
 When /^I add the only product in the category "([^\"]*)" to my cart (\d+) times$/ do |cat, num|
-  num.to_i.times do
-    visit products_path
-    click_link cat
-    fill_in "quantity", :with => 1
-    click_button "Kaufen"
-  end
+  visit products_path
+  click_link cat
+  fill_in "quantity", :with => num
+  click_button "Kaufen"
 end
+
+When /^I add the product "([^\"]*)" to my cart (\d+) times$/ do |name, num|
+  # TODO: Optimize and clean up this horrible mess
+  all("table.productlist tr").each do |tr|
+    unless tr.text.match(name).nil?
+      tr.all("input").each do |input|
+        puts "inspecting #{input.inspect} with id #{input['id']}"
+        field_id = input['id'] if (!input['id'].nil? and !input['id'].match("^quantity").nil?)
+        if field_id
+          box_id = tr.find(".compact_add_to_cart_box")['id']
+          fill_in field_id, :with => num
+          within "##{box_id}" do
+            click_button 'Kaufen' 
+          end
+          #tr.find(".compact_add_to_cart_box").find("input", :type => 'submit').click
+        end
+      end
+    end
+  end
+  
+end
+
 
 When /^I visit the checkout$/ do
   visit cart_path

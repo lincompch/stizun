@@ -17,28 +17,36 @@ Feature: Ordering
         |Alltron AG|Alltron AG|
       And ActionMailer is set to test mode
 
+    
     Scenario: Add to cart
-      Given a product named "Fish" from supplier "Alltron AG" in the category "Animals"
+      Given the following products exist:
+      |name|category|supplier|purchase_price|
+      |Fish|Animals|Alltron AG|100.0|
       When I view the category "Animals"
       And I add the store's only product to my cart
       Then my cart should contain a product named "Fish"
 
     Scenario: Add to cart multiple times
-      Given a product named "Fish" from supplier "Alltron AG" in the category "Animals"
+      Given the following products exist:
+      |name|category|supplier|purchase_price|
+      |Fish|Animals|Alltron AG|100.0|
       When I view the category "Animals"
       And I add the store's only product to my cart 4 times
       Then my cart should contain a product named "Fish" 4 times
 
-    Scenario: Add to cart different items
-      Given I have ordered some stuff
-      Then my cart should contain some stuff
-
+    @work 
     Scenario: View checkout
-      Given I have ordered some stuff
-      When I visit the checkout
+      Given the following products exist:
+      |name|category|supplier|purchase_price|
+      |Fish|Animals|Alltron AG|100.0|
+      |Terminator T-1000|Cyborgs|Alltron AG|100.0|
+      When I view the category "Animals"
+      And I add the product "Fish" to my cart 4 times
+      And I view the category "Cyborgs"
+      And I add the product "Terminator T-1000" to my cart 2 times
+      And I visit the checkout
       Then I should see an order summary
 
-    @kaka
     Scenario: Complete checkout
       Given I have ordered some stuff
       When I visit the checkout

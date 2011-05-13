@@ -45,9 +45,9 @@
       <td class="price buy">
         <%= product_rounded_price(p).html_safe%>
         <br>
-        <div class="compact_add_to_cart_box">
+        <div class="compact_add_to_cart_box" id="product_<%="#{p.id}"%>_add_to_cart_box">
         <%= form_tag :controller => 'carts', :action => 'add_product', :method => 'get' do -%>
-          <%= text_field_tag "quantity", 1, :size => 2 %>
+          <%= text_field_tag "quantity", 1, :size => 2, :id => "quantity_#{p.id}" %>
           <%= hidden_field_tag "product_id", p.id %>
           <%= submit_tag t("stizun.cart.add_to_cart") %>
         <% end -%>
