@@ -23,7 +23,7 @@ Feature: Ordering
       |name|category|supplier|purchase_price|
       |Fish|Animals|Alltron AG|100.0|
       When I view the category "Animals"
-      And I add the store's only product to my cart
+      And I add the product "Fish" to my cart 1 times
       Then my cart should contain a product named "Fish"
 
     Scenario: Add to cart multiple times
@@ -31,7 +31,7 @@ Feature: Ordering
       |name|category|supplier|purchase_price|
       |Fish|Animals|Alltron AG|100.0|
       When I view the category "Animals"
-      And I add the store's only product to my cart 4 times
+      And I add the product "Fish" to my cart 4 times
       Then my cart should contain a product named "Fish" 4 times
 
     @work 
@@ -48,7 +48,14 @@ Feature: Ordering
       Then I should see an order summary
 
     Scenario: Complete checkout
-      Given I have ordered some stuff
+      Given the following products exist:
+      |name|category|supplier|purchase_price|
+      |Fish|Animals|Alltron AG|100.0|
+      |Terminator T-1000|Cyborgs|Alltron AG|100.0|
+      When I view the category "Animals"
+      And I add the product "Fish" to my cart 4 times
+      And I view the category "Cyborgs"
+      And I add the product "Terminator T-1000" to my cart 2 times
       When I visit the checkout
       And I fill in the following within "#billing_address":
       |Firma          |Some Company|
@@ -66,7 +73,14 @@ Feature: Ordering
       And the subject of e-mail 1 should be "[Local Shop] Elektronische Rechnung"
 
     Scenario: Complete checkout with different shipping address
-      Given I have ordered some stuff
+      Given the following products exist:
+      |name|category|supplier|purchase_price|
+      |Fish|Animals|Alltron AG|100.0|
+      |Terminator T-1000|Cyborgs|Alltron AG|100.0|
+      When I view the category "Animals"
+      And I add the product "Fish" to my cart 4 times
+      And I view the category "Cyborgs"
+      And I add the product "Terminator T-1000" to my cart 2 times
       When I visit the checkout
       And I fill in the following within "#billing_address":
       |Firma          |Some Company|

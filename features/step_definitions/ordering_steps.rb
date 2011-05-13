@@ -1,8 +1,10 @@
 Given /^I have ordered some stuff$/ do
   create_product({'name' => 'Fish', 'category' => 'Animals', 'supplier' => 'Alltron AG', 'purchase_price' => 100.0})
   create_product({'name' => 'Terminator T-1000', 'category' => 'Cyborgs', 'supplier' => 'Alltron AG', 'purchase_price' => 100.0})
-  And %{I add the only product in the category "Animals" to my cart 3 times}
-  And %{I add the only product in the category "Cyborgs" to my cart 2 times}  
+  And %{I view the category "Animals"}
+  And %{I add the product called "Fish" to my cart 3 times}
+  And %{I view the category "Cyborgs"}
+  And %{I add the product called "Terminator T-1000" to my cart 2 times}
 end
 
 Given /^the sales income account is configured$/ do
@@ -13,31 +15,12 @@ Given /^the accounts receivable account is configured$/ do
   ConfigurationItem.create(:name => "accounts_receivable_id", :key => "accounts_receivable_id", :value => Account.find_by_name("Accounts Receivable"))
 end
 
-When /^I add the store's only product to my cart$/ do
-  visit products_path
-  fill_in "quantity", :with => 1
-  click_button "Kaufen"
-end
-
-When /^I add the store's only product to my cart (\d+) times$/ do |num|
-  visit products_path
-  fill_in "quantity", :with => num
-  click_button "Kaufen"
-end
-
-When /^I add the only product in the category "([^\"]*)" to my cart (\d+) times$/ do |cat, num|
-  visit products_path
-  click_link cat
-  fill_in "quantity", :with => num
-  click_button "Kaufen"
-end
 
 When /^I add the product "([^\"]*)" to my cart (\d+) times$/ do |name, num|
   # TODO: Optimize and clean up this horrible mess
   all("table.productlist tr").each do |tr|
     unless tr.text.match(name).nil?
       tr.all("input").each do |input|
-        puts "inspecting #{input.inspect} with id #{input['id']}"
         field_id = input['id'] if (!input['id'].nil? and !input['id'].match("^quantity").nil?)
         if field_id
           box_id = tr.find(".compact_add_to_cart_box")['id']
@@ -45,7 +28,6 @@ When /^I add the product "([^\"]*)" to my cart (\d+) times$/ do |name, num|
           within "##{box_id}" do
             click_button 'Kaufen' 
           end
-          #tr.find(".compact_add_to_cart_box").find("input", :type => 'submit').click
         end
       end
     end
