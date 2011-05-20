@@ -34,7 +34,6 @@ Feature: Ordering
       And I add the product "Fish" to my cart 4 times
       Then my cart should contain a product named "Fish" 4 times
 
-    @work 
     Scenario: View checkout
       Given the following products exist:
       |name|category|supplier|purchase_price|
@@ -47,6 +46,7 @@ Feature: Ordering
       And I visit the checkout
       Then I should see an order summary
 
+    @work 
     Scenario: Complete checkout
       Given the following products exist:
       |name|category|supplier|purchase_price|

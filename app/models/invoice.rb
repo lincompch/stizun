@@ -11,6 +11,7 @@ class Invoice < StaticDocument
   # === AR Callbacks
   
   before_validation :move_paid_status
+  after_create :deliver_invoice
   
   # === Constants and associated methods
     
@@ -138,5 +139,15 @@ class Invoice < StaticDocument
     end
   end
   
+  def deliver_invoice
+    unless self.status_constant == Invoice::PAID
+      require 'net/smtp'
+      begin
+        StoreMailer.invoice(self).deliver
+      rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
+        History.add("Could not send invoice for #{self.document_id} during checkout: #{e.to_s}", History::GENERAL, self)
+      end
+    end
+  end
 
 end

@@ -76,6 +76,7 @@ end
 
 Then /^I should receive (\d+) e\-mails$/ do |num|
   @emails = ActionMailer::Base.deliveries
+  puts @emails.inspect
   @emails.count.should == num.to_i
 end
 
