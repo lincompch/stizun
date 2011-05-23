@@ -14,9 +14,9 @@ Feature: Orders as collections of items
 
   Scenario: Find the weight of an order
     Given an order with the following products:
-    |quantity|name  |weight|direct_shipping|tax_class |supplier  |purchase_price|margin_percentage|
-    |       1|Laptop|   0.90|           true|MwSt 8.0%|Alltron AG|           100|              5.0|
-    |       4|Fish  |   1.00|           true|MwSt 8.0%|Alltron AG|           100|              5.0|
-    |      18|Foo   |   2.00|           true|MwSt 8.0%|Alltron AG|           100|              5.0|
+    |quantity|name  |weight|direct_shipping|tax_class |supplier  |purchase_price|margin_percentage|manufacturer_product_code|
+    |       1|Laptop|   0.90|           true|MwSt 8.0%|Alltron AG|           100|              5.0|123|
+    |       4|Fish  |   1.00|           true|MwSt 8.0%|Alltron AG|           100|              5.0|456|
+    |      18|Foo   |   2.00|           true|MwSt 8.0%|Alltron AG|           100|              5.0|789|
     When I calculate the shipping rate for the order
     Then the order's total weight should be 40.9

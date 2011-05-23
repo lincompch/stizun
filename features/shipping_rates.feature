@@ -27,8 +27,8 @@ Feature: Shipping rate calculation and package count
 
     Scenario: Calculate direct shipping for one product
       Given an order with the following products:
-        |quantity|name  |weight|direct_shipping|supplier  |purchase_price|
-        |       1|Laptop|   0.9|           true|Alltron AG|120|
+        |quantity|name  |weight|direct_shipping|supplier  |purchase_price|manufacturer_product_code|
+        |       1|Laptop|   0.9|           true|Alltron AG|120|123|
       And the order's payment method is "Invoice"
       When I calculate the shipping rate for the order
       Then the order's total weight should be 0.9
@@ -36,9 +36,9 @@ Feature: Shipping rate calculation and package count
 
     Scenario: Calculate direct shipping for multiple products
       Given an order with the following products:
-        |quantity|name  |weight|direct_shipping|supplier  |
-        |       1|Laptop|   0.9|           true|Alltron AG|
-        |       4|Fish  |   1.0|           true|Alltron AG|
+        |quantity|name  |weight|direct_shipping|supplier  |manufacturer_product_code|
+        |       1|Laptop|   0.9|           true|Alltron AG|123|
+        |       4|Fish  |   1.0|           true|Alltron AG|456|
       And the order's payment method is "Invoice"
       When I calculate the shipping rate for the order
       Then the order's total weight should be 4.9
@@ -47,9 +47,9 @@ Feature: Shipping rate calculation and package count
 
     Scenario: Calculate indirect shipping for multiple products
       Given an order with the following products:
-        |quantity|name  |weight|direct_shipping|supplier  |
-        |       1|Laptop|   0.9|           true|Alltron AG|
-        |       4|Fish  |   1.0|          false|Alltron AG|
+        |quantity|name  |weight|direct_shipping|supplier  |manufacturer_product_code|
+        |       1|Laptop|   0.9|           true|Alltron AG|123|
+        |       4|Fish  |   1.0|          false|Alltron AG|456|
       When I calculate the shipping rate for the order
       Then the order's total weight should be 4.9
       And the order's shipping taxes should be 4.816
