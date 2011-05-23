@@ -13,9 +13,10 @@ def create_product(prod)
     direct_shipping = true if prod['direct_shipping'] == "true"
     weight = 0
     weight = prod['weight'].to_f unless prod['weight'].nil?
+    manufacturer_product_code = prod['manufacturer_product_code']
 
-
-    tax_class = TaxClass.where(:percentage => prod['tax_percentage']).first unless prod['tax_percentage'].blank?
+    tax_percentage = prod['tax_percentage'] || 8.0
+    tax_class = TaxClass.where(:percentage => tax_percentage).first unless tax_percentage.nil?
     if tax_class.nil?
       tax_class = TaxClass.create(:percentage => 8.0, :name => "8.0")
     end
@@ -31,6 +32,7 @@ def create_product(prod)
                              :tax_class => tax_class,
                              :purchase_price => purchase_price,
                              :margin_percentage => margin_percentage,
+                             :manufacturer_product_code => manufacturer_product_code,
                              :direct_shipping => direct_shipping)
   if prod['category']
     category = Category.where(:name => prod['category']).first
@@ -38,6 +40,12 @@ def create_product(prod)
     product.categories << category
     product.save
   end
-  
-  return product
+
+  # Ugly, but at least it makes test authors know what went wrong
+  if product.errors.empty?
+    return product
+  else
+    puts "Errors creating product: #{product.errors.full_messages}"
+    return false
+  end
 end
