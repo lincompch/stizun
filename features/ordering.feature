@@ -20,25 +20,25 @@ Feature: Ordering
     
     Scenario: Add to cart
       Given the following products exist:
-      |name|category|supplier|purchase_price|
-      |Fish|Animals|Alltron AG|100.0|
+      |name|category|supplier|purchase_price|direct_shipping|
+      |Fish|Animals|Alltron AG|100.0|true|
       When I view the category "Animals"
       And I add the product "Fish" to my cart 1 times
       Then my cart should contain a product named "Fish"
 
     Scenario: Add to cart multiple times
       Given the following products exist:
-      |name|category|supplier|purchase_price|
-      |Fish|Animals|Alltron AG|100.0|
+      |name|category|supplier|purchase_price|direct_shipping|
+      |Fish|Animals|Alltron AG|100.0|true|
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       Then my cart should contain a product named "Fish" 4 times
 
     Scenario: View checkout
       Given the following products exist:
-      |name|category|supplier|purchase_price|
-      |Fish|Animals|Alltron AG|100.0|
-      |Terminator T-1000|Cyborgs|Alltron AG|100.0|
+      |name|category|supplier|purchase_price|direct_shipping|
+      |Fish|Animals|Alltron AG|100.0|true|
+      |Terminator T-1000|Cyborgs|Alltron AG|100.0|true|
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       And I view the category "Cyborgs"
@@ -49,9 +49,9 @@ Feature: Ordering
     @work 
     Scenario: Complete checkout
       Given the following products exist:
-      |name|category|supplier|purchase_price|
-      |Fish|Animals|Alltron AG|100.0|
-      |Terminator T-1000|Cyborgs|Alltron AG|100.0|
+      |name|category|supplier|purchase_price|direct_shipping|
+      |Fish|Animals|Alltron AG|100.0|true|
+      |Terminator T-1000|Cyborgs|Alltron AG|100.0|true|
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       And I view the category "Cyborgs"
@@ -74,9 +74,9 @@ Feature: Ordering
 
     Scenario: Complete checkout with different shipping address
       Given the following products exist:
-      |name|category|supplier|purchase_price|
-      |Fish|Animals|Alltron AG|100.0|
-      |Terminator T-1000|Cyborgs|Alltron AG|100.0|
+      |name|category|supplier|purchase_price|direct_shipping|
+      |Fish|Animals|Alltron AG|100.0|true|
+      |Terminator T-1000|Cyborgs|Alltron AG|100.0|true|
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       And I view the category "Cyborgs"
