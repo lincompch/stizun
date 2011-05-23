@@ -44,9 +44,7 @@ class Admin::ProductsController <  Admin::BaseController
                                       :with => with,
                                       :max_matches => 100000,
                                       :per_page => 50,
-                                      :page => params[:page])
-      puts "with was #{with}"
-    
+                                      :page => params[:page])    
   end
   
   def having_unavailable_supply_item

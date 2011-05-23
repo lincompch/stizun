@@ -45,8 +45,7 @@ Feature: Ordering
       And I add the product "Terminator T-1000" to my cart 2 times
       And I visit the checkout
       Then I should see an order summary
-
-    @work 
+ 
     Scenario: Complete checkout
       Given the following products exist:
       |name|category|supplier|purchase_price|direct_shipping|

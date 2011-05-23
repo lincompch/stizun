@@ -24,50 +24,23 @@ Feature: Browse products
         |Alltron AG|Alltron AG|
       And there is a payment method called "Prepay" which is the default
 
-    @javascript      
-    Scenario: Create product
-      Given a category named "Notebooks" exists
-      When I create a product called "Lenovo T400"
-      And I wait for a fancybox to appear
-      And fill in the product description "Some laptop"
-      And I fill in the purchase price 100.0
-      And I fill in the margin percentage 5.0
-      And I fill in the weight 5.0
-      And I select the supplier "Alltron AG"
-      And I select the tax class "MwSt 8.0%"
-      And I assign the product to the category "Notebooks"
-      And I click the create button
-      Then I should see "Product created." within the fancybox
-      And there should be a product called "Lenovo T400"
-      And the category "Notebooks" should contain a product named "Lenovo T400"
-      
-    @javascript 
-    Scenario: Forget assigning a tax class when creating a product
-      Given a category named "Notebooks" exists
-      When I create a product called "Lenovo T500"
-      And I wait for a fancybox to appear
-      And fill in the product description "Some other laptop"
-      And I fill in the purchase price 100.0
-      And I fill in the weight 5.0
-      And I select the supplier "Alltron AG"
-      And I fill in the margin percentage 5.0
-      And I click the create button
-      Then I should see an error message inside the fancybox
-      And there should not be a product called "Lenovo T500"
-
     Scenario: Browse all products
-      Given a product named "Foobar 2000" from supplier "Alltron AG" in the category "Metasyntactic Variables"
-      And a product named "Fish" from supplier "Alltron AG" in the category "Animals"
-      And a product named "Defender" from supplier "Alltron AG" in the category "Arcade games"
+      Given the following products exist:
+      |name        |category               |supplier  |purchase_price|direct_shipping|
+      |Foobar 2000 |Metasyntactic Variables|Alltron AG|100.0         |true           |
+      |Fish        |Animals                |Alltron AG|100.0         |true           |
+      |Defender    |Arcade games           |Alltron AG|100.0         |true           |
       When I view the product list
       Then I should see a product named "Foobar 2000"
       And I should see a product named "Fish"
       And I should see a product named "Defender"
 
     Scenario: Browse products in a category
-      Given a product named "Foobar 2000" from supplier "Alltron AG" in the category "Metasyntactic Variables"
-      And a product named "Fish" from supplier "Alltron AG" in the category "Animals"
-      And a product named "Defender" from supplier "Alltron AG" in the category "Arcade games"
+      Given the following products exist:
+      |name        |category               |supplier  |purchase_price|direct_shipping|
+      |Foobar 2000 |Metasyntactic Variables|Alltron AG|100.0         |true           |
+      |Fish        |Animals                |Alltron AG|100.0         |true           |
+      |Defender    |Arcade games           |Alltron AG|100.0         |true           |
       When I view the category "Animals"
       Then I should see a product named "Fish"
       And I should not see a product named "Defender"
