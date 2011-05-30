@@ -1,3 +1,5 @@
+require 'rubygems'
+require 'feedzirra'
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   
@@ -71,6 +73,16 @@ module ApplicationHelper
     return output
    end
    
-
+   # RSS feed fetch helper   
+   def display_rss_feed(url)
+      feed = Feedzirra::Feed.fetch_and_parse(url)
+      output = "<div class='rss-entries'>"   
+      feed.entries.each do |entry|
+         output += "<h4><a href='#{entry.url}'>#{entry.title}</a></h4>"
+         output += "<p>#{entry.summary}</p>"
+      end
+      output += "</div>"
+      output.html_safe
+   end
    
 end
