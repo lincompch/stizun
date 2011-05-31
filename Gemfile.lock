@@ -59,12 +59,20 @@ GEM
     cucumber-rails (0.3.2)
       cucumber (>= 0.8.0)
     culerity (0.2.13)
+    curb (0.7.15)
     database_cleaner (0.6.0)
     diff-lcs (1.1.2)
     dynamic_form (1.1.3)
     erubis (2.6.6)
       abstract (>= 1.0.0)
     fastercsv (1.5.3)
+    feedzirra (0.0.24)
+      activesupport (>= 2.3.8)
+      builder (>= 2.1.2)
+      curb (>= 0.2.3)
+      loofah (>= 0.3.1)
+      nokogiri (> 0.0.0)
+      sax-machine (>= 0.0.12)
     ffi (0.6.3)
       rake (>= 0.8.7)
     gherkin (2.3.3)
@@ -83,6 +91,8 @@ GEM
       configuration (>= 0.0.5)
       rake (>= 0.8.1)
     linecache (0.43)
+    loofah (1.0.0)
+      nokogiri (>= 1.3.3)
     mail (2.2.13)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
@@ -91,7 +101,7 @@ GEM
     mime-types (1.16)
     mini_magick (3.2)
       subexec (~> 0.0.4)
-    mysql2 (0.2.6)
+    mysql (2.8.1)
     nokogiri (1.4.4)
     paperclip (2.3.8)
       activerecord
@@ -141,6 +151,8 @@ GEM
     rubyzip (0.9.4)
     sanitize (1.2.1)
       nokogiri (~> 1.4.1)
+    sax-machine (0.0.16)
+      nokogiri (> 0.0.0)
     selenium-webdriver (0.1.2)
       childprocess (~> 0.1.5)
       ffi (~> 0.6.3)
@@ -177,12 +189,13 @@ DEPENDENCIES
   database_cleaner
   dynamic_form
   fastercsv
+  feedzirra (~> 0.0.24)
   hoptoad_notifier (= 2.4.8)
   jquery-rails
   later_dude (>= 0.3.1)
   launchy
   mini_magick
-  mysql2
+  mysql
   paperclip
   rack-ssl-enforcer
   rails (= 3.0.3)
