@@ -3,5 +3,7 @@
 config/database.yml
 db/*.sqlite3
 log/*.log
+log/*.pid
+config/*.sphinx.conf
 tmp/**/*
 public/system/files/**/*
