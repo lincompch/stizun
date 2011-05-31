@@ -503,6 +503,7 @@ table.productlist .compact_add_to_cart_box {
   margin-left: -1em;
   margin-bottom: 0.3em;
   padding-left: 1em;
+  border-top: 1px solid #ccc;
 }
 
 #category_box li {
@@ -520,7 +521,7 @@ table.productlist .compact_add_to_cart_box {
 #category_box .clickable {
   cursor: pointer;
   color: #C46400;
-  border-bottom: 1px solid #ddd;
+/*   border-bottom: 1px solid #ddd; */
 }
 
 
