@@ -27,24 +27,6 @@ module ApplicationHelper
     end
   end
   
-  # This method is based on one written by dudz.josh and available 
-  # via dzone: http://snippets.dzone.com/posts/show/1919
-
-#   def tree_recursive(tree, parent_id)
-#     ret = "\n<ul>"
-#     tree.each do |node|
-#       if node.parent_id == parent_id
-#         ret += "\n\t<li>"
-#         ret += yield node
-#         ret += tree_recursive(tree, node.id) { |n| yield n } unless node.children.empty?
-#         ret += "\t</li>\n"
-#       end
-#     end
-#     ret += "</ul>\n"
-#   end
-  
-  
-  # My own implementation -- I find it more readable
    def tree_recursive(tree, parent_id = nil, admin = false, loopcount = 0)
     if loopcount == 0
       classname = "noindent"
@@ -61,9 +43,9 @@ module ApplicationHelper
             output += "\t<li class=\"#{li_classname}\"><span>" + link_to(node.name, admin_category_products_path(node)) + "</span>\n"
           else
             if node.children.count == 0
-              output += "\t<li class=\"#{li_classname}\"><span>" + link_to(node.name, category_products_path(node)) + "</span>\n"
+              output += "\t<li class=\"#{li_classname}\"><span class=\"\">" + link_to(node.name, category_products_path(node)) + "</span>\n"
             else
-              output += "\t<li class=\"#{li_classname}\"><span>#{node.name}</span>"
+              output += "\t<li class=\"#{li_classname}\"><span class=\"clickable\">#{node.name}</span>\n"
             end
           end
           loopcount += 1
