@@ -499,7 +499,7 @@ table.productlist .compact_add_to_cart_box {
   list-style: none;
 }
 
-#category_box li.first {
+#category_box ul li ul > li.first {
   margin-left: -1em;
   margin-bottom: 0.3em;
   padding-left: 1em;
@@ -511,7 +511,7 @@ table.productlist .compact_add_to_cart_box {
   margin-top: 0.2em;
 }
 
-#category_box li.last {
+#category_box ul li ul > li.last {
   margin-bottom: 0.8em;
   margin-top: 0.2em;
   padding-bottom: 0.3em;
