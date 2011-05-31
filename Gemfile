@@ -31,12 +31,13 @@ gem 'thinking-sphinx'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'paperclip'
-gem 'mysql2'
+gem 'mysql'
 gem 'will_paginate'
 gem 'uuidtools'
 gem 'fastercsv'
 gem 'later_dude', '>= 0.3.1'
 gem "hoptoad_notifier", '2.4.8'
+gem "feedzirra", "~> 0.0.24"
 
 group :cucumber, :test, :development do
   gem 'capybara'
