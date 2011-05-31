@@ -5,6 +5,8 @@ config/database.yml
 log/*.pid
 config/*.sphinx.conf
 log/*.log
+log/*.pid
+config/*.sphinx.conf
 tmp/**/*
 public/system/files/**/*
 *.swp
