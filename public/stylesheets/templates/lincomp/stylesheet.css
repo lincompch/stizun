@@ -499,10 +499,12 @@ table.productlist .compact_add_to_cart_box {
   list-style: none;
 }
 
-#category_box li.super {
+#category_box li.first {
   /*font-weight: bold;*/
-  border-bottom: 1px solid #ccc;
-  margin-top: 0.3em;
+  margin-left: -1em;
+  border-top: 1px solid #ccc;
+  margin-bottom: 0.3em;
+  padding-left: 1em;
 }
 
 a.exx {
