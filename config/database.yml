@@ -1,20 +1,19 @@
 # SQLite version 3.x
-#   gem install sqlite3-ruby (not necessary on OS X Leopard)
-development: &database
-  adapter: mysql
-  database: stizun_dev
-  username: root
-  password: 
-  encoding: utf8
-  host: 127.0.0.1
-  port: 3306
+# gem install sqlite3-ruby (not necessary on OS X Leopard)
+development:
+  adapter: sqlite3
+  database: db/development.sqlite3
+  pool: 5
+  timeout: 5000
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
-test:
-  <<: *database
-  database: stizun_test
+test: &TEST
+  adapter: sqlite3
+  database: db/test.sqlite3
+  pool: 5
+  timeout: 5000
 
 production:
   adapter: sqlite3
@@ -23,4 +22,4 @@ production:
   timeout: 5000
 
 cucumber:
-  <<: *test
+  <<: *TEST
