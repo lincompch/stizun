@@ -31,11 +31,7 @@
     <td>Status</td>
     <td><%= f.select :status_constant, options_for_select(Invoice::status_hash_for_select, @invoice.status_constant) %></td>
   </tr>
-  
-  <tr>
-    <td>Autobooking</td>
-    <td><%= f.check_box :autobook %><br />Invoices marked for autobooking will automatically be booked into the accounting system when they are switched from status 'unpaid' to 'paid'. The transfer used is 'Bank/Accounts Receivable for user', where 'Accounts receivable for user' is a personalized account created for the user or billing address related to this invoice.</td>
-</table>
+ </table>
 
 <%= f.submit "Submit" %>
 
