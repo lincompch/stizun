@@ -4,9 +4,8 @@ development: &database
   adapter: mysql
   database: stizun_dev
   username: root
-  password: 1234
+  password: 
   encoding: utf8
-  collation: utf8_polish_ci
   host: 127.0.0.1
   port: 3306
 
