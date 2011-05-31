@@ -500,11 +500,40 @@ table.productlist .compact_add_to_cart_box {
 }
 
 #category_box li.first {
-  /*font-weight: bold;*/
   margin-left: -1em;
   border-top: 1px solid #ccc;
   margin-bottom: 0.3em;
   padding-left: 1em;
+}
+
+#category_box li {
+  margin-bottom: 0.2em;
+  margin-top: 0.2em;
+}
+
+#category_box li.last {
+  margin-bottom: 0.8em;
+  margin-top: 0.2em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #eee;
+}
+
+#category_box .clickable {
+  cursor: pointer;
+  color: #C46400;
+}
+
+#category_box .clickable:hover {
+   color: #FF8200;
+}
+
+#category_box li.collapsable .clickable {
+  font-weight: bold;
+}
+
+
+#category_box li.expandable .clickable {
+   font-weight: normal;
 }
 
 a.exx {
