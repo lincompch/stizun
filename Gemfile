@@ -10,7 +10,8 @@ gem 'dynamic_form'
 
 # Hacked to work with Rails 3 thanks to rails3-generators
 # But need to consider Devise instead
-gem 'authlogic'
+
+gem 'devise'
 gem 'rails3-generators'
 
 
@@ -31,7 +32,7 @@ gem 'thinking-sphinx'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'paperclip'
-gem 'mysql2', "< 0.3"
+gem 'mysql2'
 gem 'will_paginate'
 gem 'uuidtools'
 gem 'fastercsv'

@@ -6,7 +6,7 @@
 </table>
 
 <p class="rightalign">
-  <%= link_to t("stizun.users.change_password_or_email"), edit_user_path(current_user) %>
+  <%= link_to t("stizun.users.change_password_or_email"), edit_user_registration_path(current_user) %>
 </p>
 
 <hr>
@@ -79,4 +79,4 @@
 
 <hr>
 
-<%= link_to("Logout", logout_path) if current_user %>
+<%= link_to("Logout", destroy_user_session_path) if current_user %>

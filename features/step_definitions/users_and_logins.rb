@@ -6,8 +6,8 @@ end
 
 
 Given /^I log in with e-mail address "([^\"]*)" and password "([^\"]*)"$/ do |email, password|
-  visit logout_path
-  visit login_path
+  visit destroy_user_session_path
+  visit new_user_session_path
   # Temporarily using the German wording because we're doing i18n now.
   fill_in "E-Mail-Adresse", :with => email
   fill_in "Passwort", :with => password

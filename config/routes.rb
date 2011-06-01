@@ -5,10 +5,9 @@ Stizun::Application.routes.draw do
   resources :products
   resources :invoices
   resource :cart
-  resources :user_sessions
-  
-  match 'login' => 'user_sessions#new', :as => :login
-  match 'logout' => 'user_sessions#destroy', :as => :logout
+  devise_for :users
+  #match 'login' => 'user_sessions#new', :as => :login
+  #match 'logout' => 'user_sessions#destroy', :as => :logout
   
   
   resources :categories do
@@ -27,7 +26,7 @@ Stizun::Application.routes.draw do
   end
   
   match '/admin' => 'admin/dashboard#index', :as => :admin
-  
+  match '/users/me' => "users#show", :as => :show_current_profile
   # Namespace admin
   namespace :admin do
     
