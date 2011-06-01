@@ -1,0 +1,6 @@
+@notifications - all notifications for this user.
+@email - users email
+
+to create a path to unsubscribe:
+unsubscribe_product_path(Notification.get_remove_hash(email, notification.product)
+this link will unsubscribe only one product. So if email is sent with notification about 3 products you will have to generate appropriate number of unsubscribe links. This prevents user to get many emails from you about product changes.

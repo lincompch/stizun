@@ -36,6 +36,7 @@ class ProductsController < ApplicationController
     
     def show
       @product = Product.find(params[:id])
+      session[:return_to] = product_path(@product)
       rescue ActiveRecord::RecordNotFound
       logger.error("Attempt to access invalid product #{params[:id]}" )
       flash[:notice] = "Invalid product"
@@ -85,5 +86,18 @@ class ProductsController < ApplicationController
       return "#{ofield} #{odir}" 
     end
     
+    def subscribe
+      @product = Product.find(params[:id])
+      @notification = Notification.new(:product => @product, :user => current_user, :email => params[:email], :active => false)
+      respond_to do |format|
+        if @notification.save
+          format.html{flash[:notice] = "Subscribed to get product information"
+          redirect_to session[:return_to]}
+        else
+          format.html{flash[:error] = "This is not a email address"
+          redirect_to session[:return_to]}
+        end
+      end
+    end
       
 end

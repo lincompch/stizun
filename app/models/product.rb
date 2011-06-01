@@ -27,6 +27,9 @@ class Product < ActiveRecord::Base
   
   belongs_to :supplier
   
+  has_many :notifications
+  has_many :users, :through => :notifications
+  
   scope :available, :conditions => { :is_available => true }
   scope :supplied, :conditions => "supply_item_id IS NOT NULL"
   scope :loss_leaders, :conditions => { :is_loss_leader => true }
@@ -35,7 +38,13 @@ class Product < ActiveRecord::Base
   
   before_save :set_explicit_sale_state, :cache_calculations
   after_create :try_to_get_product_files
+  after_save :update_notifications
   
+  def update_notifications
+    Notification.where(:product == self).each do |notification|
+      notification.set_active
+    end
+  end
   
   # Thinking Sphinx configuration
   # Must come AFTER associations

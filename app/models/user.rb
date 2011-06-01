@@ -10,6 +10,9 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :payment_methods
   has_and_belongs_to_many :usergroups
 
+  has_many :notifications
+  has_many :products, :through => :notifications
+
   before_create :add_default_payment_method
   
   def self.find_by_login_or_email(login)
