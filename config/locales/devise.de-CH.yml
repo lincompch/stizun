@@ -10,30 +10,30 @@ de-CH:
 
   devise:
     failure:
-      unauthenticated: "Du musst dich anmelden oder registrieren um fortzufahren."
-      unconfirmed: "Du musst dein Konto bestätigen um fortzufahren."
-      locked: "Dein Konto ist gesperrt."
+      unauthenticated: "Sie müssen sich anmelden oder registrieren, um fortzufahren."
+      unconfirmed: "Sie müssen Ihr Konto bestätigen, um fortzufahren."
+      locked: "Ihr Konto ist gesperrt."
       invalid: "Ungültige E-Mail-Adresse oder Passwort."
       invalid_token: "Ungültiger Authentifizierungstoken."
-      timeout: "Deine Sitzung ist abgelaufen, bitte melde dich erneut an um fortzufahren."
-      inactive: "Dein Konto wurde noch nicht aktiviert."
+      timeout: "Ihre Sitzung ist abgelaufen, bitte melden Sie sich erneut an, um fortzufahren."
+      inactive: "Ihr Konto wurde noch nicht aktiviert."
     sessions:
       signed_in: 'Sie sind jetzt eingeloggt.'
       signed_out: 'Sie sind jetzt ausgeloggt.'
     passwords:
-      send_instructions: "Du wirst in ein paar Minuten eine E-Mail erhalten, die beschreibt, wie du dein Passwort zurücksetzt."
-      updated: "Dein Passwort wurde erfolgreich geändert. Du bist nun angemeldet."
+      send_instructions: "Sie werden in ein paar Minuten eine E-Mail erhalten, die beschreibt, wie Sie Ihr Passwort zurücksetzen können."
+      updated: "Dein Passwort wurde erfolgreich geändert. Sie bist nun angemeldet."
     confirmations:
-      send_instructions: "Du wirst in ein paar Minuten eine E-Mail erhalten, die beschreibt, wie du dein Konto bestätigst."
-      confirmed: "Dein Konto wurde erfolgreich bestätigt. Du bist nun angemeldet."
+      send_instructions: "Sie werden in ein paar Minuten eine E-Mail erhalten, die beschreibt, wie Sie Ihr Konto bestätigen können."
+      confirmed: "Ihr Konto wurde erfolgreich bestätigt. Sie sind nun angemeldet."
     registrations:
-      signed_up: "Du hast dich erfolgreich registriert. Sofern aktiviert, wurde dir eine Bestätigung per E-Mail gesendet."
+      signed_up: "Sie haben sich erfolgreich registriert. Sofern aktiviert, wurde Ihnen eine Bestätigung per E-Mail gesendet."
       updated: "Dein Konto wurde aktualisiert."
       destroyed: "Tschüss! Dein Konto wurde erfolgreich gekündigt. Wir hoffen dich bald wiederzusehen."
       error: "Das Konto konnte nicht erstellt werden."
     unlocks:
-      send_instructions: "Du wirst in ein paar Minuten eine E-Mail erhalten, die beschreibt, wie du dein Konto entsperren kannst."
-      unlocked: "Dein Konto wurde erfolgreich entsperrt. Du bist nun angemeldet."
+      send_instructions: "Sie werden in ein paar Minuten eine E-Mail erhalten, die beschreibt, wie Sie Ihr Konto entsperren können."
+      unlocked: "Ihr Konto wurde erfolgreich entsperrt. Sie sind nun angemeldet."
     mailer:
       confirmation_instructions: "Instruktionen zur Bestätigung"
       reset_password_instructions: "Instruktionen zum Zurücksetzen des Passworts"

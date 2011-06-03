@@ -87,7 +87,7 @@
                   <% @cart = Cart.get_from_session(session) %>
                   <%= render :partial => 'carts/sidebar_box' %>
 
-                  <div class="box" id="category_box"> 
+                  <div class="box" id="search_box"> 
                     <div class="box_hd"> 
                         <h3 class="rightBoxHeading">Produktsuche</h3> 
                     </div> 
@@ -116,6 +116,22 @@
                     </div> 
                   </div> 
   
+
+                  <%= unless FeedEntry.count == 0 %>
+                  <div class="box">
+                    <div class="box_hd">
+                        <h3 class="rightBoxHeading">Lincomp-News</h3>
+                    </div>
+                    <div class="box_ct">
+                      <div id="categoriesContent" class=" sideBoxContent centeredContent">
+                        <%= display_rss_feed %>
+                      </div>
+                      </div>
+                    <div class="box_ft">
+                        &nbsp;
+                    </div>
+                  </div>
+                  <% end %>
 
 
             </div>

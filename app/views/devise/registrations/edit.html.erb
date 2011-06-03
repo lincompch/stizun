@@ -4,12 +4,12 @@
   <%= f.label :email,  t('stizun.users.attributes.email') %><br />
   <%= f.text_field :email %><br />
   <br />
-  <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+  <%= f.label :password %> <i>(<%= t('stizun.users.leave_blank_if_keep') %></i>)<br />
   <%= f.password_field :password %><br />
   <br />
   <%= f.label :password_confirmation,  t('stizun.users.attributes.repeat_password') %><br />
   <%= f.password_field :password_confirmation %><br />  
-  <p><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+  <p><%= f.label :current_password %> <i>(<%= t('stizun.users.we_need_your_password') %></i>)<br />
     <%= f.password_field :current_password %></p>
   <%= f.submit t("stizun.account.update") %>
 <% end %>

@@ -307,6 +307,8 @@ de-CH:
       account_created_successfully: "Ihr Konto ist erstellt worden."
       overview: "Benutzerübersicht"
       change_password_or_email: "Passwort/E-Mail ändern"
+      we_need_your_password: "Wir brauchen Ihr altes Passwort, um ein neues setzen zu können."
+      leave_blank_if_keep: "Lassen Sie dieses Feld leer, um das alte Passwort zu behalten."
       attributes:
         email: "E-Mail-Adresse"
         password: "Passwort"
