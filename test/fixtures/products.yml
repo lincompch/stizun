@@ -5,3 +5,11 @@
 #
 # two:
 #   column: value
+test:
+  name: test
+  description: description
+  tax_class_id: 2
+  purchase_price: 111
+  sales_price: 200   
+  supplier_id: 1
+  weight: 4

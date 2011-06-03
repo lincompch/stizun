@@ -34,7 +34,18 @@
       <% end %>
     </ul>
   <% end %>
-
+  
+  <% if current_user && current_user.products.include?(@product) %>
+    <p>To unsuscribe follow this link: <%= link_to "unsubscribe", unsubscribe_product_path(Notification.get_remove_hash(current_user, @product)) %> </p> 
+  <% else %>
+    <h4>Subscribe this product</h4>
+    <p><%= form_tag subscribe_product_path(@product) do %>
+         <%= text_field_tag :email, current_user ? current_user.email : "" %>
+         <%= submit_tag "Subscribe" %>
+       <% end %>
+    </p>
+  <% end %>
+  
   <p style="clear: both;"></p>
 
   <div id="product_categories">

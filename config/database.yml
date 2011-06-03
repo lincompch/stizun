@@ -21,4 +21,4 @@ production:
   database: db/production.sqlite3
 
 cucumber:
-  <<: *TEST
+  <<: *test

@@ -77,6 +77,12 @@
   <%= link_to t("stizun.address.add_new_address"), new_address_path %>
 </p>
 
+<h3>Subscribed products</h3>
+<p>You can manage your subscribed products here</p>
+<p class="rightalign">
+  <%= link_to "All subscriptions", notifications_path %>
+</p>
+
 <hr>
 
 <%= link_to("Logout", destroy_user_session_path) if current_user %>
