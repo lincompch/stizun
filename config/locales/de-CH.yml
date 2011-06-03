@@ -160,7 +160,7 @@ de-CH:
       user:
         password: "Passwort"
         password_confirmation: "Passwortbestätigung"
-        current_password: "aktuelle Passwort"
+        current_password: "Aktuelles Passwort"
 
   stizun:
     general:
