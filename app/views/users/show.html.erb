@@ -77,11 +77,13 @@
   <%= link_to t("stizun.address.add_new_address"), new_address_path %>
 </p>
 
-<h3>Subscribed products</h3>
-<p>You can manage your subscribed products here</p>
-<p class="rightalign">
+<hr />
+
+<h3><%= t('stizun.product.your_product_alerts') %></h3>
   <%= link_to "All subscriptions", notifications_path %>
 </p>
+
+  <%= render :partial => 'notification/notifications' %>
 
 <hr>
 

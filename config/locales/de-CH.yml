@@ -168,6 +168,7 @@ de-CH:
       products: "Produkte"
       delete: "Löschen"
       price: "Preis"
+      actions: "Aktionen"
     table_headers:
       number: "Nr."
       date: "Datum"
@@ -291,6 +292,7 @@ de-CH:
       pcs_in_stock_short: "Stück an Lager"
       no_products: "Diese Produkteliste ist leer."
       products: "Produkte"
+      product: "Produkt"
       rebate: "Rabatt"
       description: "Beschreibung"
       short_description: "Kurzbeschreibung"
@@ -298,6 +300,9 @@ de-CH:
       search_query_too_short: "Ihr Suchbegriff ist zu kurz. Verwenden Sie bitte mindestens 3 Buchstaben."
       search_found_no_results: "Keine Resultate für Ihre Suche."
       attachments: "Dateien"
+      your_product_alerts: "Ihre abonnierten Produkte"
+      you_dont_have_any_product_alerts: "Sie haben keine abonnierten Produkte. Abonnieren Sie Preis-Updates jeweils auf der Detailseite eines Produkts."
+      unsubscribe: "Abbestellen"
     store_mailer:
       order_confirmation_subject: "Bestätigung Ihrer Bestellung"
       invoice_notification_subject: "Elektronische Rechnung"

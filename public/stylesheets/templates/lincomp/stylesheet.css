@@ -672,6 +672,33 @@ table.invoice_addresses td.shipping_address {
 
 
 
+/* Product subscriptions/notifications */
+
+#notifications {
+  border-collapse: collapse;
+}
+
+table#notifications {
+  width: 100%;
+}
+
+#notifications th {
+  text-align: left;
+}
+
+#notifications tr.even td {
+  background: #F0F0F0;
+  border-bottom: 1px solid #dedede;
+  border-top: 1px solid #dedede;
+}
+
+#notifications td, #notifications th {
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
 
 /* Global-ish stuff */
 

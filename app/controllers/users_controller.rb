@@ -10,6 +10,8 @@ class UsersController < ApplicationController
     @orders_processing = @user.orders.processing
     @orders_unprocessed = @user.orders.unprocessed
     @addresses = @user.addresses.active
+    @notifications = @user.notifications
+
   end
   def me
     show
