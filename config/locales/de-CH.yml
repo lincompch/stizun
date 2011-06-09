@@ -303,6 +303,7 @@ de-CH:
       your_product_alerts: "Ihre abonnierten Produkte"
       you_dont_have_any_product_alerts: "Sie haben keine abonnierten Produkte. Abonnieren Sie Preis-Updates jeweils auf der Detailseite eines Produkts."
       unsubscribe: "Abbestellen"
+      subscribe: "Abonnieren"
     store_mailer:
       order_confirmation_subject: "Bestätigung Ihrer Bestellung"
       invoice_notification_subject: "Elektronische Rechnung"
@@ -324,7 +325,7 @@ de-CH:
       login_successful: "Sie sind jetzt eingeloggt."
       logout_successful: "Sie sind jetzt ausgeloggt."
       stay_logged_in: "Eingeloggt bleiben."
-      log_in: "Einloggen"    
+      log_in: "Einloggen"
       
   authlogic:
     error_messages:

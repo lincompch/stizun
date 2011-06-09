@@ -34,14 +34,15 @@
       <% end %>
     </ul>
   <% end %>
-  
+
+  <h4>Preis-Updates</h4>
+  <p>Wollen Sie informiert werden, wenn sich der Preis dieses Produktes ändert? Abonnieren Sie unsere Preis-Updates. Sie erhalten maximal eine Mail pro Tag, egal, wie viele Produkte Sie abonnieren.</p>
   <% if current_user && current_user.products.include?(@product) %>
-    <p>To unsuscribe follow this link: <%= link_to "unsubscribe", unsubscribe_product_path(Notification.get_remove_hash(current_user, @product)) %> </p> 
+    <p>Sie haben Preis-Updates für dieses Produkt abonniert. <%= link_to t('stizun.product.unsubscribe'), unsubscribe_product_path(Notification.get_remove_hash(current_user, @product)) %> </p>
   <% else %>
-    <h4>Subscribe this product</h4>
     <p><%= form_tag subscribe_product_path(@product) do %>
-         <%= text_field_tag :email, current_user ? current_user.email : "" %>
-         <%= submit_tag "Subscribe" %>
+         <%= text_field_tag :email, current_user ? current_user.email : "", :placeholder => 'Ihre E-Mail-Adresse' %>
+         <%= submit_tag t('stizun.product.subscribe') %>
        <% end %>
     </p>
   <% end %>
