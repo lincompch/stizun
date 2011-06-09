@@ -10,7 +10,7 @@ class NotificationController < ApplicationController
     product = @notification.product
     @notification.destroy
     
-    flash[:notice] = "You have unsuscribed product"
+    flash[:notice] = "Abonnement für dieses Produkt abbestellt"
     redirect_to session[:return_to] || product_path(product)
   end
   

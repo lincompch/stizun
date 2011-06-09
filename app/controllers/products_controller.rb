@@ -91,10 +91,10 @@ class ProductsController < ApplicationController
       @notification = Notification.new(:product => @product, :user => current_user, :email => params[:email], :active => false)
       respond_to do |format|
         if @notification.save
-          format.html{flash[:notice] = "Subscribed to get product information"
+          format.html{flash[:notice] = "Preis-Updates abonniert"
           redirect_to session[:return_to]}
         else
-          format.html{flash[:error] = "This is not a email address"
+          format.html{flash[:error] = "Das ist keine E-Mail-Adresse"
           redirect_to session[:return_to]}
         end
       end
