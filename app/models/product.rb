@@ -42,9 +42,9 @@ class Product < ActiveRecord::Base
   
   def update_notifications
     price_relevant_fields = ["purchase_price", "sales_price", "margin_percentage"]
-    relevant_changes = (self.changes.keys & price_relevant_fields).size > 0
+    relevant_changes = self.changes.keys & price_relevant_fields
         
-    if relevant_changes
+    if relevant_changes.size > 0
       Notification.where(:product == self).each do |notification|
         notification.set_active
       end
