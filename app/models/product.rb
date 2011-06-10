@@ -38,11 +38,16 @@ class Product < ActiveRecord::Base
   
   before_save :set_explicit_sale_state, :cache_calculations
   after_create :try_to_get_product_files
-  after_save :update_notifications
+  before_save :update_notifications
   
   def update_notifications
-    Notification.where(:product == self).each do |notification|
-      notification.set_active
+    price_relevant_fields = ["purchase_price", "sales_price", "margin_percentage"]
+    relevant_changes = (self.changes.keys & price_relevant_fields).size > 0
+        
+    if relevant_changes
+      Notification.where(:product == self).each do |notification|
+        notification.set_active
+      end
     end
   end
   
