@@ -33,6 +33,16 @@ describe Product do
       supply_items = create_supply_items(supplier, array)
       SupplyItem.all.count.should == 5
     end
+
+    it "should have a correct price, a total of constituent supply items" do
+      pending
+    end
+
+    it "should have correct taxes" do
+      pending
+    end
+
+  
   end
   
   describe "a product" do
