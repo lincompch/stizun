@@ -1,13 +1,29 @@
 
+
+Wie gewünscht schicken wir Ihnen eine Zusammenfassung der letzten
+Preisänderungen bei Lincomp:
+
 <% @notifications.each do |n| %>
 
- <%= n.inspect %>
+ <%= "#{n.product.name}" %>
+ <%= "Preis neu #{n.product.taxed_price} inkl. MwSt." %>
+
+ <%= "Updates für dieses Produkt abbestellen:" %>
+ <%= unsubscribe_product_path(Notification.get_remove_hash(@email, n.product)) %>
+ <%= "---" %>
 
 <% end %>
 
-@notifications - all notifications for this user.
-@email - users email
+Falls Sie ein Lincomp-Konto besitzen, können Sie Ihre Produkte-
+Abonnemente auch auf Ihrer persönlichen Seite bearbeiten:
 
-to create a path to unsubscribe:
-unsubscribe_product_path(Notification.get_remove_hash(email, notification.product)
-this link will unsubscribe only one product. So if email is sent with notification about 3 products you will have to generate appropriate number of unsubscribe links. This prevents user to get many emails from you about product changes.
+http://www.lincomp.ch/users/me
+
+
+Freundliche Grüsse
+
+Lincomp GmbH
+
+--
+
+info@lincomp.ch | http://www.lincomp.ch
