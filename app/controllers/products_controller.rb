@@ -35,11 +35,21 @@ class ProductsController < ApplicationController
 
     
     def show
-      @product = Product.find(params[:id])
+      begin
+        @product = Product.find(params[:id])
+        unless @product.supplier.nil? or @product.supplier.utility_class_name.blank?
+          begin
+            require "lib/#{@product.supplier.utility_class_name.underscore}"
+            @changes = @product.supplier.utility_class_name.constantize.live_update(@product)
+          rescue LoadError => e
+            logger.error "Could not require lib/#{@product.supplier.utility_class_name.underscore} for live update: #{e.message}"
+          end          
+        end
       rescue ActiveRecord::RecordNotFound
-      logger.error("Attempt to access invalid product #{params[:id]}" )
-      flash[:notice] = "Invalid product"
-      redirect_to :action => :index
+        logger.error("Attempt to access invalid product #{params[:id]}" )
+        flash[:notice] = "Invalid product"
+        redirect_to :action => :index
+      end
     end
 
     def edit
