@@ -55,4 +55,15 @@ class StoreMailer < ActionMailer::Base
     end
   end
   
+  def product_notification(email, notifications)
+    @from = APP_CONFIG['default_from_email'] || 'stizun@localhost'
+    subject = "#{APP_CONFIG['email_subject_prefix']} #{t("stizun.store_mailer.product_notification_subject")}"
+    @notifications = notifications
+    @email = email
+    mail(:to => email,
+         :bcc => @from,
+         :subject => subject) do |format|
+      format.text { render StoreMailer.template_path("product_notification") }
+    end
+  end
 end

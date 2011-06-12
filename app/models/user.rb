@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
-  acts_as_authentic do |c|
-    c.login_field = 'email'
-  end
+  devise :database_authenticatable, :registerable,   
+    :recoverable, :rememberable, :trackable, :validatable, :encryptable
 
   has_many :carts
   has_many :orders
@@ -10,11 +9,10 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :payment_methods
   has_and_belongs_to_many :usergroups
 
+  has_many :notifications
+  has_many :products, :through => :notifications
+
   before_create :add_default_payment_method
-  
-  def self.find_by_login_or_email(login)
-    User.find_by_login(login) || User.find_by_email(login)
-  end
 
   def is_admin?
     usergroups.collect(&:is_admin).include?(true)

@@ -1,0 +1,15 @@
+<h1><%= t("stizun.account.register_title") %></h1>
+
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <%= f.error_messages %>
+  <%= f.label :email,  t('stizun.users.attributes.email') %><br />
+  <%= f.text_field :email %><br />
+  <br />
+  <%= f.label :password, f.object.new_record? ?  t('stizun.users.attributes.password') : t("stizun.account.change_password") %><br />
+  <%= f.password_field :password %><br />
+  <br />
+  <%= f.label :password_confirmation,  t('stizun.users.attributes.repeat_password') %><br />
+  <%= f.password_field :password_confirmation %><br />
+  <%= f.submit t("stizun.account.register") %>
+<% end %>
+

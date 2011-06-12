@@ -1,6 +1,13 @@
 *~
 .bundle
 db/*.sqlite3
+db/sphinx/*
+config/database.yml
+log/*.pid
 log/*.log
+config/*.sphinx.conf
 tmp/**/*
 public/system/files/**/*
+*.swp
+
+

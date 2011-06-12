@@ -11,7 +11,9 @@
       <%= hidden_field_tag "product_id", @product.id %>
       <%= submit_tag t("stizun.cart.add_to_cart") %>
     <% end -%>
+    <p><a href="#price_updates">Preis-Updates abonnieren</a></p>
   </div>
+
 
   <div id="product_picture_gallery">
     <%= render :partial => 'picture_display', :locals => { :product_pictures => @product.product_pictures } %>
@@ -35,6 +37,23 @@
     </ul>
   <% end %>
 
+
+  <div id="price_update_box">
+    <a name="price_updates"></a>
+    <h4>Preis-Updates</h4>
+    <p>Wollen Sie informiert werden, wenn sich der Preis dieses Produktes ändert? Abonnieren Sie unsere Preis-Updates. Sie erhalten maximal eine Mail pro Tag, egal, wie viele Produkte Sie abonnieren.</p>
+    <% if current_user && current_user.products.include?(@product) %>
+      <p>Sie haben Preis-Updates für dieses Produkt abonniert. <%= link_to t('stizun.product.unsubscribe'), unsubscribe_product_path(Notification.get_remove_hash(current_user, @product)) %> </p>
+    <% else %>
+      <p><%= form_tag subscribe_product_path(@product) do %>
+          <%= text_field_tag :email, current_user ? current_user.email : "", :placeholder => 'Ihre E-Mail-Adresse' %>
+          <%= submit_tag t('stizun.product.subscribe') %>
+        <% end %>
+      </p>
+    <% end %>
+  </div>
+
+  
   <p style="clear: both;"></p>
 
   <div id="product_categories">

@@ -6,7 +6,7 @@
 </table>
 
 <p class="rightalign">
-  <%= link_to t("stizun.users.change_password_or_email"), edit_user_path(current_user) %>
+  <%= link_to t("stizun.users.change_password_or_email"), edit_user_registration_path(current_user) %>
 </p>
 
 <hr>
@@ -77,6 +77,12 @@
   <%= link_to t("stizun.address.add_new_address"), new_address_path %>
 </p>
 
+<hr />
+
+<h3><%= t('stizun.product.your_product_alerts') %></h3>
+
+  <%= render :partial => 'notification/notifications' %>
+
 <hr>
 
-<%= link_to("Logout", logout_path) if current_user %>
+<%= link_to("Logout", destroy_user_session_path) if current_user %>

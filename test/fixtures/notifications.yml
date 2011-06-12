@@ -1,0 +1,26 @@
+active_one:
+  user_id: 1
+  product_id: 1
+  active: true
+  remove_hash: 12334567
+  email: some@example.com
+
+active_two:
+  user_id: 2
+  product_id: 2
+  active: true
+  remove_hash: 234567
+  email: some2@example.com
+not_active:
+  user_id: 1
+  product_id: 6
+  active: false
+  remove_hash: 56789789
+  email: some3@example.com
+  
+not_active_two:
+  user_id: 1
+  product_id: 6
+  active: false
+  remove_hash: 56789789
+  email: some3@example.com

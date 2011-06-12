@@ -5,7 +5,7 @@
 }
 
 
-#error {
+#error, #alert {
   padding: 0.4em;
   border: 2px solid #000;
   font-weight: bold;

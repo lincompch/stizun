@@ -45,6 +45,7 @@ class ProductsController < ApplicationController
             logger.error "Could not require lib/#{@product.supplier.utility_class_name.underscore} for live update: #{e.message}"
           end          
         end
+      session[:return_to] = product_path(@product)
       rescue ActiveRecord::RecordNotFound
         logger.error("Attempt to access invalid product #{params[:id]}" )
         flash[:notice] = "Invalid product"
@@ -95,5 +96,18 @@ class ProductsController < ApplicationController
       return "#{ofield} #{odir}" 
     end
     
+    def subscribe
+      @product = Product.find(params[:id])
+      @notification = Notification.new(:product => @product, :user => current_user, :email => params[:email], :active => false)
+      respond_to do |format|
+        if @notification.save
+          format.html{flash[:notice] = "Preis-Updates abonniert"
+          redirect_to session[:return_to]}
+        else
+          format.html{flash[:error] = "Das ist keine E-Mail-Adresse"
+          redirect_to session[:return_to]}
+        end
+      end
+    end
       
 end

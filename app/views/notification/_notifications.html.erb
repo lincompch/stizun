@@ -1,0 +1,36 @@
+
+<% if @notifications.count > 0 %>
+  <table id="notifications">
+    <thead>
+      <tr>
+        <th></th>
+        <th><%= t('stizun.product.product') %></th>
+        <th><%= t('stizun.general.actions') %></th>
+      </tr>
+    <tbody>  
+  <% @notifications.each do |notification| %>
+    <tr class="<%= cycle('even', 'odd')%>">
+      <td>
+        <% if notification.product.thumbnail_picture.nil? %>
+        <div class="product_picture">
+          Kein Bild
+        </div>
+        <% else %>
+          <%= link_to(image_tag(notification.product.thumbnail_picture.file.url(:thumb)), :controller => 'products',
+                                                                      :action => 'show',
+                                                                      :id => notification.product)  %>
+        <% end %>
+      </td>
+      <td><%= link_to notification.product.name, product_path(notification.product)%></td>
+      <td>
+        <%= link_to t('stizun.product.unsubscribe'), unsubscribe_product_path(Notification.get_remove_hash(current_user, notification.product)) %>
+      </td>
+  <% end %>
+    </tbody>
+  </table>
+
+<% else %>
+
+  <%= t('stizun.product.you_dont_have_any_product_alerts') %>
+
+<% end %>

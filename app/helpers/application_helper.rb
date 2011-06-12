@@ -27,50 +27,45 @@ module ApplicationHelper
     end
   end
   
-  # This method is based on one written by dudz.josh and available 
-  # via dzone: http://snippets.dzone.com/posts/show/1919
-
-#   def tree_recursive(tree, parent_id)
-#     ret = "\n<ul>"
-#     tree.each do |node|
-#       if node.parent_id == parent_id
-#         ret += "\n\t<li>"
-#         ret += yield node
-#         ret += tree_recursive(tree, node.id) { |n| yield n } unless node.children.empty?
-#         ret += "\t</li>\n"
-#       end
-#     end
-#     ret += "</ul>\n"
-#   end
-  
-  
-  # My own implementation -- I find it more readable
    def tree_recursive(tree, parent_id = nil, admin = false, loopcount = 0)
-    classname = "noindent" if loopcount == 0
-    
+    if loopcount == 0
+      classname = "noindent"
+      idname = "id='treeview'"
+    end 
     output = ""
-    output += "<ul class=\"#{classname}\">\n"
+    output += "<ul #{idname} class=\"#{classname}\">\n"
     loopcount ||= 0
-      tree.sort_by(&:name).each do |node|
+      tree.sort_by(&:name).each_with_index do |node, index|
+        
         if node.parent_id == parent_id
-          li_classname = "super" if node.children.count > 0
+          li_classname = "first" if index == 0
           if admin == true
-            output += "\t<li class=\"#{li_classname}\">" + link_to(node.name, admin_category_products_path(node)) + "</li>\n"
+            output += "\t<li class=\"#{li_classname}\"><span>" + link_to(node.name, admin_category_products_path(node)) + "</span>\n"
           else
             if node.children.count == 0
-              output += "\t<li class=\"#{li_classname}\">" + link_to(node.name, category_products_path(node)) + "</li>\n"
+              output += "\t<li class=\"#{li_classname}\"><span class=\"\">" + link_to(node.name, category_products_path(node)) + "</span>\n"
             else
-              output += "\t<li class=\"#{li_classname}\">#{node.name}</li>\n"
+              output += "\t<li class=\"#{li_classname}\"><span class=\"clickable\">#{node.name}</span>\n"
             end
           end
           loopcount += 1
           output += tree_recursive(node.children, node.id, admin, loopcount) unless node.children.empty?
+          output += "</li>"
         end
       end
     output += "</ul>\n"
     return output
    end
    
-
+   # RSS feed fetch helper   
+   def display_rss_feed(limit = 10)
+      output = "<div class='rss-entries'>"   
+      FeedEntry.all(:limit => limit).each do |entry|
+         output += "<h4><a href='#{entry.url}'>#{entry.title}</a></h4>"
+         output += "<p>#{entry.content}</p>"
+      end
+      output += "</div>"
+      output.html_safe
+   end
    
 end

@@ -10,37 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110115123626) do
-
-  create_table "account_transactions", :force => true do |t|
-    t.string   "note"
-    t.integer  "credit_account_id"
-    t.string   "credit_account_type"
-    t.integer  "debit_account_id"
-    t.string   "debit_account_type"
-    t.decimal  "amount",              :precision => 63, :scale => 30
-    t.integer  "target_object_id"
-    t.string   "target_object_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "account_transactions", ["credit_account_id", "debit_account_id"], :name => "at_cid_did"
-  add_index "account_transactions", ["credit_account_id"], :name => "index_account_transactions_on_credit_account_id"
-  add_index "account_transactions", ["debit_account_id", "credit_account_id"], :name => "at_did_cid"
-  add_index "account_transactions", ["debit_account_id"], :name => "index_account_transactions_on_debit_account_id"
-
-  create_table "accounts", :force => true do |t|
-    t.integer  "parent_id"
-    t.integer  "user_id"
-    t.string   "name"
-    t.integer  "type_constant"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "accounts", ["parent_id"], :name => "index_accounts_on_parent_id"
-  add_index "accounts", ["user_id"], :name => "index_accounts_on_user_id"
+ActiveRecord::Schema.define(:version => 20110601122150) do
 
   create_table "addresses", :force => true do |t|
     t.string   "company"
@@ -67,6 +37,11 @@ ActiveRecord::Schema.define(:version => 20110115123626) do
   create_table "admin_orders", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "attachments", :force => true do |t|
+    t.integer "product_id"
+    t.string  "file"
   end
 
   create_table "carts", :force => true do |t|
@@ -139,47 +114,40 @@ ActiveRecord::Schema.define(:version => 20110115123626) do
 
   create_table "document_lines", :force => true do |t|
     t.integer  "quantity"
-    t.decimal  "price",      :precision => 10, :scale => 0
+    t.decimal  "price",        :precision => 10, :scale => 0
     t.integer  "product_id"
     t.string   "note"
     t.string   "type"
     t.integer  "cart_id"
     t.integer  "invoice_id"
-    t.integer  "order_id"
+    t.integer  "old_order_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "document_lines", ["cart_id"], :name => "index_document_lines_on_cart_id"
   add_index "document_lines", ["invoice_id"], :name => "index_document_lines_on_invoice_id"
-  add_index "document_lines", ["order_id"], :name => "index_document_lines_on_order_id"
+  add_index "document_lines", ["old_order_id"], :name => "index_document_lines_on_order_id"
   add_index "document_lines", ["product_id"], :name => "index_document_lines_on_product_id"
 
+  create_table "feed_entries", :force => true do |t|
+    t.string   "title"
+    t.text     "content"
+    t.string   "url"
+    t.string   "guid"
+    t.datetime "published_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "histories", :force => true do |t|
-    t.string   "text"
+    t.text     "text"
     t.string   "object_type"
     t.integer  "object_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "type_const"
   end
-
-  create_table "invoice_lines", :force => true do |t|
-    t.integer  "quantity"
-    t.string   "text"
-    t.decimal  "single_rounded_price", :precision => 63, :scale => 30
-    t.decimal  "taxes",                :precision => 63, :scale => 30
-    t.decimal  "tax_percentage",       :precision => 8,  :scale => 2
-    t.integer  "invoice_id"
-    t.float    "weight"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.decimal  "gross_price",          :precision => 63, :scale => 30
-    t.decimal  "taxed_price",          :precision => 63, :scale => 30
-    t.decimal  "single_price",         :precision => 63, :scale => 30
-  end
-
-  add_index "invoice_lines", ["invoice_id"], :name => "index_invoice_lines_on_invoice_id"
 
   create_table "invoices", :force => true do |t|
     t.integer  "shipping_address_id"
@@ -192,24 +160,28 @@ ActiveRecord::Schema.define(:version => 20110115123626) do
     t.datetime "updated_at"
     t.string   "uuid"
     t.decimal  "shipping_cost",         :precision => 63, :scale => 30
-    t.integer  "order_id"
+    t.integer  "old_order_id"
     t.integer  "payment_method_id"
     t.integer  "document_number"
     t.boolean  "autobook",                                              :default => true
     t.decimal  "shipping_taxes",        :precision => 63, :scale => 30
+    t.integer  "order_id"
+    t.decimal  "rebate",                :precision => 63, :scale => 30, :default => 0.0
+    t.integer  "replacement_id"
   end
 
-  add_index "invoices", ["order_id"], :name => "index_invoices_on_order_id"
+  add_index "invoices", ["old_order_id"], :name => "index_invoices_on_order_id"
   add_index "invoices", ["user_id"], :name => "index_invoices_on_user_id"
   add_index "invoices", ["uuid"], :name => "index_invoices_on_uuid"
 
-  create_table "journal_entries", :force => true do |t|
-    t.string   "text"
-    t.string   "credit_account_name"
-    t.string   "debit_account_name"
+  create_table "notifications", :force => true do |t|
+    t.string   "email"
+    t.string   "remove_hash"
+    t.integer  "product_id"
+    t.integer  "user_id"
+    t.boolean  "active"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "amount",              :precision => 63, :scale => 30
   end
 
   create_table "numerators", :force => true do |t|
@@ -218,7 +190,7 @@ ActiveRecord::Schema.define(:version => 20110115123626) do
     t.datetime "updated_at"
   end
 
-  create_table "orders", :force => true do |t|
+  create_table "old_orders", :force => true do |t|
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -229,9 +201,31 @@ ActiveRecord::Schema.define(:version => 20110115123626) do
     t.integer  "status_constant",       :default => 1
     t.integer  "payment_method_id"
     t.integer  "document_number"
+    t.integer  "shipping_carrier_id"
+    t.string   "tracking_number"
   end
 
-  add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
+  add_index "old_orders", ["user_id"], :name => "index_orders_on_user_id"
+
+  create_table "orders", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "shipping_address_id"
+    t.string   "shipping_address_type"
+    t.integer  "billing_address_id"
+    t.string   "billing_address_type"
+    t.integer  "user_id"
+    t.integer  "status_constant",                                       :default => 1
+    t.string   "uuid"
+    t.decimal  "shipping_cost",         :precision => 63, :scale => 30
+    t.integer  "payment_method_id"
+    t.integer  "document_number"
+    t.decimal  "shipping_taxes",        :precision => 63, :scale => 30
+    t.integer  "shipping_carrier_id"
+    t.string   "tracking_number"
+    t.boolean  "direct_shipping",                                       :default => false
+    t.decimal  "rebate",                :precision => 63, :scale => 30, :default => 0.0
+  end
 
   create_table "pages", :force => true do |t|
     t.datetime "created_at"
@@ -292,12 +286,23 @@ ActiveRecord::Schema.define(:version => 20110115123626) do
     t.decimal  "percentage_rebate",         :precision => 63, :scale => 30, :default => 0.0
     t.datetime "rebate_until"
     t.boolean  "is_loss_leader"
-    t.boolean  "delta",                                                     :default => true, :null => false
+    t.boolean  "delta",                                                     :default => true,  :null => false
     t.text     "short_description"
+    t.boolean  "sale_state",                                                :default => false
+    t.string   "manufacturer"
+    t.string   "product_link"
+    t.decimal  "cached_price",              :precision => 63, :scale => 30
+    t.decimal  "cached_taxed_price",        :precision => 63, :scale => 30
+    t.datetime "auto_updated_at"
   end
 
   add_index "products", ["supplier_id"], :name => "index_products_on_supplier_id"
   add_index "products", ["supply_item_id"], :name => "index_products_on_supply_item_id"
+
+  create_table "shipping_carriers", :force => true do |t|
+    t.string "name"
+    t.string "tracking_base_url"
+  end
 
   create_table "shipping_costs", :force => true do |t|
     t.integer  "shipping_rate_id"
@@ -320,12 +325,37 @@ ActiveRecord::Schema.define(:version => 20110115123626) do
     t.boolean  "default",                                              :default => false
   end
 
+  create_table "static_document_lines", :force => true do |t|
+    t.integer  "quantity"
+    t.string   "text"
+    t.decimal  "single_rounded_price",      :precision => 63, :scale => 30
+    t.decimal  "taxes",                     :precision => 63, :scale => 30
+    t.decimal  "tax_percentage",            :precision => 8,  :scale => 2
+    t.integer  "invoice_id"
+    t.float    "weight"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.decimal  "gross_price",               :precision => 63, :scale => 30
+    t.decimal  "taxed_price",               :precision => 63, :scale => 30
+    t.decimal  "single_price",              :precision => 63, :scale => 30
+    t.integer  "order_id"
+    t.string   "manufacturer"
+    t.string   "manufacturer_product_code"
+    t.integer  "product_id"
+    t.decimal  "single_untaxed_price",      :precision => 63, :scale => 30
+    t.decimal  "single_rebate",             :precision => 63, :scale => 30, :default => 0.0
+  end
+
+  add_index "static_document_lines", ["invoice_id"], :name => "index_invoice_lines_on_invoice_id"
+
   create_table "suppliers", :force => true do |t|
     t.string   "name"
     t.integer  "address_id"
     t.integer  "shipping_rate_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "product_base_url"
+    t.string   "utility_class_name"
   end
 
   add_index "suppliers", ["shipping_rate_id"], :name => "index_suppliers_on_shipping_rate_id"
@@ -342,6 +372,14 @@ ActiveRecord::Schema.define(:version => 20110115123626) do
     t.datetime "updated_at"
     t.string   "manufacturer_product_code"
     t.boolean  "delta",                                                    :default => true, :null => false
+    t.string   "manufacturer"
+    t.string   "product_link"
+    t.integer  "status_constant"
+    t.text     "image_url"
+    t.text     "pdf_url"
+    t.string   "category01"
+    t.string   "category02"
+    t.string   "category03"
   end
 
   add_index "supply_items", ["supplier_id"], :name => "index_supply_items_on_supplier_id"
@@ -365,19 +403,19 @@ ActiveRecord::Schema.define(:version => 20110115123626) do
 
   create_table "users", :force => true do |t|
     t.string   "login"
-    t.string   "crypted_password"
+    t.string   "encrypted_password"
     t.string   "password_salt"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "persistence_token"
     t.string   "email"
-    t.integer  "login_count",        :default => 0, :null => false
-    t.integer  "failed_login_count", :default => 0, :null => false
-    t.datetime "last_request_at"
-    t.datetime "current_login_at"
-    t.datetime "last_login_at"
-    t.string   "current_login_ip"
-    t.string   "last_login_ip"
+    t.integer  "sign_in_count",        :default => 0, :null => false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "reset_password_token"
+    t.datetime "remember_created_at"
+    t.string   "authentication_token"
   end
 
 end

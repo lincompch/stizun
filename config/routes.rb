@@ -2,14 +2,19 @@ Stizun::Application.routes.draw do
 
   resources :addresses
   resources :orders
-  resources :products
+  resources :products do
+    member do
+      post :subscribe
+    end
+  end
   resources :invoices
   resource :cart
-  resources :user_sessions
+  devise_for :users
+  #match 'login' => 'user_sessions#new', :as => :login
+  #match 'logout' => 'user_sessions#destroy', :as => :logout
   
-  match 'login' => 'user_sessions#new', :as => :login
-  match 'logout' => 'user_sessions#destroy', :as => :logout
-  
+  match 'products/unsubscribe/:remove_hash' => 'notification#destroy', :as => :unsubscribe_product
+  match 'notifications' => 'notification#index', :as => :notifications
   
   resources :categories do
     resources :products
@@ -27,7 +32,7 @@ Stizun::Application.routes.draw do
   end
   
   match '/admin' => 'admin/dashboard#index', :as => :admin
-  
+  match '/users/me' => "users#show", :as => :show_current_profile
   # Namespace admin
   namespace :admin do
     
