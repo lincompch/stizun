@@ -304,6 +304,7 @@ de-CH:
       you_dont_have_any_product_alerts: "Sie haben keine abonnierten Produkte. Abonnieren Sie Preis-Updates jeweils auf der Detailseite eines Produkts."
       unsubscribe: "Abbestellen"
       subscribe: "Abonnieren"
+      product_alert_explanation: "Sie erhalten eine E-Mail, wenn sich der Preis eines der folgenden Produkte verändert. Egal wie viele Produkte Sie abonnieren, Sie erhalten maximal eine Nachricht pro Tag, wo alle Veränderungen aller Produkte zusammengefasst sind."
     store_mailer:
       order_confirmation_subject: "Bestätigung Ihrer Bestellung"
       invoice_notification_subject: "Elektronische Rechnung"

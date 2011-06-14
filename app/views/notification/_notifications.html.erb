@@ -1,12 +1,14 @@
 
 <% if @notifications.count > 0 %>
   <table id="notifications">
-    <thead>
+    <!--<thead>
       <tr>
         <th></th>
         <th><%= t('stizun.product.product') %></th>
         <th><%= t('stizun.general.actions') %></th>
       </tr>
+    </thead>-->
+      
     <tbody>  
   <% @notifications.each do |notification| %>
     <tr class="<%= cycle('even', 'odd')%>">
@@ -22,8 +24,10 @@
         <% end %>
       </td>
       <td><%= link_to notification.product.name, product_path(notification.product)%></td>
-      <td>
-        <%= link_to t('stizun.product.unsubscribe'), unsubscribe_product_path(Notification.get_remove_hash(current_user, notification.product)) %>
+      <td><%= pretty_price(notification.product.price) %></td>
+      
+      <td class="rightalign">
+        <%= link_to t('stizun.product.unsubscribe'), unsubscribe_product_path(Notification.get_remove_hash(current_user, notification.product)), :class => 'fake_button' %>
       </td>
   <% end %>
     </tbody>
