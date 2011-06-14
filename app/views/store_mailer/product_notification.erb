@@ -6,11 +6,12 @@ Preisänderungen bei Lincomp:
 <% @notifications.each do |n| %>
 
  <%= "#{n.product.name}" %>
- <%= "Preis neu #{n.product.taxed_price} inkl. MwSt." %>
+ <%= "Preis neu: #{pretty_price(n.product.taxed_price)} inkl. MwSt." %>
 
  <%= "Updates für dieses Produkt abbestellen:" %>
- <%= unsubscribe_product_path(Notification.get_remove_hash(@email, n.product)) %>
- <%= "---" %>
+ <%= unsubscribe_product_url(Notification.get_remove_hash(@email, n.product)) %>
+
+<%= "---" %>
 
 <% end %>
 
