@@ -4,10 +4,9 @@
 
   <div id="add_to_cart_box">
 
-    <% if @changes %>
- <% !@changes[@product.id].blank? and !@changes[@product.id]['price'][0].blank? %>
+    <% if !@changes.empty? %>
       <div id="price_update_box">
-      Neuer Preis! Der alte Preis war <%= pretty_price(@changes[@product.id]['price'][0]) %>
+      Neuer Preis!<br>Der alte Preis war <%= pretty_price(@changes[0]['price'][0]) %>
       </div>
     <% end %>
 

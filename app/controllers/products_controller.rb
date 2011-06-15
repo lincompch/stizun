@@ -38,11 +38,12 @@ class ProductsController < ApplicationController
         
       begin
         @product = Product.find(params[:id])
-        if @product.is_available?          
+        if @product.is_available?
           unless @product.supplier.nil? or @product.supplier.utility_class_name.blank?
             begin
               require "lib/#{@product.supplier.utility_class_name.underscore}"
               @changes = @product.supplier.utility_class_name.constantize.live_update(@product)
+              @product.reload if !@changes.empty?
             rescue LoadError => e
               logger.error "Could not require lib/#{@product.supplier.utility_class_name.underscore} for live update: #{e.message}"
             end          

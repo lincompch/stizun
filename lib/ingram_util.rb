@@ -155,6 +155,10 @@ class IngramUtil < SupplierUtil
     username = "CH27" + customer_no + "000"
     password = APP_CONFIG['ingram_password']
     
+    if username.empty? or password.empty?
+      logger.error "[#{DateTime.now.to_s}] Live update will probably fail, either username or password are not set"
+    end
+    
     if object.is_a?(Product)
       products = [object]
     elsif object.is_a?(Array)
