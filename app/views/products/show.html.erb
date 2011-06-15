@@ -3,6 +3,14 @@
   <h3><%= @product.name %></h3>
 
   <div id="add_to_cart_box">
+
+    <% if @changes %>
+ <% !@changes[@product.id].blank? and !@changes[@product.id]['price'][0].blank? %>
+      <div id="price_update_box">
+      Neuer Preis! Der alte Preis war <%= pretty_price(@changes[@product.id]['price'][0]) %>
+      </div>
+    <% end %>
+
     <p class="price"><%= product_rounded_price(@product).html_safe %></p>
     <p class="stock"><%= @product.stock %> <%= t("stizun.product.pcs_in_stock_short") %></p>
 

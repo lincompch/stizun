@@ -300,6 +300,8 @@ de-CH:
       search_query_too_short: "Ihr Suchbegriff ist zu kurz. Verwenden Sie bitte mindestens 3 Buchstaben."
       search_found_no_results: "Keine Resultate für Ihre Suche."
       attachments: "Dateien"
+      no_longer_available: "Produkt nicht mehr erhältlich"
+      no_longer_available_explanation: "Dieses Produkt ist leider nicht mehr erhältlich. Wahrscheinlich sind Sie über einen veralteten Link auf diese Seite geraten, z.B. von einer Suchmaschine aus."
       your_product_alerts: "Ihre abonnierten Produkte"
       you_dont_have_any_product_alerts: "Sie haben keine abonnierten Produkte. Abonnieren Sie Preis-Updates jeweils auf der Detailseite eines Produkts."
       unsubscribe: "Abbestellen"
