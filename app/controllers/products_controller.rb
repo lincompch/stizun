@@ -38,29 +38,21 @@ class ProductsController < ApplicationController
         
       begin
         @product = Product.find(params[:id])
-        if @product.is_available?
-          unless @product.supplier.nil? or @product.supplier.utility_class_name.blank?
-            begin
-              require "lib/#{@product.supplier.utility_class_name.underscore}"
-              @changes = @product.supplier.utility_class_name.constantize.live_update(@product)
-              @product.reload if !@changes.empty?
-            rescue LoadError => e
-              logger.error "Could not require lib/#{@product.supplier.utility_class_name.underscore} for live update: #{e.message}"
-            end          
-          end
-          session[:return_to] = product_path(@product)
-        else # Product is not available
-          redirect_to :action => 'eol'
+        unless @product.supplier.nil? or @product.supplier.utility_class_name.blank?
+          begin
+            require "lib/#{@product.supplier.utility_class_name.underscore}"
+            @changes = @product.supplier.utility_class_name.constantize.live_update(@product)
+            @product.reload if !@changes.empty?
+          rescue LoadError => e
+            logger.error "Could not require lib/#{@product.supplier.utility_class_name.underscore} for live update: #{e.message}"
+          end          
         end
+        session[:return_to] = product_path(@product)
       rescue ActiveRecord::RecordNotFound
         logger.error("Attempt to access invalid product #{params[:id]}" )
         flash[:notice] = "Invalid product"
         redirect_to :action => :index
       end     
-    end
-
-    def eol
-      
     end
     
     def edit
