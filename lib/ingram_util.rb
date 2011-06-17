@@ -90,7 +90,7 @@ class IngramUtil < SupplierUtil
                     :category01 => 'GRUPPE1',
                     :category02 => 'GRUPPE2',
                     :category03 => 'GRUPPE3'}    
-    IngramUtil.create_category_tree(@supplier.category, filename)
+    IngramUtil.create_category_tree(@supplier, filename)
    
     super
     
