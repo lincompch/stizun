@@ -9,14 +9,13 @@ class Admin::SupplyItemsController < Admin::BaseController
     keyword = nil
     keyword = params[:search][:keyword] unless params[:search].blank? or params[:search][:keyword].blank?
     conditions = {}
-#    conditions[:category01] = params[:category01] unless params[:category01].blank?
-#    conditions[:category02] = params[:category02] unless params[:category02].blank?
-#    conditions[:category03] = params[:category03] unless params[:category03].blank?
+    with = {}
     conditions[:manufacturer] = params[:manufacturer] unless params[:manufacturer].blank?
-    conditions[:category_id] = params[:category_id] unless params[:category_id].blank?
+    with.merge!(:category_id => params[:category_id]) unless params[:category_id].blank?
     
     @supply_items = @supplier.supply_items.sphinx_available_items.search(keyword,
                                                   :conditions => conditions,
+                                                  :with => with,
                                                   :per_page => SupplyItem.per_page,
                                                   :page => params[:page],
                                                   :max_matches => 100000)
