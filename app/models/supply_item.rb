@@ -2,6 +2,7 @@ class SupplyItem < ActiveRecord::Base
   
   belongs_to :tax_class
   belongs_to :supplier
+  belongs_to :category
   has_one :product
   
   before_create :set_status_to_available_if_nil
@@ -55,7 +56,7 @@ class SupplyItem < ActiveRecord::Base
     # fields
     indexes(:name, :sortable => true)
     indexes manufacturer, description, supplier_product_code, manufacturer_product_code
-    indexes category01, category02, category03
+    indexes category01, category02, category03, category_id
     indexes status_constant
     
     # attributes

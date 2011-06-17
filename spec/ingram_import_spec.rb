@@ -127,5 +127,29 @@ describe IngramUtil do
     
     
   end
+  
+  describe 'creating proper category tree for supplier' do
+    
+    it 'should create categories only non existing categories' do
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/4_im.csv")
+      Category.count.should == 7  
+      
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/4_im.csv")
+      Category.count.should == 7     
+    end    
+    
+    it 'should set proper categories for supply items' do
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/4_im.csv")
+      Category.count.should == 7  
+      SupplyItem.count.should == 4
+      
+      supply_item = SupplyItem.where(:supplier_product_code => "0180009").first
+      supply_item.category.should == Category.find_by_name("Labeldrucker")
+      
+      supply_item = SupplyItem.where(:supplier_product_code => "018Z046").first
+      supply_item.category.should == Category.find_by_name("Etikettendrucker")
+  
+    end
+  end
 
 end

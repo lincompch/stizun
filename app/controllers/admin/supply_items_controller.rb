@@ -3,17 +3,17 @@ class Admin::SupplyItemsController < Admin::BaseController
   def index
     
     @supplier = Supplier.find(params[:supplier_id])
-      
+    @root_category = @supplier.category
     cache_manufacturers_for_supplier(@supplier)
     
     keyword = nil
     keyword = params[:search][:keyword] unless params[:search].blank? or params[:search][:keyword].blank?
     conditions = {}
-    conditions[:category01] = params[:category01] unless params[:category01].blank?
-    conditions[:category02] = params[:category02] unless params[:category02].blank?
-    conditions[:category03] = params[:category03] unless params[:category03].blank?
+#    conditions[:category01] = params[:category01] unless params[:category01].blank?
+#    conditions[:category02] = params[:category02] unless params[:category02].blank?
+#    conditions[:category03] = params[:category03] unless params[:category03].blank?
     conditions[:manufacturer] = params[:manufacturer] unless params[:manufacturer].blank?
-    
+    conditions[:category_id] = params[:category_id] unless params[:category_id].blank?
     
     @supply_items = @supplier.supply_items.sphinx_available_items.search(keyword,
                                                   :conditions => conditions,

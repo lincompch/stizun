@@ -2,7 +2,7 @@ class Admin::CategoriesController < Admin::BaseController
   
   
   def index
-    @categories = Category.all
+    @categories = Category.where(:supplier_id => nil)
   end
   
   def new

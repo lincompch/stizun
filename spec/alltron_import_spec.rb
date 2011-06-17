@@ -127,9 +127,38 @@ describe AlltronUtil do
       product.reload
       product.available?.should == false      
 
+    end   
+  end
+  
+  describe 'creating proper category tree for supplier' do
+    
+    it 'should create only non existing categories' do
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron.csv")
+      Category.count.should == 11  
+      
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron.csv")
+      Category.count.should == 11     
+    end    
+    
+    it 'should set proper categories for supply items' do
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron.csv")
+      Category.count.should == 11  
+      SupplyItem.count.should == 4
+      
+      supply_item = SupplyItem.where(:supplier_product_code => "1028").first
+      supply_item.category.should == Category.find_by_name("Multimedia-Kabel")
+      
+      supply_item = SupplyItem.where(:supplier_product_code => "1257").first
+      supply_item.category.should == Category.find_by_name("Datensicherung")  
     end
     
-    
+    it 'should remove empty categories' do
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron.csv")
+      SupplyItem.last.delete
+      SupplyItem.last.delete
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/2_alltron.csv")
+      Category.count.should == 6  
+    end
   end
 
 end
