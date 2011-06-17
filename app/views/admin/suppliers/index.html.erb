@@ -12,7 +12,7 @@
   <tr>
     <td><%=h supplier.name %></td>
     <td><%=h supplier.address.one_line_summary unless supplier.address.blank? %></td>
-    <td><%= supplier.categories.count.to_s %></td>
+    <td><%= supplier.category %></td>
     <td>
       <%= link_to 'Show', admin_supplier_path(supplier) %> 
       <%= link_to 'Edit', edit_admin_supplier_path(supplier) %> 
