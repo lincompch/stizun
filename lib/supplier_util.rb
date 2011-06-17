@@ -10,7 +10,7 @@ class SupplierUtil
 
     # before calling this in a descended class, you must set up these variables:
     # TODO
-    
+    root_category = @supplier.category
     SupplyItem.suspended_delta do
         
       received_codes = []
@@ -21,7 +21,7 @@ class SupplierUtil
         # check if we have product too
         local_supply_item = SupplyItem.where(:supplier_id => @supplier.id, 
                                              :supplier_product_code => sp[@field_names[:supplier_product_code]]).first
-        root_category = @supplier.category
+        
         # We do not have that supply item yet
         if local_supply_item.nil?
           si = SupplierUtil.supply_item_from_csv_row(@supplier, sp, @field_names)
@@ -73,6 +73,23 @@ class SupplierUtil
         supply_item.save
         History.add("Marked Supply Item with supplier code #{td} as deleted", History::SUPPLY_ITEM_CHANGE)
       end
+    end
+    # Find out which categories are empty, and remove them from supplier's category tree
+    root_category.children_categories.flatten.each do |category|
+      if category.children.blank? && category.supply_items.empty? # LEAF with no supply_items
+        remove_category(category)
+      end
+    end
+  end
+  
+  # Using recursion to find categories with no supply items and remove them
+  def remove_category(category)
+    if category.parent.children.count == 1
+      remove_category(category.parent)
+      category.delete
+    else
+      category.delete if category.children.count == 1
+      return
     end
   end
   
@@ -130,9 +147,9 @@ class SupplierUtil
     return si
   end
   
-  def self.create_category_tree(category, file_name)
+  def self.create_category_tree(supplier, file_name)
     require 'iconv'
-    puts "Building category tree ..."
+    category = supplier.category
     category_string = `#{category_string_cmd(file_name)}`
 
     category_string.split("\n").each do |line|
@@ -140,20 +157,18 @@ class SupplierUtil
   
       category.reload
       #"#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category01]])}"
-      root = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[0])}")
+      root = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[0])}", supplier)
       root.save
 
       category.reload
-      level2 = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[1])}")
+      level2 = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[1])}", supplier)
       level2.parent = root
       level2.save
 
       unless categories[2].blank?
-#        puts "**WCHODZI"
         category.reload
-        level3 = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[2] )}")
+        level3 = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[2] )}", supplier)
         level3.parent = level2
-#        puts level3.name
         level3.save
       end        
     end

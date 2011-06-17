@@ -38,7 +38,7 @@ describe AlltronUtil do
       
     end
   end
-#  
+  
   describe "importing supply items from CSV" do
     
     it "should import 500 items" do
@@ -150,6 +150,14 @@ describe AlltronUtil do
       
       supply_item = SupplyItem.where(:supplier_product_code => "1257").first
       supply_item.category.should == Category.find_by_name("Datensicherung")  
+    end
+    
+    it 'should remove empty categories' do
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron.csv")
+      SupplyItem.last.delete
+      SupplyItem.last.delete
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/2_alltron.csv")
+      Category.count.should == 6  
     end
   end
 

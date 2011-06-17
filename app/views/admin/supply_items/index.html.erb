@@ -16,13 +16,16 @@
   <p>Limit to Categories:</p>
 
   <p>
-    <%= select_tag :category01, 
+    <%= select_tag :category_id,
+        options_from_collection_for_select(@root_category.children_categories.flatten.map, :id, :fully_qualified_name, params[:category_id]),
+        {:include_blank => true} if @root_category%> 
+    <%-#= select_tag :category01, 
         options_for_select([""] + @category01_array,
         params[:category01]) %>
-    <%= select_tag :category02, 
+    <%-#= select_tag :category02, 
         options_for_select([""] + @category02_array,
         params[:category02])%>
-    <%= select_tag :category03, 
+    <%-#= select_tag :category03, 
         options_for_select([""] + @category03_array,
         params[:category03])%>
   </p>

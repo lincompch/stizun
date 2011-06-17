@@ -31,12 +31,12 @@ class Category < ActiveRecord::Base
   end
   
   # It will only look for categories in one supplier's node
-  def find_or_create_by_name(name, create = true)
+  def find_or_create_by_name(name, supplier = nil, create = true)
     categories = children_categories.flatten
     if searched_id = categories.index { |category| category.name.eql? name }
       categories[searched_id]
     elsif create 
-      Category.create!(:name => name, :parent_id => self.id) unless name.empty?
+      Category.create!(:name => name, :parent_id => self.id, :supplier_id => supplier.id) unless name.empty?
     end
   end
   
@@ -44,9 +44,9 @@ class Category < ActiveRecord::Base
   # 
   def category_from_csv(category1, category2, category3)
     unless category3.blank?
-      self.find_or_create_by_name(category3, false).id
+      self.find_or_create_by_name(category3, nil, false).id
     else
-      self.find_or_create_by_name(category2, false).id
+      self.find_or_create_by_name(category2, nil, false).id
     end
   end
 

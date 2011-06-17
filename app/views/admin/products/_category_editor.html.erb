@@ -1,7 +1,7 @@
 <p><%= f.label :category_ids, "Categories" %></p>
 <p>
 <%= f.collection_select :category_ids, 
-            Category.find(:all), 
+            Category.where(:supplier_id => nil), 
             :id, :fully_qualified_name, 
             { :selected => product.category_ids }, 
             { :style => 'min-height: 35em', :multiple => true, :name => 'product[category_ids][]' } 

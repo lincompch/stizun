@@ -99,7 +99,7 @@ class AlltronUtil < SupplierUtil
                     :category01 => 'Kategorie 1',
                     :category02 => 'Kategorie 2',
                     :category03 => 'Kategorie 3'}
-    AlltronUtil.create_category_tree(@supplier.category, filename)
+    AlltronUtil.create_category_tree(@supplier, filename)
     
     super
     
