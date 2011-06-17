@@ -65,7 +65,7 @@
       <%= link_to 'Edit Product', edit_admin_product_path(item.product), :class => 'fancybox' unless item.product.nil? %>
     </td>
   </tr>
-  <%= render :partial => 'product_alternatives', :locals => {:item => item} %>
+  <%-#= render :partial => 'product_alternatives', :locals => {:item => item} %>
 
 <% end %>
 </table>

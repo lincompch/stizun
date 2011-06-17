@@ -2,6 +2,9 @@ require 'supplier_util'
 
 class IngramUtil < SupplierUtil
   
+  def self.category_string_cmd(file_name)
+     "more +2 #{file_name} | cut -f 1-3 | sort -n | uniq"
+  end
   
   def self.data_directory
     return Rails.root + "lib"
@@ -65,6 +68,8 @@ class IngramUtil < SupplierUtil
     
     IngramUtil.create_shipping_rate
     @supplier = Supplier.find_or_create_by_name(:name => 'Ingram Micro GmbH')
+    @supplier.category = Category.find_or_create_by_name(:name => 'Ingram Micro GmbH')
+    
     icsv = IngramCSV.new(filename)
     @fcsv = icsv.get_faster_csv_instance
 
@@ -85,6 +90,7 @@ class IngramUtil < SupplierUtil
                     :category01 => 'GRUPPE1',
                     :category02 => 'GRUPPE2',
                     :category03 => 'GRUPPE3'}    
+    IngramUtil.create_category_tree(@supplier.category, filename)
    
     super
     

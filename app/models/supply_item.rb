@@ -2,6 +2,7 @@ class SupplyItem < ActiveRecord::Base
   
   belongs_to :tax_class
   belongs_to :supplier
+  belongs_to :category
   has_one :product
   
   before_create :set_status_to_available_if_nil

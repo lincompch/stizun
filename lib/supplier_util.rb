@@ -1,6 +1,5 @@
 class SupplierUtil
-
-
+  
   def supplier_logger
     @supplier_logger ||= Logger.new("#{Rails.root}/log/supplier_import_#{DateTime.now.to_s.gsub(":","-")}.log")
   end
@@ -22,7 +21,7 @@ class SupplierUtil
         # check if we have product too
         local_supply_item = SupplyItem.where(:supplier_id => @supplier.id, 
                                              :supplier_product_code => sp[@field_names[:supplier_product_code]]).first
-        
+        root_category = @supplier.category
         # We do not have that supply item yet
         if local_supply_item.nil?
           si = SupplierUtil.supply_item_from_csv_row(@supplier, sp, @field_names)
@@ -45,7 +44,9 @@ class SupplierUtil
           overwrite_field(local_supply_item, "category01", "#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category01]])}")
           overwrite_field(local_supply_item, "category02", "#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category02]])}")
           overwrite_field(local_supply_item, "category03", "#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category03]])}")
-
+          overwrite_field(local_supply_item, "category_id", root_category.category_from_csv("#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category01]])}",
+              "#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category02]])}", 
+              "#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category03]])}"))
           unless local_supply_item.changes.empty?
             changes = local_supply_item.changes
             if local_supply_item.save
@@ -123,8 +124,42 @@ class SupplierUtil
     si.category02 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category02]])}" 
     si.category03 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category03]])}"
 
+    si.category_id = supplier.category.category_from_csv("#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category01]])}",
+              "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category02]])}", 
+              "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category03]])}")
     return si
   end
+  
+  def self.create_category_tree(category, file_name)
+    require 'iconv'
+    puts "Building category tree ..."
+    category_string = `#{category_string_cmd(file_name)}`
+
+    category_string.split("\n").each do |line|
+      categories = line.split("\t")
+  
+      category.reload
+      #"#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category01]])}"
+      root = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[0])}")
+      root.save
+
+      category.reload
+      level2 = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[1])}")
+      level2.parent = root
+      level2.save
+
+      unless categories[2].blank?
+#        puts "**WCHODZI"
+        category.reload
+        level3 = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[2] )}")
+        level3.parent = level2
+#        puts level3.name
+        level3.save
+      end        
+    end
+    category.reload
+  end
+  
 
 
   # If you want to implement a live update method for your own supplier util, subclass this class and override
