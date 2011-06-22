@@ -104,7 +104,7 @@ GEM
     mime-types (1.16)
     mini_magick (3.2)
       subexec (~> 0.0.4)
-    mysql (2.8.1)
+    mysql2 (0.2.11)
     nokogiri (1.4.4)
     orm_adapter (0.0.5)
     paperclip (2.3.8)
@@ -201,7 +201,7 @@ DEPENDENCIES
   later_dude (>= 0.3.1)
   launchy
   mini_magick
-  mysql
+  mysql2 (< 0.3.0)
   paperclip
   rack-ssl-enforcer
   rails (= 3.0.3)
