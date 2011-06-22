@@ -32,7 +32,7 @@ gem 'thinking-sphinx'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'paperclip'
-gem 'mysql2', "< 0.3.0"
+gem 'mysql'
 gem 'will_paginate'
 gem 'uuidtools'
 gem 'fastercsv'
