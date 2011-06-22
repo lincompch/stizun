@@ -157,17 +157,17 @@ class SupplierUtil
   
       category.reload
       #"#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category01]])}"
-      root = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[0])}", supplier)
+      root = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[0])}", 1, supplier)
       root.save
 
       category.reload
-      level2 = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[1])}", supplier)
+      level2 = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[1])}", 2, supplier)
       level2.parent = root
       level2.save
 
       unless categories[2].blank?
         category.reload
-        level3 = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[2] )}", supplier)
+        level3 = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[2] )}", 3, supplier)
         level3.parent = level2
         level3.save
       end        
