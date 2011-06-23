@@ -3,7 +3,7 @@ require 'supplier_util'
 class AlltronUtil < SupplierUtil
   
   def self.category_string_cmd(file_name)
-     "more +2 #{file_name} | cut -f 18-20 | sort -n | uniq"
+     "more +2 #{file_name} | cut -f 18-20 | sort -n | uniq | egrep -v '^[[:space:]]*$|^#'"
   end
   
   def self.data_directory
