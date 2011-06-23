@@ -20,6 +20,19 @@ class SupplyItem < ActiveRecord::Base
   STATUS_HASH = { AVAILABLE => 'stizun.constants.available',
                   DELETED   => 'stizun.constants.deleted'}
 
+  # Workflow status is there to help store managers find out which supply items they've already considered
+  # for importing into the shop and which ones are not useful to have around.
+  # New: The Item was newly imported (the default)
+  # Checked: A store manager has looked at this supply item already (to differentiate this from new)
+  # Rejected: The store manager thinks this supply item is pointless, it will never make it into a product
+  NEW = 1
+  CHECKED = 2
+  REJECTED = 3
+  
+  WORKFLOW_STATUS_HASH = { NEW => 'stizun.constants.new',
+                           CHECKED => 'stizun.constants.checked',
+                           REJECTED => 'stizun.constants.rejected' }
+  
   def self.status_to_human(status)
     # Gotta call I18n.t like this because it doesn't have the correct
     # locale set outside this definition on _some_ installations, not all.
@@ -37,12 +50,20 @@ class SupplyItem < ActiveRecord::Base
       hash << [I18n.t(value), key]
     end 
     return hash
-
   end
   
   def status_human
     return SupplyItem::status_to_human(self.status_constant)
   end
+  
+  def workflow_status_to_human
+    if self.workflow_status_constant.blank?
+      return "not set"
+    else
+      return I18n.t(WORKFLOW_STATUS_HASH[self.workflow_status_constant])
+    end
+  end
+  
   
   # === Named scopes
 
