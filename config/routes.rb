@@ -82,6 +82,7 @@ Stizun::Application.routes.draw do
       resources :products
       resources :categories do
         resources :products
+        resources :supply_items
       end
     end
     

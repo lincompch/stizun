@@ -6,7 +6,9 @@ class Category < ActiveRecord::Base
   #acts_as_tree :order => "name"
   
   acts_as_nested_set :order => "name"
-  
+
+  after_save :expire_cache_fragments
+  after_destroy :expire_cache_fragments
 
   def fully_qualified_name
     trail = ""
@@ -27,12 +29,13 @@ class Category < ActiveRecord::Base
   
   # Returns all child, subchild, ... , categories with self
   def children_categories
-    [self] + children.collect(&:children_categories) 
+    #self_and_descendants.collect(&:children_categories)
+    ([self] + children.collect(&:children_categories)).flatten
   end
   
   # Returns all child, subchild supply items
   def children_supply_items
-    [self.supply_items] + children.collect(&:children_supply_items)
+    ([self.supply_items] + children.collect(&:children_supply_items)).flatten
   end
   
   
@@ -56,6 +59,15 @@ class Category < ActiveRecord::Base
       self.find_or_create_by_name(category3, 3, nil, false).id
     else
       self.find_or_create_by_name(category2, 2, nil, false).id
+    end
+  end
+
+  # Whenever any category changes, we need to expire all category-related
+  # view caches
+  def expire_cache_fragments
+    expire_fragment('frontend_category_tree')
+    Supplier.all.each do |sup|
+      Rails.cache.delete("supplier_#{sup.id}_categories_sorted")
     end
   end
 

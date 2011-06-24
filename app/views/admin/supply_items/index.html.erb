@@ -1,28 +1,31 @@
 <h2>Supply items for <%= @supplier.name %></h2>
 
 
-
 <%= form_for [:admin, @supplier, @search] do |f| %>
   <p>Search for: </p>
   <%= f.text_field :keyword, :size => 25 %>
   <%= f.submit 'Search' %>
-  
+
+  <% manufacturer_contains = nil %>
+  <% search_keyword = nil %>
+
+  <% unless params[:search].blank? %>
+    <% manufacturer_contains = params[:search][:manufacturer_contains] unless params[:search][:manufacturer_contains].blank? %>
+    <% search_keyword = params[:search][:keyword] unless params[:search][:keyword].blank? %>
+  <% end %>
+
   <p>Limit to Manufacturer:</p>
 
   <%= f.select :manufacturer_contains,
       options_for_select([""] + @manufacturers_array,
-      params[:search][:manufacturer_contains]) %>
+      manufacturer_contains)  %>
 
-  <p>Limit to Categories:</p>
+  <p>Limit to Category:</p>
 
-  <p>
-    <%= f.select :category_name_contains,        options_from_collection_for_select(@root_category.children_categories.flatten.map, :name, :fully_qualified_name, params[:search][:category_name_contains]),        {:include_blank => true} if @root_category%> 
-  </p>
-<% end %>
+  <%= category_id_select_tag_for_supplier(@supplier, params[:category_id]) %>
 
-
-<% unless params[:search].blank? %>
-<p>Search results for: <%= params[:search][:keyword] %></p>
+  <%= f.submit 'Search' %>
+      
 <% end %>
 
 <%= will_paginate @supply_items %>
