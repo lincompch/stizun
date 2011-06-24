@@ -30,6 +30,12 @@ class Category < ActiveRecord::Base
     [self] + children.collect(&:children_categories) 
   end
   
+  # Returns all child, subchild supply items
+  def children_supply_items
+    [self.supply_items] + children.collect(&:children_supply_items)
+  end
+  
+  
   # It will only look for categories in one supplier's node
   def find_or_create_by_name(name, level = nil, supplier = nil, create = true)
     categories = children_categories.flatten

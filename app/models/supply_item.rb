@@ -71,6 +71,9 @@ class SupplyItem < ActiveRecord::Base
   scope :deleted, :conditions => { :status_constant => SupplyItem::DELETED }
   scope :unavailable, :conditions => [ "status_constant <> #{SupplyItem::AVAILABLE}"]
   
+  scope :keyword, lambda {|str| where(:description.matches % "%#{str}%" | :supplier_product_code.matches % "%#{str}%" | :manufacturer_product_code.matches % "%#{str}%" )}
+  search_methods :keyword
+  
   # Thinking Sphinx configuration
   # Must come AFTER associations
   define_index do
@@ -88,6 +91,7 @@ class SupplyItem < ActiveRecord::Base
     set_property :delta => true
 
   end
+  
 
   # Sphinx scopes
   sphinx_scope(:sphinx_available_items) {
