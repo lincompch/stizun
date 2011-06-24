@@ -2,44 +2,28 @@
 
 
 
-<%= form_tag({:action => 'index'}, {:method => 'get'}) do %>
-
-
-  <p>Search for: <%= text_field :search, :keyword, :size => 25 %> <%= submit_tag 'Search' %>
-
+<%= form_for [:admin, @supplier, @search] do |f| %>
+  <p>Search for: </p>
+  <%= f.text_field :keyword, :size => 25 %>
+  <%= f.submit 'Search' %>
+  
   <p>Limit to Manufacturer:</p>
 
-  <%= select_tag :manufacturer,
+  <%= f.select :manufacturer_contains,
       options_for_select([""] + @manufacturers_array,
-      params[:manufacturer]) %>
+      params[:search][:manufacturer_contains]) %>
 
   <p>Limit to Categories:</p>
 
   <p>
-    <%= select_tag :category_id,
-        options_from_collection_for_select(@root_category.children_categories.flatten.map, :id, :fully_qualified_name, params[:category_id]),
-        {:include_blank => true} if @root_category%> 
-    <%-#= select_tag :category01, 
-        options_for_select([""] + @category01_array,
-        params[:category01]) %>
-    <%-#= select_tag :category02, 
-        options_for_select([""] + @category02_array,
-        params[:category02])%>
-    <%-#= select_tag :category03, 
-        options_for_select([""] + @category03_array,
-        params[:category03])%>
+    <%= f.select :category_name_contains,        options_from_collection_for_select(@root_category.children_categories.flatten.map, :name, :fully_qualified_name, params[:search][:category_name_contains]),        {:include_blank => true} if @root_category%> 
   </p>
-
-
 <% end %>
 
 
 <% unless params[:search].blank? %>
 <p>Search results for: <%= params[:search][:keyword] %></p>
 <% end %>
-
-
-
 
 <%= will_paginate @supply_items %>
 
