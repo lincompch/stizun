@@ -63,9 +63,8 @@ class Category < ActiveRecord::Base
   end
 
   # Whenever any category changes, we need to expire all category-related
-  # view caches
+  # caches
   def expire_cache_fragments
-    expire_fragment('frontend_category_tree')
     Supplier.all.each do |sup|
       Rails.cache.delete("supplier_#{sup.id}_categories_sorted")
     end
