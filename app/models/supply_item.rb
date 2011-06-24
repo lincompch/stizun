@@ -29,7 +29,7 @@ class SupplyItem < ActiveRecord::Base
   CHECKED = 2
   REJECTED = 3
   
-  WORKFLOW_STATUS_HASH = { NEW => 'stizun.constants.new',
+  WORKFLOW_STATUS_HASH = { FRESH => 'stizun.constants.fresh',
                            CHECKED => 'stizun.constants.checked',
                            REJECTED => 'stizun.constants.rejected' }
   
