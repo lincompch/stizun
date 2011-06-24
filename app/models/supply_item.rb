@@ -25,7 +25,7 @@ class SupplyItem < ActiveRecord::Base
   # New: The Item was newly imported (the default)
   # Checked: A store manager has looked at this supply item already (to differentiate this from new)
   # Rejected: The store manager thinks this supply item is pointless, it will never make it into a product
-  NEW = 1
+  FRESH = 1
   CHECKED = 2
   REJECTED = 3
   
@@ -71,7 +71,7 @@ class SupplyItem < ActiveRecord::Base
   scope :deleted, :conditions => { :status_constant => SupplyItem::DELETED }
   scope :unavailable, :conditions => [ "status_constant <> #{SupplyItem::AVAILABLE}"]
 
-  scope :new, :conditions => { :workflow_status_constant => SupplyItem::NEW }
+  scope :fresh, :conditions => { :workflow_status_constant => SupplyItem::FRESH }
   scope :rejected, :conditions => { :workflow_status_constant => SupplyItem::REJECTED }
   scope :checked, :conditions => { :workflow_status_constant => SupplyItem::CHECKED }
   
