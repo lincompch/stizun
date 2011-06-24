@@ -39,6 +39,8 @@ gem 'fastercsv'
 gem 'later_dude', '>= 0.3.1'
 gem "hoptoad_notifier", '2.4.8'
 gem "feedzirra", "~> 0.0.24"
+gem "meta_search", "~> 1.0.5"
+gem "meta_where", "~> 1.0.4"
 
 group :cucumber, :test, :development do
   gem 'capybara'
