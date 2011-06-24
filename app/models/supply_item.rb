@@ -70,6 +70,10 @@ class SupplyItem < ActiveRecord::Base
   scope :available, :conditions => { :status_constant => SupplyItem::AVAILABLE }
   scope :deleted, :conditions => { :status_constant => SupplyItem::DELETED }
   scope :unavailable, :conditions => [ "status_constant <> #{SupplyItem::AVAILABLE}"]
+
+  scope :new, :conditions => { :workflow_status_constant => SupplyItem::NEW }
+  scope :rejected, :conditions => { :workflow_status_constant => SupplyItem::REJECTED }
+  scope :checked, :conditions => { :workflow_status_constant => SupplyItem::CHECKED }
   
   scope :keyword, lambda {|str| where(:description.matches % "%#{str}%" | :supplier_product_code.matches % "%#{str}%" | :manufacturer_product_code.matches % "%#{str}%" )}
   search_methods :keyword
