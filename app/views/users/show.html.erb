@@ -1,17 +1,22 @@
-<h2><%= t("stizun.account.account_information") %></h2>
-
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1"><%= t("stizun.account.account_information") %></a></li>
+    <li><a href="#tabs-2"><%= t("stizun.account.your_pending_orders") %></a></li>
+    <li><a href="#tabs-3"><%= t("stizun.account.your_pending_orders") %></a></li>
+    <li><a href="#tabs-4"><%= t("stizun.account.your_unpaid_invoices") %></a></li>
+  </ul>
+  <div id="tabs-1">
+  <h2><%= t("stizun.account.account_information") %></h2>
 <table>
   <td class="bold"><%= t("stizun.account.email") %></td>
   <td><%=h @user.email %> (<%= t("stizun.account.also_your_login") %>)</td>
 </table>
-
 <p class="rightalign">
   <%= link_to t("stizun.users.change_password_or_email"), edit_user_registration_path(current_user) %>
 </p>
-
-<hr>
+</div>
+<div id="tabs-2">
 <h3><%= t("stizun.account.your_pending_orders") %></h3>
-
 <h4><%= t("stizun.order.orders_awaiting_payment") %></h4>
 <% if @orders_awaiting_payment.count > 0 %>
   <%= render :partial => 'orders/orders', :object => @orders_awaiting_payment %>
@@ -34,9 +39,9 @@
 <p class="rightalign">
   <%= link_to t("stizun.account.view_all_orders"), user_orders_path(@user) %>
 </p>
+</div>
 
-<hr>
-  <div class="invoices">
+  <div class="invoices" id="tabs-3">
     <h3><%= t("stizun.account.your_unpaid_invoices") %></h3>
 
   <% if @invoices.count > 0 %>
@@ -53,8 +58,7 @@
 
 </div>
 
-<hr />
-
+<div id="tabs-4">
 <h3><%= t("stizun.address.addresses") %></h3>
 
 <% if @addresses.count > 0 %>
@@ -76,7 +80,7 @@
 <p class="rightalign">
   <%= link_to t("stizun.address.add_new_address"), new_address_path %>
 </p>
+</div>
 
-<hr>
-
+</div>
 <%= link_to("Logout", destroy_user_session_path) if current_user %>

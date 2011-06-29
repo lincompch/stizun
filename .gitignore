@@ -1,9 +1,67 @@
-*~
-.bundle
-db/*.sqlite3
-log/*.log
-tmp/**/*
-public/system/files/**/*
+
+
+
+# Fixtures
+spec/fixtures/*.yml
+
+# database.yml and others found in config directory
+config/*.yml
+
+# .bundle
+*.bundle
+
+# db/schema.rb
+db/schema.rb
+
+# solr/sunspot
+solr/*
+
+# Apple
+.AppleDouble/
+*.o
+*.so
+
+# Logs
+vendor/gems/*.log
+
+# Makefile
+Makefile
+mkmf.log
+conftest
+public/photos
+
+
+# orig files created by hg
+*.orig
+
+# nerbeans project files
+nbproject/*
+
+# staroffice temp files
+.~*\#
+
+# RubyMine
+.idea/*
+
+# RVM
+.rvmrc
+
 *.swp
 
+# A hidden file created by the Mac OS X Finder.
+.DS_Store
 
+# Log files in the log directory:
+log/*
+
+# uploaded files and system files
+public/system/*
+
+# database files
+db/*.sqlite3
+
+# tmp files
+tmp/*
+
+#eclipse project file
+.project
