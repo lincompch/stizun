@@ -5,95 +5,92 @@
     <li><a href="#tabs-2"><%= t("stizun.account.your_pending_orders") %></a></li>
     <li><a href="#tabs-3"><%= t("stizun.account.your_pending_orders") %></a></li>
     <li><a href="#tabs-4"><%= t("stizun.account.your_unpaid_invoices") %></a></li>
+    <li><a href="#tabs-5"><%= t('stizun.product.your_product_alerts') %></a></li>
   </ul>
   <div id="tabs-1">
-  <h2><%= t("stizun.account.account_information") %></h2>
-<table>
-  <td class="bold"><%= t("stizun.account.email") %></td>
-  <td><%=h @user.email %> (<%= t("stizun.account.also_your_login") %>)</td>
-</table>
-<p class="rightalign">
-  <%= link_to t("stizun.users.change_password_or_email"), edit_user_registration_path(current_user) %>
-</p>
-</div>
-<div id="tabs-2">
-<h3><%= t("stizun.account.your_pending_orders") %></h3>
-<h4><%= t("stizun.order.orders_awaiting_payment") %></h4>
-<% if @orders_awaiting_payment.count > 0 %>
-  <%= render :partial => 'orders/orders', :object => @orders_awaiting_payment %>
-<% else %>
-  <p><%= t("stizun.order.no_orders_awaiting_payment") %></p>
-<% end %>
+    <h2><%= t("stizun.account.account_information") %></h2>
+    <table>
+      <td class="bold"><%= t("stizun.account.email") %></td>
+      <td><%=h @user.email %> (<%= t("stizun.account.also_your_login") %>)</td>
+    </table>
+    <p class="rightalign">
+      <%= link_to t("stizun.users.change_password_or_email"), edit_user_registration_path(current_user) %>
+    </p>
+  </div>
+  <div id="tabs-2">
+    <h3><%= t("stizun.account.your_pending_orders") %></h3>
+    <h4><%= t("stizun.order.orders_awaiting_payment") %></h4>
+    <% if @orders_awaiting_payment.count > 0 %>
+      <%= render :partial => 'orders/orders', :object => @orders_awaiting_payment %>
+    <% else %>
+      <p><%= t("stizun.order.no_orders_awaiting_payment") %></p>
+    <% end %>
 
-<h4><%= t("stizun.order.orders_in_processing_or_ready_to_ship") %></h4>
+    <h4><%= t("stizun.order.orders_in_processing_or_ready_to_ship") %></h4>
 
-<% if (@orders_processing.count + @orders_to_ship.count + @orders_unprocessed.count) > 0 %>
+    <% if (@orders_processing.count + @orders_to_ship.count + @orders_unprocessed.count) > 0 %>
 
-  <%= render :partial => 'orders/orders', :object => @orders_unprocessed %>
-  <%= render :partial => 'orders/orders', :object => @orders_processing %>
-  <%= render :partial => 'orders/orders', :object => @orders_to_ship %>
+      <%= render :partial => 'orders/orders', :object => @orders_unprocessed %>
+      <%= render :partial => 'orders/orders', :object => @orders_processing %>
+      <%= render :partial => 'orders/orders', :object => @orders_to_ship %>
 
-<% else %>
-  <p><%= t("stizun.order.no_orders_in_processing_or_ready_to_ship") %></p>
-<% end %>
+    <% else %>
+      <p><%= t("stizun.order.no_orders_in_processing_or_ready_to_ship") %></p>
+    <% end %>
 
-<p class="rightalign">
-  <%= link_to t("stizun.account.view_all_orders"), user_orders_path(@user) %>
-</p>
-</div>
+    <p class="rightalign">
+      <%= link_to t("stizun.account.view_all_orders"), user_orders_path(@user) %>
+    </p>
+  </div>
 
   <div class="invoices" id="tabs-3">
     <h3><%= t("stizun.account.your_unpaid_invoices") %></h3>
 
-  <% if @invoices.count > 0 %>
-   <%= render :partial => 'invoices/invoices', :object => @invoices %>
-  <% else %>
+    <% if @invoices.count > 0 %>
+      <%= render :partial => 'invoices/invoices', :object => @invoices %>
+    <% else %>
 
-    <%= t("stizun.invoice.no_unpaid_invoices") %>
+      <%= t("stizun.invoice.no_unpaid_invoices") %>
 
-  <% end %>
+    <% end %>
 
-  <p class="rightalign">
-    <%= link_to t("stizun.account.view_all_invoices"), user_invoices_path(@user) %>
-  </p>
+    <p class="rightalign">
+      <%= link_to t("stizun.account.view_all_invoices"), user_invoices_path(@user) %>
+    </p>
 
+  </div>
+
+  <div id="tabs-4">
+    <h3><%= t("stizun.address.addresses") %></h3>
+
+    <% if @addresses.count > 0 %>
+      <p><%= t("stizun.address.you_have_the_following_saved_addresses") %></p>
+
+      <% @addresses.each do |a| %>
+
+        <%= render :partial => 'addresses/address_box', :object => a %>
+
+      <% end %>
+
+    <% else %>
+
+      <p><%= t("stizun.address.you_have_no_saved_addresses") %></p>
+
+    <% end %>
+
+
+    <p class="rightalign">
+      <%= link_to t("stizun.address.add_new_address"), new_address_path %>
+    </p>
+  </div>
+
+  <div id="tabs-5">
+    <h3><%= t('stizun.product.your_product_alerts') %></h3>
+
+    <p><%= t('stizun.product.product_alert_explanation') %></p>
+    <%= render :partial => 'notification/notifications' %>
+  </div>
 </div>
-
-<div id="tabs-4">
-<h3><%= t("stizun.address.addresses") %></h3>
-
-<% if @addresses.count > 0 %>
-  <p><%= t("stizun.address.you_have_the_following_saved_addresses") %></p>
-
-  <% @addresses.each do |a| %>
-
-    <%= render :partial => 'addresses/address_box', :object => a %>
-
-  <% end %>
-
-<% else %>
-
-<p><%= t("stizun.address.you_have_no_saved_addresses") %></p>
-
-<% end %>
-
-
-<p class="rightalign">
-  <%= link_to t("stizun.address.add_new_address"), new_address_path %>
-</p>
-</div>
-
-<<<<<<< HEAD
-</div>
-=======
-<hr />
-
-<h3><%= t('stizun.product.your_product_alerts') %></h3>
-
-  <p><%= t('stizun.product.product_alert_explanation') %></p>
-  <%= render :partial => 'notification/notifications' %>
-
 <hr>
 
->>>>>>> upstream/master
 <%= link_to("Logout", destroy_user_session_path) if current_user %>

@@ -1,22 +1,11 @@
 # SQLite version 3.x
 #   gem install sqlite3-ruby (not necessary on OS X Leopard)
 development:
-<<<<<<< HEAD
   adapter: mysql2
   database: stizun-final
-  username: 
-  password: 
-  pool: 5
-  timeout: 5000
-
-
-=======
-  adapter: mysql
-  database: stizun_dev
   username: root
-  password: 1234
+  password: q1w2
   encoding: utf8
->>>>>>> upstream/master
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -24,15 +13,10 @@ development:
 test: &TEST
   adapter: mysql
   database: stizun_test
-<<<<<<< HEAD
-  username: 
-  password: 
+  username:
+  password:
   pool: 5
   timeout: 5000
-=======
-  username: root
-  password: 1234
->>>>>>> upstream/master
 
 production:
   adapter: sqlite3

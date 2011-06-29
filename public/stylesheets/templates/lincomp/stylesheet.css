@@ -793,7 +793,7 @@ ul.ui-tabs-nav
 }
 .ui-tabs .ui-tabs-nav li { list-style: none; float: left; position: relative; top: 1px; margin: 0 .2em 1px 0; border-bottom: 0 !important; padding: 0; white-space: nowrap;
 }
-.ui-tabs .ui-tabs-nav li a { float: left; padding-left: 20px; padding-top: 6px; text-decoration: none; color: #fff; }
+.ui-tabs .ui-tabs-nav li a { float: left; padding-left: 10px; padding-top: 7px; text-decoration: none; color: #fff; font-size: 10px; }
 .ui-tabs .ui-tabs-nav li a:hover {color: #C46400;}
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected { margin-bottom: 0; padding-bottom: 1px; font-weight: bold;}
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
