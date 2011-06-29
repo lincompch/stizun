@@ -3,8 +3,8 @@
 development:
   adapter: mysql
   database: stizun_dev
-  username: root
-  password: 1234
+  username: 
+  password: 
   encoding: utf8
 
 # Warning: The database defined as "test" will be erased and
@@ -13,8 +13,10 @@ development:
 test: &TEST
   adapter: mysql
   database: stizun_test
-  username: root
-  password: 1234
+  username:
+  password:
+  pool: 5
+  timeout: 5000
 
 production:
   adapter: sqlite3
