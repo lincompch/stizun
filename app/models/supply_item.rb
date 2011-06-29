@@ -20,6 +20,14 @@ class SupplyItem < ActiveRecord::Base
   STATUS_HASH = { AVAILABLE => 'stizun.constants.available',
                   DELETED   => 'stizun.constants.deleted'}
 
+  FRESH = 1
+  CHECKED = 2
+  REJECTED = 3
+  
+  WORKFLOW_HASH = { FRESH => "Fresh",
+                    CHECKED => "Checked",
+                    REJECTED => "Rejected" }
+
   def self.status_to_human(status)
     # Gotta call I18n.t like this because it doesn't have the correct
     # locale set outside this definition on _some_ installations, not all.
