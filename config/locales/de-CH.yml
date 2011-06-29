@@ -189,6 +189,9 @@ de-CH:
       available: "Verfügbar"
       deleted: "Gelöscht"
       canceled: "Storniert"
+      fresh: "Frisch"
+      rejected: "Abgelehnt"
+      checked: "Überprüft"
     account:
       account_information: "Konto-Informationen"
       your_pending_orders: "Ihre offenen Bestellungen"
