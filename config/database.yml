@@ -3,8 +3,8 @@
 development:
   adapter: mysql2
   database: stizun-final
-  username: root
-  password: q1w2
+  username: 
+  password: 
   pool: 5
   timeout: 5000
 
@@ -16,8 +16,8 @@ development:
 test: &TEST
   adapter: mysql2
   database: stizun_test
-  username: root
-  password: q1w2
+  username: 
+  password: 
   pool: 5
   timeout: 5000
 
