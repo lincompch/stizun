@@ -1,3 +1,4 @@
+
 <div id="tabs">
   <ul>
     <li><a href="#tabs-1"><%= t("stizun.account.account_information") %></a></li>
@@ -82,5 +83,17 @@
 </p>
 </div>
 
+<<<<<<< HEAD
 </div>
+=======
+<hr />
+
+<h3><%= t('stizun.product.your_product_alerts') %></h3>
+
+  <p><%= t('stizun.product.product_alert_explanation') %></p>
+  <%= render :partial => 'notification/notifications' %>
+
+<hr>
+
+>>>>>>> upstream/master
 <%= link_to("Logout", destroy_user_session_path) if current_user %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110530151330) do
+ActiveRecord::Schema.define(:version => 20110614104753) do
 
   create_table "addresses", :force => true do |t|
     t.string   "company"
@@ -173,6 +173,16 @@ ActiveRecord::Schema.define(:version => 20110530151330) do
   add_index "invoices", ["old_order_id"], :name => "index_invoices_on_order_id"
   add_index "invoices", ["user_id"], :name => "index_invoices_on_user_id"
   add_index "invoices", ["uuid"], :name => "index_invoices_on_uuid"
+
+  create_table "notifications", :force => true do |t|
+    t.string   "email"
+    t.string   "remove_hash"
+    t.integer  "product_id"
+    t.integer  "user_id"
+    t.boolean  "active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "numerators", :force => true do |t|
     t.integer  "count"
@@ -370,6 +380,7 @@ ActiveRecord::Schema.define(:version => 20110530151330) do
     t.string   "category01"
     t.string   "category02"
     t.string   "category03"
+    t.integer  "category_id"
   end
 
   add_index "supply_items", ["supplier_id"], :name => "index_supply_items_on_supplier_id"

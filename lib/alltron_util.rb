@@ -2,6 +2,9 @@ require 'supplier_util'
 
 class AlltronUtil < SupplierUtil
   
+  def self.category_string_cmd(file_name)
+     "more +2 #{file_name} | cut -f 18-20 | sort -n | uniq | egrep -v '^[[:space:]]*$|^#'"
+  end
   
   def self.data_directory
     return Rails.root + "lib"
@@ -75,6 +78,8 @@ class AlltronUtil < SupplierUtil
     # TODO: Create Alltron's very own shipping rate right here, perhaps based ona config file
     AlltronUtil.create_shipping_rate
     @supplier = Supplier.find_or_create_by_name(:name => 'Alltron AG')
+    @supplier.category = Category.find_or_create_by_name(:name => 'Alltron AG')
+    
     acsv = AlltronCSV.new(filename)
     @fcsv = acsv.get_faster_csv_instance
     
@@ -94,11 +99,11 @@ class AlltronUtil < SupplierUtil
                     :category01 => 'Kategorie 1',
                     :category02 => 'Kategorie 2',
                     :category03 => 'Kategorie 3'}
+    AlltronUtil.create_category_tree(@supplier, filename)
     
     super
     
   end
-  
   
   # Create a default shipping rate for this supplier if it doesn't exist. 
   # This supplier may accidentally not have a matching shipping rate set up,

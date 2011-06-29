@@ -423,7 +423,7 @@ table.productlist thead th, table.productlist tfoot th {
 
 }
 
-table.productlist td .product_picture {
+table.productlist td .product_picture, table#notifications td .product_picture {
   padding: 0.3em;
   background: #fff;
   border: 2px solid #D1D1D1;
@@ -452,6 +452,7 @@ table.productlist .compact_add_to_cart_box {
   -moz-border-radius: 0.8em;
   -webkit-border-radius: 0.8em;
 }
+
 
 #add_to_cart_box p.price {
   font-size: 1.2em;
@@ -499,10 +500,42 @@ table.productlist .compact_add_to_cart_box {
   list-style: none;
 }
 
-#category_box li.super {
-  /*font-weight: bold;*/
-  border-bottom: 1px solid #ccc;
-  margin-top: 0.3em;
+#category_box ul li ul > li.first {
+  margin-left: -1em;
+  margin-bottom: 0.3em;
+  padding-left: 1em;
+  border-top: 1px solid #ccc;
+}
+
+#category_box li {
+  margin-bottom: 0.2em;
+  margin-top: 0.2em;
+}
+
+#category_box ul li ul > li.last {
+  margin-bottom: 0.8em;
+  margin-top: 0.2em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #ddd;
+}
+
+#category_box .clickable {
+  cursor: pointer;
+  color: #C46400;
+/*   border-bottom: 1px solid #ddd; */
+}
+
+
+#category_box .clickable:hover {
+   color: #FF8200;
+}
+
+#category_box li.collapsable .clickable {
+  font-weight: bold;
+}
+
+#category_box li.expandable .clickable {
+   font-weight: normal;
 }
 
 a.exx {
@@ -639,6 +672,33 @@ table.invoice_addresses td.shipping_address {
 }
 
 
+
+/* Product subscriptions/notifications */
+
+#notifications {
+  border-collapse: collapse;
+}
+
+table#notifications {
+  width: 100%;
+}
+
+#notifications th {
+  text-align: left;
+}
+
+#notifications tr.even td {
+  background: #F0F0F0;
+  border-bottom: 1px solid #dedede;
+  border-top: 1px solid #dedede;
+}
+
+#notifications td, #notifications th {
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
 
 
 /* Global-ish stuff */

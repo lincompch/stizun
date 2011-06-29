@@ -10,7 +10,12 @@ class UsersController < ApplicationController
     @orders_processing = @user.orders.processing
     @orders_unprocessed = @user.orders.unprocessed
     @addresses = @user.addresses.active
+    @notifications = @user.notifications
+
+    # To return after switching off notifications for a product
+    session[:return_to] = user_path(@user)
   end
+  
   def me
     show
     render :action => 'show'

@@ -35,13 +35,26 @@ class ProductsController < ApplicationController
 
     
     def show
-      @product = Product.find(params[:id])
+        
+      begin
+        @product = Product.find(params[:id])
+        unless @product.supplier.nil? or @product.supplier.utility_class_name.blank?
+          begin
+            require "lib/#{@product.supplier.utility_class_name.underscore}"
+            @changes = @product.supplier.utility_class_name.constantize.live_update(@product)
+            @product.reload if !@changes.empty?
+          rescue LoadError => e
+            logger.error "Could not require lib/#{@product.supplier.utility_class_name.underscore} for live update: #{e.message}"
+          end          
+        end
+        session[:return_to] = product_path(@product)
       rescue ActiveRecord::RecordNotFound
-      logger.error("Attempt to access invalid product #{params[:id]}" )
-      flash[:notice] = "Invalid product"
-      redirect_to :action => :index
+        logger.error("Attempt to access invalid product #{params[:id]}" )
+        flash[:notice] = "Invalid product"
+        redirect_to :action => :index
+      end     
     end
-
+    
     def edit
       # return an HTML form for editing the account
     end
@@ -85,5 +98,18 @@ class ProductsController < ApplicationController
       return "#{ofield} #{odir}" 
     end
     
+    def subscribe
+      @product = Product.find(params[:id])
+      @notification = Notification.new(:product => @product, :user => current_user, :email => params[:email], :active => false)
+      respond_to do |format|
+        if @notification.save
+          format.html{flash[:notice] = "Preis-Updates abonniert"
+          redirect_to session[:return_to]}
+        else
+          format.html{flash[:error] = "Das ist keine E-Mail-Adresse"
+          redirect_to session[:return_to]}
+        end
+      end
+    end
       
 end

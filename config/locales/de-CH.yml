@@ -160,7 +160,7 @@ de-CH:
       user:
         password: "Passwort"
         password_confirmation: "Passwortbestätigung"
-        current_password: "aktuelle Passwort"
+        current_password: "Aktuelles Passwort"
 
   stizun:
     general:
@@ -168,6 +168,7 @@ de-CH:
       products: "Produkte"
       delete: "Löschen"
       price: "Preis"
+      actions: "Aktionen"
     table_headers:
       number: "Nr."
       date: "Datum"
@@ -188,6 +189,9 @@ de-CH:
       available: "Verfügbar"
       deleted: "Gelöscht"
       canceled: "Storniert"
+      fresh: "Frisch"
+      rejected: "Abgelehnt"
+      checked: "Überprüft"
     account:
       account_information: "Konto-Informationen"
       your_pending_orders: "Ihre offenen Bestellungen"
@@ -291,6 +295,7 @@ de-CH:
       pcs_in_stock_short: "Stück an Lager"
       no_products: "Diese Produkteliste ist leer."
       products: "Produkte"
+      product: "Produkt"
       rebate: "Rabatt"
       description: "Beschreibung"
       short_description: "Kurzbeschreibung"
@@ -298,15 +303,25 @@ de-CH:
       search_query_too_short: "Ihr Suchbegriff ist zu kurz. Verwenden Sie bitte mindestens 3 Buchstaben."
       search_found_no_results: "Keine Resultate für Ihre Suche."
       attachments: "Dateien"
+      no_longer_available: "Produkt nicht mehr erhältlich"
+      no_longer_available_explanation: "Dieses Produkt ist leider nicht mehr erhältlich. Wahrscheinlich sind Sie über einen veralteten Link auf diese Seite geraten, z.B. von einer Suchmaschine aus."
+      your_product_alerts: "Ihre abonnierten Produkte"
+      you_dont_have_any_product_alerts: "Sie haben keine abonnierten Produkte. Abonnieren Sie Preis-Updates jeweils auf der Detailseite eines Produkts."
+      unsubscribe: "Abbestellen"
+      subscribe: "Abonnieren"
+      product_alert_explanation: "Sie erhalten eine E-Mail, wenn sich der Preis eines der folgenden Produkte verändert. Egal wie viele Produkte Sie abonnieren, Sie erhalten maximal eine Nachricht pro Tag, wo alle Veränderungen aller Produkte zusammengefasst sind."
     store_mailer:
       order_confirmation_subject: "Bestätigung Ihrer Bestellung"
       invoice_notification_subject: "Elektronische Rechnung"
       shipping_notification_subject: "Ihre Bestellung wurde versandt"
+      product_notification_subject: "Preisveränderungen bei Ihren abonnierten Produkten"
     users:
       account_not_created: "Das Konto konnte nicht erstellt werden."
       account_created_successfully: "Ihr Konto ist erstellt worden."
       overview: "Benutzerübersicht"
       change_password_or_email: "Passwort/E-Mail ändern"
+      we_need_your_password: "Wir brauchen Ihr altes Passwort, um ein neues setzen zu können."
+      leave_blank_if_keep: "Lassen Sie dieses Feld leer, um das alte Passwort zu behalten."
       attributes:
         email: "E-Mail-Adresse"
         password: "Passwort"
@@ -317,7 +332,7 @@ de-CH:
       login_successful: "Sie sind jetzt eingeloggt."
       logout_successful: "Sie sind jetzt ausgeloggt."
       stay_logged_in: "Eingeloggt bleiben."
-      log_in: "Einloggen"    
+      log_in: "Einloggen"
       
   authlogic:
     error_messages:

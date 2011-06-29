@@ -1,0 +1,30 @@
+
+
+Wie gewünscht schicken wir Ihnen eine Zusammenfassung der letzten
+Preisänderungen bei Lincomp:
+
+<% @notifications.each do |n| %>
+
+ <%= "#{n.product.name}" %>
+ <%= "Preis neu: #{pretty_price(n.product.taxed_price)} inkl. MwSt." %>
+
+ <%= "Updates für dieses Produkt abbestellen:" %>
+ <%= unsubscribe_product_url(Notification.get_remove_hash(@email, n.product)) %>
+
+<%= "---" %>
+
+<% end %>
+
+Falls Sie ein Lincomp-Konto besitzen, können Sie Ihre Produkte-
+Abonnemente auch auf Ihrer persönlichen Seite bearbeiten:
+
+http://www.lincomp.ch/users/me
+
+
+Freundliche Grüsse
+
+Lincomp GmbH
+
+--
+
+info@lincomp.ch | http://www.lincomp.ch

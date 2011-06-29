@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 
@@ -46,6 +47,18 @@ nbproject/*
 # RVM
 .rvmrc
 
+=======
+*~
+.bundle
+db/*.sqlite3
+db/sphinx/*
+config/database.yml
+log/*.pid
+log/*.log
+config/*.sphinx.conf
+tmp/**/*
+public/system/files/**/*
+>>>>>>> upstream/master
 *.swp
 
 # A hidden file created by the Mac OS X Finder.

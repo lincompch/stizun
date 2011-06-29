@@ -2,6 +2,7 @@ class SupplyItem < ActiveRecord::Base
   
   belongs_to :tax_class
   belongs_to :supplier
+  belongs_to :category
   has_one :product
   
   before_create :set_status_to_available_if_nil
@@ -19,6 +20,19 @@ class SupplyItem < ActiveRecord::Base
   STATUS_HASH = { AVAILABLE => 'stizun.constants.available',
                   DELETED   => 'stizun.constants.deleted'}
 
+  # Workflow status is there to help store managers find out which supply items they've already considered
+  # for importing into the shop and which ones are not useful to have around.
+  # New: The Item was newly imported (the default)
+  # Checked: A store manager has looked at this supply item already (to differentiate this from new)
+  # Rejected: The store manager thinks this supply item is pointless, it will never make it into a product
+  FRESH = 1
+  CHECKED = 2
+  REJECTED = 3
+  
+  WORKFLOW_STATUS_HASH = { FRESH => 'stizun.constants.fresh',
+                           CHECKED => 'stizun.constants.checked',
+                           REJECTED => 'stizun.constants.rejected' }
+  
   def self.status_to_human(status)
     # Gotta call I18n.t like this because it doesn't have the correct
     # locale set outside this definition on _some_ installations, not all.
@@ -36,18 +50,33 @@ class SupplyItem < ActiveRecord::Base
       hash << [I18n.t(value), key]
     end 
     return hash
-
   end
   
   def status_human
     return SupplyItem::status_to_human(self.status_constant)
   end
   
+  def workflow_status_to_human
+    if self.workflow_status_constant.blank?
+      return "not set"
+    else
+      return I18n.t(WORKFLOW_STATUS_HASH[self.workflow_status_constant])
+    end
+  end
+  
+  
   # === Named scopes
 
   scope :available, :conditions => { :status_constant => SupplyItem::AVAILABLE }
   scope :deleted, :conditions => { :status_constant => SupplyItem::DELETED }
   scope :unavailable, :conditions => [ "status_constant <> #{SupplyItem::AVAILABLE}"]
+
+  scope :fresh, :conditions => { :workflow_status_constant => SupplyItem::FRESH }
+  scope :rejected, :conditions => { :workflow_status_constant => SupplyItem::REJECTED }
+  scope :checked, :conditions => { :workflow_status_constant => SupplyItem::CHECKED }
+  
+  scope :keyword, lambda {|str| where(:description.matches % "%#{str}%" | :supplier_product_code.matches % "%#{str}%" | :manufacturer_product_code.matches % "%#{str}%" )}
+  search_methods :keyword
   
   # Thinking Sphinx configuration
   # Must come AFTER associations
@@ -55,16 +84,18 @@ class SupplyItem < ActiveRecord::Base
     # fields
     indexes(:name, :sortable => true)
     indexes manufacturer, description, supplier_product_code, manufacturer_product_code
-    indexes category01, category02, category03
+    #indexes category_id
     indexes status_constant
     
     # attributes
     has created_at, updated_at
     has supplier_id
+    has category_id
 
     set_property :delta => true
 
   end
+  
 
   # Sphinx scopes
   sphinx_scope(:sphinx_available_items) {

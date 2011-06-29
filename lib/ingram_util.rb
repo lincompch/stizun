@@ -2,6 +2,9 @@ require 'supplier_util'
 
 class IngramUtil < SupplierUtil
   
+  def self.category_string_cmd(file_name)
+     "more +2 #{file_name} | cut -f 1-3 | sort -n | uniq"
+  end
   
   def self.data_directory
     return Rails.root + "lib"
@@ -65,6 +68,8 @@ class IngramUtil < SupplierUtil
     
     IngramUtil.create_shipping_rate
     @supplier = Supplier.find_or_create_by_name(:name => 'Ingram Micro GmbH')
+    @supplier.category = Category.find_or_create_by_name(:name => 'Ingram Micro GmbH')
+    
     icsv = IngramCSV.new(filename)
     @fcsv = icsv.get_faster_csv_instance
 
@@ -85,6 +90,7 @@ class IngramUtil < SupplierUtil
                     :category01 => 'GRUPPE1',
                     :category02 => 'GRUPPE2',
                     :category03 => 'GRUPPE3'}    
+    IngramUtil.create_category_tree(@supplier, filename)
    
     super
     
@@ -125,10 +131,11 @@ class IngramUtil < SupplierUtil
 
 
   # Update a product's information (stock level, price) from Ingram Micro's live update URL
-  # Input: DocumentLines
+  # Input: DocumentLines object if multiple products need to be updated (e.g. from a Cart object)
+  # Input: Product object if just a single object needs to be updated
   # Output: A hash with the product ID as an index, pointing to a hash of arrays of changes with
   #         the changed attribute as an index (similar to ActiveRecord changes)
-  def self.live_update(lines)
+  def self.live_update(object)
 
     logger = Logger.new("#{Rails.root}/log/ingram_live_update_#{Time.now.strftime("%Y-%m-%d")}.log")
     
@@ -154,7 +161,18 @@ class IngramUtil < SupplierUtil
     username = "CH27" + customer_no + "000"
     password = APP_CONFIG['ingram_password']
     
-    products = lines.collect(&:product)
+    if username.empty? or password.empty?
+      logger.error "[#{DateTime.now.to_s}] Live update will probably fail, either username or password are not set"
+    end
+    
+    if object.is_a?(Product)
+      products = [object]
+    elsif object.is_a?(Array)
+      products = object.collect(&:product)
+    else
+      raise ArgumentError, "This method can only deal with Product objects or arrays of DocumentLines"
+    end
+    
     supplier_product_codes = products.collect(&:supplier_product_code)
     supplier_product_code_string = supplier_product_codes.join("~")
     quantities = (["1"] * supplier_product_codes.size).join("~")

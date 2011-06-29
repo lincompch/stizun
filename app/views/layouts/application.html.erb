@@ -11,13 +11,14 @@
     %>
     <%= stylesheet_link_tag "templates/lincomp/stylesheet", :media => "all" %>
     <%= stylesheet_link_tag "templates/lincomp/errors", :media => "all" %>
-
     <%= stylesheet_link_tag("templates/lincomp/print", :media => :print) %>
-
 
     <%= javascript_include_tag :defaults %>
     <%= javascript_include_tag "jquery.jstree/jquery.jstree.js" %>
-
+    <%= javascript_include_tag "jquery.treeview/jquery.treeview.js" %>
+    <%= javascript_include_tag "jquery.treeview/jquery.cookie.js" %>
+    <%= javascript_include_tag "jquery.treeview/treeview.js" %>
+    
   </head> 
  
   <body id="indexHomeBody"> 
@@ -87,7 +88,7 @@
                   <% @cart = Cart.get_from_session(session) %>
                   <%= render :partial => 'carts/sidebar_box' %>
 
-                  <div class="box" id="category_box"> 
+                  <div class="box" id="search_box"> 
                     <div class="box_hd"> 
                         <h3 class="rightBoxHeading">Produktsuche</h3> 
                     </div> 
@@ -106,7 +107,7 @@
                     <div class="box_hd"> 
                         <h3 class="rightBoxHeading">Kategorien</h3> 
                     </div> 
-                    <div class="box_ct"> 
+                    <div class="box_ct">
                       <div id="categoriesContent" class=" sideBoxContent centeredContent">
                         <%= render :partial => 'shared/category_tree' %>
                       </div>
@@ -116,6 +117,22 @@
                     </div> 
                   </div> 
   
+
+                  <% unless FeedEntry.count == 0 %>
+                  <div class="box">
+                    <div class="box_hd">
+                        <h3 class="rightBoxHeading">Lincomp-News</h3>
+                    </div>
+                    <div class="box_ct">
+                      <div id="categoriesContent" class=" sideBoxContent centeredContent">
+                        <%= display_rss_feed %>
+                      </div>
+                      </div>
+                    <div class="box_ft">
+                        &nbsp;
+                    </div>
+                  </div>
+                  <% end %>
 
 
             </div>

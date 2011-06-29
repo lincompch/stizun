@@ -1,42 +1,32 @@
 <h2>Supply items for <%= @supplier.name %></h2>
 
 
+<%= form_for [:admin, @supplier, @search] do |f| %>
+  <p>Search for: </p>
+  <%= f.text_field :keyword, :size => 25 %>
+  <%= f.submit 'Search' %>
 
-<%= form_tag({:action => 'index'}, {:method => 'get'}) do %>
+  <% manufacturer_contains = nil %>
+  <% search_keyword = nil %>
 
-
-  <p>Search for: <%= text_field :search, :keyword, :size => 25 %> <%= submit_tag 'Search' %>
+  <% unless params[:search].blank? %>
+    <% manufacturer_contains = params[:search][:manufacturer_contains] unless params[:search][:manufacturer_contains].blank? %>
+    <% search_keyword = params[:search][:keyword] unless params[:search][:keyword].blank? %>
+  <% end %>
 
   <p>Limit to Manufacturer:</p>
 
-  <%= select_tag :manufacturer,
+  <%= f.select :manufacturer_contains,
       options_for_select([""] + @manufacturers_array,
-      params[:manufacturer]) %>
+      manufacturer_contains)  %>
 
-  <p>Limit to Categories:</p>
+  <p>Limit to Category:</p>
 
-  <p>
-    <%= select_tag :category01, 
-        options_for_select([""] + @category01_array,
-        params[:category01]) %>
-    <%= select_tag :category02, 
-        options_for_select([""] + @category02_array,
-        params[:category02])%>
-    <%= select_tag :category03, 
-        options_for_select([""] + @category03_array,
-        params[:category03])%>
-  </p>
+  <%= category_id_select_tag_for_supplier(@supplier, params[:category_id]) %>
 
-
+  <%= f.submit 'Search' %>
+      
 <% end %>
-
-
-<% unless params[:search].blank? %>
-<p>Search results for: <%= params[:search][:keyword] %></p>
-<% end %>
-
-
-
 
 <%= will_paginate @supply_items %>
 
@@ -65,7 +55,7 @@
       <%= link_to 'Edit Product', edit_admin_product_path(item.product), :class => 'fancybox' unless item.product.nil? %>
     </td>
   </tr>
-  <%= render :partial => 'product_alternatives', :locals => {:item => item} %>
+  <%-#= render :partial => 'product_alternatives', :locals => {:item => item} %>
 
 <% end %>
 </table>

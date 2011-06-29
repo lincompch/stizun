@@ -2,13 +2,19 @@ Stizun::Application.routes.draw do
 
   resources :addresses
   resources :orders
-  resources :products
+  resources :products do
+    member do
+      post :subscribe
+    end
+  end
   resources :invoices
   resource :cart
   devise_for :users
   #match 'login' => 'user_sessions#new', :as => :login
   #match 'logout' => 'user_sessions#destroy', :as => :logout
   
+  match 'products/unsubscribe/:remove_hash' => 'notification#destroy', :as => :unsubscribe_product
+  match 'notifications' => 'notification#index', :as => :notifications
   
   resources :categories do
     resources :products
@@ -76,6 +82,7 @@ Stizun::Application.routes.draw do
       resources :products
       resources :categories do
         resources :products
+        resources :supply_items
       end
     end
     
