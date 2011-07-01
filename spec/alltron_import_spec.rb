@@ -166,6 +166,11 @@ describe AlltronUtil do
       Category.find_all_by_name("PCs und Komponenten").count.should == 2
     end
     
+    it 'should add category Without Category if supply items belong to none' do
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron_without_cat.csv")
+      Category.find_all_by_name("Without Category").count.should == 1
+    end
+    
   end
 
 end
