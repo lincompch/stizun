@@ -13,7 +13,17 @@ class Admin::SupplyItemsController < Admin::BaseController
     end
     @supply_items = result.paginate :per_page => SupplyItem.per_page, :page => params[:page]
   end
-    
+  
+  def update
+    @supply_item = SupplyItem.find(params[:id])
+    @updated = @supply_item.update_attributes(params[:supply_item])
+
+    respond_to do |format|
+      format.js {render :layout => false}
+    end    
+  end
+  
+  
   def cache_manufacturers_for_supplier(supplier)
     @manufacturers_array = Rails.cache.read("supplier_#{supplier}_manufacturers")
     if @manufacturers_array.nil?

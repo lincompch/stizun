@@ -30,7 +30,7 @@
 
 <%= will_paginate @supply_items %>
 
-<table>
+<table id='supply_item_list'>
   <tr>
     <th>ID</th>
     <th>Manufacturer</th>
@@ -43,19 +43,23 @@
   </tr>
 
 <% @supply_items.each do |item| %>
-  <tr class="<%= cycle('odd','even') %>">
-    <td><%=h item.id %></td>
-    <td><%=h item.manufacturer %></td>
-    <td><%=h item.supplier_product_code %> / <%=h item.manufacturer_product_code %></td>
-    <td><%=h item.name %></td>
-    <td><%=h item.status_human %></td>
+  <tr class="<%= cycle('odd','even') %>" id="supply_item_<%= item.id %>">
+    <td><%= item.id %></td>
+    <td><%= item.manufacturer %></td>
+    <td><%= item.supplier_product_code %> / <%=h item.manufacturer_product_code %></td>
+    <td><%= item.name %></td>
+    <td><%= item.status_human %></td>
     <td class="price"><%= item.purchase_price %></td>
     <td>
       <%= link_to 'Create Product', new_from_supply_item_admin_products_path(:supply_item_id => item), :class => 'fancybox' %>
       <%= link_to 'Edit Product', edit_admin_product_path(item.product), :class => 'fancybox' unless item.product.nil? %>
     </td>
   </tr>
-  <%-#= render :partial => 'product_alternatives', :locals => {:item => item} %>
+  <tr id="form">
+    <td colspan="7"><%= render 'form', :item => item %></td> 
+  </tr>
+  
+  <%= render :partial => 'product_alternatives', :locals => {:item => item} %>
 
 <% end %>
 </table>

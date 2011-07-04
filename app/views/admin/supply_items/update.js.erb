@@ -1,0 +1,5 @@
+if ("<%= @updated %>"){
+  $("tr#supply_item_<%= @supply_item.id %>").effect("highlight", {"color" : "#00FF00"}, 3000);
+} else {
+  $("tr#supply_item_<%= @supply_item.id %>").effect("highlight", {"color" : "#FF0000"}, 3000);
+}

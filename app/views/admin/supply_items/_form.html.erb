@@ -1,0 +1,17 @@
+<%= form_for [:admin, @supplier, item], :remote => true, :method => "put", :html => {:method => "put"}  do |f| %>
+
+
+<%= f.radio_button :workflow_status, "1" %>
+<%= f.label :workflow_status, 'Fresh' %>
+
+<%= f.radio_button :workflow_status, "2" %>
+<%= f.label :workflow_status, 'Checked' %>
+
+<%= f.radio_button :workflow_status, "3" %>
+<%= f.label :workflow_status, 'Rejected' %>
+
+<%= f.text_field :notes %>
+
+<%= f.submit 'Save status' %>
+
+<% end %>

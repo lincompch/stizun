@@ -25,6 +25,7 @@ class SupplyItem < ActiveRecord::Base
   # New: The Item was newly imported (the default)
   # Checked: A store manager has looked at this supply item already (to differentiate this from new)
   # Rejected: The store manager thinks this supply item is pointless, it will never make it into a product
+
   FRESH = 1
   CHECKED = 2
   REJECTED = 3

@@ -155,15 +155,18 @@ class SupplierUtil
     category_string.split("\n").each do |line|
       categories = line.split("\t")
   
-      category.reload
-      #"#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category01]])}"
-      root = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[0])}", 1, supplier)
-      root.save
-
-      category.reload
-      level2 = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[1])}", 2, supplier)
-      level2.parent = root
-      level2.save
+      unless categories[0].blank?
+        category.reload
+        root = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[0])}", 1, supplier)
+        root.save
+      end
+      
+      unless categories[1].blank?
+        category.reload
+        level2 = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[1])}", 2, supplier)
+        level2.parent = root
+        level2.save
+      end             
 
       unless categories[2].blank?
         category.reload
