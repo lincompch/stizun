@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-
-
 # Fixtures
 spec/fixtures/*.yml
 
@@ -13,9 +9,6 @@ config/*.yml
 
 # db/schema.rb
 db/schema.rb
-
-# solr/sunspot
-solr/*
 
 # Apple
 .AppleDouble/
@@ -29,8 +22,6 @@ vendor/gems/*.log
 Makefile
 mkmf.log
 conftest
-public/photos
-
 
 # orig files created by hg
 *.orig
@@ -46,8 +37,6 @@ nbproject/*
 
 # RVM
 .rvmrc
-
-=======
 *~
 .bundle
 db/*.sqlite3
@@ -58,23 +47,3 @@ log/*.log
 config/*.sphinx.conf
 tmp/**/*
 public/system/files/**/*
->>>>>>> upstream/master
-*.swp
-
-# A hidden file created by the Mac OS X Finder.
-.DS_Store
-
-# Log files in the log directory:
-log/*
-
-# uploaded files and system files
-public/system/*
-
-# database files
-db/*.sqlite3
-
-# tmp files
-tmp/*
-
-#eclipse project file
-.project
