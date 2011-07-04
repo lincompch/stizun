@@ -194,6 +194,9 @@ de-CH:
       checked: "Überprüft"
     account:
       account_information: "Konto-Informationen"
+      orders: "Bestellungen"
+      invoices: "Rechnungen"
+      product_alerts: "Abonnierte Produkte"
       your_pending_orders: "Ihre offenen Bestellungen"
       view_all_orders: "Alle Bestellungen ansehen"
       your_unpaid_invoices: "Ihre unbezahlten Rechnungen"

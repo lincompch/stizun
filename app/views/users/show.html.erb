@@ -2,10 +2,10 @@
 <div id="tabs">
   <ul>
     <li><a href="#tabs-1"><%= t("stizun.account.account_information") %></a></li>
-    <li><a href="#tabs-2"><%= t("stizun.account.your_pending_orders") %></a></li>
-    <li><a href="#tabs-3"><%= t("stizun.account.your_pending_orders") %></a></li>
-    <li><a href="#tabs-4"><%= t("stizun.account.your_unpaid_invoices") %></a></li>
-    <li><a href="#tabs-5"><%= t('stizun.product.your_product_alerts') %></a></li>
+    <li><a href="#tabs-2"><%= t("stizun.account.orders") %></a></li>
+    <li><a href="#tabs-3"><%= t("stizun.account.invoices") %></a></li>
+    <li><a href="#tabs-4"><%= t("stizun.address.addresses") %></a></li>
+    <li><a href="#tabs-5"><%= t("stizun.account.product_alerts") %></a></li>
   </ul>
   <div id="tabs-1">
     <h2><%= t("stizun.account.account_information") %></h2>
@@ -91,6 +91,5 @@
     <%= render :partial => 'notification/notifications' %>
   </div>
 </div>
-<hr>
 
-<%= link_to("Logout", destroy_user_session_path) if current_user %>
+<p><%= link_to("Logout", destroy_user_session_path) if current_user %></p>

@@ -310,30 +310,6 @@ td {
 
 }
 
-#tabs {
-  margin-top: 35px;
-	margin-bottom: 25px;
-  border-bottom: 1px solid black;
-  padding-bottom: 6px;
-}
-
-a.producttab {
-  font-weight: bold;
-  border-top: 1px solid #888;
-  border-left: 1px solid #888;
-  border-right: 1px solid #888;
-  padding: 8px 8px 6px 8px;
-  margin-right: 10px;
-}
-
-a.producttab.active {
-  border-top: 1px solid black;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  border-bottom: 2px solid #fff;
-  background: #fff;
-}
-
 span.strikethrough_price {
 	color: #f33;
 	text-decoration: line-through;
@@ -782,23 +758,3 @@ span.rebate_string {
   padding: 0;
   margin: 0;
 }
-
-.ui-tabs { position: relative; padding: 0; zoom: 1; border: 1px solid #29292a;} /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
-.ui-tabs .ui-tabs-nav { margin: 0; padding: 0; }
-ul.ui-tabs-nav
-{
-  background: url('../../../images/templates/lincomp/headernav_bg.png');
-  overflow: auto;
-  height: 33px;
-}
-.ui-tabs .ui-tabs-nav li { list-style: none; float: left; position: relative; top: 1px; margin: 0 .2em 1px 0; border-bottom: 0 !important; padding: 0; white-space: nowrap;
-}
-.ui-tabs .ui-tabs-nav li a { float: left; padding-left: 10px; padding-top: 7px; text-decoration: none; color: #fff; font-size: 10px; }
-.ui-tabs .ui-tabs-nav li a:hover {color: #C46400;}
-.ui-tabs .ui-tabs-nav li.ui-tabs-selected { margin-bottom: 0; padding-bottom: 1px; font-weight: bold;}
-.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
-.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
-.ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 1em 1.4em; background: none; }
-.ui-tabs .ui-tabs-hide { display: none !important; }
-
-
