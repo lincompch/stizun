@@ -109,3 +109,17 @@
 .buttonbar .right {
   float: right;
 }
+
+
+
+td.workflow_1 {
+  background: green;
+}
+
+td.workflow_2 {
+  background: orange;
+}
+
+td.workflow_3 {
+  background: red;
+}
