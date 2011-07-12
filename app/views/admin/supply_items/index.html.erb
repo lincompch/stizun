@@ -33,6 +33,7 @@
 <table id='supply_item_list'>
   <tr>
     <th>ID</th>
+    <th>Wfl.</th>
     <th>Manufacturer</th>
     <th>Supplier Code/Mfg. Code</th>
     <th>Name</th>
@@ -45,6 +46,7 @@
 <% @supply_items.each do |item| %>
   <tr class="<%= cycle('odd','even') %>" id="supply_item_<%= item.id %>">
     <td><%= item.id %></td>
+    <td class="workflow_<%= item.workflow_status_constant %>"><%= item.workflow_status_to_human %></td>
     <td><%= item.manufacturer %></td>
     <td><%= item.supplier_product_code %> / <%=h item.manufacturer_product_code %></td>
     <td><%= item.name %></td>
