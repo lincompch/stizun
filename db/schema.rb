@@ -11,7 +11,7 @@
 # It's strongly recommended to check this file into your version control system.
 
 ActiveRecord::Schema.define(:version => 20110629090258) do
-  
+
   create_table "addresses", :force => true do |t|
     t.string   "company"
     t.string   "firstname"
@@ -381,12 +381,8 @@ ActiveRecord::Schema.define(:version => 20110629090258) do
     t.string   "category02"
     t.string   "category03"
     t.integer  "category_id"
-<<<<<<< HEAD
     t.integer  "workflow_status_constant",                                 :default => 1
-=======
     t.string   "notes"
-    t.integer  "workflow_status",                                          :default => 1
->>>>>>> 89f9dc020ca26a468d1a4926deb5d8f2f83e0265
   end
 
   add_index "supply_items", ["supplier_id"], :name => "index_supply_items_on_supplier_id"
