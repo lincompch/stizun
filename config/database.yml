@@ -3,8 +3,8 @@
 development:
   adapter: mysql
   database: stizun_dev
-  username: 
-  password: 
+  username: root
+  password: 1234
   encoding: utf8
 
 dev:

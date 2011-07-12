@@ -55,7 +55,7 @@
       <%= link_to 'Edit Product', edit_admin_product_path(item.product), :class => 'fancybox' unless item.product.nil? %>
     </td>
   </tr>
-  <tr id="form">
+  <tr class="form">
     <td colspan="7"><%= render 'form', :item => item %></td> 
   </tr>
   
