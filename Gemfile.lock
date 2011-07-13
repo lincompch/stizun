@@ -113,7 +113,7 @@ GEM
     mime-types (1.16)
     mini_magick (3.2)
       subexec (~> 0.0.4)
-    mysql (2.8.1)
+    mysql2 (0.3.6)
     nokogiri (1.4.4)
     orm_adapter (0.0.5)
     paperclip (2.3.8)
@@ -212,7 +212,7 @@ DEPENDENCIES
   meta_search (~> 1.0.5)
   meta_where (~> 1.0.4)
   mini_magick
-  mysql
+  mysql2 (< 3.0.0)
   paperclip
   rack-ssl-enforcer
   rails (= 3.0.3)
