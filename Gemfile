@@ -18,7 +18,7 @@ gem 'rails3-generators'
 gem 'rack-ssl-enforcer'
 
 # CKEditor has a nice Rails integration thanks to Igor Galeta
-# Bundler is still hopelessly broken with the :git option ("is not checked out. 
+# Bundler is still hopelessly broken with the :git option ("is not checked out.
 # Please run `bundle install`" bug described here: http://www.ruby-forum.com/topic/213962
 #gem 'ckeditor', :git => 'git://github.com/galetahub/rails-ckeditor.git', :branch => 'rails3'
 
@@ -32,7 +32,7 @@ gem 'thinking-sphinx'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'paperclip'
-gem 'mysql2', "< 3.0.0"
+gem 'mysql'
 gem 'will_paginate'
 gem 'uuidtools'
 gem 'fastercsv'
@@ -41,6 +41,7 @@ gem "hoptoad_notifier", '2.4.8'
 gem "feedzirra", "~> 0.0.24"
 gem "meta_search", "~> 1.0.5"
 gem "meta_where", "~> 1.0.4"
+gem "ruby-progressbar", :require => "progressbar"
 
 group :cucumber, :test, :development do
   gem 'capybara'
@@ -49,11 +50,12 @@ group :cucumber, :test, :development do
   gem 'cucumber'
   gem 'rspec-rails'
   gem 'spork'
-  gem 'launchy' 
+  gem 'launchy'
   gem 'ruby-debug'
   gem 'steak'
 end
 
-group :development do 
+group :development do
   gem 'wirble'
 end
+

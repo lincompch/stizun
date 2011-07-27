@@ -22,10 +22,11 @@
 
   <p>Limit to Category:</p>
 
-  <%= category_id_select_tag_for_supplier(@supplier, params[:category_id]) %>
-
+  <%-# cache([@supplier, "select_tag"]) do %>
+    <%= category_id_select_tag_for_supplier(@supplier, params[:category_id]) %>
+  <%-# end%>
   <%= f.submit 'Search' %>
-      
+
 <% end %>
 
 <%= will_paginate @supply_items %>
@@ -40,7 +41,6 @@
     <th>Status</th>
     <th>Purchase price</th>
     <th>Action</th>
-
   </tr>
 
 <% @supply_items.each do |item| %>
@@ -58,9 +58,9 @@
     </td>
   </tr>
   <tr class="form">
-    <td colspan="7"><%= render 'form', :item => item %></td> 
+    <td colspan="7"><%= render 'form', :item => item %></td>
   </tr>
-  
+
   <%= render :partial => 'product_alternatives', :locals => {:item => item} %>
 
 <% end %>
@@ -69,3 +69,4 @@
 <%= will_paginate @supply_items %>
 
 <br />
+
