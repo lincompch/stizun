@@ -2,7 +2,7 @@
 #   gem install sqlite3-ruby (not necessary on OS X Leopard)
 development:
   adapter: mysql
-  database: stizun_dev
+  database: stizun_d
   username: root
   password: 1234
   encoding: utf8
@@ -19,8 +19,8 @@ dev:
 test: &TEST
   adapter: mysql
   database: stizun_test
-  username:
-  password:
+  username: root
+  password: 1234
   pool: 5
   timeout: 5000
 
@@ -30,3 +30,4 @@ production:
 
 cucumber:
   <<: *test
+

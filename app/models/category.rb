@@ -49,7 +49,7 @@ class Category < ActiveRecord::Base
     if found
       tab[found]
     elsif create
-      Category.create!(:name => name, :parent_id => self.id, :supplier_id => supplier.id) unless name.empty?
+      Category.create!(:name => name, :parent_id => self.id, :supplier => supplier) unless name.empty?
     end
   end
 
@@ -78,9 +78,11 @@ class Category < ActiveRecord::Base
 
   def generate_ancestry
     # callbacks have to be turned off - to avoid loop execution
+    puts self.ancestor_chain.map(&:id).join("/")
     Category.skip_callback("save", :after, :generate_ancestry)
     update_attributes(:ancestry => self.ancestor_chain.map(&:id).join("/"))
     Category.set_callback("save", :after, :generate_ancestry)
+
   end
 end
 
