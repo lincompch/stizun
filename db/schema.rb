@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110629090258) do
+ActiveRecord::Schema.define(:version => 20110727080334) do
 
   create_table "addresses", :force => true do |t|
     t.string   "company"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(:version => 20110629090258) do
     t.integer  "supplier_id"
     t.integer  "lft"
     t.integer  "rgt"
+    t.string   "ancestry"
   end
 
   add_index "categories", ["parent_id"], :name => "index_categories_on_parent_id"

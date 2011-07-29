@@ -1,31 +1,17 @@
 <h2>Supply items for <%= @supplier.name %></h2>
 
-
-<%= form_for [:admin, @supplier, @search] do |f| %>
-  <p>Search for: </p>
-  <%= f.text_field :keyword, :size => 25 %>
-  <%= f.submit 'Search' %>
-
-  <% manufacturer_contains = nil %>
-  <% search_keyword = nil %>
-
-  <% unless params[:search].blank? %>
-    <% manufacturer_contains = params[:search][:manufacturer_contains] unless params[:search][:manufacturer_contains].blank? %>
-    <% search_keyword = params[:search][:keyword] unless params[:search][:keyword].blank? %>
-  <% end %>
+<%= form_tag({:action => 'index'}, {:method => 'get'}) do %>
+  <p>Search for: <%= text_field :search, :keyword, :size => 25 %> <%= submit_tag 'Search' %></p>
 
   <p>Limit to Manufacturer:</p>
 
-  <%= f.select :manufacturer_contains,
+  <%= select_tag :manufacturer,
       options_for_select([""] + @manufacturers_array,
-      manufacturer_contains)  %>
+      params[:manufacturer]) %>
 
   <p>Limit to Category:</p>
 
   <%= category_id_select_tag_for_supplier(@supplier, params[:category_id]) %>
-
-  <%= f.submit 'Search' %>
-      
 <% end %>
 
 <%= will_paginate @supply_items %>
@@ -40,7 +26,6 @@
     <th>Status</th>
     <th>Purchase price</th>
     <th>Action</th>
-
   </tr>
 
 <% @supply_items.each do |item| %>
@@ -58,9 +43,9 @@
     </td>
   </tr>
   <tr class="form">
-    <td colspan="7"><%= render 'form', :item => item %></td> 
+    <td colspan="7"><%= render 'form', :item => item %></td>
   </tr>
-  
+
   <%= render :partial => 'product_alternatives', :locals => {:item => item} %>
 
 <% end %>
@@ -69,3 +54,4 @@
 <%= will_paginate @supply_items %>
 
 <br />
+
