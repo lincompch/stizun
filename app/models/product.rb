@@ -482,6 +482,7 @@ class Product < ActiveRecord::Base
     self.purchase_price = self.supply_item.purchase_price
     self.manufacturer = self.supply_item.manufacturer
     self.manufacturer_product_code = self.supply_item.manufacturer_product_code
+    self.supplier = self.supply_item.supplier
     changes = self.changes
     result = self.save
     if result == true
