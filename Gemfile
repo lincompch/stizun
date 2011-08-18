@@ -33,7 +33,6 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'paperclip'
 gem 'mysql2', "< 0.3.0"
-#gem 'pg'
 gem 'will_paginate', "< 3.0.0"
 gem 'uuidtools'
 gem 'fastercsv'

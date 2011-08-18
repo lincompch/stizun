@@ -20,7 +20,8 @@ class Admin::SupplyItemsController < Admin::BaseController
                                                   :with_all => with_all,
                                                   :per_page => SupplyItem.per_page,
                                                   :page => params[:page],
-                                                  :max_matches => 100000)
+                                                  :max_matches => 100000,
+                                                  :include => :product) # eager loading speeds up this view from e.g. 2500 ms to 1900 ms
   end
 
   def update
