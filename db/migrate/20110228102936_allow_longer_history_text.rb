@@ -1,6 +1,6 @@
 class AllowLongerHistoryText < ActiveRecord::Migration
   def self.up
-    if ActiveRecord::Base.connection.adapter_name == 'MySQL'
+    if ['MySQL', 'Mysql2'].include?(ActiveRecord::Base.connection.adapter_name.to_s)
       execute "ALTER TABLE histories CHANGE text text text"
     else
       execute "ALTER TABLE histories ALTER text SET DATA TYPE text"
@@ -8,7 +8,7 @@ class AllowLongerHistoryText < ActiveRecord::Migration
   end
 
   def self.down
-    if ActiveRecord::Base.connection.adapter_name == 'MySQL'
+    if ['MySQL', 'Mysql2'].include?(ActiveRecord::Base.connection.adapter_name.to_s)
       execute "ALTER TABLE histories CHANGE text text string"
     else
       execute "ALTER TABLE histories ALTER text SET DATA TYPE string"
