@@ -1,3 +1,5 @@
+require "bundler/capistrano"
+
 set :application, "lincomp"
 
 set :scm, :git
@@ -35,10 +37,6 @@ task :link_files do
   run "ln -s #{deploy_to}/#{shared_dir}/uploads #{release_path}/public/uploads"
 end
 
-task :install_gems do
-  run "cd #{release_path} && RAILS_ENV=production bundle install --deployment --without cucumber test development"
-end
-
 task :configure_sphinx do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:conf && RAILS_ENV=production bundle exec rake ts:reindex"
 end
@@ -60,6 +58,5 @@ end
 
 after "deploy:symlink", :link_config
 after "link_config", "link_files"
-after "link_config", "install_gems"
-after "install_gems", "configure_sphinx"
+after "link_config", "configure_sphinx"
 after "configure_sphinx", "restart_sphinx"
