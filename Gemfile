@@ -51,7 +51,7 @@ group :cucumber, :test, :development do
   gem 'rspec-rails'
   gem 'spork'
   gem 'launchy'
-  gem 'ruby-debug'
+  gem 'ruby-debug19'
   gem 'steak'
 end
 
