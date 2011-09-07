@@ -68,7 +68,6 @@ GEM
     dynamic_form (1.1.4)
     erubis (2.6.6)
       abstract (>= 1.0.0)
-    fastercsv (1.5.4)
     feedzirra (0.0.24)
       activesupport (>= 2.3.8)
       builder (>= 2.1.2)
@@ -212,7 +211,6 @@ DEPENDENCIES
   database_cleaner
   devise
   dynamic_form
-  fastercsv
   feedzirra (~> 0.0.24)
   hoptoad_notifier (= 2.4.8)
   jquery-rails
