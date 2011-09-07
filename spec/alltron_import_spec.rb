@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'lib/alltron_util'
+require_relative '../lib/alltron_util'
 
 describe AlltronUtil do
   before(:each) do

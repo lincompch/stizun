@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'lib/ingram_util'
+require_relative '../lib/ingram_util'
 
 describe IngramUtil do
   before(:each) do

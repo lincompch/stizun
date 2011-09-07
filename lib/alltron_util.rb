@@ -74,7 +74,7 @@ class AlltronUtil < SupplierUtil
     
     # Set the variable sources here
   
-    require 'lib/alltron_csv'
+    require_relative 'alltron_csv'
     # TODO: Create Alltron's very own shipping rate right here, perhaps based ona config file
     AlltronUtil.create_shipping_rate
     @supplier = Supplier.find_or_create_by_name(:name => 'Alltron AG')

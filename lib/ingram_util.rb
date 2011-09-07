@@ -64,7 +64,7 @@ class IngramUtil < SupplierUtil
     
     # Set the variable sources here
   
-    require 'lib/ingram_csv'
+    require_relative 'ingram_csv'
     
     IngramUtil.create_shipping_rate
     @supplier = Supplier.find_or_create_by_name(:name => 'Ingram Micro GmbH')
