@@ -153,7 +153,7 @@ class SupplierUtil
     require 'iconv'
     category = supplier.category
     category_string = `#{category_string_cmd(file_name)}`
-
+    category_string = Iconv.conv('utf-8', 'iso-8859-1', category_string)
     category_string.split("\n").each do |line|
       categories = line.split("\t")
   

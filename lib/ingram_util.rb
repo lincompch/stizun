@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'supplier_util'
 
 class IngramUtil < SupplierUtil
@@ -71,7 +72,7 @@ class IngramUtil < SupplierUtil
     @supplier.category = Category.find_or_create_by_name(:name => 'Ingram Micro GmbH')
     
     icsv = IngramCSV.new(filename)
-    @fcsv = icsv.get_faster_csv_instance
+    @fcsv = icsv.get_csv_instance
 
     @field_names = {:name01 => 'HERSTELLER',
                     :name02 => 'ARTIKEL1',

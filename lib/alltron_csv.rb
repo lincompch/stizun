@@ -1,3 +1,4 @@
+# encoding: utf-8
 # The Alltron CSV file has these fields:
 # 0                  1               2               3               4               5           6                      7
 # Artikelnummer 2    Artikelnummer   Bezeichung      Bezeichung 2    Lagerbestand    Gewicht     Preis (inkl. MWSt)      Preis (exkl. MWSt)
@@ -12,7 +13,6 @@
 # EAN-Code        Lieferdatum     Ausverkaufsartikel      Discountpreis
 
 require 'rubygems'
-require 'fastercsv'
 require 'iconv'
 require 'active_record'
 require 'alltron_util'
@@ -23,14 +23,12 @@ class AlltronCSV
     @infile = import_filename
   end
 
-  def get_faster_csv_instance
+  def get_csv_instance
     # Setting quote_char to 7.chr (BELL) because that doesn't actually appear in the file, and the file uses no quoting at all, but does
     # use ' sometimes and " a lot, so neither ' nor " can be used as quote_char.
-    return @fastercsv ||= FasterCSV.new(File.open(@infile), :col_sep => "\t", :quote_char => 7.chr, :headers => :first_row)
-   
+    return @csv ||= CSV.open(@infile, {:col_sep => "\t", :quote_char => 7.chr, :headers => :first_row, :converters => "rb:iso-8859-1:UTF-8"})
     
   end
-
 
   def print_debug(a)
     puts "A0: " + a[0] # model number

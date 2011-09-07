@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'supplier_util'
 
 class AlltronUtil < SupplierUtil
@@ -81,8 +82,7 @@ class AlltronUtil < SupplierUtil
     @supplier.category = Category.find_or_create_by_name(:name => 'Alltron AG')
     
     acsv = AlltronCSV.new(filename)
-    @fcsv = acsv.get_faster_csv_instance
-    
+    @fcsv = acsv.get_csv_instance
     @field_names = {:name01 => 'Bezeichung',
                     :name02 => 'Bezeichung 2',
                     :name03 => '',
