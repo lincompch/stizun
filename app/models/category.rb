@@ -78,7 +78,7 @@ class Category < ActiveRecord::Base
 
   def generate_ancestry
     # callbacks have to be turned off - to avoid loop execution
-    puts self.ancestor_chain.map(&:id).join("/")
+    #puts self.ancestor_chain.map(&:id).join("/")
     Category.skip_callback("save", :after, :generate_ancestry)
     update_attributes(:ancestry => self.ancestor_chain.map(&:id).join("/"))
     Category.set_callback("save", :after, :generate_ancestry)

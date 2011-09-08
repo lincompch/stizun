@@ -32,7 +32,7 @@ class IngramUtil < SupplierUtil
 
       category_string.split("\n").each do |line|
         categories = line.split("\t")
-        puts categories.inspect
+        #puts categories.inspect
         
         # TODO: Make sure categories always know their place in the tree, even if
         # lower-level branches have the same name as higher-level ones

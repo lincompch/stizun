@@ -16,7 +16,7 @@ class IngramCSV
 
     # Setting quote_char to 7.chr (BELL) because that doesn't actually appear in the file, and the file uses no quoting at all, but does
     # use ' sometimes and " a lot, so neither ' nor " can be used as quote_char.
-    return @csv ||= CSV.open(@infile, {:col_sep => "\t", :quote_char => 7.chr, :headers => :first_row, :converters => "rb:iso-8859-1:UTF-8"})
+    return @csv ||= CSV.open(@infile, {:col_sep => "\t", :row_sep => "\r\n", :quote_char => 7.chr, :headers => :first_row, :converters => "rb:iso-8859-1:UTF-8"})
     
   end
 end
