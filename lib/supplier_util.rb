@@ -1,5 +1,4 @@
 # encoding: utf-8
-
 class SupplierUtil
   
   def supplier_logger
@@ -8,22 +7,33 @@ class SupplierUtil
   
 # Synchronize all supply items from a supplier's provided CSV file
   def import_supply_items(filename = self.import_filename)
-    require 'iconv'
-
     # before calling this in a descended class, you must set up these variables:
-    # TODO
+    # @supplier = The supplier to import for (an AR object)
+    # @fcsv = a CSV instance pointing to the file to import
+    # @field_names = an array of field names to import, what they're called in the
+    #                CSV file and where to import them to. example:
+    #
+    #     @field_names = {:name01 => 'Bezeichung',
+    #                    :name02 => 'Bezeichung 2',
+    #                    :name03 => '',
+    #                    :description01 => 'Webtext',
+    #                    :description02 => 'Webtext 2'}
+                    
     root_category = @supplier.category
     SupplyItem.suspended_delta do
         
       received_codes = []
+        
+      
       @fcsv.each do |sp|
         # Keep track of which products we received, so we can later determine which ones
         # we are stocking but shouldn't be stocking anymore
+
         received_codes << sp[@field_names[:supplier_product_code]]
+
         # check if we have product too
         local_supply_item = SupplyItem.where(:supplier_id => @supplier.id, 
                                              :supplier_product_code => sp[@field_names[:supplier_product_code]]).first
-        
         # We do not have that supply item yet
         if local_supply_item.nil?
           si = SupplierUtil.supply_item_from_csv_row(@supplier, sp, @field_names)
@@ -41,14 +51,14 @@ class SupplierUtil
         else
           overwrite_field(local_supply_item, "purchase_price", sp[@field_names[:price_excluding_vat]].to_s) unless sp[@field_names[:price_excluding_vat]].to_f == 0
           overwrite_field(local_supply_item, "stock", sp[@field_names[:stock_level]].gsub("'","").to_i)
-          overwrite_field(local_supply_item, "manufacturer", Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:manufacturer]]))
+          overwrite_field(local_supply_item, "manufacturer", sp[@field_names[:manufacturer]])
           overwrite_field(local_supply_item, "manufacturer_product_code", sp[@field_names[:manufacturer_product_code]])
-          overwrite_field(local_supply_item, "category01", "#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category01]])}")
-          overwrite_field(local_supply_item, "category02", "#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category02]])}")
-          overwrite_field(local_supply_item, "category03", "#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category03]])}")
-          overwrite_field(local_supply_item, "category_id", root_category.category_from_csv("#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category01]])}",
-              "#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category02]])}", 
-              "#{Iconv.conv('utf-8', 'iso-8859-1', sp[@field_names[:category03]])}"))
+          overwrite_field(local_supply_item, "category01", "#{sp[@field_names[:category01]]}")
+          overwrite_field(local_supply_item, "category02", "#{sp[@field_names[:category02]]}")
+          overwrite_field(local_supply_item, "category03", "#{sp[@field_names[:category03]]}")
+          overwrite_field(local_supply_item, "category_id", root_category.category_from_csv("#{sp[@field_names[:category01]]}",
+              "#{sp[@field_names[:category02]]}", 
+              "#{sp[@field_names[:category03]]}"))
           unless local_supply_item.changes.empty?
             changes = local_supply_item.changes
             if local_supply_item.save
@@ -107,7 +117,6 @@ class SupplierUtil
 
   
   def self.supply_item_from_csv_row(supplier, row, field_names)
-    require 'iconv'
  
     si = supplier.supply_items.new
     si.supplier_product_code = row[field_names[:supplier_product_code]]
@@ -115,11 +124,9 @@ class SupplierUtil
     si.name += " #{row[field_names[:name02]].to_s.gsub("ß","ss")}" unless field_names[:name02].blank?
     si.name += " (#{row[field_names[:name03]].to_s.gsub("ß","ss")})" unless field_names[:name03].blank?
     
-    si.name = Iconv.conv('utf-8', 'iso-8859-1', si.name)
     si.name = si.name.strip
     
     si.manufacturer = "#{row[field_names[:manufacturer]]}"
-    si.manufacturer = Iconv.conv('utf-8', 'iso-8859-1', si.manufacturer)
     
     si.product_link = "#{row[field_names[:product_link]]}"
     si.pdf_url= "#{row[field_names[:pdf_url]]}"
@@ -129,7 +136,6 @@ class SupplierUtil
     
     si.description = "#{row[field_names[:description01]].to_s.gsub("ß","ss")}"
     si.description += "#{row[field_names[:description02]].to_s.gsub("ß","ss")}" unless field_names[:description02].blank? 
-    si.description = Iconv.conv('utf-8', 'iso-8859-1', si.description)
     si.description = si.description.strip
     
     si.purchase_price = BigDecimal.new(row[field_names[:price_excluding_vat]].to_s.gsub(",","."))
@@ -139,40 +145,40 @@ class SupplierUtil
     
     si.image_url = "#{row[field_names[:image_url]]}" unless field_names[:image_url].blank?
 
-    si.category01 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category01]])}"
-    si.category02 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category02]])}" 
-    si.category03 = "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category03]])}"
+    si.category01 = "#{row[field_names[:category01]]}"
+    si.category02 = "#{row[field_names[:category02]]}" 
+    si.category03 = "#{row[field_names[:category03]]}"
 
-    si.category_id = supplier.category.category_from_csv("#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category01]])}",
-              "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category02]])}", 
-              "#{Iconv.conv('utf-8', 'iso-8859-1', row[field_names[:category03]])}")
+    si.category_id = supplier.category.category_from_csv("#{row[field_names[:category01]]}",
+              "#{row[field_names[:category02]]}", 
+              "#{row[field_names[:category03]]}")
     return si
   end
   
   def self.create_category_tree(supplier, file_name)
-    require 'iconv'
     category = supplier.category
     category_string = `#{category_string_cmd(file_name)}`
-    category_string = Iconv.conv('utf-8', 'iso-8859-1', category_string)
+    ec = Encoding::Converter.new("ISO-8859-15","UTF-8")
+    category_string = ec.convert(category_string)
     category_string.split("\n").each do |line|
       categories = line.split("\t")
   
       unless categories[0].blank?
         category.reload
-        root = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[0])}", 1, supplier)
+        root = category.find_or_create_by_name("#{categories[0]}", 1, supplier)
         root.save
       end
       
       unless categories[1].blank?
         category.reload
-        level2 = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[1])}", 2, supplier)
+        level2 = category.find_or_create_by_name("#{categories[1]}", 2, supplier)
         level2.parent = root
         level2.save
       end             
 
       unless categories[2].blank?
         category.reload
-        level3 = category.find_or_create_by_name("#{Iconv.conv('utf-8', 'iso-8859-1', categories[2] )}", 3, supplier)
+        level3 = category.find_or_create_by_name("#{categories[2]}", 3, supplier)
         level3.parent = level2
         level3.save
       end        
