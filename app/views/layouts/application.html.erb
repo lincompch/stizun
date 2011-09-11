@@ -1,14 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" > 
- 
-  <head> 
-  
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
-    <title>Lincomp</title> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" >
+
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Lincomp</title>
     <%= csrf_meta_tag %>
 
-    <%= #stylesheet_link_tag "general" 
-    %>
     <%= stylesheet_link_tag "templates/lincomp/stylesheet", :media => "all" %>
     <%= stylesheet_link_tag "jquery-ui/smoothness/jquery-ui-1.8.6.custom.css", :media => "all" %>
     <%= stylesheet_link_tag "templates/lincomp/errors", :media => "all" %>
@@ -21,24 +19,24 @@
     <%= javascript_include_tag "jquery.treeview/treeview.js" %>
     <%= javascript_include_tag "jExpand" %>
 
-  </head> 
- 
-  <body id="indexHomeBody"> 
+  </head>
+
+  <body id="indexHomeBody">
 
     <div id="wrapper">
-      
+
       <div id="page">
-      
-        
+
+
         <div id="header">
           <div id="logo"><%= link_to image_tag("templates/lincomp/logo.png"), root_path %></div>
         </div>
-        
+
         <!-- #### NAV START #### -->
         <div id="nav">
           <div id="nav_menu">
           <ul>
-            <li class="nav_menu_item"><%= link_to "Home", root_path %></a></li>            
+            <li class="nav_menu_item"><%= link_to "Home", root_path %></a></li>
             <% unless user_signed_in?%>
               <li class="nav_menu_item"><%= link_to "Einloggen", new_user_session_path %></li>
               <li class="nav_menu_item"><%= link_to "Konto erstellen", new_user_registration_path %></li>
@@ -52,26 +50,26 @@
             <li class="nav_menu_item"><%= link_to "Kontakt", :controller => 'page', :action => 'contact' %></a></li>
 
           </ul>
-           
-            
+
+
           </div>
           <div id="nav_rightbox">
-         
+
           </div>
         </div>
-        <!-- #### NAV STOP #### -->     
-      
+        <!-- #### NAV STOP #### -->
+
 
         <div id="content">
 
           <div id="ct_main">
-           
+
            <!-- #### CONTENT START #### -->
 
             <!-- bof  breadcrumb -->
-            
+
             <div id="navBreadCrumb"><%= categories_breadcrumb_path(@category, linked = true) if @category %></div>
-        
+
             <!-- eof breadcrumb -->
 
             <% flash.each do |name, msg| %>
@@ -79,46 +77,46 @@
             <% end %>
 
 
-     
+
             <%= yield %>
-           
+
           </div>
           <!-- #### /CONTENT MAIN #### -->
-  
+
           <!-- RIGHT COLUMN -->
           <div id="rightcolumn">
                   <% @cart = Cart.get_from_session(session) %>
                   <%= render :partial => 'carts/sidebar_box' %>
 
-                  <div class="box" id="search_box"> 
-                    <div class="box_hd"> 
-                        <h3 class="rightBoxHeading">Produktsuche</h3> 
-                    </div> 
-                    <div class="box_ct"> 
+                  <div class="box" id="search_box">
+                    <div class="box_hd">
+                        <h3 class="rightBoxHeading">Produktsuche</h3>
+                    </div>
+                    <div class="box_ct">
                       <div id="categoriesContent" class=" sideBoxContent centeredContent">
                         <%= render :partial => 'shared/product_search_box' %>
                       </div>
-                      </div> 
-                    <div class="box_ft"> 
+                      </div>
+                    <div class="box_ft">
                         &nbsp;
-                    </div> 
-                  </div> 
+                    </div>
+                  </div>
 
 
-                  <div class="box" id="category_box"> 
-                    <div class="box_hd"> 
-                        <h3 class="rightBoxHeading">Kategorien</h3> 
-                    </div> 
+                  <div class="box" id="category_box">
+                    <div class="box_hd">
+                        <h3 class="rightBoxHeading">Kategorien</h3>
+                    </div>
                     <div class="box_ct">
                       <div id="categoriesContent" class=" sideBoxContent centeredContent">
                         <%= render :partial => 'shared/category_tree' %>
                       </div>
-                      </div> 
-                    <div class="box_ft"> 
+                      </div>
+                    <div class="box_ft">
                         &nbsp;
-                    </div> 
-                  </div> 
-  
+                    </div>
+                  </div>
+
 
                   <% unless FeedEntry.count == 0 %>
                   <div class="box">
@@ -138,26 +136,26 @@
 
 
             </div>
-                  
+
             <%= image_tag("templates/lincomp/gnu_and_pingu_small.png", :style => 'margin-left: 15px;') %>
-            
+
              <div style="margin-top: 20px; margin-right: 20px; color: #ccc; text-align: right; font-size: 8pt;">Tux character &copy; Larry Ewing, Simon Budig and Anja Gerwinski</div>
-             
+
           </div>
           <!-- /RIGHT COLUMN -->
 
-       
-              
+
+
          <!-- #### FOOTER START #### -->
-       
+
           <div id="footer">
               <div id="ft_top">Lincomp - Linux computers, Linux compatibility
-                            
+
               </div>
 
               <div id="ft_btm">
                   <div id="ft_left">
-                                 
+
 
                   </div>
 
@@ -170,18 +168,19 @@
 
 
           </div>
-          
+
           <!-- #### FOOTER STOP #### -->
-        
+
         </div>
         <!-- END CONTENT -->
-        
+
       </div>
       <!-- /PAGE -->
-      
+
     </div>
     <!-- /WRAPPER -->
 
 
   </body>
-</html> 
+</html>
+
