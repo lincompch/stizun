@@ -158,8 +158,6 @@ class SupplierUtil
   def self.create_category_tree(supplier, file_name)
     category = supplier.category
     category_string = `#{category_string_cmd(file_name)}`
-    ec = Encoding::Converter.new("ISO-8859-15","UTF-8")
-    category_string = ec.convert(category_string)
     category_string.split("\n").each do |line|
       categories = line.split("\t")
   

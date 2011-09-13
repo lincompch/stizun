@@ -16,18 +16,24 @@ require 'rubygems'
 require 'iconv'
 require 'active_record'
 require 'alltron_util'
+require 'supplier_csv'
 
-class AlltronCSV
+class AlltronCSV < SupplierCSV
   
+  # TODO: Remove messy and confused handling of filenames all over the place
   def initialize(import_filename = AlltronUtil.import_filename)    
     @infile = import_filename
+    super
   end
 
-  def get_csv_instance
+  def get_csv_instance    
     # Setting quote_char to 7.chr (BELL) because that doesn't actually appear in the file, and the file uses no quoting at all, but does
-    # use ' sometimes and " a lot, so neither ' nor " can be used as quote_char.
-     
-      return @csv ||= CSV.open(@infile, "r:ISO-8859-15:UTF-8", {:col_sep => "\t",:row_sep => "\r\n", :quote_char => 7.chr, :headers => :first_row})
+    # use ' sometimes and " a lot, so neither ' nor " can be used as quote_char. 
+    
+    # The file mode "r" prevents Ruby's File::open from dropping into binary-read mode, which would mess up
+    # all further handling of the strings read from the CSV file. They would be in ASCII-8BIT, which is
+    # useless, we need them in UTF-8.
+    return @csv ||= CSV.open(@infile, "r", {:col_sep => "\t", :quote_char => 7.chr, :headers => :first_row})   
   end
 
   def print_debug(a)
