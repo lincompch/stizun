@@ -3,20 +3,26 @@
 require 'rubygems'
 require 'active_record'
 require 'ingram_util'
+require 'supplier_csv'
 
-class IngramCSV
+class IngramCSV < SupplierCSV
 
   attr_reader :infile
   
   def initialize(import_filename)    
     @infile = import_filename
+    super
   end
 
   def get_csv_instance
 
     # Setting quote_char to 7.chr (BELL) because that doesn't actually appear in the file, and the file uses no quoting at all, but does
     # use ' sometimes and " a lot, so neither ' nor " can be used as quote_char.
-    return @csv ||= CSV.open(@infile, {:col_sep => "\t", :row_sep => "\r\n", :quote_char => 7.chr, :headers => :first_row, :converters => "rb:iso-8859-1:UTF-8"})
+    
+    # The file mode "r" prevents Ruby's File::open from dropping into binary-read mode, which would mess up
+    # all further handling of the strings read from the CSV file. They would be in ASCII-8BIT, which is
+    # useless, we need them in UTF-8.
+    return @csv ||= CSV.open(@infile, "r", {:col_sep => "\t", :quote_char => 7.chr, :headers => :first_row})
     
   end
 end

@@ -71,7 +71,7 @@ When /^I assign the product to the category "([^\"]*)"$/ do |arg1|
 end
 
 
-Then /^(?:|I )should see "([^"]*)" within the fancybox$/ do |text|
+Then /^(?:|I )should see "([^"]*)" in the fancybox$/ do |text|
   within_frame "fancybox-frame" do
     page.should have_content(text)
   end
