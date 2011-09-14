@@ -36,7 +36,7 @@ Feature: Create and manage products
       And I select the tax class "MwSt 8.0%"
       And I assign the product to the category "Notebooks"
       And I click the create button
-      Then I should see "Product created." within the fancybox
+      Then show me the page
       And there should be a product called "Lenovo T400"
       And the category "Notebooks" should contain a product named "Lenovo T400"
 
@@ -54,3 +54,4 @@ Feature: Create and manage products
       And I click the create button
       Then I should see an error message inside the fancybox
       And there should not be a product called "Lenovo T500"
+
