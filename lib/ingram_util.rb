@@ -190,9 +190,11 @@ class IngramUtil < SupplierUtil
       http.start do |http|
         req = Net::HTTP::Get.new(path)
         req.basic_auth(username, password)
+        logger.info "[#{DateTime.now.to_s}] Sending request to path: #{path}" 
         response = http.request(req)
 
         if response.code == "200"
+          logger.info "[#{DateTime.now.to_s}] Response body: #{response.body.split("\n").join("|")}"
           total_changes = []
           update_lines = response.body.split("\n")
           update_lines.each do |line|
