@@ -36,9 +36,11 @@ class Product < ActiveRecord::Base
   scope :on_sale, :conditions => { :sale_state => true }
   scope :having_unavailable_supply_item, joins(:supply_item).where("supply_items.status_constant != #{SupplyItem::AVAILABLE}")
   
+  
+  # === AR callbacks
   before_save :set_explicit_sale_state, :cache_calculations
   after_create :try_to_get_product_files
-  before_save :update_notifications
+  before_save :update_notifications, :sync_supply_item_information
   
   def update_notifications
     price_relevant_fields = ["purchase_price", "sales_price", "margin_percentage"]
@@ -289,7 +291,11 @@ class Product < ActiveRecord::Base
     p.purchase_price = si.purchase_price
     # Can be improved by flexibly reading the tax percentage from the CSV file in a first
     # step and then assigning it to a supply item, and THEN reading a proper TaxClass object from there
-    p.tax_class = TaxClass.find_by_percentage("8.0")
+    unless si.tax_class.nil?
+      p.tax_class = si.tax_class
+    else
+      p.tax_class = TaxClass.find_by_percentage("8.0")
+    end
     p.margin_percentage = 5.0
     p.supplier_id = si.supplier_id
     p.supply_item_id = si.id
@@ -478,12 +484,12 @@ class Product < ActiveRecord::Base
   end
   
   def sync_from_supply_item(supply_item = self.supply_item)
-    self.stock = self.supply_item.stock
-    self.purchase_price = self.supply_item.purchase_price
-    self.manufacturer = self.supply_item.manufacturer
-    self.manufacturer_product_code = self.supply_item.manufacturer_product_code
-    self.supplier_product_code = self.supply_item.supplier_product_code
-    self.supplier = self.supply_item.supplier
+    self.stock = supply_item.stock
+    self.purchase_price = supply_item.purchase_price
+    self.manufacturer = supply_item.manufacturer
+    self.manufacturer_product_code = supply_item.manufacturer_product_code
+    self.supplier_product_code = supply_item.supplier_product_code
+    self.supplier = supply_item.supplier
     changes = self.changes
     result = self.save
     if result == true
@@ -517,6 +523,11 @@ class Product < ActiveRecord::Base
 
   end
 
+  def sync_supply_item_information
+    if supply_item_id_changed?
+      return self.sync_from_supply_item
+    end
+  end
 
   def self.export_available_to_csv(filename)
 

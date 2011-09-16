@@ -53,6 +53,7 @@ group :cucumber, :test, :development do
   gem 'launchy'
   gem 'ruby-debug19'
   gem 'steak'
+  gem 'ZenTest'
 end
 
 group :development do
