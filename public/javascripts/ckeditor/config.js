@@ -10,22 +10,22 @@ CKEDITOR.editorConfig = function( config )
   config.language = 'en';
   // config.uiColor = '#AADC6E';
 
-  //config.ContextMenu = ['Generic','Anchor','Flash','Select','Textarea','Checkbox','Radio','TextField','HiddenField','ImageButton','Button','BulletedList','NumberedList','Table','Form'] ; 
-  
+  //config.ContextMenu = ['Generic','Anchor','Flash','Select','Textarea','Checkbox','Radio','TextField','HiddenField','ImageButton','Button','BulletedList','NumberedList','Table','Form'] ;
+
   config.height = '400px';
   config.width = '600px';
-  
+
   //config.resize_enabled = false;
   //config.resize_maxHeight = 2000;
   //config.resize_maxWidth = 750;
-  
+
   //config.startupFocus = true;
-  
+
   // works only with en, ru, uk languages
   config.extraPlugins = "embed,attachment";
-  
+
   config.toolbar = 'Stizun';
-  
+
   config.toolbar_Easy =
     [
         ['Source','-','Preview','Templates'],
@@ -39,7 +39,7 @@ CKEDITOR.editorConfig = function( config )
         ['Link','Unlink','Anchor'],
         ['Image','Embed','Flash','Attachment','Table','HorizontalRule','Smiley','SpecialChar','PageBreak']
     ];
-  
+
   config.toolbar_Stizun =
     [
         ['Source','-','Preview','Templates'],
@@ -67,3 +67,4 @@ CKEDITOR.addStylesSet( 'my_styles',
     { name : 'CSS Style', element : 'span', attributes : { 'class' : 'my_style' } },
     { name : 'Marker: Yellow', element : 'span', styles : { 'background-color' : 'Yellow' } }
 ]);
+

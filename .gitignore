@@ -14,7 +14,7 @@ db/schema.rb
 .AppleDouble/
 *.o
 *.so
-
+.sass-cache/
 # Logs
 vendor/gems/*.log
 
@@ -47,3 +47,4 @@ log/*.log
 config/*.sphinx.conf
 tmp/**/*
 public/system/files/**/*
+

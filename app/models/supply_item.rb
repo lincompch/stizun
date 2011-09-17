@@ -76,9 +76,6 @@ class SupplyItem < ActiveRecord::Base
   scope :rejected, :conditions => { :workflow_status_constant => SupplyItem::REJECTED }
   scope :checked, :conditions => { :workflow_status_constant => SupplyItem::CHECKED }
 
-  scope :keyword, lambda {|str| where(:description.matches % "%#{str}%" | :supplier_product_code.matches % "%#{str}%" | :manufacturer_product_code.matches % "%#{str}%" )}
-  search_methods :keyword
-
   # Thinking Sphinx configuration
   # Must come AFTER associations
   define_index do

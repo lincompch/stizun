@@ -16,7 +16,7 @@
 <%=
   # Can't seem to use this partial here, because the product is not yet saved and
   # has no id at this time. Must improve at some point.
-  #render :partial => 'product_picture_info', :locals => { :product => @product } 
+  #render :partial => 'product_picture_info', :locals => { :product => @product }
 %>
 
 <h4>Product properties</h4>
@@ -54,23 +54,23 @@
 
       <tr>
         <td><%= f.label :description_editor, "Description" %></td>
-        <td><%= #f.cktext_area :description, :toolbar=>'Stizun', :width=>'600px', :height=>'250px' 
-        %>
+        <td><%= f.cktext_area :description, :toolbar=>'Stizun', :width=>'600px', :height=>'250px'  %>
         <a href="#" onClick="toggle_ckeditor();">Toggle WYSIWYG editor</a><br>
-        <%= f.text_area :description, :id => 'product_description_editor', :rows => 25, :cols => 70 %></td>
-        
+
+          </td>
+
       </tr>
       <script type="text/javascript">
 
         /* Load CKEditor for description field no matter what */
-
-        if (CKEDITOR.instances.product_description_editor) {       
+        /*
+        if (CKEDITOR.instances.product_description_       editor) {
           CKEDITOR.instances.product_description_editor.destroy();
-        } 
-        insert_ckeditor();
-          
+         }
+        insert_cke          ditor();
+
         function insert_ckeditor() {
-          CKEDITOR.replace('product_description_editor', 
+          CKEDITOR.replace('product_description _editor',
                               { filebrowserBrowseUrl: '/ckeditor/files',
                                 filebrowserUploadUrl: '/ckeditor/create/file',
                                 filebrowserImageBrowseUrl: '/ckeditor/images',
@@ -83,30 +83,31 @@
 
         function toggle_ckeditor() {
 
-          if (CKEDITOR.instances.product_description_editor) {       
+          if (CKEDITOR.instances.product_description_       editor) {
             CKEDITOR.instances.product_description_editor.destroy();
           } else {
             insert_ckeditor();
           }
-        }
+      }
+        */
 
       </script>
 
-      </table>
+        </table>
   </td>
-  
+
   <td>
-        <%= render :partial => 'category_editor', :locals => { :f => f, :product => @product } %>
+        <%= render :partial => 'category_editor', :locals => { :f => f, :product => @product }   %>
   </td>
-  </tr>  
+    </tr>
 </table>
-  
-  
-  <hr>
+
+
+    <hr>
   <table>
 
 
-  
+
   <tr>
     <td><%= f.label :weight, "Weight in kg" %></td>
     <td><%= f.text_field :weight, :size => 5 %></td>
@@ -184,4 +185,5 @@
  <%= link_to 'Close', :onclick => '$.fancybox.close();' %>
 <% end %>
 
-<p>Note: This form only allows creation of prodcuts using the most basic product information. Additional items such as categories etc. are assigned in a later step.</p>
+<p>Note: This form only allows creation of prodcuts using the most basic product information. Additional items such as categories etc. are assigned ina later step.</p>
+

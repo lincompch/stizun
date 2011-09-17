@@ -4,7 +4,13 @@ require 'rails/all'
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+# Bundler.require(:default, Rails.env) if defined?(Bundler)
+if defined?(Bundler)
+  # If you precompile assets before deploying to production, use this line
+  Bundler.require *Rails.groups(:assets => %w(development test))
+  # If you want your assets lazily compiled in production, use this line
+  # Bundler.require(:default, :assets, Rails.env)
+end
 
 module Stizun
   class Application < Rails::Application
@@ -29,7 +35,7 @@ module Stizun
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :"de-CH"
-    
+
     # For some reason, on some servers Rails is stubborn and will _not_ respect default_locale. That's
     # why we set locale explicitly.
     config.i18n.locale = :"de-CH"
@@ -45,14 +51,15 @@ module Stizun
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
-    
+
     # For CKEditor Rails integration (mostly for the uploads, which we've disabled)
     config.autoload_paths += %W( #{config.root}/app/models/ckeditor )
 
+    # Enable the asset pipeline
+    config.assets.enabled = true
 
-    
+    # Version of your assets, change this if you want to expire all your assets
+    config.assets.version = '1.0'
   end
 end
 
-WillPaginate::ViewHelpers.pagination_options[:previous_label] = '&lt;&lt;'
-WillPaginate::ViewHelpers.pagination_options[:next_label] = '&gt;&gt;'
