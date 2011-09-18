@@ -1,3 +1,12 @@
+silence_warnings do
+  begin
+    require 'pry'
+    IRB = Pry
+  rescue LoadError
+  end
+end
+
+
 Stizun::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 

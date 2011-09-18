@@ -48,6 +48,7 @@ GEM
     ckeditor (3.4.2.pre)
       mime-types (>= 1.16)
     cocaine (0.2.0)
+    coderay (0.9.8)
     columnize (0.3.4)
     cucumber (1.0.3)
       builder (>= 2.1.2)
@@ -110,6 +111,8 @@ GEM
       activerecord (~> 3.0.0)
       activesupport (~> 3.0.0)
       arel (~> 2.0.7)
+    method_source (0.6.5)
+      ruby_parser (>= 2.0.5)
     mime-types (1.16)
     mini_magick (3.3)
       subexec (~> 0.1.0)
@@ -122,6 +125,14 @@ GEM
       cocaine (>= 0.0.2)
       mime-types
     polyglot (0.3.2)
+    pry (0.9.5)
+      coderay (>= 0.9.8)
+      method_source (>= 0.6.5)
+      ruby_parser (>= 2.0.5)
+      slop (~> 2.1.0)
+    pry-doc (0.3.0)
+      pry (>= 0.9.0)
+      yard (>= 0.6.4)
     rack (1.2.3)
     rack-mount (0.6.14)
       rack (>= 1.0.0)
@@ -171,6 +182,8 @@ GEM
     ruby-progressbar (0.0.10)
     ruby_core_source (0.1.5)
       archive-tar-minitar (>= 0.5.2)
+    ruby_parser (2.3.0)
+      sexp_processor (~> 3.0)
     rubyzip (0.9.4)
     sanitize (2.0.3)
       nokogiri (< 1.6, >= 1.4.4)
@@ -181,11 +194,10 @@ GEM
       ffi (>= 1.0.7)
       json_pure
       rubyzip
+    sexp_processor (3.0.6)
+    slop (2.1.0)
     spork (0.9.0.rc9)
     spruz (0.2.13)
-    steak (2.0.0)
-      capybara (>= 1.0.0)
-      rspec-rails (>= 2.5.0)
     subexec (0.1.0)
     term-ansicolor (1.0.6)
     thinking-sphinx (2.0.7)
@@ -200,9 +212,9 @@ GEM
     warden (1.0.5)
       rack (>= 1.0)
     will_paginate (2.3.16)
-    wirble (0.1.3)
     xpath (0.1.4)
       nokogiri (~> 1.3)
+    yard (0.7.2)
 
 PLATFORMS
   ruby
@@ -228,6 +240,8 @@ DEPENDENCIES
   mini_magick
   mysql2 (< 0.3.0)
   paperclip
+  pry
+  pry-doc
   rack-ssl-enforcer
   rails (= 3.0.10)
   rails3-generators
@@ -236,8 +250,6 @@ DEPENDENCIES
   ruby-progressbar
   sanitize
   spork (= 0.9.0.rc9)
-  steak
   thinking-sphinx
   uuidtools
   will_paginate (< 3.0.0)
-  wirble

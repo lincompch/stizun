@@ -52,11 +52,7 @@ group :cucumber, :test, :development do
   gem 'spork', '0.9.0.rc9'
   gem 'launchy'
   gem 'ruby-debug19'
-  gem 'steak'
   gem 'ZenTest'
+  gem 'pry'
+  gem 'pry-doc'
 end
-
-group :development do
-  gem 'wirble'
-end
-
