@@ -73,18 +73,18 @@ describe Product do
     it "should have its supply item product code updated when its supply item changes" do
       tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
       supplier = create_supplier("Some Company 1")
-      supplier.supply_items.create(:name => "Switchable Supply Item", 
+      supplier.supply_items.create(:name => "Switchable Supply Item",
+                                   :description => "It's switchable",
                                   :purchase_price => 50.0, 
                                   :weight => 20.0, 
-                                  :tax_class => tax_class,
                                   :manufacturer_product_code => 'ABC',
                                   :supplier_product_code => '123')
       
       supplier2 = create_supplier("Some Company 2")
       supplier2.supply_items.create(:name => "Switchable Supply Item From Company 2", 
+                                    :description => "It's switchable, too!",
                                    :purchase_price => 10.0, 
                                    :weight => 20.0, 
-                                   :tax_class => tax_class,
                                    :manufacturer_product_code => 'ABC',
                                    :supplier_product_code => '12345')
       
@@ -95,7 +95,8 @@ describe Product do
       p.manufacturer_product_code.should == "ABC"
       p.supplier_product_code.should == "123"
       p.supplier.should == supplier
-      p.tax_class.should == si.tax_class
+      p.tax_class.should == tax_class
+      #debugger; puts "lala"
       p.save.should == true
       
       p.supply_item = supplier2.supply_items.first

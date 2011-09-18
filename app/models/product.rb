@@ -291,11 +291,7 @@ class Product < ActiveRecord::Base
     p.purchase_price = si.purchase_price
     # Can be improved by flexibly reading the tax percentage from the CSV file in a first
     # step and then assigning it to a supply item, and THEN reading a proper TaxClass object from there
-    unless si.tax_class.nil?
-      p.tax_class = si.tax_class
-    else
-      p.tax_class = TaxClass.find_by_percentage("8.0")
-    end
+    p.tax_class = TaxClass.find_or_create_by_percentage("8.0", {:name => "Auto-created default"})
     p.margin_percentage = 5.0
     p.supplier_id = si.supplier_id
     p.supply_item_id = si.id
@@ -477,6 +473,16 @@ class Product < ActiveRecord::Base
           # Nothing special to do to this product -- just update some fields
           else
             p.sync_from_supply_item(p.supply_item)
+            unless p.empty?
+              result = p.save
+              if result == true
+                unless changes.empty?
+                  History.add("Product update: #{p.to_s}. Changes: #{changes.inspect}", History::PRODUCT_CHANGE, p)
+                end
+              else
+                History.add("Product update failed: #{p.to_s}. Changes: #{changes.inspect}. Errors: #{self.errors.full_messages}", History::PRODUCT_CHANGE, p)
+              end
+            end
           end
         end
       end
@@ -491,15 +497,7 @@ class Product < ActiveRecord::Base
     self.supplier_product_code = supply_item.supplier_product_code
     self.supplier = supply_item.supplier
     changes = self.changes
-    result = self.save
-    if result == true
-      unless changes.empty?
-        History.add("Product update: #{self.to_s}. Changes: #{changes.inspect}", History::PRODUCT_CHANGE, p)
-      end
-    else
-      History.add("Product update failed: #{self.to_s}. Changes: #{changes.inspect}. Errors: #{self.errors.full_messages}", History::PRODUCT_CHANGE, p)
-    end
-    return result
+    return changes
   end
 
 
