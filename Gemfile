@@ -30,7 +30,7 @@ gem 'thinking-sphinx'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'paperclip'
-gem 'mysql'
+gem 'mysql2'
 gem 'erubis'
 gem 'will_paginate', "3.0.0"
 gem 'uuidtools'

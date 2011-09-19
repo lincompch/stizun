@@ -120,7 +120,7 @@ GEM
     mini_magick (3.3)
       subexec (~> 0.1.0)
     multi_json (1.0.3)
-    mysql (2.8.1)
+    mysql2 (0.3.7)
     nokogiri (1.5.0)
     orm_adapter (0.0.5)
     paperclip (2.4.1)
@@ -263,7 +263,7 @@ DEPENDENCIES
   later_dude (>= 0.3.1)
   launchy
   mini_magick
-  mysql
+  mysql2
   paperclip
   pry
   pry-doc
