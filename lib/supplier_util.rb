@@ -5,11 +5,11 @@ class SupplierUtil
     @supplier_logger ||= Logger.new("#{Rails.root}/log/supplier_import_#{DateTime.now.to_s.gsub(":","-")}.log")
   end
   
-# Synchronize all supply items from a supplier's provided CSV file
+  # Import supply items from a supplier-provided CSV file, but only if they're
+  # not present in our system yet.
   def import_supply_items(filename = self.import_filename)
     # before calling this in a descended class, you must set up these variables:
     # @supplier = The supplier to import for (an AR object)
-    # @fcsv = a CSV instance pointing to the file to import
     # @field_names = an array of field names to import, what they're called in the
     #                CSV file and where to import them to. example:
     #
@@ -21,17 +21,11 @@ class SupplierUtil
                     
     root_category = @supplier.category
     SupplyItem.suspended_delta do
-        
-      received_codes = []
-        
-      
-      @fcsv.each do |sp|
-        # Keep track of which products we received, so we can later determine which ones
-        # we are stocking but shouldn't be stocking anymore
+      File.open(filename, "r").each do |line|
+        sp = CSV.parse(line, csv_parse_options)
+        debugger; puts "lala"
 
-        received_codes << sp[@field_names[:supplier_product_code]]
-
-        # check if we have product too
+        # check if we have the supply item
         local_supply_item = SupplyItem.where(:supplier_id => @supplier.id, 
                                              :supplier_product_code => sp[@field_names[:supplier_product_code]]).first
         # We do not have that supply item yet
@@ -46,50 +40,77 @@ class SupplierUtil
             History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", History::SUPPLY_ITEM_CHANGE, si)
           end
         
-        # We already have that supply item and need to update supply item
+        # We already have that supply item and need to update that
         # and related product information
         else
-          overwrite_field(local_supply_item, "purchase_price", sp[@field_names[:price_excluding_vat]].to_s) unless sp[@field_names[:price_excluding_vat]].to_f == 0
-          overwrite_field(local_supply_item, "stock", sp[@field_names[:stock_level]].gsub("'","").to_i)
-          overwrite_field(local_supply_item, "manufacturer", sp[@field_names[:manufacturer]])
-          overwrite_field(local_supply_item, "manufacturer_product_code", sp[@field_names[:manufacturer_product_code]])
-          overwrite_field(local_supply_item, "category01", "#{sp[@field_names[:category01]]}")
-          overwrite_field(local_supply_item, "category02", "#{sp[@field_names[:category02]]}")
-          overwrite_field(local_supply_item, "category03", "#{sp[@field_names[:category03]]}")
-          overwrite_field(local_supply_item, "category_id", root_category.category_from_csv("#{sp[@field_names[:category01]]}",
-              "#{sp[@field_names[:category02]]}", 
-              "#{sp[@field_names[:category03]]}"))
-          unless local_supply_item.changes.empty?
-            changes = local_supply_item.changes
-            if local_supply_item.save
-              supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem change: #{local_supply_item.to_s}:  #{changes.inspect}")
-              #History.add("Supply item change: #{local_supply_item.to_s}: #{changes.inspect}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
-            else
-              History.add("Supply item change FAILED: #{local_supply_item.to_s}: #{local_supply_item.changes.inspect}. Errors: #{local_supply_item.errors.full_messages}", History::SUPPLY_ITEM_CHANGE, local_supply_item)
-            end
-          else
-            supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem identical, thus not changed: #{local_supply_item.to_s}")
-          end
+          update_supply_item(local_supply_item, sp)
         end
       end
       
-      # Find out which items we need to delete locally
-      total_codes = @supplier \
-                    .supply_items \
-                    .collect(&:supplier_product_code)
-      to_delete = total_codes - received_codes
-      to_delete.each do |td|
-        supply_item = SupplyItem.find_by_supplier_product_code(td)
-        
-        supply_item.status_constant = SupplyItem::DELETED
-        supply_item.save
-        History.add("Marked Supply Item with supplier code #{td} as deleted", History::SUPPLY_ITEM_CHANGE)
-      end
     end
     # Find out which categories are empty, and remove them from supplier's category tree
     root_category.children_categories.flatten.each do |category|
       if category.children.blank? && category.supply_items.empty? # LEAF with no supply_items
         remove_category(category)
+      end
+    end
+  end
+  
+  
+  # Goes through the existing supply items in the system, then tries to find each
+  # of them in the supplier CSV file. If that fails, the item is marked as deleted locally.
+  # If the item is there, we read the updated product information from the CSV file and update_supply_items
+  # supply item and its related products.
+  def update_supply_items(filename = self.import_filename)
+    SupplyItem.suspended_delta do
+      file = File.open(filename, "r")
+      @supplier.supply_items.each do |supply_item|
+        line = file.select { |line|
+                              line =~ /#{supplier_product_code_regex(supply_item.supplier_product_code)}/
+                          }.first
+        
+        # Deactivate the supply item if the line's not there anymore
+        if line.blank?
+          supply_item.status_constant = SupplyItem::DELETED
+          if supply_item.save
+            supplier_logger.info("[#{DateTime.now.to_s}] Marked Supply Item as deleted: #{supply_item.to_s}")
+          end
+          
+        #Update the local supply items information using the line from the CSV file
+        else
+          update_supply_item(supply_item, line)
+        end
+      end # suspended_delta
+      File.close(file)
+    end
+    
+    # If the 'line' option is an array, we assume that the line has already been CSV-parsed
+    # before passing into this. If it's a string, we need to parse it here.
+    def self.update_supply_item(supply_item, line)
+      if line.is_a?(String)
+        sp = CSV.parse(line, csv_parse_options)
+      else
+        sp = line
+      end
+      overwrite_field(supply_item, "purchase_price", sp[@field_names[:price_excluding_vat]].to_s) unless sp[@field_names[:price_excluding_vat]].to_f == 0
+      overwrite_field(supply_item, "stock", sp[@field_names[:stock_level]].gsub("'","").to_i)
+      overwrite_field(supply_item, "manufacturer", sp[@field_names[:manufacturer]])
+      overwrite_field(supply_item, "manufacturer_product_code", sp[@field_names[:manufacturer_product_code]])
+      overwrite_field(supply_item, "category01", "#{sp[@field_names[:category01]]}")
+      overwrite_field(supply_item, "category02", "#{sp[@field_names[:category02]]}")
+      overwrite_field(supply_item, "category03", "#{sp[@field_names[:category03]]}")
+      overwrite_field(supply_item, "category_id", root_category.category_from_csv("#{sp[@field_names[:category01]]}",
+          "#{sp[@field_names[:category02]]}", 
+          "#{sp[@field_names[:category03]]}"))
+      unless supply_item.changes.empty?
+        changes = supply_item.changes
+        if supply_item.save
+          supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem change: #{supply_item.to_s}:  #{changes.inspect}")
+        else
+          History.add("Supply item change FAILED: #{supply_item.to_s}: #{supply_item.changes.inspect}. Errors: #{supply_item.errors.full_messages}", History::SUPPLY_ITEM_CHANGE, supply_item)
+        end
+      else
+        supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem identical, thus not changed: #{supply_item.to_s}")
       end
     end
   end

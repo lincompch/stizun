@@ -2,9 +2,21 @@
 require 'supplier_util'
 
 class AlltronUtil < SupplierUtil
-  
+
   def self.category_string_cmd(file_name)
      "more +2 #{file_name} | cut -f 18-20 | sort -n | uniq | egrep -v '^[[:space:]]*$|^#'"
+  end
+  
+  # Returns a regex that can tell which position of the CSV line the supplier
+  # product code is in.
+  def self.supplier_product_code_regex(product_code)
+    "^#{product_code}"
+  end
+  
+  # What do the options look like to be able to parse a CSV line from this
+  # supplier?
+  def self.csv_parse_options
+    { :col_sep => "\t", :quote_char => 7.chr }
   end
   
   def self.data_directory
@@ -17,14 +29,12 @@ class AlltronUtil < SupplierUtil
     return @infile = self.data_directory + "AL_Artikeldaten.txt"
   end
   
-  
   # This makes sure the converted import filename is always overwritten with
   # importfile.converted.txt. A more sophisticated way might be necessary one day.
   def self.converted_filename
     return @outfile = self.data_directory + "importfile.converted.txt"
   end
       
-  
   # Processes the AL_Artikeldaten.txt CSV file to extract
   # all unique combinations of categories, then builds this category
   # tree in the system as belonging to Alltron as supplier.
