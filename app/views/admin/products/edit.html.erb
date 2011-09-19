@@ -65,23 +65,22 @@
 
     <tr>
       <td><%= f.label :description_editor, "Description" %></td>
-      <td><%= #f.cktext_area :description, :toolbar=>'Stizun', :width=>'600px', :height=>'250px' 
+      <td><%= f.cktext_area :description, :toolbar=>'Stizun', :width=>'600px', :height=>'250px'
       %>
       <a href="#" onClick="toggle_ckeditor();">Toggle WYSIWYG editor</a><br>
-      <%= f.text_area :description, :id => 'product_description_editor', :rows => 25, :cols => 70 %></td>
-      
+      </td>
     </tr>
     <script type="text/javascript">
 
       /* Load CKEditor for description field no matter what */
-
-      if (CKEDITOR.instances.product_description_editor) {       
+      /*
+      if (CKEDITOR.instances.product_description_editor) {
         CKEDITOR.instances.product_description_editor.destroy();
-      } 
+      }
       insert_ckeditor();
-        
+
       function insert_ckeditor() {
-        CKEDITOR.replace('product_description_editor', 
+        CKEDITOR.replace('product_description_editor',
                             { filebrowserBrowseUrl: '/ckeditor/files',
                               filebrowserUploadUrl: '/ckeditor/create/file',
                               filebrowserImageBrowseUrl: '/ckeditor/images',
@@ -94,13 +93,13 @@
 
       function toggle_ckeditor() {
 
-        if (CKEDITOR.instances.product_description_editor) {       
+        if (CKEDITOR.instances.product_description_editor) {
           CKEDITOR.instances.product_description_editor.destroy();
         } else {
           insert_ckeditor();
         }
       }
-
+      */
     </script>
 
   <tr>
@@ -115,8 +114,8 @@
       <%= render :partial => 'category_editor', :locals => { :f => f, :product => @product } %>
     </td>
   </tr>
-  
- 
+
+
 
 
 </table>
@@ -152,7 +151,7 @@
 
   <table>
 
- 
+
 
 
   <% if @product.componentized? %>
@@ -238,7 +237,7 @@
   <tr>
     <td> </td>
     <td><%= f.check_box :is_loss_leader %> Loss leader. This product's sales price may go below its purchase price, either through negative margins, a fixed sales price or large rebates.</td>
-  </tr>  
+  </tr>
 
 </table>
 
@@ -261,12 +260,12 @@
     </tr>
   <% end %>
 
- 
+
   <tr>
     <td><%= f.check_box :is_available %> </td>
     <td>Is available for sale at Lincomp</td>
   </tr>
-  
+
   <tr>
     <td><%= f.check_box :direct_shipping %> </td>
     <td>Ship directly to customer (this has no effect on products with components)</td>
@@ -291,3 +290,4 @@
 </div>
 
 <% end %>
+

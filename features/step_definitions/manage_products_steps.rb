@@ -21,10 +21,17 @@ When /^I create a product called "([^\"]*)"$/ do |arg1|
 
 end
 
+When /^I fill in "([^"]*)" in the CKEditor instance "([^"]*)"$/ do |value, input_id|
+  within_frame "fancybox-frame" do
+    browser = page.driver.browser
+    browser.execute_script("CKEDITOR.instances['#{input_id}'].setData('#{value}');")
+  end
+end
+
 When /^fill in the product description "([^\"]*)"$/ do |arg1|
  within_frame "fancybox-frame" do
-   click_link "Toggle WYSIWYG editor"
-   fill_in "Description", :with => arg1
+#   click_link "Toggle WYSIWYG editor"
+   fill_in "product_description", :with => arg1
  end
 end
 
@@ -83,3 +90,4 @@ Then /^I should see an error message inside the fancybox$/ do
     page.has_css?("#errorExplanation", :visible => true).should == true
   end
 end
+

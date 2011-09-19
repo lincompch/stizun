@@ -21,12 +21,21 @@ Stizun::Application.configure do
   # See everything in the log (default is :info)
   # config.log_level = :debug
 
+  # Compress JavaScript and CSS
+  config.assets.compress = true
+
+  # Don't fallback to assets pipeline
+  config.assets.compile = false
+
+  # Generate digests for assets URLs
+  config.assets.digest = true
+
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
 
   # Use a different cache store in production
   config.cache_store = :memory_store
-  
+
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
   config.serve_static_assets = false
@@ -46,11 +55,12 @@ Stizun::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
-  
+
   config.action_mailer.default_url_options = { :host => "www.lincomp.ch" }
 
   config.action_mailer.perform_deliveries = false
 
   config.middleware.use Rack::SslEnforcer, :only => [/^\/admin/, /^\/users/, /^\/orders/, /^\/login/, /\/^user_sessions/]
-  
+
 end
+

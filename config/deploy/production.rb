@@ -4,7 +4,7 @@ set :scm, :git
 set :repository, "git://github.com/psy-q/stizun.git"
 set :branch, "master"
 set :deploy_via, :remote_cache
-set :keep_releases, 2 
+set :keep_releases, 2
 
 set :use_sudo, false
 set :deploy_to, "/home/lincomp/production"
@@ -54,7 +54,9 @@ task :overwrite_custom do
   run "ln -s #{custom_directory} #{release_path}/custom"
 end
 
-
+taks :precompile_assets do
+  run "cd #{release_path} && bundle exec rake assets:precompile"
+end
 
 namespace :deploy do
    task :restart, :roles => :app, :except => { :no_release => true } do
@@ -64,7 +66,7 @@ namespace :deploy do
 
    task :after_deploy do
      cleanup
-   end 
+   end
 end
 
 after "deploy:symlink", :link_config
@@ -73,4 +75,5 @@ after "link_config", "link_files"
 after "install_gems", "configure_sphinx"
 after "install_gems", "overwrite_custom"
 after "configure_sphinx", "restart_sphinx"
+after "depoy:restart", :precompile_assets
 

@@ -6,7 +6,7 @@ set :scm, :git
 set :repository, "git://github.com/psy-q/stizun.git"
 set :branch, "master"
 set :deploy_via, :remote_cache
-set :keep_releases, 2 
+set :keep_releases, 2
 
 set :use_sudo, false
 set :deploy_to, "/home/web/test.lincomp.org/test"
@@ -45,6 +45,9 @@ task :restart_sphinx do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:restart"
 end
 
+taks :precompile_assets do
+  run "cd #{release_path} && bundle exec rake assets:precompile"
+end
 
 namespace :deploy do
    task :restart, :roles => :app, :except => { :no_release => true } do
@@ -53,10 +56,12 @@ namespace :deploy do
 
    task :after_deploy do
      cleanup
-   end 
+   end
 end
 
 after "deploy:symlink", :link_config
 after "link_config", "link_files"
 after "link_config", "configure_sphinx"
 after "configure_sphinx", "restart_sphinx"
+after "depoy:restart", :precompile_assets
+
