@@ -28,7 +28,7 @@ Feature: Create and manage products
       Given a category named "Notebooks" exists
       When I create a product called "Lenovo T400"
       And I wait for a fancybox to appear
-      And fill in the product description "Some laptop"
+      And I fill in "Some laptop" in the CKEditor instance "product_description"
       And I fill in the purchase price 100.0
       And I fill in the margin percentage 5.0
       And I fill in the weight 5.0
@@ -46,7 +46,7 @@ Feature: Create and manage products
       Given a category named "Notebooks" exists
       When I create a product called "Lenovo T500"
       And I wait for a fancybox to appear
-      And fill in the product description "Some other laptop"
+      And I fill in "Some other laptop" in the CKEditor instance "product_description"
       And I fill in the purchase price 100.0
       And I fill in the weight 5.0
       And I select the supplier "Alltron AG"
