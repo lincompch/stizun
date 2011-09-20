@@ -27,8 +27,10 @@ class SupplierUtil
   end
 
   def update_supply_item(supply_item, data)
+    root_category = @supplier.category
     overwrite_field(supply_item, "purchase_price", data[:price_excluding_vat].to_s) unless data[:price_excluding_vat].to_f == 0
     overwrite_field(supply_item, "stock", data[:stock_level].gsub("'","").to_i)
+    overwrite_field(supply_item, "weight", data[:weight])
     overwrite_field(supply_item, "manufacturer", data[:manufacturer])
     overwrite_field(supply_item, "manufacturer_product_code", data[:manufacturer_product_code])
     overwrite_field(supply_item, "category01", "#{data[:category01]}")
@@ -59,7 +61,7 @@ class SupplierUtil
       file = File.open(filename, "r")
       @supplier.supply_items.each do |supply_item|
         line = file.select { |line|
-                              line =~ /#{.supplier_product_code_regex(supply_item.supplier_product_code)}/
+                              line =~ /#{supplier_product_code_regex(supply_item.supplier_product_code)}/
                           }.first
         
         # Deactivate the supply item if the line's not there anymore

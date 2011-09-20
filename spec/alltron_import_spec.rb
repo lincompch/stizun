@@ -81,23 +81,23 @@ describe AlltronUtil do
       
       
       supply_item_should_be(supplier, 1289, { :weight => 0.54,
-                                              :purchase_price => 40.00,
+                                              :purchase_price => 40.00),
                                               :stock => 4} )
       
       supply_item_should_be(supplier, 2313, { :weight => 0.06,
-                                              :purchase_price => 24.49,
+                                              :purchase_price => 24.49),
                                               :stock => 100} )
       
       supply_item_should_be(supplier, 3188, { :weight => 0.50,
-                                              :purchase_price => 36.90,
+                                              :purchase_price => 36.90),
                                               :stock => 55} )
      
       supply_item_should_be(supplier, 5509, { :weight => 0.50,
-                                              :purchase_price => 25.00,
+                                              :purchase_price => 25.00),
                                               :stock => 545} )
       
       supply_item_should_be(supplier, 6591, { :weight => 2.00,
-                                              :purchase_price => 40.00,
+                                              :purchase_price => 40.00),
                                               :stock => 18} )
    
     end
@@ -143,12 +143,6 @@ describe AlltronUtil do
       product_codes = [1227, 1510, 1841, 1847, 2180, 2193, 2353, 2379, 3220, 4264, 5048, 5768, 5862, 5863, 8209]
       ids = SupplyItem.where(:supplier_product_code => product_codes, :supplier_id => supplier).collect(&:id)
       supply_items_should_be_marked_deleted(ids, supplier)
-      history_should_exist(:text => "Marked Supply Item with supplier code 1227 as deleted", 
-                           :type_const => History::SUPPLY_ITEM_CHANGE)
-      history_should_exist(:text => "Marked Supply Item with supplier code 3220 as deleted", 
-                           :type_const => History::SUPPLY_ITEM_CHANGE)
-      history_should_exist(:text => "Marked Supply Item with supplier code 8209 as deleted", 
-                           :type_const => History::SUPPLY_ITEM_CHANGE)
       
     end
     

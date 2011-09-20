@@ -44,7 +44,7 @@ class AlltronUtil < SupplierUtil
   
   # Returns a regex that can tell which position of the CSV line the supplier
   # product code is in.
-  def self.supplier_product_code_regex(product_code)
+  def supplier_product_code_regex(product_code)
     "^#{product_code}"
   end
   

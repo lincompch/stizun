@@ -104,12 +104,6 @@ describe IngramUtil do
       product_codes = ["0711642", "0712027", "0712259", "0712530", "0712577", "07701A5", "07701F4", "07702U8", "07702V2", "0770987"]
       ids = SupplyItem.where(:supplier_product_code => product_codes, :supplier_id => supplier).collect(&:id)
       supply_items_should_be_marked_deleted(ids, supplier)
-      history_should_exist(:text => "Marked Supply Item with supplier code 0712027 as deleted", 
-                           :type_const => History::SUPPLY_ITEM_CHANGE)
-      history_should_exist(:text => "Marked Supply Item with supplier code 07701A5 as deleted", 
-                           :type_const => History::SUPPLY_ITEM_CHANGE)
-      history_should_exist(:text => "Marked Supply Item with supplier code 07702U8 as deleted", 
-                           :type_const => History::SUPPLY_ITEM_CHANGE)
       
     end
     
