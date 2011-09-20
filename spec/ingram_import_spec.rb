@@ -64,11 +64,12 @@ describe IngramUtil do
     
     it "should change items when they have changed in the CSV file" do
       SupplyItem.count.should == 0
-      IngramTestHelper.import_from_file(Rails.root + "spec/data/370_im_products_with_4_changes.csv")
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/370_im_products.csv")
       SupplyItem.count.should == 370
-      supplier = Supplier.where(:name => 'Ingram Micro GmbH').first
+      IngramTestHelper.update_from_file(Rails.root + "spec/data/370_im_products_with_4_changes.csv")
+      SupplyItem.count.should == 370
 
-#       debugger
+      supplier = Supplier.where(:name => 'Ingram Micro GmbH').first
       
       supply_item_should_be(supplier, "0180631", { :manufacturer => 'Dymo',
                                                 :weight => 0.10,
@@ -96,7 +97,7 @@ describe IngramUtil do
       SupplyItem.count.should == 0
       IngramTestHelper.import_from_file(Rails.root + "spec/data/370_im_products.csv")
       SupplyItem.count.should == 370
-      IngramTestHelper.import_from_file(Rails.root + "spec/data/360_im_products.csv")
+      IngramTestHelper.update_from_file(Rails.root + "spec/data/360_im_products.csv")
       SupplyItem.count.should == 370 # but 10 of them marked deleted
       supplier = Supplier.where(:name => 'Ingram Micro GmbH').first
 
@@ -118,7 +119,7 @@ describe IngramUtil do
       product = Product.new_from_supply_item(supply_item)
       product.save.should == true
       product.available?.should == true      
-      IngramTestHelper.import_from_file(Rails.root + "spec/data/360_im_products.csv")
+      IngramTestHelper.update_from_file(Rails.root + "spec/data/360_im_products.csv")
       supply_item.reload
       supply_item.status_constant.should == SupplyItem::DELETED
       

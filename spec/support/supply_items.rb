@@ -1,8 +1,6 @@
 def create_supply_items(supplier, array = [])
   
-  items = []
-  supplier ||= create_supplier("Alltron AG")
-  
+  items = []  
   tc = TaxClass.find_or_create_by_percentage(:percentage => 8.0, :name => 8.0)
   
   if array.empty?

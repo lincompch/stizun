@@ -101,10 +101,44 @@ describe AlltronUtil do
                                               :stock => 18} )
    
     end
+
+    # It's only very very slow to use import_from_file when we already know that all the
+    # potentially changed items are already in the DB
+    it "should not matter much whether import or update is used when simply changing some items" do
+      SupplyItem.count.should == 0
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
+      SupplyItem.count.should == 500
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products_with_5_changes.csv")
+      SupplyItem.count.should == 500
+      supplier = Supplier.where(:name => 'Alltron AG').first
+      
+      
+      supply_item_should_be(supplier, 1289, { :weight => 0.54,
+                                              :purchase_price => 40.00,
+                                              :stock => 4} )
+      
+      supply_item_should_be(supplier, 2313, { :weight => 0.06,
+                                              :purchase_price => 24.49,
+                                              :stock => 100} )
+      
+      supply_item_should_be(supplier, 3188, { :weight => 0.50,
+                                              :purchase_price => 36.90,
+                                              :stock => 55} )
+     
+      supply_item_should_be(supplier, 5509, { :weight => 0.50,
+                                              :purchase_price => 25.00,
+                                              :stock => 545} )
+      
+      supply_item_should_be(supplier, 6591, { :weight => 2.00,
+                                              :purchase_price => 40.00,
+                                              :stock => 18} )
+   
+    end
+    
     
     it "should mark items as deleted when they were removed from the CSV file" do
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/485_products.csv")
+      AlltronTestHelper.update_from_file(Rails.root + "spec/data/485_products.csv")
       supplier = Supplier.where(:name => 'Alltron AG').first
       product_codes = [1227, 1510, 1841, 1847, 2180, 2193, 2353, 2379, 3220, 4264, 5048, 5768, 5862, 5863, 8209]
       ids = SupplyItem.where(:supplier_product_code => product_codes, :supplier_id => supplier).collect(&:id)
@@ -124,7 +158,7 @@ describe AlltronUtil do
       product = Product.new_from_supply_item(supply_item)
       product.save.should == true
       product.available?.should == true      
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/485_products.csv")
+      AlltronTestHelper.update_from_file(Rails.root + "spec/data/485_products.csv")
       supply_item.reload
       supply_item.status_constant.should == SupplyItem::DELETED
       

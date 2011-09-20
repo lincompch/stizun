@@ -15,62 +15,51 @@ class SupplierUtil
     end
     return data
   end
-
   
-  # Import supply items from a supplier-provided CSV file, but only if they're
-  # not present in our system yet.
-  def import_supply_items(filename = self.import_filename)
-    # before calling this in a descended class, you must set up these variables:
-    # @supplier = The supplier to import for (an AR object)
-                    
-    root_category = @supplier.category
-    SupplyItem.suspended_delta do
-      File.open(filename, "r").each_with_index do |line, i|
-        next if i == 0 # We skip the first line, it only contains header information
-        data = parse_line(line)
+  def overwrite_field(item, field, data)
+    unless (data.blank? or data == item.send(field))
+      item.send "#{field}=", data
+    end
+  end
+  
+  def populate_field(item, field, data)
+    overwrite_field(item, field, data) if item.send(field).blank?
+  end
 
-        # check if we have the supply item
-        local_supply_item = SupplyItem.where(:supplier_id => @supplier.id, 
-                                             :supplier_product_code => data[:supplier_product_code]).first
-        # We do not have that supply item yet
-        if local_supply_item.nil?
-          si = SupplierUtil.supply_item_from_csv_row(@supplier, data)
-          
-          if si.save
-            supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem create: #{si.inspect}")
-            #History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
-          else
-            supplier_logger.error("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}")
-            History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", History::SUPPLY_ITEM_CHANGE, si)
-          end
-        
-        # We already have that supply item and need to update that
-        # and related product information
-        else
-          update_supply_item(local_supply_item, data)
-        end
+  def update_supply_item(supply_item, data)
+    overwrite_field(supply_item, "purchase_price", data[:price_excluding_vat].to_s) unless data[:price_excluding_vat].to_f == 0
+    overwrite_field(supply_item, "stock", data[:stock_level].gsub("'","").to_i)
+    overwrite_field(supply_item, "manufacturer", data[:manufacturer])
+    overwrite_field(supply_item, "manufacturer_product_code", data[:manufacturer_product_code])
+    overwrite_field(supply_item, "category01", "#{data[:category01]}")
+    overwrite_field(supply_item, "category02", "#{data[:category02]}")
+    overwrite_field(supply_item, "category03", "#{data[:category03]}")
+    overwrite_field(supply_item, "category_id", root_category.category_from_csv("#{data[:category01]}",
+        "#{data[:category02]}", 
+        "#{data[:category03]}"))
+    unless supply_item.changes.empty?
+      changes = supply_item.changes
+      if supply_item.save
+        supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem change: #{supply_item.to_s}:  #{changes.inspect}")
+      else
+        supplier_logger.error("[#{DateTime.now.to_s}] Supply item change FAILED: #{supply_item.to_s}: #{supply_item.changes.inspect}. Errors: #{supply_item.errors.full_messages}")
       end
-      
-    end
-    # Find out which categories are empty, and remove them from supplier's category tree
-    root_category.children_categories.flatten.each do |category|
-      if category.children.blank? && category.supply_items.empty? # LEAF with no supply_items
-        remove_category(category)
-      end
-    end
+    else
+      supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem identical, thus not changed: #{supply_item.to_s}")
+    end  
   end
   
   
   # Goes through the existing supply items in the system, then tries to find each
   # of them in the supplier CSV file. If that fails, the item is marked as deleted locally.
-  # If the item is there, we read the updated product information from the CSV file and update_supply_items
+  # If the item is there, we read the updated product information from the CSV file and update the
   # supply item and its related products.
   def update_supply_items(filename = self.import_filename)
     SupplyItem.suspended_delta do
       file = File.open(filename, "r")
       @supplier.supply_items.each do |supply_item|
         line = file.select { |line|
-                              line =~ /#{supplier_product_code_regex(supply_item.supplier_product_code)}/
+                              line =~ /#{.supplier_product_code_regex(supply_item.supplier_product_code)}/
                           }.first
         
         # Deactivate the supply item if the line's not there anymore
@@ -86,33 +75,51 @@ class SupplierUtil
           update_supply_item(supply_item, data)
         end
       end # suspended_delta
-      File.close(file)
+      file.close
     end
+  end
     
 
-    def update_supply_item(supply_item, data)
-      overwrite_field(supply_item, "purchase_price", data[:price_excluding_vat].to_s) unless data[:price_excluding_vat].to_f == 0
-      overwrite_field(supply_item, "stock", data[:stock_level].gsub("'","").to_i)
-      overwrite_field(supply_item, "manufacturer", data[:manufacturer])
-      overwrite_field(supply_item, "manufacturer_product_code", data[:manufacturer_product_code])
-      overwrite_field(supply_item, "category01", "#{data[:category01]}")
-      overwrite_field(supply_item, "category02", "#{data[:category02]}")
-      overwrite_field(supply_item, "category03", "#{data[:category03]}")
-      overwrite_field(supply_item, "category_id", root_category.category_from_csv("#{data[:category01]}",
-          "#{data[:category02]}", 
-          "#{data[:category03]}"))
-      unless supply_item.changes.empty?
-        changes = supply_item.changes
-        if supply_item.save
-          supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem change: #{supply_item.to_s}:  #{changes.inspect}")
+  
+  # Import supply items from a supplier-provided CSV file, but only if they're
+  # not present in our system yet.
+  def import_supply_items(filename = self.import_filename)
+    # before calling this in a descended class, you must set up these variables:
+    # @supplier = The supplier to import for (an AR object)
+                    
+    root_category = @supplier.category
+    SupplyItem.suspended_delta do
+      File.open(filename, "r").each_with_index do |line, i|
+        next if i == 0 # We skip the first line, it only contains header information
+        data = parse_line(line)
+        # check if we have the supply item
+        local_supply_item = SupplyItem.where(:supplier_id => @supplier.id, 
+                                             :supplier_product_code => data[:supplier_product_code]).first
+        # We do not have that supply item yet
+        if local_supply_item.nil?
+          si = new_supply_item(data)
+          if si.save
+            supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem create: #{si.inspect}")
+            #History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
+          else
+            supplier_logger.error("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}")
+            History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", History::SUPPLY_ITEM_CHANGE, si)
+          end
+        # We already have that supply item and need to update that and related product information
         else
-          History.add("Supply item change FAILED: #{supply_item.to_s}: #{supply_item.changes.inspect}. Errors: #{supply_item.errors.full_messages}", History::SUPPLY_ITEM_CHANGE, supply_item)
+          update_supply_item(local_supply_item, data)
         end
-      else
-        supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem identical, thus not changed: #{supply_item.to_s}")
+      end
+    end
+    
+    # Find out which categories are empty, and remove them from supplier's category tree
+    root_category.children_categories.flatten.each do |category|
+      if category.children.blank? && category.supply_items.empty? # LEAF with no supply_items
+        remove_category(category)
       end
     end
   end
+  
   
   # Using recursion to find categories with no supply items and remove them
   def remove_category(category)
@@ -125,53 +132,32 @@ class SupplierUtil
     end
   end
   
-  def overwrite_field(item, field, data)
-    unless (data.blank? or data == item.send(field))
-      item.send "#{field}=", data
-    end
-  end
-  
-  def populate_field(item, field, data)
-    overwrite_field(item, field, data) if item.send(field).blank?
-  end
-
-  
-  def self.supply_item_from_csv_row(supplier, data)
- 
-    si = supplier.supply_items.new
+  def new_supply_item(data)
+    si = @supplier.supply_items.new
     si.supplier_product_code = data[:supplier_product_code]
     si.name = "#{data[:name01].gsub("ß","ss")}" 
     si.name += " #{data[:name02].to_s.gsub("ß","ss")}" unless data[:name02].blank?
     si.name += " (#{data[:name03].to_s.gsub("ß","ss")})" unless data[:name03].blank?
-    
     si.name = si.name.strip
-    
     si.manufacturer = "#{data[:manufacturer]}"
-    
     si.product_link = "#{data[:product_link]}"
     si.pdf_url= "#{data[:pdf_url]}"
-    
     si.weight = data[:weight].gsub(",",".").to_f
     si.manufacturer_product_code = "#{data[:manufacturer_product_code]}"
-    
     si.description = "#{data[:description01].to_s.gsub("ß","ss")}"
     si.description += "#{data[:description02].to_s.gsub("ß","ss")}" unless data[:description02].blank? 
     si.description = si.description.strip
-    
     si.purchase_price = BigDecimal.new(data[:price_excluding_vat].to_s.gsub(",","."))
     # TODO: Read actual tax percentage from import file and create class as needed
     si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
     si.stock = data[:stock_level].gsub("'","").to_i
-    
     si.image_url = "#{data[:image_url]}" unless data[:image_url].blank?
-
     si.category01 = "#{data[:category01]}"
     si.category02 = "#{data[:category02]}" 
     si.category03 = "#{data[:category03]}"
-
-    si.category_id = supplier.category.category_from_csv("#{data[:category01]}",
-              "#{data[:category02]}", 
-              "#{data[:category03]}")
+    si.category_id = @supplier.category.category_from_csv("#{data[:category01]}",
+                                                          "#{data[:category02]}",
+                                                          "#{data[:category03]}")
     return si
   end
   

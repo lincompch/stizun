@@ -7,7 +7,14 @@ class AlltronUtil < SupplierUtil
     # The CSV file header looks like this:
     # 0                 1               2           3               4               5           6                  7                     8           9         10          11                  12          13          14              15                  16                17            18             19            20          21          22              23                   24
     # Artikelnummer 2   Artikelnummer   Bezeichung  Bezeichung 2    Lagerbestand    Gewicht    Preis (inkl. MWSt)  Preis (exkl. MWSt)    WWW-Link    Webtext   Webtext 2   Herstellernummer    Hersteller  MWST Satz   Endkundenpreis  Garantie (Monate)   Erfassungsdatum   Kategorie 1   Kategorie 2    Kategorie 3   Kategorie   EAN-Code    Lieferdatum     Ausverkaufsartikel   Discountpreis
-
+    @supplier = Supplier.where(:name => 'Alltron AG').first
+    if @supplier.nil?
+      @supplier = Supplier.new
+      @supplier.name = "Alltron AG"
+      sr = ShippingRate.get_default
+      @supplier.shipping_rate = sr
+      @supplier.save
+    end
     @field_mapping = {:name01 => 2, # 'Bezeichung', 
                       :name02 => 3, #'Bezeichung 2',
                       :name03 => nil,
@@ -97,7 +104,6 @@ class AlltronUtil < SupplierUtil
   # Synchronize all supply items from a supplier's provided CSV file
   def import_supply_items(filename = self.import_filename)      
     AlltronUtil.create_shipping_rate
-    @supplier = Supplier.find_or_create_by_name(:name => 'Alltron AG')
     @supplier.category = Category.find_or_create_by_name(:name => 'Alltron AG')
     AlltronUtil.create_category_tree(@supplier, filename)
     super
