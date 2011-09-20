@@ -59,11 +59,10 @@ class SupplierUtil
     SupplyItem.suspended_delta do
       file = File.open(filename, "r")
       @supplier.supply_items.each do |supply_item|
-        binding.pry
         line = file.select { |line|
                               line =~ /#{supplier_product_code_regex(supply_item.supplier_product_code)}/
                           }.first
-        
+        file.rewind
         # Deactivate the supply item if the line's not there anymore
         if line.blank?
           supply_item.status_constant = SupplyItem::DELETED
