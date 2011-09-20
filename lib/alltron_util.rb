@@ -2,6 +2,34 @@
 require 'supplier_util'
 
 class AlltronUtil < SupplierUtil
+  
+  def initialize
+    # The CSV file header looks like this:
+    # 0                 1               2           3               4               5           6                  7                     8           9         10          11                  12          13          14              15                  16                17            18             19            20          21          22              23                   24
+    # Artikelnummer 2   Artikelnummer   Bezeichung  Bezeichung 2    Lagerbestand    Gewicht    Preis (inkl. MWSt)  Preis (exkl. MWSt)    WWW-Link    Webtext   Webtext 2   Herstellernummer    Hersteller  MWST Satz   Endkundenpreis  Garantie (Monate)   Erfassungsdatum   Kategorie 1   Kategorie 2    Kategorie 3   Kategorie   EAN-Code    Lieferdatum     Ausverkaufsartikel   Discountpreis
+
+    @field_mapping = {:name01 => 2, # 'Bezeichung', 
+                      :name02 => 3, #'Bezeichung 2',
+                      :name03 => nil,
+                      :description01 => 8, #'Webtext',
+                      :description02 => 9, #'Webtext 2',
+                      :supplier_product_code => 0, #'Artikelnummer 2',
+                      :price_excluding_vat => 7, #'Preis (exkl. MWSt)',
+                      :stock_level => 4, #'Lagerbestand',
+                      :manufacturer_product_code => 10, #'Herstellernummer',
+                      :manufacturer => 11, #'Hersteller',
+                      :weight => 5, #'Gewicht',
+                      :pdf_url => nil,
+                      :product_link => 8, #'WWW-Link',
+                      :category01 => 17, #'Kategorie 1',
+                      :category02 => 18, #'Kategorie 2',
+                      :category03 => 19, #'Kategorie 3'}
+                      }
+    
+    # Possible options:
+    #   :col_sep => the separator character to split() on
+    @csv_parse_options = { :col_sep => "\t" }
+  end
 
   def self.category_string_cmd(file_name)
      "more +2 #{file_name} | cut -f 18-20 | sort -n | uniq | egrep -v '^[[:space:]]*$|^#'"
@@ -13,26 +41,12 @@ class AlltronUtil < SupplierUtil
     "^#{product_code}"
   end
   
-  # What do the options look like to be able to parse a CSV line from this
-  # supplier?
-  def self.csv_parse_options
-    { :col_sep => "\t", :quote_char => 7.chr }
-  end
-  
   def self.data_directory
     return Rails.root + "lib"
   end
   
-  # This just sets a default import filename inside AlltronCSV in case the call to
-  # AlltronCSV.new doesn't pass one in.
   def self.import_filename
     return @infile = self.data_directory + "AL_Artikeldaten.txt"
-  end
-  
-  # This makes sure the converted import filename is always overwritten with
-  # importfile.converted.txt. A more sophisticated way might be necessary one day.
-  def self.converted_filename
-    return @outfile = self.data_directory + "importfile.converted.txt"
   end
       
   # Processes the AL_Artikeldaten.txt CSV file to extract
@@ -43,12 +57,12 @@ class AlltronUtil < SupplierUtil
   # to 300 milliseconds on a reasonably fast system.
   def self.build_category_tree
     
-    if File.exist?(self.converted_filename)      
+    if File.exist?(self.import_filename)      
       # The resulting string is in this format:
       # Category 1\tCategory 2\tCategory 3\n
       # Category 1\tCategory 6\tCategory 12\n
       # etc.      
-      category_string = `cut -f 18-20 #{self.converted_filename} | sort -n | uniq`
+      category_string = `cut -f 18-20 #{self.import_filename} | sort -n | uniq`
 
       category_string.split("\n").each do |line|
         categories = line.split("\t")
@@ -81,38 +95,12 @@ class AlltronUtil < SupplierUtil
   end
 
   # Synchronize all supply items from a supplier's provided CSV file
-  def import_supply_items(filename = self.import_filename)
-    
-    # Set the variable sources here
-  
-    require_relative 'alltron_csv'
-    # TODO: Create Alltron's very own shipping rate right here, perhaps based ona config file
+  def import_supply_items(filename = self.import_filename)      
     AlltronUtil.create_shipping_rate
     @supplier = Supplier.find_or_create_by_name(:name => 'Alltron AG')
     @supplier.category = Category.find_or_create_by_name(:name => 'Alltron AG')
-    
-    acsv = AlltronCSV.new(filename)
-    @fcsv = acsv.get_csv_instance
-    @field_names = {:name01 => 'Bezeichung',
-                    :name02 => 'Bezeichung 2',
-                    :name03 => '',
-                    :description01 => 'Webtext',
-                    :description02 => 'Webtext 2',
-                    :supplier_product_code => 'Artikelnummer 2',
-                    :price_excluding_vat => 'Preis (exkl. MWSt)',
-                    :stock_level => 'Lagerbestand',
-                    :manufacturer_product_code => 'Herstellernummer',
-                    :manufacturer => 'Hersteller',
-                    :weight => 'Gewicht',
-                    :pdf_url => '',
-                    :product_link => 'WWW-Link',
-                    :category01 => 'Kategorie 1',
-                    :category02 => 'Kategorie 2',
-                    :category03 => 'Kategorie 3'}
     AlltronUtil.create_category_tree(@supplier, filename)
-    
     super
-    
   end
   
   # Create a default shipping rate for this supplier if it doesn't exist. 

@@ -73,7 +73,9 @@ describe AlltronUtil do
     
     it "should change items when they have changed in the CSV file" do
       SupplyItem.count.should == 0
-      AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products_with_5_changes.csv")
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
+      SupplyItem.count.should == 500
+      AlltronTestHelper.update_from_file(Rails.root + "spec/data/500_products_with_5_changes.csv")
       SupplyItem.count.should == 500
       supplier = Supplier.where(:name => 'Alltron AG').first
       

@@ -5,32 +5,36 @@ class SupplierUtil
     @supplier_logger ||= Logger.new("#{Rails.root}/log/supplier_import_#{DateTime.now.to_s.gsub(":","-")}.log")
   end
   
+  def parse_line(line)
+    data = {}
+    line_array = line.split(@csv_parse_options[:col_sep])
+    @field_mapping.each do |k,v|
+      #binding.pry
+      value = v.nil? ? nil : line_array[v]
+      data[k] = value
+    end
+    return data
+  end
+
+  
   # Import supply items from a supplier-provided CSV file, but only if they're
   # not present in our system yet.
   def import_supply_items(filename = self.import_filename)
     # before calling this in a descended class, you must set up these variables:
     # @supplier = The supplier to import for (an AR object)
-    # @field_names = an array of field names to import, what they're called in the
-    #                CSV file and where to import them to. example:
-    #
-    #     @field_names = {:name01 => 'Bezeichung',
-    #                    :name02 => 'Bezeichung 2',
-    #                    :name03 => '',
-    #                    :description01 => 'Webtext',
-    #                    :description02 => 'Webtext 2'}
                     
     root_category = @supplier.category
     SupplyItem.suspended_delta do
-      File.open(filename, "r").each do |line|
-        sp = CSV.parse(line, csv_parse_options)
-        debugger; puts "lala"
+      File.open(filename, "r").each_with_index do |line, i|
+        next if i == 0 # We skip the first line, it only contains header information
+        data = parse_line(line)
 
         # check if we have the supply item
         local_supply_item = SupplyItem.where(:supplier_id => @supplier.id, 
-                                             :supplier_product_code => sp[@field_names[:supplier_product_code]]).first
+                                             :supplier_product_code => data[:supplier_product_code]).first
         # We do not have that supply item yet
         if local_supply_item.nil?
-          si = SupplierUtil.supply_item_from_csv_row(@supplier, sp, @field_names)
+          si = SupplierUtil.supply_item_from_csv_row(@supplier, data)
           
           if si.save
             supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem create: #{si.inspect}")
@@ -43,7 +47,7 @@ class SupplierUtil
         # We already have that supply item and need to update that
         # and related product information
         else
-          update_supply_item(local_supply_item, sp)
+          update_supply_item(local_supply_item, data)
         end
       end
       
@@ -78,30 +82,25 @@ class SupplierUtil
           
         #Update the local supply items information using the line from the CSV file
         else
-          update_supply_item(supply_item, line)
+          data = parse_line(line)
+          update_supply_item(supply_item, data)
         end
       end # suspended_delta
       File.close(file)
     end
     
-    # If the 'line' option is an array, we assume that the line has already been CSV-parsed
-    # before passing into this. If it's a string, we need to parse it here.
-    def self.update_supply_item(supply_item, line)
-      if line.is_a?(String)
-        sp = CSV.parse(line, csv_parse_options)
-      else
-        sp = line
-      end
-      overwrite_field(supply_item, "purchase_price", sp[@field_names[:price_excluding_vat]].to_s) unless sp[@field_names[:price_excluding_vat]].to_f == 0
-      overwrite_field(supply_item, "stock", sp[@field_names[:stock_level]].gsub("'","").to_i)
-      overwrite_field(supply_item, "manufacturer", sp[@field_names[:manufacturer]])
-      overwrite_field(supply_item, "manufacturer_product_code", sp[@field_names[:manufacturer_product_code]])
-      overwrite_field(supply_item, "category01", "#{sp[@field_names[:category01]]}")
-      overwrite_field(supply_item, "category02", "#{sp[@field_names[:category02]]}")
-      overwrite_field(supply_item, "category03", "#{sp[@field_names[:category03]]}")
-      overwrite_field(supply_item, "category_id", root_category.category_from_csv("#{sp[@field_names[:category01]]}",
-          "#{sp[@field_names[:category02]]}", 
-          "#{sp[@field_names[:category03]]}"))
+
+    def update_supply_item(supply_item, data)
+      overwrite_field(supply_item, "purchase_price", data[:price_excluding_vat].to_s) unless data[:price_excluding_vat].to_f == 0
+      overwrite_field(supply_item, "stock", data[:stock_level].gsub("'","").to_i)
+      overwrite_field(supply_item, "manufacturer", data[:manufacturer])
+      overwrite_field(supply_item, "manufacturer_product_code", data[:manufacturer_product_code])
+      overwrite_field(supply_item, "category01", "#{data[:category01]}")
+      overwrite_field(supply_item, "category02", "#{data[:category02]}")
+      overwrite_field(supply_item, "category03", "#{data[:category03]}")
+      overwrite_field(supply_item, "category_id", root_category.category_from_csv("#{data[:category01]}",
+          "#{data[:category02]}", 
+          "#{data[:category03]}"))
       unless supply_item.changes.empty?
         changes = supply_item.changes
         if supply_item.save
@@ -137,42 +136,42 @@ class SupplierUtil
   end
 
   
-  def self.supply_item_from_csv_row(supplier, row, field_names)
+  def self.supply_item_from_csv_row(supplier, data)
  
     si = supplier.supply_items.new
-    si.supplier_product_code = row[field_names[:supplier_product_code]]
-    si.name = "#{row[field_names[:name01]].gsub("ß","ss")}" 
-    si.name += " #{row[field_names[:name02]].to_s.gsub("ß","ss")}" unless field_names[:name02].blank?
-    si.name += " (#{row[field_names[:name03]].to_s.gsub("ß","ss")})" unless field_names[:name03].blank?
+    si.supplier_product_code = data[:supplier_product_code]
+    si.name = "#{data[:name01].gsub("ß","ss")}" 
+    si.name += " #{data[:name02].to_s.gsub("ß","ss")}" unless data[:name02].blank?
+    si.name += " (#{data[:name03].to_s.gsub("ß","ss")})" unless data[:name03].blank?
     
     si.name = si.name.strip
     
-    si.manufacturer = "#{row[field_names[:manufacturer]]}"
+    si.manufacturer = "#{data[:manufacturer]}"
     
-    si.product_link = "#{row[field_names[:product_link]]}"
-    si.pdf_url= "#{row[field_names[:pdf_url]]}"
+    si.product_link = "#{data[:product_link]}"
+    si.pdf_url= "#{data[:pdf_url]}"
     
-    si.weight = row[field_names[:weight]].gsub(",",".").to_f
-    si.manufacturer_product_code = "#{row[field_names[:manufacturer_product_code]]}"
+    si.weight = data[:weight].gsub(",",".").to_f
+    si.manufacturer_product_code = "#{data[:manufacturer_product_code]}"
     
-    si.description = "#{row[field_names[:description01]].to_s.gsub("ß","ss")}"
-    si.description += "#{row[field_names[:description02]].to_s.gsub("ß","ss")}" unless field_names[:description02].blank? 
+    si.description = "#{data[:description01].to_s.gsub("ß","ss")}"
+    si.description += "#{data[:description02].to_s.gsub("ß","ss")}" unless data[:description02].blank? 
     si.description = si.description.strip
     
-    si.purchase_price = BigDecimal.new(row[field_names[:price_excluding_vat]].to_s.gsub(",","."))
+    si.purchase_price = BigDecimal.new(data[:price_excluding_vat].to_s.gsub(",","."))
     # TODO: Read actual tax percentage from import file and create class as needed
     si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
-    si.stock = row[field_names[:stock_level]].gsub("'","").to_i
+    si.stock = data[:stock_level].gsub("'","").to_i
     
-    si.image_url = "#{row[field_names[:image_url]]}" unless field_names[:image_url].blank?
+    si.image_url = "#{data[:image_url]}" unless data[:image_url].blank?
 
-    si.category01 = "#{row[field_names[:category01]]}"
-    si.category02 = "#{row[field_names[:category02]]}" 
-    si.category03 = "#{row[field_names[:category03]]}"
+    si.category01 = "#{data[:category01]}"
+    si.category02 = "#{data[:category02]}" 
+    si.category03 = "#{data[:category03]}"
 
-    si.category_id = supplier.category.category_from_csv("#{row[field_names[:category01]]}",
-              "#{row[field_names[:category02]]}", 
-              "#{row[field_names[:category03]]}")
+    si.category_id = supplier.category.category_from_csv("#{data[:category01]}",
+              "#{data[:category02]}", 
+              "#{data[:category03]}")
     return si
   end
   
