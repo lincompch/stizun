@@ -81,23 +81,23 @@ describe AlltronUtil do
       
       
       supply_item_should_be(supplier, 1289, { :weight => 0.54,
-                                              :purchase_price => 40.00),
+                                              :purchase_price => 40.00,
                                               :stock => 4} )
       
       supply_item_should_be(supplier, 2313, { :weight => 0.06,
-                                              :purchase_price => 24.49),
+                                              :purchase_price => 24.49,
                                               :stock => 100} )
       
       supply_item_should_be(supplier, 3188, { :weight => 0.50,
-                                              :purchase_price => 36.90),
+                                              :purchase_price => 36.90,
                                               :stock => 55} )
      
       supply_item_should_be(supplier, 5509, { :weight => 0.50,
-                                              :purchase_price => 25.00),
+                                              :purchase_price => 25.00,
                                               :stock => 545} )
       
       supply_item_should_be(supplier, 6591, { :weight => 2.00,
-                                              :purchase_price => 40.00),
+                                              :purchase_price => 40.00,
                                               :stock => 18} )
    
     end

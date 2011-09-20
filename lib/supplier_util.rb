@@ -9,7 +9,6 @@ class SupplierUtil
     data = {}
     line_array = line.split(@csv_parse_options[:col_sep])
     @field_mapping.each do |k,v|
-      #binding.pry
       value = v.nil? ? nil : line_array[v]
       data[k] = value
     end
@@ -60,6 +59,7 @@ class SupplierUtil
     SupplyItem.suspended_delta do
       file = File.open(filename, "r")
       @supplier.supply_items.each do |supply_item|
+        binding.pry
         line = file.select { |line|
                               line =~ /#{supplier_product_code_regex(supply_item.supplier_product_code)}/
                           }.first
@@ -102,10 +102,8 @@ class SupplierUtil
           si = new_supply_item(data)
           if si.save
             supplier_logger.info("[#{DateTime.now.to_s}] SupplyItem create: #{si.inspect}")
-            #History.add("Supply item added during sync: #{si.to_s}", History::SUPPLY_ITEM_CHANGE, si)
           else
             supplier_logger.error("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}")
-            History.add("Failed adding supply item during sync: #{si.inspect.to_s}, #{si.errors.to_s}", History::SUPPLY_ITEM_CHANGE, si)
           end
         # We already have that supply item and need to update that and related product information
         else
