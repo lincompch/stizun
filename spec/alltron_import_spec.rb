@@ -71,14 +71,23 @@ describe AlltronUtil do
 
     end
     
-    it "should change items when they have changed in the CSV file" do
+    it "should change items that have products when the items changed in the CSV file" do
       SupplyItem.count.should == 0
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
       SupplyItem.count.should == 500
+      
+      # Create products so only those get updated
+      codes = [1289, 2313, 3188, 5509, 6591]
+      codes.each do |code|
+          supply_item = SupplyItem.where(:supplier_product_code => code).first
+          product = Product.new_from_supply_item(supply_item)
+          product.save.should == true
+      end      
+      
       AlltronTestHelper.update_from_file(Rails.root + "spec/data/500_products_with_5_changes.csv")
       SupplyItem.count.should == 500
       supplier = Supplier.where(:name => 'Alltron AG').first
-      
+
       
       supply_item_should_be(supplier, 1289, { :weight => 0.54,
                                               :purchase_price => 40.00,
@@ -101,10 +110,47 @@ describe AlltronUtil do
                                               :stock => 18} )
    
     end
+    
+    
+    it "should not change items that have no products even when their related items changed in the CSV file" do
+      SupplyItem.count.should == 0
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
+      SupplyItem.count.should == 500
+      
+      # Create no products at all! 
+      
+      AlltronTestHelper.update_from_file(Rails.root + "spec/data/500_products_with_5_changes.csv")
+      SupplyItem.count.should == 500
+      supplier = Supplier.where(:name => 'Alltron AG').first
+
+      
+      # This is the same as imported from 500_products.csv
+      supply_item_should_be(supplier, 1289, { :weight => 0.54,
+                                              :purchase_price => 40.38,
+                                              :stock => 4} )
+      
+      supply_item_should_be(supplier, 2313, { :weight => 0.06,
+                                              :purchase_price => 24.49,
+                                              :stock => 3} )
+
+      supply_item_should_be(supplier, 3188, { :weight => 0.28,
+                                              :purchase_price => 36.90,
+                                              :stock => 55} )
+      
+      supply_item_should_be(supplier, 5509, { :weight => 0.08,
+                                              :purchase_price => 19.80,
+                                              :stock => 545} )
+
+      supply_item_should_be(supplier, 6591, { :weight => 0.07,
+                                              :purchase_price => 20.91,
+                                              :stock => 2} )
+   
+    end
+    
 
     # It's only very very slow to use import_from_file when we already know that all the
     # potentially changed items are already in the DB
-    it "should not matter much whether import or update is used when simply changing some items" do
+    it "importing over an older data set should update supply items even when there are no products available for them" do
       SupplyItem.count.should == 0
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
       SupplyItem.count.should == 500

@@ -58,7 +58,8 @@ class SupplierUtil
   def update_supply_items(filename = self.import_filename)
     SupplyItem.suspended_delta do
       file = File.open(filename, "r")
-      @supplier.supply_items.each do |supply_item|
+      affected_items = @supplier.products.supplied.collect(&:supply_item)
+      affected_items.each do |supply_item|
         line = file.select { |line|
                               line =~ /#{supplier_product_code_regex(supply_item.supplier_product_code)}/
                           }.first
