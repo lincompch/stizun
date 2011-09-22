@@ -521,7 +521,8 @@ class Product < ActiveRecord::Base
 
   def sync_supply_item_information
     if supply_item_id_changed?
-      return self.sync_from_supply_item
+      self.sync_from_supply_item
+      return self.save
     end
   end
 

@@ -130,7 +130,8 @@ class Admin::ProductsController <  Admin::BaseController
    @supply_item = SupplyItem.find(params[:supply_item_id])
    @product = Product.find(params[:id])
    @product.supply_item = @supply_item
-   if @product.sync_from_supply_item
+   @product.sync_from_supply_item
+   if @product.save == true
      flash[:notice] = "Product metamorphosis complete."
    else
      flash[:error] = "Sorry, could not metamorphosize product."
