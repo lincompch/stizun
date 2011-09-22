@@ -56,28 +56,36 @@ class SupplierUtil
   # If the item is there, we read the updated product information from the CSV file and update the
   # supply item and its related products.
   def update_supply_items(filename = self.import_filename)
+    affected_items = @supplier.products.supplied.collect(&:supply_item)
+    affected_supplier_product_codes = affected_items.collect(&:supplier_product_code)
+    item_hashes = []
+    file = File.open(filename, "r")
+    file.each do |line|
+      data = parse_line(line)
+      if affected_supplier_product_codes.include?(data[:supplier_product_code])
+        item_hashes << data
+      end
+    end
+    file.close
+#     binding.pry
+    found_supplier_product_codes = item_hashes.collect{|h| h[:supplier_product_code]}
+    
+    # Deactivate the supply item if the line's not there anymore
+    to_delete = affected_supplier_product_codes - found_supplier_product_codes
+    to_delete.each do |td|
+      supply_item = @supplier.supply_item.where(:supplier_product_code => td).first
+      supply_item.status_constant = SupplyItem::DELETED
+      if supply_item.save
+        supplier_logger.info("[#{DateTime.now.to_s}] Marked Supply Item as deleted: #{supply_item.to_s}")
+      end 
+    end
+    
+    #Update the local supply items information using the line from the CSV file
     SupplyItem.suspended_delta do
-      file = File.open(filename, "r")
-      affected_items = @supplier.products.supplied.collect(&:supply_item)
-      affected_items.each do |supply_item|
-        line = file.select { |line|
-                              line =~ /#{supplier_product_code_regex(supply_item.supplier_product_code)}/
-                          }.first
-        file.rewind
-        # Deactivate the supply item if the line's not there anymore
-        if line.blank?
-          supply_item.status_constant = SupplyItem::DELETED
-          if supply_item.save
-            supplier_logger.info("[#{DateTime.now.to_s}] Marked Supply Item as deleted: #{supply_item.to_s}")
-          end
-          
-        #Update the local supply items information using the line from the CSV file
-        else
-          data = parse_line(line)
-          update_supply_item(supply_item, data)
-        end
-      end # suspended_delta
-      file.close
+      item_hashes.each do |data|
+        supply_item = @supplier.supply_items.where(:supplier_product_code => data[:supplier_product_code]).first
+        update_supply_item(supply_item, data)  
+      end
     end
   end
     

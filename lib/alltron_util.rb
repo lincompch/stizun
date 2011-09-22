@@ -48,6 +48,15 @@ class AlltronUtil < SupplierUtil
     "^#{product_code}"
   end
   
+  # Takes an array and returns a set of regexes that OR between each of the codes given, so that all lines matching
+  # that particular
+  def supplier_product_codes_regex(product_codes)
+    regex_start = "^("
+    joined = product_codes.join("|")
+    regex_end = ")"
+    return "#{regex_start}#{joined}#{regex_end}"
+  end
+  
   def self.data_directory
     return Rails.root + "lib"
   end
