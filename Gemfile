@@ -35,7 +35,6 @@ gem 'erubis'
 gem 'will_paginate', "3.0.0"
 gem 'uuidtools'
 gem 'later_dude', '>= 0.3.1'
-gem "hoptoad_notifier", '2.4.8'
 gem "feedzirra", "~> 0.0.24"
 gem "ruby-progressbar", :require => "progressbar"
 gem 'therubyracer', '>= 0.8.2'
