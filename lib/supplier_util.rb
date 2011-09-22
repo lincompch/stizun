@@ -67,21 +67,21 @@ class SupplierUtil
       end
     end
     file.close
-#     binding.pry
     found_supplier_product_codes = item_hashes.collect{|h| h[:supplier_product_code]}
-    
-    # Deactivate the supply item if the line's not there anymore
-    to_delete = affected_supplier_product_codes - found_supplier_product_codes
-    to_delete.each do |td|
-      supply_item = @supplier.supply_item.where(:supplier_product_code => td).first
-      supply_item.status_constant = SupplyItem::DELETED
-      if supply_item.save
-        supplier_logger.info("[#{DateTime.now.to_s}] Marked Supply Item as deleted: #{supply_item.to_s}")
-      end 
-    end
+  
     
     #Update the local supply items information using the line from the CSV file
-    SupplyItem.suspended_delta do
+    SupplyItem.suspended_delta do    
+      # Deactivate the supply item if the line's not there anymore
+      to_delete = affected_supplier_product_codes - found_supplier_product_codes
+      to_delete.each do |td|
+        supply_item = @supplier.supply_items.where(:supplier_product_code => td).first
+        supply_item.status_constant = SupplyItem::DELETED
+        if supply_item.save
+          supplier_logger.info("[#{DateTime.now.to_s}] Marked Supply Item as deleted: #{supply_item.to_s}")
+        end 
+      end
+
       item_hashes.each do |data|
         supply_item = @supplier.supply_items.where(:supplier_product_code => data[:supplier_product_code]).first
         update_supply_item(supply_item, data)  
