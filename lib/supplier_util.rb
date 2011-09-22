@@ -27,9 +27,9 @@ class SupplierUtil
 
   def update_supply_item(supply_item, data)
     root_category = @supplier.category
-    overwrite_field(supply_item, "purchase_price", data[:price_excluding_vat].to_s) unless data[:price_excluding_vat].to_f == 0
+    overwrite_field(supply_item, "purchase_price", data[:price_excluding_vat].to_s.gsub(",",".")) unless data[:price_excluding_vat].to_f == 0
     overwrite_field(supply_item, "stock", data[:stock_level].gsub("'","").to_i)
-    overwrite_field(supply_item, "weight", data[:weight])
+    overwrite_field(supply_item, "weight", data[:weight].gsub(",",".").to_f)
     overwrite_field(supply_item, "manufacturer", data[:manufacturer])
     overwrite_field(supply_item, "manufacturer_product_code", data[:manufacturer_product_code])
     overwrite_field(supply_item, "category01", "#{data[:category01]}")
