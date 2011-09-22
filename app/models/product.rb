@@ -472,13 +472,11 @@ class Product < ActiveRecord::Base
 
           # Nothing special to do to this product -- just update some fields
           else
-            p.sync_from_supply_item(p.supply_item)
-            unless p.empty?
+            changes = p.sync_from_supply_item(p.supply_item)
+            unless changes.empty?
               result = p.save
               if result == true
-                unless changes.empty?
-                  History.add("Product update: #{p.to_s}. Changes: #{changes.inspect}", History::PRODUCT_CHANGE, p)
-                end
+                History.add("Product update: #{p.to_s}. Changes: #{changes.inspect}", History::PRODUCT_CHANGE, p)
               else
                 History.add("Product update failed: #{p.to_s}. Changes: #{changes.inspect}. Errors: #{self.errors.full_messages}", History::PRODUCT_CHANGE, p)
               end
