@@ -37,7 +37,6 @@ gem 'uuidtools'
 gem 'later_dude', '>= 0.3.1'
 gem "feedzirra", "~> 0.0.24"
 gem "ruby-progressbar", :require => "progressbar"
-gem 'therubyracer', '>= 0.8.2'
 
 group :assets do
   gem 'sass-rails', " ~> 3.1.0"
@@ -57,4 +56,5 @@ group :cucumber, :test, :development do
   gem 'ZenTest'
   gem 'pry'
   gem 'pry-doc'
+  gem 'therubyracer', '>= 0.8.2'
 end
