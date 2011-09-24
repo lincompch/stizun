@@ -45,7 +45,7 @@ task :restart_sphinx do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:restart"
 end
 
-taks :precompile_assets do
+task :precompile_assets do
   run "cd #{release_path} && bundle exec rake assets:precompile"
 end
 
