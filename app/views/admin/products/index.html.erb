@@ -3,7 +3,7 @@
 
 <p><%= link_to 'Products with missing supply items', :controller => 'admin/products', :action => 'having_unavailable_supply_item' %></p>
 
-<p>Full list by supplier: 
+<p>Full list by supplier:
 
 <% Supplier.all.each do |sup| %>
   <% if params[:supplier_id].to_i == sup.id %>
@@ -49,13 +49,20 @@
   <p>Search results for: <%= params[:search][:keyword] %></p>
 <% end %>
 
+<div id="batch" style="display: inline;">
+  Not editing multiple products
+</div>
+<%= link_to "Edit", edit_multiple_admin_products_path %>
+<%= link_to "Clear", remove_cookie_admin_products_path %>
 
+<br/>
 <%= will_paginate @products %>
 
 <%= link_to "Create new product", new_admin_product_path, :class => 'fancybox' %>
 
 <table>
 <tr>
+  <th></th>
   <th>ID</th>
   <th>Pics</th>
   <th>Status</th>
@@ -77,3 +84,4 @@
 
 
 <%= link_to "Create new product", new_admin_product_path, :class => 'fancybox' %>
+
