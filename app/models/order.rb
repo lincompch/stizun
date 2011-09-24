@@ -37,12 +37,14 @@ class Order < StaticDocument
   AWAITING_PAYMENT = 3
   SHIPPED = 4
   TO_SHIP = 5
+  CANCELED = 6
   
   STATUS_HASH = { UNPROCESSED      => 'stizun.constants.unprocessed',
                   PROCESSING       => 'stizun.constants.processing',
                   AWAITING_PAYMENT => 'stizun.constants.awaiting_payment',
                   TO_SHIP          => 'stizun.constants.to_ship',
-                  SHIPPED          => 'stizun.constants.shipped'}
+                  SHIPPED          => 'stizun.constants.shipped',
+                  CANCELED         => 'stizun.constants.canceled' }
 
   def self.status_to_human(status)
     # Gotta call I18n.t like this because it doesn't have the correct
@@ -73,7 +75,8 @@ class Order < StaticDocument
   scope :awaiting_payment, :conditions => { :status_constant => Order::AWAITING_PAYMENT }
   scope :shipped, :conditions => { :status_constant => Order::SHIPPED }
   scope :to_ship, :conditions => { :status_constant => Order::TO_SHIP }
-  
+  scope :canceled, :conditions => { :status_constant => Order::CANCELED }
+
   scope :pending_from_user_perspective, :conditions => "status_constant == ?" # TODO: is this working yet?
   
   # TODO: Verify if this is working
@@ -82,7 +85,6 @@ class Order < StaticDocument
       record.shipping_address = record.billing_address
     end
   }
-  
   
   # === Methods
   
@@ -238,7 +240,7 @@ class Order < StaticDocument
   def assign_document_number
     self.document_number ||= Numerator.get_number
   end
-  
+    
   def send_shipping_notification
     # Order went from something else to SHIPPED, let's send a notification
     

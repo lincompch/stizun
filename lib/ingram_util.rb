@@ -2,6 +2,45 @@
 require 'supplier_util'
 
 class IngramUtil < SupplierUtil
+
+    def initialize
+    # The CSV file header looks like this:
+    # 0         1        2       3           4           5           6           7           8           9       10          11      12      13          14  15  16          17      18      19              20      21      22      23          24          25      26      27      28      29      30      31      32      33      34          35          36      37      38      39          40          41
+    # GRUPPE1   GRUPPE2  GRUPPE3 HERSTELLER  ARTIKEL_NR  HSTNUMMER   ARTIKEL1    ARTIKEL2    FVERSION    FSYSTEM FSPRACHE    FFORMAT FBUS    FGARANTIE   EVP EK  AKTIONPR    AKTBIS  AKTION  VerfuegbarKZ    Vmenge  VDatum  VEta    Nachfolger  DATENBLATT1 BILD1   ERFDAT  EANCode UPCCode Hoehe   Breite  Laenge  Gewicht Rang    Stck_Kart   Stck_Pal    Storno  ECLass  UNSPC   INTRASTAT   CatalogID   Auslieferungslager
+
+    @supplier = Supplier.where(:name => 'Ingram Micro GmbH').first
+    if @supplier.nil?
+      @supplier = Supplier.new
+      @supplier.name = "Ingram Micro GmbH"
+      sr = ShippingRate.get_default
+      @supplier.shipping_rate = sr
+      @supplier.save
+    end
+    
+    @field_mapping = {:name01 => 3, #'HERSTELLER',
+                      :name02 => 6, #'ARTIKEL1',
+                      :name03 => 5, #'HSTNUMMER',
+                      :description01 => 7, #'ARTIKEL2',
+                      :description02 => nil,
+                      :supplier_product_code => 4, #'ARTIKEL_NR',
+                      :price_excluding_vat => 15, #'EK',
+                      :stock_level => 20, #'Vmenge',
+                      :manufacturer_product_code => 5, #'HSTNUMMER',
+                      :manufacturer => 3, #'HERSTELLER',
+                      :weight => 32, #'Gewicht',
+                      :product_link => nil,
+                      :pdf_url => 24, #'DATENBLATT1',
+                      :image_url => 25, #'BILD1',
+                      :category01 => 0, #'GRUPPE1',
+                      :category02 => 1, #'GRUPPE2',
+                      :category03 => 2 #'GRUPPE3'}   
+                      }
+    
+    # Possible options:
+    #   :col_sep => the separator character to split() on
+    @csv_parse_options = { :col_sep => "\t" }
+  end
+  
   
   def self.category_string_cmd(file_name)
      "more +2 #{file_name} | cut -f 1-3 | sort -n | uniq"
@@ -62,39 +101,10 @@ class IngramUtil < SupplierUtil
 
   # Synchronize all supply items from a supplier's provided CSV file
   def import_supply_items(filename = self.import_filename)
-    
-    # Set the variable sources here
-  
-    require_relative 'ingram_csv'
-    
     IngramUtil.create_shipping_rate
-    @supplier = Supplier.find_or_create_by_name(:name => 'Ingram Micro GmbH')
-    @supplier.category = Category.find_or_create_by_name(:name => 'Ingram Micro GmbH')
-    
-    icsv = IngramCSV.new(filename)
-    @fcsv = icsv.get_csv_instance
-
-    @field_names = {:name01 => 'HERSTELLER',
-                    :name02 => 'ARTIKEL1',
-                    :name03 => 'HSTNUMMER',
-                    :description01 => 'ARTIKEL2',
-                    :description02 => '',
-                    :supplier_product_code => 'ARTIKEL_NR',
-                    :price_excluding_vat => 'EK',
-                    :stock_level => 'Vmenge',
-                    :manufacturer_product_code => 'HSTNUMMER',
-                    :manufacturer => 'HERSTELLER',
-                    :weight => 'Gewicht',
-                    :product_link => '',
-                    :pdf_url => 'DATENBLATT1',
-                    :image_url => 'BILD1',
-                    :category01 => 'GRUPPE1',
-                    :category02 => 'GRUPPE2',
-                    :category03 => 'GRUPPE3'}    
+    @supplier.category = Category.find_or_create_by_name(:name => 'Ingram Micro GmbH') 
     IngramUtil.create_category_tree(@supplier, filename)
-   
     super
-    
   end
   
   

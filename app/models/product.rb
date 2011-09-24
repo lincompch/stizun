@@ -36,9 +36,11 @@ class Product < ActiveRecord::Base
   scope :on_sale, :conditions => { :sale_state => true }
   scope :having_unavailable_supply_item, joins(:supply_item).where("supply_items.status_constant != #{SupplyItem::AVAILABLE}")
   
+  
+  # === AR callbacks
   before_save :set_explicit_sale_state, :cache_calculations
   after_create :try_to_get_product_files
-  before_save :update_notifications
+  before_save :update_notifications, :sync_supply_item_information
   
   def update_notifications
     price_relevant_fields = ["purchase_price", "sales_price", "margin_percentage"]
@@ -289,7 +291,7 @@ class Product < ActiveRecord::Base
     p.purchase_price = si.purchase_price
     # Can be improved by flexibly reading the tax percentage from the CSV file in a first
     # step and then assigning it to a supply item, and THEN reading a proper TaxClass object from there
-    p.tax_class = TaxClass.find_by_percentage("8.0")
+    p.tax_class = TaxClass.find_or_create_by_percentage("8.0", {:name => "Auto-created default"})
     p.margin_percentage = 5.0
     p.supplier_id = si.supplier_id
     p.supply_item_id = si.id
@@ -452,6 +454,8 @@ class Product < ActiveRecord::Base
   # the supply item's current stock level and price. Make adjustments
   # as necessary.
   def self.update_price_and_stock
+    price_update_logger ||= Logger.new("#{Rails.root}/log/price_and_stock_update_#{DateTime.now.to_s.gsub(":","-")}.log")
+    
     Product.suspended_delta do
       Product.supplied.each do |p|
         # The supply item is no longer available, thus we need to
@@ -460,17 +464,24 @@ class Product < ActiveRecord::Base
         # The product has a supplier, but its supply item is gone
         if p.supply_item.nil? and !p.supplier_id.blank?
           self.disable_product(p)
-          History.add("Disabled product #{p.to_s} because its supply item is gone.", History::PRODUCT_CHANGE,  p)
+          price_update_logger.info("[#{DateTime.now.to_s}] Disabled product #{p.to_s} because its supply item is gone.")
         else
           # Disabling product because we would be incurring a loss otherwise
           if (p.absolutely_priced? and p.supply_item.purchase_price > p.sales_price)
             p.is_available = false
             p.save
-            History.add("Disabled product #{p.to_s} because purchase price is higher than absolute sales price.", History::PRODUCT_CHANGE,  p)
+            price_update_logger.info("[#{DateTime.now.to_s}] Disabled product #{p.to_s} because purchase price is higher than absolute sales price.")
 
           # Nothing special to do to this product -- just update some fields
           else
-            p.sync_from_supply_item(p.supply_item)
+            changes = p.sync_from_supply_item(p.supply_item)
+            unless changes.empty?
+              if p.save
+                price_update_logger.info("[#{DateTime.now.to_s}] Product update: #{p.to_s}. Changes: #{changes.inspect}")
+              else
+                price_update_logger.error("[#{DateTime.now.to_s}] Product update failed: #{p.to_s}. Changes: #{changes.inspect}. Errors: #{p.errors.full_messages}")
+              end
+            end
           end
         end
       end
@@ -478,21 +489,14 @@ class Product < ActiveRecord::Base
   end
   
   def sync_from_supply_item(supply_item = self.supply_item)
-    self.stock = self.supply_item.stock
-    self.purchase_price = self.supply_item.purchase_price
-    self.manufacturer = self.supply_item.manufacturer
-    self.manufacturer_product_code = self.supply_item.manufacturer_product_code
-    self.supplier = self.supply_item.supplier
+    self.stock = supply_item.stock
+    self.purchase_price = supply_item.purchase_price
+    self.manufacturer = supply_item.manufacturer
+    self.manufacturer_product_code = supply_item.manufacturer_product_code
+    self.supplier_product_code = supply_item.supplier_product_code
+    self.supplier = supply_item.supplier
     changes = self.changes
-    result = self.save
-    if result == true
-      unless changes.empty?
-        History.add("Product update: #{self.to_s}. Changes: #{changes.inspect}", History::PRODUCT_CHANGE, p)
-      end
-    else
-      History.add("Product update failed: #{self.to_s}. Changes: #{changes.inspect}. Errors: #{self.errors.full_messages}", History::PRODUCT_CHANGE, p)
-    end
-    return result
+    return changes
   end
 
 
@@ -516,9 +520,13 @@ class Product < ActiveRecord::Base
 
   end
 
+  def sync_supply_item_information
+    if supply_item_id_changed?
+      self.sync_from_supply_item
+    end
+  end
 
   def self.export_available_to_csv(filename)
-
     FasterCSV.open(filename, "w", :col_sep => ",", :quote_char => '"') do |csv|
       csv << Product.csv_header
       Product.available.each do |p|

@@ -30,15 +30,13 @@ gem 'thinking-sphinx'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'paperclip'
-gem 'mysql'
+gem 'mysql2'
 gem 'erubis'
 gem 'will_paginate', "3.0.0"
 gem 'uuidtools'
 gem 'later_dude', '>= 0.3.1'
-gem "hoptoad_notifier", '2.4.8'
 gem "feedzirra", "~> 0.0.24"
 gem "ruby-progressbar", :require => "progressbar"
-gem 'therubyracer', '>= 0.8.2'
 
 group :assets do
   gem 'sass-rails', " ~> 3.1.0"
@@ -57,10 +55,8 @@ group :cucumber, :test, :development do
   gem 'spork', '0.9.0.rc9'
   gem 'launchy'
   gem 'ruby-debug19'
-  gem 'steak'
+  gem 'ZenTest'
+  gem 'pry'
+  gem 'pry-doc'
+  gem 'therubyracer', '>= 0.8.2'
 end
-
-group :development do
-  gem 'wirble'
-end
-

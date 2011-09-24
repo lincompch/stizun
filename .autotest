@@ -1,0 +1,6 @@
+Autotest.add_hook :initialize do |autotest|
+  %w{.autotest .git vendor public}.each do |exception|
+    autotest.add_exception(exception)
+  end
+  false
+end
