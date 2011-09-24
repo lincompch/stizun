@@ -1,3 +1,7 @@
+$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
+require "rvm/capistrano"                  # Load RVM's capistrano plugin.
+set :rvm_ruby_string, '1.9.2'        # Or whatever env you want it to run in.
+
 require "bundler/capistrano"
 
 set :application, "lincomp"
@@ -46,7 +50,7 @@ task :restart_sphinx do
 end
 
 task :precompile_assets do
-  run "cd #{release_path} && bundle exec rake assets:precompile"
+#  run "cd #{release_path} && bundle exec rake assets:precompile"
 end
 
 namespace :deploy do
