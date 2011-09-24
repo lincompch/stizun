@@ -1,4 +1,4 @@
-  <tr class="<%= cycle('odd','even') %>">
+  <tr class="<%= cycle('odd','even') %> product_<%= product_line.id %>" >
     <td><%= check_box_tag "product_id_#{product_line.id}", product_line.id, false, :class => "batch" %></td>
     <td><%= product_line.id %></td>
     <td><%= product_line.product_pictures.count %></td>

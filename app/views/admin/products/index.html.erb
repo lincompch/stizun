@@ -52,9 +52,10 @@
 <div id="batch" style="display: inline;">
   Not editing multiple products
 </div>
-<%= link_to "Edit", edit_multiple_admin_products_path %>
-<%= link_to "Clear", remove_cookie_admin_products_path %>
-
+<div id="batch_actions" style="display: inline">
+  <%= link_to "Edit", edit_multiple_admin_products_path %>
+  <%= link_to "Clear", remove_cookie_admin_products_path %>
+</div>
 <br/>
 <%= will_paginate @products %>
 

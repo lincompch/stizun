@@ -13,9 +13,8 @@
 </div>
 
 <div style="width: 400px; float: left;">
-  <p><%= f.label :category_ids, "Categories" %></p>
-  <p>
-    <%= select_tag "product[category_ids][]",
+  <p><%= f.label :category_ids, "Categories" %><br>
+     <%= select_tag "product[category_ids][]",
       options_for_select(Category.where(:supplier_id => nil).map {|c| [c.fully_qualified_name, c.id]}),
       {:multiple => true, :style => 'min-height: 35em'} %>
   </p>
