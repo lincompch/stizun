@@ -37,7 +37,7 @@ class AlltronUtil < SupplierUtil
     #   :col_sep => the separator character to split() on
     @csv_parse_options = { :col_sep => "\t" }
   end
-
+  
   def self.category_string_cmd(file_name)
      "more +2 #{file_name} | cut -f 18-20 | sort -n | uniq | egrep -v '^[[:space:]]*$|^#'"
   end
@@ -100,6 +100,11 @@ class AlltronUtil < SupplierUtil
     AlltronUtil.create_shipping_rate
     @supplier.category = Category.find_or_create_by_name(:name => 'Alltron AG')
     AlltronUtil.create_category_tree(@supplier, filename)
+    super
+  end
+  
+  def quick_update_stock(filename)
+    
     super
   end
   

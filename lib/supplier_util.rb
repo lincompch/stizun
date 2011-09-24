@@ -88,8 +88,19 @@ class SupplierUtil
       end
     end
   end
+  
+  # The updates array needs to be in the form [ [supplier_product_code1, stock_level],
+  #                                             [supplier_product_code2, stock_level]]
+  # The updates array must be set up in a method in the descending class (e.g. AlltronUtil)
+  def quick_update_stock(filename)
+    updates.each do |upd|
+      si = @supplier.supply_items.where(:supplier_product_code => upd[0]).first
+      unless si.nil?
+        si.update_attributes(:stock => upd[1])
+      end
+    end
+  end
     
-
   
   # Import supply items from a supplier-provided CSV file, but only if they're
   # not present in our system yet.
