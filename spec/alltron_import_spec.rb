@@ -222,6 +222,8 @@ describe AlltronUtil do
   describe 'creating proper category tree for supplier' do
     
     it 'should create only non existing categories' do
+      Category.count.should == 0
+
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron.csv")
       Category.count.should == 12
       
@@ -230,6 +232,7 @@ describe AlltronUtil do
     end    
     
     it 'should set proper categories for supply items' do
+      Category.count.should == 0
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron.csv")
       Category.count.should == 12
       SupplyItem.count.should == 4
@@ -242,6 +245,7 @@ describe AlltronUtil do
     end
     
     it 'should remove empty categories' do
+      Category.count.should == 0
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron.csv")
       Category.count.should == 12
       SupplyItem.last.delete
@@ -251,11 +255,13 @@ describe AlltronUtil do
     end
     
     it 'should add/find categories also by level/depth of the tree' do
+      Category.count.should == 0
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron.csv")
       Category.find_all_by_name("PCs und Komponenten").count.should == 2
     end
     
     it 'should add category Without Category if supply items belong to none' do
+      Category.count.should == 0
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron_without_cat.csv")
       Category.find_all_by_name("Without Category").count.should == 1
     end
