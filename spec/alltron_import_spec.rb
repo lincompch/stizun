@@ -219,6 +219,18 @@ describe AlltronUtil do
     end   
   end
   
+  describe 'quick import of stock levels' do
+    it 'should update supply item stock levels when read from an XML file' do
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron.csv")
+      AlltronTestHelper.quick_update_stock(Rails.root + "spec/data/4_alltron_stock_updates.xml")
+      product_codes = SupplyItem.all.collect(&:supplier_product_code) #[1028, 1116, 1227, 1257]
+      product_codes.each do |pc|
+        si = SupplyItem.where(:supplier_product_code => pc).first
+        si.stock.should == 999
+      end
+    end
+  end
+  
   describe 'creating proper category tree for supplier' do
     
     it 'should create only non existing categories' do

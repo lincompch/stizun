@@ -93,10 +93,14 @@ class SupplierUtil
   #                                             [supplier_product_code2, stock_level]]
   # The updates array must be set up in a method in the descending class (e.g. AlltronUtil)
   def quick_update_stock(filename)
-    updates.each do |upd|
+    @updates.each do |upd|
       si = @supplier.supply_items.where(:supplier_product_code => upd[0]).first
       unless si.nil?
-        si.update_attributes(:stock => upd[1])
+        if si.update_attributes(:stock => upd[1]) == true
+          supplier_logger.info("[#{DateTime.now.to_s}] Quick stock update: #{si.to_s} now #{si.stock}")
+        else
+          supplier_logger.error("[#{DateTime.now.to_s}] Quick stock update failed: #{si.to_s}, errors:  #{si.errors.full_messages}")
+        end
       end
     end
   end

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<stock>
+	<message_header source="Alltron AG" message_type="stock" document_version_date="26.02.2009" document_version="1.00" generation_date="27.09.2011" generation_time="13:05:47"/>
+	<item>
+		<LITM>1028</LITM>
+		<STQU>999</STQU>
+	</item>
+	<item>
+		<LITM>1116</LITM>
+		<STQU>999</STQU>
+	</item>
+	<item>
+		<LITM>1227</LITM>
+		<STQU>999</STQU>
+	</item>
+	<item>
+		<LITM>1257</LITM>
+		<STQU>999</STQU>
+	</item>
+	<item>
+		<LITM>1289</LITM>
+		<STQU>5</STQU>
+	</item>
+</stock>

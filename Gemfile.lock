@@ -261,6 +261,7 @@ DEPENDENCIES
   launchy
   mini_magick
   mysql2
+  nokogiri
   paperclip
   pry
   pry-doc

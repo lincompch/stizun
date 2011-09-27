@@ -104,7 +104,17 @@ class AlltronUtil < SupplierUtil
   end
   
   def quick_update_stock(filename)
-    
+    require 'nokogiri'
+    stocked_supplier_product_codes = @supplier.supply_items.collect(&:supplier_product_code)
+    @updates = []
+    doc = Nokogiri::XML(open(filename))
+#     binding.pry
+    doc.xpath("//item").each do |ele|
+      supplier_product_code = ele.children.xpath("../LITM").first.content
+      stock = ele.children.xpath("../STQU").first.content
+      # Only accept the update if it's something we're stocking
+      @updates << [supplier_product_code, stock.to_i] unless (supplier_product_code.blank? or !stocked_supplier_product_codes.include?(supplier_product_code))
+    end
     super
   end
   

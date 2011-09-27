@@ -13,4 +13,10 @@ class AlltronTestHelper
     au.update_supply_items(Rails.root + filename)
   end
   
+  def self.quick_update_stock(filename)
+    require_relative '../../lib/alltron_util'
+    au = AlltronUtil.new
+    au.quick_update_stock(Rails.root + filename)    
+  end
+  
 end
