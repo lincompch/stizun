@@ -45,8 +45,12 @@ task :configure_sphinx do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:conf && RAILS_ENV=production bundle exec rake ts:reindex"
 end
 
-task :restart_sphinx do
-  run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:restart"
+task :start_sphinx do
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:start"
+end
+
+task :stop_sphinx do
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:stop"
 end
 
 namespace :deploy do
@@ -59,10 +63,9 @@ namespace :deploy do
    end
 end
 
-#after "deploy:update_code", :link_config
 before "deploy:assets:precompile", :link_config
+after "deploy:restart", "stop_sphinx"
 after "link_config", "link_files"
 after "link_config", "configure_sphinx"
-after "configure_sphinx", "restart_sphinx"
-#before "deploy:restart", :precompile_assets
+after "deploy:restart", "start_sphinx"
 
