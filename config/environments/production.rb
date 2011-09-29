@@ -23,7 +23,9 @@ Stizun::Application.configure do
 
   # Compress JavaScript and CSS
   config.assets.compress = true
-  config.assets.compile = true
+
+  # Don't fallback to assets pipeline
+  config.assets.compile = false
 
   # Generate digests for assets URLs
   config.assets.digest = true

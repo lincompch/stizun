@@ -49,10 +49,6 @@ task :restart_sphinx do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:restart"
 end
 
-task :precompile_assets do
-  #run "cd #{release_path} && bundle exec rake assets:precompile"
-end
-
 namespace :deploy do
    task :restart, :roles => :app, :except => { :no_release => true } do
      run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
@@ -63,9 +59,10 @@ namespace :deploy do
    end
 end
 
-after "deploy:symlink", :link_config
+#after "deploy:update_code", :link_config
+before "deploy:assets:precompile", :link_config
 after "link_config", "link_files"
 after "link_config", "configure_sphinx"
 after "configure_sphinx", "restart_sphinx"
-before "deploy:restart", :precompile_assets
+#before "deploy:restart", :precompile_assets
 
