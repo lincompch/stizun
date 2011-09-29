@@ -25,8 +25,11 @@ test:
   timeout: 5000
 
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  adapter: mysql
+  database: stizun_d
+  username: root
+  password: 1234
+  encoding: utf8
 
 cucumber:
   adapter: mysql
