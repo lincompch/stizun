@@ -67,41 +67,8 @@
       <td><%= f.label :description_editor, "Description" %></td>
       <td><%= f.cktext_area :description, :toolbar=>'Stizun', :width=>'600px', :height=>'250px'
       %>
-      <a href="#" onClick="toggle_ckeditor();">Toggle WYSIWYG editor</a><br>
       </td>
     </tr>
-    <script type="text/javascript">
-
-      /* Load CKEditor for description field no matter what */
-      /*
-      if (CKEDITOR.instances.product_description_editor) {
-        CKEDITOR.instances.product_description_editor.destroy();
-      }
-      insert_ckeditor();
-
-      function insert_ckeditor() {
-        CKEDITOR.replace('product_description_editor',
-                            { filebrowserBrowseUrl: '/ckeditor/files',
-                              filebrowserUploadUrl: '/ckeditor/create/file',
-                              filebrowserImageBrowseUrl: '/ckeditor/images',
-                              toolbar: 'Stizun',
-                              filebrowserImageUploadUrl: '/ckeditor/create/image',
-                              width: '600px',
-                              language: 'de-CH',
-                              height: '250px' });
-      }
-
-      function toggle_ckeditor() {
-
-        if (CKEDITOR.instances.product_description_editor) {
-          CKEDITOR.instances.product_description_editor.destroy();
-        } else {
-          insert_ckeditor();
-        }
-      }
-      */
-    </script>
-
   <tr>
     <td>Attachments</td>
     <td><%= render :partial => 'attachments', :locals => { :attachments => @product.attachments } %></td>

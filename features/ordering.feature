@@ -17,9 +17,9 @@ Feature: Ordering
         |Alltron AG|Alltron AG|
       And ActionMailer is set to test mode
 
-    
+
     Scenario: Add to cart
-      Given the following products exist:
+      Given the following products exist(table):
       |name|category|supplier|purchase_price|direct_shipping|
       |Fish|Animals|Alltron AG|100.0|true|
       When I view the category "Animals"
@@ -27,7 +27,7 @@ Feature: Ordering
       Then my cart should contain a product named "Fish"
 
     Scenario: Add to cart multiple times
-      Given the following products exist:
+      Given the following products exist(table):
       |name|category|supplier|purchase_price|direct_shipping|
       |Fish|Animals|Alltron AG|100.0|true|
       When I view the category "Animals"
@@ -35,7 +35,7 @@ Feature: Ordering
       Then my cart should contain a product named "Fish" 4 times
 
     Scenario: View checkout
-      Given the following products exist:
+      Given the following products exist(table):
       |name|category|supplier|purchase_price|direct_shipping|
       |Fish|Animals|Alltron AG|100.0|true|
       |Terminator T-1000|Cyborgs|Alltron AG|100.0|true|
@@ -45,9 +45,9 @@ Feature: Ordering
       And I add the product "Terminator T-1000" to my cart 2 times
       And I visit the checkout
       Then I should see an order summary
- 
+
     Scenario: Complete checkout
-      Given the following products exist:
+      Given the following products exist(table):
       |name|category|supplier|purchase_price|direct_shipping|
       |Fish|Animals|Alltron AG|100.0|true|
       |Terminator T-1000|Cyborgs|Alltron AG|100.0|true|
@@ -64,7 +64,7 @@ Feature: Ordering
       |Strasse        |Such an Ordinary Road 1|
       |PLZ            |8000|
       |Stadt          |Sometown|
-      And I select "USAnia" from "Land" within "#billing_address" 
+      And I select "USAnia" from "Land" within "#billing_address"
       And I submit my order
       Then I should see "Danke für Ihre Bestellung!"
       And I should receive 2 e-mails
@@ -72,7 +72,7 @@ Feature: Ordering
       And the subject of e-mail 1 should be "[Local Shop] Elektronische Rechnung"
 
     Scenario: Complete checkout with different shipping address
-      Given the following products exist:
+      Given the following products exist(table):
       |name|category|supplier|purchase_price|direct_shipping|
       |Fish|Animals|Alltron AG|100.0|true|
       |Terminator T-1000|Cyborgs|Alltron AG|100.0|true|
@@ -89,7 +89,7 @@ Feature: Ordering
       |Strasse        |Such an Ordinary Road 1|
       |PLZ            |8000|
       |Stadt          |Sometown|
-      And I select "USAnia" from "Land" within "#billing_address" 
+      And I select "USAnia" from "Land" within "#billing_address"
       And I fill in the following within "#shipping_address":
       |Firma          |Some Other Company|
       |Vorname        |Other Dude|
@@ -98,7 +98,7 @@ Feature: Ordering
       |Strasse        |Such an Exceptional Road 1|
       |PLZ            |7000|
       |Stadt          |Othertown|
-      And I select "USAnia" from "Land" within "#shipping_address" 
+      And I select "USAnia" from "Land" within "#shipping_address"
       And I submit my order
       Then I should see "Danke für Ihre Bestellung!"
       And I should receive 2 e-mails
@@ -109,3 +109,4 @@ Feature: Ordering
     Scenario: Forget filling in some important fields when ordering
 
     Scenario: Use saved address when ordering
+

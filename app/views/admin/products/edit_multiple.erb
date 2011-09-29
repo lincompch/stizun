@@ -1,0 +1,27 @@
+<%= form_for :product, :url => update_multiple_admin_products_path, :html => { :method => :put } do |f| %>
+<div style="width: 400px; margin: 0px; float: left;">
+  Products that will be changed:
+  <ul>
+
+    <% for product in @products %>
+    <li>
+      <%= product.name %>
+      <%= hidden_field_tag "product_ids[]", product.id%>
+    </li>
+    <% end %>
+  </ul>
+</div>
+
+<div style="width: 400px; float: left;">
+  <p><%= f.label :category_ids, "Categories" %><br>
+     <%= select_tag "product[category_ids][]",
+      options_for_select(Category.where(:supplier_id => nil).map {|c| [c.fully_qualified_name, c.id]}),
+      {:multiple => true, :style => 'min-height: 35em'} %>
+  </p>
+  <p>Hold CTRL to select multiple.</p>
+
+</div>
+<div style="clear: both;"><%= f.submit "Submit" %></div>
+
+<% end %>
+

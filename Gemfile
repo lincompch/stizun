@@ -46,6 +46,8 @@ group :assets do
 end
 
 group :cucumber, :test, :development do
+  gem 'factory_girl_rails'
+  gem 'pickle'
   gem 'capybara'
   gem 'database_cleaner'
   gem 'cucumber-rails'
@@ -59,3 +61,4 @@ group :cucumber, :test, :development do
   gem 'pry-doc'
   gem 'therubyracer', '>= 0.8.2'
 end
+

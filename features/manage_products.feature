@@ -21,10 +21,10 @@ Feature: Create and manage products
         |name|shipping_rate_name|
         |Alltron AG|Alltron AG|
       And there is a payment method called "Prepay" which is the default
+      Given the Sphinx indexes are updated
 
     @javascript
     Scenario: Create product
-      Given the Sphinx indexes are updated
       Given a category named "Notebooks" exists
       When I create a product called "Lenovo T400"
       And I wait for a fancybox to appear
@@ -42,7 +42,6 @@ Feature: Create and manage products
 
     @javascript
     Scenario: Forget assigning a tax class when creating a product
-      Given the Sphinx indexes are updated
       Given a category named "Notebooks" exists
       When I create a product called "Lenovo T500"
       And I wait for a fancybox to appear
@@ -54,4 +53,22 @@ Feature: Create and manage products
       And I click the create button
       Then I should see an error message inside the fancybox
       And there should not be a product called "Lenovo T500"
+
+    @javascript
+    Scenario: Edit multiple products category
+      Given a category: "computers" exists with name: "computers"
+      Given a product: "pc" exists with name: "pc"
+      And a product: "laptop" exists with name: "laptop"
+      And I am on the admin products page
+      Then I should see "Not editing multiple products"
+      And I check product: "pc"'s first checkbox
+      Then I should see "Editing multiple products"
+      And I check product: "laptop"'s first checkbox
+      And I follow "Edit" within "#batch_actions"
+      And I should see "pc"
+      And I should see "laptop"
+      Then I select "computers" from "product_category_ids_"
+      And I press "Submit"
+      Then category: "computers" should contain product: "pc"
+      And category: "computers" should contain product: "laptop"
 
