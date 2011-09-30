@@ -1,10 +1,9 @@
 /*
 *= require_self
-*= require "templates/lincomp/errors"
 *= require "jquery-ui/smoothness/jquery-ui-1.8.6.custom"
 */
 body {
-	background: url('/assets/templates/lincomp/bg_top.png') repeat-x;
+  background: url(<%= asset_path 'themes/lincomp/bg_top.png' %>) repeat-x;
   background-color: #EFEFEF;
 	font-size: 10pt;
 	margin: 0px;
@@ -88,7 +87,7 @@ td {
 }
 
 #nav {
-  background: url('/assets/templates/lincomp/headernav_bg.png');
+  background: url('<%= asset_path 'themes/lincomp/headernav_bg.png' %>');
 	background-color: #545454;
   height: 35px;
 	padding-left: 25px;
@@ -230,7 +229,7 @@ td {
 }
 
 #ft_top {
-	background-image: url('/assets/templates/lincomp/bg_ct_btm-white.png');
+  background-image: url('<%= asset_path 'themes/lincomp/bg_ct_btm-white.png'%>');
 	height: 34px;
 	width: 1000px;
 	padding-top: 20px;
