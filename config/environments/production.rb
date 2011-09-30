@@ -27,6 +27,9 @@ Stizun::Application.configure do
   # Don't fallback to assets pipeline
   config.assets.compile = false
 
+  # But gimme those extra assets
+  config.assets.precompile += %w( theme-lincomp.css theme-lincomp-print.css general.css general_admin.css admin_blank.css in_place_styles.css modal.css scaffold.css )
+
   # Generate digests for assets URLs
   config.assets.digest = true
 
