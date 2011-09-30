@@ -38,7 +38,12 @@ Stizun::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
   config.assets.compile = true
-  # Only use best-standards-support built into browsers
+
+  # Additional assets to precompile that would otherwise be ignored
+  #config.assets.precompile += %w( stylesheet.css print.css stylesheets/templates/lincomp/stylesheet.css stylesheets/templates/lincomp/print.css )
+  config.assets.precompile += [ /stylesheet\.css/, /print\.css/ ]
+
+# Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 
   config.action_mailer.default_url_options = { :host => "localhost:3000" }
