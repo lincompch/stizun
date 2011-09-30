@@ -123,7 +123,7 @@ td {
 
 
 #nav {
-  background: url('../../../images/templates/lincomp/headernav_bg.png');
+  background: url('../../../images/themes/lincomp/headernav_bg.png');
 	background-color: #545454;
   height: 35px;
 	padding-left: 25px;
@@ -262,7 +262,7 @@ td {
 }
 
 #ft_top {
-	background-image: url("../../../images/templates/lincomp/bg_ct_btm-white.png");
+	background-image: url("../../../images/themes/lincomp/bg_ct_btm-white.png");
 	height: 34px;
 	width: 896px;
 	padding-top: 20px;
