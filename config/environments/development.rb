@@ -41,7 +41,7 @@ Stizun::Application.configure do
 
   # Additional assets to precompile that would otherwise be ignored
   #config.assets.precompile += %w( stylesheet.css print.css stylesheets/templates/lincomp/stylesheet.css stylesheets/templates/lincomp/print.css )
-  config.assets.precompile += [ /stylesheet\.css/, /print\.css/ ]
+  #config.assets.precompile += [ /stylesheet\.css/, /print\.css/ ]
 
 # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
