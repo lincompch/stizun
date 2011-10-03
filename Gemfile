@@ -37,7 +37,7 @@ gem 'uuidtools'
 gem 'later_dude', '>= 0.3.1'
 gem "feedzirra", "~> 0.0.24"
 gem "ruby-progressbar", :require => "progressbar"
-gem 'nokogiri' 
+gem 'nokogiri'
 
 group :assets do
   gem 'sass-rails', " ~> 3.1.0"
