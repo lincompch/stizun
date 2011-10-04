@@ -5,7 +5,7 @@ module Admin::SupplyItemsHelper
 
     sorted_categories = Rails.cache.read(cache_key)
     if sorted_categories.nil?
-        sorted_categories = Category.where(:supplier => supplier).sort { |a,b| a.fully_qualified_name <=> b.fully_qualified_name }
+        sorted_categories = Category.where(:supplier_id => supplier).sort { |a,b| a.fully_qualified_name <=> b.fully_qualified_name }
         Rails.cache.write(cache_key, sorted_categories)
     end
 
