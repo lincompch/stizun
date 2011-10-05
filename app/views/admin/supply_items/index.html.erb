@@ -11,7 +11,7 @@
 
   <p>Limit to Category:</p>
 
-  <%= category_id_select_tag_for_supplier(@supplier, params[:category_id]) %>
+  <%= category_id_select_tag_for_supplier(@supplier, params[:category_id]).html_safe %>
 <% end %>
 
 <%= will_paginate @supply_items %>
@@ -46,7 +46,7 @@
     <td colspan="7"><%= render 'form', :item => item %></td>
   </tr>
 
-  <%= #render :partial => 'product_alternatives', :locals => {:item => item} 
+  <%= #render :partial => 'product_alternatives', :locals => {:item => item}
 %>
 
 <% end %>
