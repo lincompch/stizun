@@ -62,6 +62,7 @@ class SupplierUtil
     file = File.open(filename, "r")
     file.each do |line|
       data = parse_line(line)
+      next if data[:supplier_product_code].blank? # The line is incomplete, skip it
       if affected_supplier_product_codes.include?(data[:supplier_product_code])
         item_hashes << data
       end
@@ -117,6 +118,7 @@ class SupplierUtil
       File.open(filename, "r").each_with_index do |line, i|
         next if i == 0 # We skip the first line, it only contains header information
         data = parse_line(line)
+        next if data[:supplier_product_code].blank? # The line is incomplete, skip it
         # check if we have the supply item
         local_supply_item = SupplyItem.where(:supplier_id => @supplier.id, 
                                              :supplier_product_code => data[:supplier_product_code]).first
@@ -158,10 +160,11 @@ class SupplierUtil
   def new_supply_item(data)
     si = @supplier.supply_items.new
     si.supplier_product_code = data[:supplier_product_code]
-    si.name = "#{data[:name01].gsub("ß","ss")}" 
-    si.name += " #{data[:name02].to_s.gsub("ß","ss")}" unless data[:name02].blank?
-    si.name += " (#{data[:name03].to_s.gsub("ß","ss")})" unless data[:name03].blank?
+    si.name = "#{data[:name01]}" 
+    si.name += " #{data[:name02]}" unless data[:name02].blank?
+    si.name += " (#{data[:name03]})" unless data[:name03].blank?
     si.name = si.name.strip
+    si.name = si.name.gsub("ß","ss")
     si.manufacturer = "#{data[:manufacturer]}"
     si.product_link = "#{data[:product_link]}"
     si.pdf_url= "#{data[:pdf_url]}"
