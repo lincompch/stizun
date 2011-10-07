@@ -4,7 +4,3 @@ $(document).ready(function() {
   });
 });
 
-$(function() {
-  $("#supply_item_list").jExpand();
-});
-
