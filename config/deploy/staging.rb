@@ -25,7 +25,9 @@ role :db,  "lincomp@test.lincomp.org", :primary => true # This is where Rails mi
 
 task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
-  run "rm #{release_path}/config/database.yml"
+  if File.exist?("rm #{release_path}/config/database.yml")
+    run "rm #{release_path}/config/database.yml"
+  end
   run "ln -s #{db_config} #{release_path}/config/database.yml"
   run "rm #{release_path}/config/stizun.yml"
   run "ln -s #{stizun_config} #{release_path}/config/stizun.yml"
@@ -68,4 +70,3 @@ after "deploy:restart", "stop_sphinx"
 after "link_config", "link_files"
 after "link_config", "configure_sphinx"
 after "deploy:restart", "start_sphinx"
-
