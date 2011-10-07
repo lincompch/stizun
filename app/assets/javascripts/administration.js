@@ -10,7 +10,10 @@
 //= require "jquery.fancybox/jquery.fancybox-1.3.3.pack"
 //= require jExpand
 //= require jquery-cookie
-//= require application
 //= require batch
 //
+
+$(function() {
+  $("#supply_item_list").jExpand();
+});
 
