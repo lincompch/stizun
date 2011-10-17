@@ -42,7 +42,9 @@ class ProductsController < ApplicationController
           begin
             require "lib/#{@product.supplier.utility_class_name.underscore}"
             @changes = @product.supplier.utility_class_name.constantize.live_update(@product)
-            @product.reload if (!@changes.nil? or !@changes.empty?)
+            if @changes.is_a?(Hash) and !@changes.empty?
+              @product.reload
+            end
           rescue LoadError => e
             logger.error "Could not require lib/#{@product.supplier.utility_class_name.underscore} for live update: #{e.message}"
           end          
