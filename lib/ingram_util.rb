@@ -244,6 +244,7 @@ class IngramUtil < SupplierUtil
 
         else
           logger.error "[#{DateTime.now.to_s}] Non-OK response. Response body: #{response.body.split("\n").join("|")}"
+          return []
         end
       end
 
