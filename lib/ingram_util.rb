@@ -238,6 +238,8 @@ class IngramUtil < SupplierUtil
               # Fill a hash with changes using the product id as key
               total_changes << changes
             end
+          else
+            logger.error "[#{DateTime.now.to_s}] Non-OK response. Response body: #{response.body.split("\n").join("|")}"
           end
 
           return total_changes
