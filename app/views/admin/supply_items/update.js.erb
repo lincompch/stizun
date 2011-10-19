@@ -1,5 +1,7 @@
 if ("<%= @updated %>"){
+  $("tr#supply_item_<%= @supply_item.id %> td:nth-child(2)").removeClass("workflow_1 workflow_2 workflow_3").addClass("workflow_<%= @supply_item.workflow_status_constant %>");
   $("tr#supply_item_<%= @supply_item.id %>").effect("highlight", {"color" : "#00FF00"}, 3000);
 } else {
   $("tr#supply_item_<%= @supply_item.id %>").effect("highlight", {"color" : "#FF0000"}, 3000);
 }
+

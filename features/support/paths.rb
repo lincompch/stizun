@@ -12,6 +12,8 @@ module NavigationHelpers
       '/'
 
     # the following are examples using path_to_pickle
+    when /admin suppliers/
+      admin_suppliers_path
     when /admin products/
       admin_products_path
     when /^#{capture_model}(?:'s)? page$/                           # eg. the forum's page
