@@ -4,6 +4,8 @@ set :rvm_type, :user
 set :rvm_ruby_string, '1.9.2'        # Or whatever env you want it to run in.
 require "bundler/capistrano"
 
+set :rvm_type, :user
+
 set :application, "lincomp"
 
 set :scm, :git
@@ -60,9 +62,6 @@ namespace :deploy do
      run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
    end
 
-   task :after_deploy do
-     cleanup
-   end
 end
 
 before "deploy:assets:precompile", :link_config
@@ -70,3 +69,4 @@ after "deploy:restart", "stop_sphinx"
 after "link_config", "link_files"
 after "link_config", "configure_sphinx"
 after "deploy:restart", "start_sphinx"
+after "deploy", "deploy:cleanup"
