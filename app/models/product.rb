@@ -527,6 +527,7 @@ class Product < ActiveRecord::Base
   end
 
   def self.export_available_to_csv(filename)
+    require 'csv'
     CSV.open(filename, "w", :col_sep => ",", :quote_char => '"') do |csv|
       csv << Product.csv_header
       Product.available.each do |p|
