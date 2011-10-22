@@ -41,7 +41,9 @@ class ProductsController < ApplicationController
         unless @product.supplier.nil? or @product.supplier.utility_class_name.blank?
           begin
             require Rails.root + "lib/#{@product.supplier.utility_class_name.underscore}"
-            @changes = @product.supplier.utility_class_name.constantize.live_update(@product)
+            @changes = @product.supplier.utility_class_name.constantize.live_update(@product)$
+            # TODO: Create something like @product.was_live_updated? so that these things
+            #       are handled centrally without duplication in the model.
             if @changes.is_a?(Array) and !@changes.empty?
               @product.reload
             end
