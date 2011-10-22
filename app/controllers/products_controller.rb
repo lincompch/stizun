@@ -42,7 +42,7 @@ class ProductsController < ApplicationController
           begin
             require Rails.root + "lib/#{@product.supplier.utility_class_name.underscore}"
             @changes = @product.supplier.utility_class_name.constantize.live_update(@product)
-            if @changes.is_a?(Hash) and !@changes.empty?
+            if @changes.is_a?(Array) and !@changes.empty?
               @product.reload
             end
           rescue LoadError => e
