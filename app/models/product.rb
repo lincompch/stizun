@@ -527,7 +527,7 @@ class Product < ActiveRecord::Base
   end
 
   def self.export_available_to_csv(filename)
-    FasterCSV.open(filename, "w", :col_sep => ",", :quote_char => '"') do |csv|
+    CSV.open(filename, "w", :col_sep => ",", :quote_char => '"') do |csv|
       csv << Product.csv_header
       Product.available.each do |p|
         csv << p.to_csv_array
