@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
 
     def index
-      
+ 
       order_string = build_order_string
       
       keyword = nil
@@ -40,7 +40,7 @@ class ProductsController < ApplicationController
         @product = Product.find(params[:id])
         unless @product.supplier.nil? or @product.supplier.utility_class_name.blank?
           begin
-            require "lib/#{@product.supplier.utility_class_name.underscore}"
+            require Rails.root + "lib/#{@product.supplier.utility_class_name.underscore}"
             @changes = @product.supplier.utility_class_name.constantize.live_update(@product)
             if @changes.is_a?(Hash) and !@changes.empty?
               @product.reload
