@@ -3,10 +3,13 @@ WillPaginate::ViewHelpers.pagination_options[:next_label] = '&gt;&gt;'
 
 module WillPaginate
   module ViewHelpers
-    protected
-    def gap
-      text = "&hellip;"
-      %(<span class="gap">#{text}</span>)
+    class LinkRenderer < LinkRendererBase
+
+      protected
+      def gap
+        text = "&hellip;"
+        %(<span class="gap">#{text}</span>)
+      end
     end
   end
 end
