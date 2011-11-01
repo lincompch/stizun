@@ -12,8 +12,8 @@ class ProductPictureUploader < CarrierWave::Uploader::Base
   def paperclip_path
     ":rails_root/public/system/files/:id/:style/:basename.:extension"
   end
-  
-  
+
+
   # Choose what kind of storage to use for this uploader:
   storage :file
   # storage :s3
@@ -36,20 +36,20 @@ class ProductPictureUploader < CarrierWave::Uploader::Base
   #   # do something
   # end
 
-  
+
   version :thumb do
     process :resize_to_limit => [80,80]
   end
-  
+
   version :medium do
     process :resize_to_limit => [400,400]
-  end  
-  
+  end
+
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_white_list
      %w(jpg jpeg gif png)
   end
 
-
 end
+

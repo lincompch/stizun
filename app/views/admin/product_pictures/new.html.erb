@@ -1,6 +1,7 @@
 <h3>Existing pictures</h3>
 
-<%= render :partial => 'thumbnail_list', :locals => {:product_pictures => @product_pictures } %>
+<% puts @product_pictures.inspect %>
+<%= render 'thumbnail_list', :product_pictures => @product.product_pictures  %>
 
 
 <h3>Add product picture</h3>
@@ -37,3 +38,4 @@
   </li>
 
 </ul>
+
