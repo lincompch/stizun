@@ -94,13 +94,15 @@ class SupplierUtil
   #                                             [supplier_product_code2, stock_level]]
   # The updates array must be set up in a method in the descending class (e.g. AlltronUtil)
   def quick_update_stock(filename)
-    @updates.each do |upd|
-      si = @supplier.supply_items.where(:supplier_product_code => upd[0]).first
-      unless si.nil?
-        if si.update_attributes(:stock => upd[1]) == true
-          supplier_logger.info("[#{DateTime.now.to_s}] Quick stock update: #{si.to_s} now #{si.stock}")
-        else
-          supplier_logger.error("[#{DateTime.now.to_s}] Quick stock update failed: #{si.to_s}, errors:  #{si.errors.full_messages}")
+    SupplyItem.suspended_delta do
+      @updates.each do |upd|
+        si = @supplier.supply_items.where(:supplier_product_code => upd[0]).first
+        unless si.nil?
+          if si.update_attributes(:stock => upd[1]) == true
+            supplier_logger.info("[#{DateTime.now.to_s}] Quick stock update: #{si.to_s} now #{si.stock}")
+          else
+            supplier_logger.error("[#{DateTime.now.to_s}] Quick stock update failed: #{si.to_s}, errors:  #{si.errors.full_messages}")
+          end
         end
       end
     end
@@ -219,8 +221,8 @@ class SupplierUtil
 
 
   # If you want to implement a live update method for your own supplier util, subclass this class and override
-  # live_update to return a changes hash like ActiveRecord does.
-  def live_update
+  # live_update to return an array of change hashes like ActiveRecord uses them.
+  def live_update(object)
     return nil
   end
   

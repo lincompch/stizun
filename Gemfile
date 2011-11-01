@@ -45,7 +45,7 @@ group :assets do
   gem 'uglifier'
 end
 
-group :cucumber, :test, :development do
+group :test, :development do
   gem 'factory_girl_rails'
   gem 'pickle'
   gem 'capybara'

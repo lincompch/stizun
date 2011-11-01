@@ -1,4 +1,5 @@
 require "bundler/capistrano"
+
 set :application, "lincomp"
 
 set :scm, :git
@@ -22,7 +23,9 @@ role :db,  "lincomp@www.lincomp.ch", :primary => true # This is where Rails migr
 
 task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
-  run "rm #{release_path}/config/database.yml"
+  if File.exist?("rm #{release_path}/config/database.yml")
+    run "rm #{release_path}/config/database.yml"
+  end
   run "ln -s #{db_config} #{release_path}/config/database.yml"
   run "rm #{release_path}/config/stizun.yml"
   run "ln -s #{stizun_config} #{release_path}/config/stizun.yml"
@@ -41,35 +44,32 @@ task :configure_sphinx do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:conf && RAILS_ENV=production bundle exec rake ts:reindex"
 end
 
-task :restart_sphinx do
-  run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:restart"
+task :start_sphinx do
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:start"
 end
 
+task :stop_sphinx do
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:stop"
+end
 
 task :overwrite_custom do
   run "cd #{release_path} && rm -rf #{release_path}/custom"
   run "ln -s #{custom_directory} #{release_path}/custom"
 end
 
-taks :precompile_assets do
-  run "cd #{release_path} && bundle exec rake assets:precompile"
-end
 
 namespace :deploy do
    task :restart, :roles => :app, :except => { :no_release => true } do
-     run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:migrate"
+     #run "cd #{release_path} && RAILS_ENV='production' bundle exec rake db:migrate"
      run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
    end
 
-   task :after_deploy do
-     cleanup
-   end
 end
 
-after "deploy:symlink", :link_config
+before "deploy:assets:precompile", :link_config
+after "deploy:restart", "stop_sphinx"
 after "link_config", "link_files"
 after "link_config", "configure_sphinx"
 after "link_config", "overwrite_custom"
-after "configure_sphinx", "restart_sphinx"
-after "depoy:restart", :precompile_assets
-
+after "deploy:restart", "start_sphinx"
+after "deploy", "deploy:cleanup"

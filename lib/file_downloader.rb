@@ -22,7 +22,7 @@ class FileDownloader
         if @accepted_content_types.include?(input.content_type)
 
           if File.exists?(destination_path)
-            return file_path
+            return destination_path
           else
             file = File.open(destination_path, 'w') do |output|
                 output << input.read

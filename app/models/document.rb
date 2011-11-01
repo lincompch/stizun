@@ -168,8 +168,9 @@ class Document < ActiveRecord::Base
     suppliers.each do |sup|
       if !sup.utility_class_name.blank?
         begin
-          require "lib/#{sup.utility_class_name.underscore}"
-          product_updates += sup.utility_class_name.constantize.live_update(lines_by_supplier(sup))
+          require Rails.root + "lib/#{sup.utility_class_name.underscore}"
+          update_result = sup.utility_class_name.constantize.live_update(lines_by_supplier(sup))
+          product_updates += update_result unless update_result.nil?
         rescue LoadError => e
           logger.error "Could not require lib/#{sup.utility_class_name.underscore} for live update: #{e.message}"
         end
