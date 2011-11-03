@@ -2,25 +2,28 @@
   <table>
   <tr>
   <% product_pictures.each do |pp| %>
-    <% pp.is_main_picture? ? picture_class = "main" : picture_class = "not_main" %>
-    <td class="<%= picture_class %>">
-      
-      <div>
-        <%= image_tag pp.file.url(:thumb)  %>
-      </div>
-      <%= if pp.is_main_picture?
-            "Main picture"
-          else
-            link_to 'Set main', admin_product_picture_path(pp, :set_main_picture => true), :method => :put 
-          end  %>
+    <% if pp.persisted? %>
+      <% pp.is_main_picture? ? picture_class = "main" : picture_class = "not_main" %>
+      <td class="<%= picture_class %>">
 
-      <br>
-      <%= link_to 'Delete', admin_product_picture_path(pp), :confirm => "Are you sure?", :method => :delete %>
-                                
-                            
-    </td>             
+        <div>
+          <%= image_tag pp.file.url(:thumb)  %>
+        </div>
+        <%= if pp.is_main_picture?
+              "Main picture"
+            else
+              link_to 'Set main', admin_product_picture_path(pp, :set_main_picture => true), :method => :put
+            end  %>
+
+        <br>
+        <%= link_to 'Delete', admin_product_picture_path(pp), :confirm => "Are you sure?", :method => :delete %>
+
+
+      </td>
+      <% end %>
     <% end %>
   </tr>
   </table>
- 
+
  </div>
+
