@@ -32,12 +32,14 @@ class SupplierUtil
     overwrite_field(supply_item, "weight", data[:weight].gsub(",",".").to_f)
     overwrite_field(supply_item, "manufacturer", data[:manufacturer])
     overwrite_field(supply_item, "manufacturer_product_code", data[:manufacturer_product_code])
+    overwrite_field(supply_item, "image_url", "#{data[:image_url]}")
     overwrite_field(supply_item, "category01", "#{data[:category01]}")
     overwrite_field(supply_item, "category02", "#{data[:category02]}")
     overwrite_field(supply_item, "category03", "#{data[:category03]}")
     overwrite_field(supply_item, "category_id", root_category.category_from_csv("#{data[:category01]}",
         "#{data[:category02]}", 
         "#{data[:category03]}"))
+    
     unless supply_item.changes.empty?
       changes = supply_item.changes
       if supply_item.save
