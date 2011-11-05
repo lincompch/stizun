@@ -33,6 +33,7 @@ class SupplierUtil
     overwrite_field(supply_item, "manufacturer", data[:manufacturer])
     overwrite_field(supply_item, "manufacturer_product_code", data[:manufacturer_product_code])
     overwrite_field(supply_item, "image_url", "#{data[:image_url]}")
+    overwrite_field(supply_item, "pdf_url", "#{data[:pdf_url]}")
     overwrite_field(supply_item, "category01", "#{data[:category01]}")
     overwrite_field(supply_item, "category02", "#{data[:category02]}")
     overwrite_field(supply_item, "category03", "#{data[:category03]}")
