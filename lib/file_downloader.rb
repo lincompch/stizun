@@ -39,8 +39,8 @@ class FileDownloader
       rescue Errno::ENOENT
         puts "[FileDownloader] Can't open file for writing"
         return nil
-      rescue
-       puts "[FileDownloader] Couldn't retrieve file #{url} due to a network error or 404"
+      rescue Exception => e
+       puts "[FileDownloader] Couldn't retrieve file #{url} due to an error: #{e.to_s}"
        return nil
     end
   end
