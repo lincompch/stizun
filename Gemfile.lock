@@ -123,7 +123,7 @@ GEM
     mini_magick (3.3)
       subexec (~> 0.1.0)
     multi_json (1.0.3)
-    mysql2 (0.3.7)
+    mysql2 (0.3.10)
     nokogiri (1.4.7)
     orm_adapter (0.0.5)
     paperclip (2.4.2)
