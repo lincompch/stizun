@@ -128,6 +128,10 @@ class Invoice < StaticDocument
     return new_invoice
   end
   
+  def cancel
+    self.update_attributes(:status_constant => Invoice::CANCELED)
+  end
+  
   # ActiveRecord before_* and after_* callbacks
   
   def move_paid_status

@@ -18,7 +18,7 @@ class Order < StaticDocument
   # === Callbacks
   
   after_initialize :assign_payment_method, :assign_document_number 
-  before_save :send_shipping_notification, :normalize_rebate, :replace_invoice_on_rebate_change
+  before_save :send_shipping_notification, :normalize_rebate, :replace_invoice_on_rebate_change, :cancel_associated_invoices_on_cancellation
   
   # This doesn't seem to work at all, or at least not as advertised
   # Might be fixed in Rails 3.0 (polymorphic association + nested forms)
@@ -212,6 +212,11 @@ class Order < StaticDocument
     end
   end
   
+  # This can be a simple change of the constant because the before_save
+  # callback takes care of setting associated invoices to canceled
+  def cancel
+    self.update_attributes(:status_constant => Order::CANCELED)
+  end
   
   # === ActiveRecord callbacks
 
@@ -241,6 +246,14 @@ class Order < StaticDocument
     self.document_number ||= Numerator.get_number
   end
     
+  def cancel_associated_invoices_on_cancellation
+    # Order went from any other state than canceled to canceled
+    previous_status = STATUS_HASH.keys - [CANCELED]
+    if previous_status.include?(status_constant_was) && status_constant == CANCELED
+      self.invoice.cancel unless self.invoice.blank?
+    end
+  end
+  
   def send_shipping_notification
     # Order went from something else to SHIPPED, let's send a notification
     

@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.1rc2'
+gem 'rails', '3.1.1'
 
 # Allows UJS with jQuery
 gem 'jquery-rails'
