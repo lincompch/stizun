@@ -41,7 +41,22 @@ describe Order do
       o.save.should == true
     end
     
-    it "should cancel its invoice when cancelled itself" do   
+    it "should cancel its invoice when it is cancelled itself" do   
+      c = Cart.new
+      c.add_product(Product.first)
+      c.save
+      
+      o = Order.new_from_cart(c)
+      o.billing_address = Address.first
+      o.save.should == true
+      
+      i = Invoice.create_from_order(o)
+      
+      o.cancel
+      o.invoice.status_constant.should == Invoice::CANCELED
+    end
+    
+    it "should refer to the correct invoice when an invoice is created from an order" do
       c = Cart.new
       c.add_product(Product.first)
       c.save
@@ -53,10 +68,9 @@ describe Order do
       i = Invoice.create_from_order(o)
       i.valid?.should == true
       i.new_record?.should == false
+      i.order_id.should == o.id
       o.invoice.should == i
-      
-      o.cancel
-      o.invoice.status_constant.should == Invoice::CANCELED
     end
+    
   end
 end

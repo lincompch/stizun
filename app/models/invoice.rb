@@ -94,6 +94,7 @@ class Invoice < StaticDocument
        self.rebate = order.rebate
        self.status_constant = Invoice::UNPAID
        self.invoice_lines_from_order(order)
+       order.reload
     end    
   end
   
