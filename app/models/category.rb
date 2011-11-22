@@ -44,7 +44,7 @@ class Category < ActiveRecord::Base
   def find_or_create_by_name(name, level = nil, supplier = nil, create = true)
     categories = children_categories.flatten
     tab = []
-    categories.each { |category| tab << category if category.name.eql? name }
+    categories.each { |category| tab << category if category.name == name }
     found = tab.index {|category| category.level.eql? level }
     if found
       tab[found]
