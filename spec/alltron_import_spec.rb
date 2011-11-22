@@ -49,23 +49,31 @@ describe AlltronUtil do
       supplier = Supplier.where(:name => 'Alltron AG').first
 
 
-      supply_item_should_be(supplier, 1289, { :weight => 0.54,
+      supply_item_should_be(supplier, 1289, { :name => "Transferrolle z.Telefax Brother Fax 910-930 ca. 2x230 Kopien",
+                                              :category01 => "Büromaterial/-bedarf",
+                                              :category02 => "Bürogeräte",
+                                              :category03 => "Fax",
+                                              :weight => 0.54,
                                               :purchase_price => 40.38,
                                               :stock => 4} )
 
-      supply_item_should_be(supplier, 2313, { :weight => 0.06,
+      supply_item_should_be(supplier, 2313, { :name => "Tinte Canon BJC 2000/4x00/5000 Nachfüllpatrone farbig",
+                                              :weight => 0.06,
                                               :purchase_price => 24.49,
                                               :stock => 3} )
 
-      supply_item_should_be(supplier, 3188, { :weight => 0.28,
+      supply_item_should_be(supplier, 3188, { :name => "HP C7971A: LTO-1 Ultrium Cardridge, 200GB",
+                                              :weight => 0.28,
                                               :purchase_price => 36.90,
                                               :stock => 55} )
 
-      supply_item_should_be(supplier, 5509, { :weight => 0.08,
+      supply_item_should_be(supplier, 5509, { :name => "Tinte HP DeskJet 5550C, 450 cbi Nr. 56, schwarz, 19ml, P 7000'er Serie",
+                                              :weight => 0.08,
                                               :purchase_price => 19.80,
                                               :stock => 545} )
 
-      supply_item_should_be(supplier, 6591, { :weight => 0.07,
+      supply_item_should_be(supplier, 6591, { :name => "Tinte Stylus Photo 950 schwarz, 17ml",
+                                              :weight => 0.07,
                                               :purchase_price => 20.91,
                                               :stock => 2} )
 
