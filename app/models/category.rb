@@ -53,20 +53,6 @@ class Category < ActiveRecord::Base
     end
   end
 
-  # Finding correct category for a supplyitem
-  def category_from_csv(category1, category2, category3)
-    if !(category3.blank?)
-      self.find_or_create_by_name(category3, 3, nil, false).id
-    elsif !(category2.blank?)
-      self.find_or_create_by_name(category2, 2, nil, false).id
-    elsif !(category1.blank?)
-      self.find_or_create_by_name(category1, 1, nil, false).id
-    else
-      self.reload
-      self.find_or_create_by_name("Without category", 1, self.supplier, true).id
-    end
-  end
-
   # Whenever any category changes, we need to expire all category-related
   # caches
   def expire_cache_fragments
