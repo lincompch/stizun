@@ -7,6 +7,9 @@ ActiveRecord::Base.establish_connection(
 )
 
 
+
+
+
 class SupplyItem < ActiveRecord::Base
 
   scope :distinct_categories, select("DISTINCT(category)").order("category DESC")
@@ -16,6 +19,19 @@ class SupplyItem < ActiveRecord::Base
   end
 end
 
+class RealSupplyItem < ActiveRecord::Base
+  set_table_name "supply_items"
+end
+
+RealSupplyItem.establish_connection(:adapter  => "mysql2",
+  :socket => "/var/run/mysqld/mysqld.sock",
+  :username => "root",
+  :password => "",
+  :database => "stizun_dev")
+
+RealSupplyItem.all.each do |rsi|
+  SupplyItem.create(:category => "#{rsi.category01} :: #{rsi.category02} :: #{rsi.category03}")
+end
 
 words = ["USB", "Kabel", "Maus", "Mäuse", "Fisch", "Hammer", "USV", "Verlängerungen", "Compact Flash", "Warhammer"]
 
