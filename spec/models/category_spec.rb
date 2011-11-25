@@ -5,14 +5,14 @@ describe Category do
   describe 'find or create category' do
     it 'should create a new category if it doesnt exist' do
       root = Category.create!(:name => "root")
-      root.find_or_create_by_name("new category")
+      root.create_if_not_present("new category")
       Category.count.should == 2
     end
 
     it 'should return existing category with the name given' do
       root = Category.create!(:name => "root")
       child = Category.create!(:name => "child", :parent => root)
-      returned = root.find_or_create_by_name("child", 1)
+      returned = root.create_if_not_present("child", 1)
       Category.count.should == 2
       child.should == returned
     end
