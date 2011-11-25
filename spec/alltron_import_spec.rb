@@ -76,7 +76,7 @@ describe AlltronUtil do
                                               :weight => 0.07,
                                               :purchase_price => 20.91,
                                               :stock => 2} )
-
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
     end
 
     it "should change items that have products when the items changed in the CSV file" do
@@ -258,7 +258,7 @@ describe AlltronUtil do
       SupplyItem.count.should == 4
 
       supply_item = SupplyItem.where(:supplier_product_code => "1028").first
-      supply_item.category.should == Category.find_by_name("Zubehör")
+      supply_item.category.should == Category.find_by_name("Multimedia-Kabel")
 
       supply_item = SupplyItem.where(:supplier_product_code => "1257").first
       supply_item.category.should == Category.find_by_name("Datensicherung")

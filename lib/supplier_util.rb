@@ -10,7 +10,6 @@ class SupplierUtil
     line_array = line.split(@csv_parse_options[:col_sep])
     @field_mapping.each do |k,v|
       value = v.nil? ? nil : line_array[v]
-      value.gsub!("\"" ,"") if value.class == String
       data[k] = value
     end
     return data
@@ -198,23 +197,23 @@ class SupplierUtil
     category_string = `#{category_string_cmd(file_name)}`
     category_string.split("\n").each do |line|
       categories = line.split("\t")
-      categories.each { |category| category.gsub!("\"", "")}
+
       unless categories[0].blank?
         category.reload
-        root = category.find_or_create_by_name("#{categories[0]}", 1, supplier)
+        root = category.create_if_not_present("#{categories[0]}", 1, supplier)
         root.save
       end
 
       unless categories[1].blank?
         category.reload
-        level2 = category.find_or_create_by_name("#{categories[1]}", 2, supplier)
+        level2 = category.create_if_not_present("#{categories[1]}", 2, supplier)
         level2.parent = root
         level2.save
       end
 
       unless categories[2].blank?
         category.reload
-        level3 = category.find_or_create_by_name("#{categories[2]}", 3, supplier)
+        level3 = category.create_if_not_present("#{categories[2]}", 3, supplier)
         level3.parent = level2
         level3.save
       end
