@@ -10,6 +10,7 @@ FactoryGirl.define do
     p.weight 1.0
     p.association :supplier
     p.association :tax_class
+    p.association :supply_item
   end
 
   factory :supplier do |s|
@@ -17,6 +18,15 @@ FactoryGirl.define do
     s.product_base_url "url"
     s.utility_class_name "class"
     s.association :shipping_rate
+  end
+
+  factory :supply_item do |s|
+    s.sequence(:name) { |i| "SupplyItem#{i}"}
+    s.category01 "category1"
+    s.category02 "category2"
+    s.category03 "category3"
+    s.association :supplier
+    s.association :tax_class
   end
 
   factory :shipping_rate do |sr|

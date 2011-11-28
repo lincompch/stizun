@@ -10,8 +10,10 @@
       params[:manufacturer]) %>
 
   <p>Limit to Category:</p>
+	<%= select_tag :category_string,
+	  options_for_select(@category_tree, params[:category_string]),
+	  {:include_blank => true}%>
 
-  <%= category_id_select_tag_for_supplier(@supplier, params[:category_id]).html_safe %>
 <% end %>
 
 <%= will_paginate @supply_items %>

@@ -10,7 +10,6 @@ class SupplierUtil
     line_array = line.split(@csv_parse_options[:col_sep])
     @field_mapping.each do |k,v|
       value = v.nil? ? nil : line_array[v]
-      value.gsub!("\"" ,"") if value.class == String
       data[k] = value
     end
     return data
@@ -27,7 +26,6 @@ class SupplierUtil
   end
 
   def update_supply_item(supply_item, data)
-    root_category = @supplier.category
     overwrite_field(supply_item, "purchase_price", data[:price_excluding_vat].to_s.gsub(",",".")) unless data[:price_excluding_vat].to_f == 0
     overwrite_field(supply_item, "stock", data[:stock_level].gsub("'","").to_i)
     overwrite_field(supply_item, "weight", data[:weight].gsub(",",".").to_f)
@@ -38,9 +36,6 @@ class SupplierUtil
     overwrite_field(supply_item, "category01", "#{data[:category01]}")
     overwrite_field(supply_item, "category02", "#{data[:category02]}")
     overwrite_field(supply_item, "category03", "#{data[:category03]}")
-    overwrite_field(supply_item, "category_id", root_category.category_from_csv("#{data[:category01]}",
-        "#{data[:category02]}",
-        "#{data[:category03]}"))
 
     unless supply_item.changes.empty?
       changes = supply_item.changes
@@ -74,7 +69,7 @@ class SupplierUtil
     file.close
     found_supplier_product_codes = item_hashes.collect{|h| h[:supplier_product_code]}
 
-
+    SupplyItem.expire_category_tree_cache(@supplier)
     #Update the local supply items information using the line from the CSV file
     SupplyItem.suspended_delta do
       # Deactivate the supply item if the line's not there anymore
@@ -118,8 +113,8 @@ class SupplierUtil
   def import_supply_items(filename = self.import_filename)
     # before calling this in a descended class, you must set up these variables:
     # @supplier = The supplier to import for (an AR object)
+    SupplyItem.expire_category_tree_cache(@supplier)
 
-    root_category = @supplier.category
     SupplyItem.suspended_delta do
       File.open(filename, "r").each_with_index do |line, i|
         next if i == 0 # We skip the first line, it only contains header information
@@ -141,25 +136,6 @@ class SupplierUtil
           update_supply_item(local_supply_item, data)
         end
       end
-    end
-
-    # Find out which categories are empty, and remove them from supplier's category tree
-    root_category.children_categories.flatten.each do |category|
-      if category.children.blank? && category.supply_items.empty? # LEAF with no supply_items
-        remove_category(category)
-      end
-    end
-  end
-
-
-  # Using recursion to find categories with no supply items and remove them
-  def remove_category(category)
-    if category.parent.children.count == 1
-      remove_category(category.parent)
-      category.delete
-    else
-      category.delete if category.children.count == 1
-      return
     end
   end
 
@@ -187,42 +163,8 @@ class SupplierUtil
     si.category01 = "#{data[:category01]}"
     si.category02 = "#{data[:category02]}"
     si.category03 = "#{data[:category03]}"
-    si.category_id = @supplier.category.category_from_csv("#{data[:category01]}",
-                                                          "#{data[:category02]}",
-                                                          "#{data[:category03]}")
     return si
   end
-
-  def self.create_category_tree(supplier, file_name)
-    category = supplier.category
-    category_string = `#{category_string_cmd(file_name)}`
-    category_string.split("\n").each do |line|
-      categories = line.split("\t")
-      categories.each { |category| category.gsub!("\"", "")}
-      unless categories[0].blank?
-        category.reload
-        root = category.create_if_not_present("#{categories[0]}", 1, supplier)
-        root.save
-      end
-
-      unless categories[1].blank?
-        category.reload
-        level2 = category.create_if_not_present("#{categories[1]}", 2, supplier)
-        level2.parent = root
-        level2.save
-      end
-
-      unless categories[2].blank?
-        category.reload
-        level3 = category.create_if_not_present("#{categories[2]}", 3, supplier)
-        level3.parent = level2
-        level3.save
-      end
-    end
-    category.reload
-  end
-
-
 
   # If you want to implement a live update method for your own supplier util, subclass this class and override
   # live_update to return an array of change hashes like ActiveRecord uses them.
