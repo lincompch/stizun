@@ -3,7 +3,7 @@ class Admin::SupplyItemsController < Admin::BaseController
   def index
     @supplier = Supplier.find(params[:supplier_id])
     cache_manufacturers_for_supplier(@supplier)
-    cache_category_tree_for_supplier(@supplier)
+    #cache_category_tree_for_supplier(@supplier) # Previous implementation needed this
     keyword = nil
     keyword = params[:search][:keyword] unless params[:search].blank? or params[:search][:keyword].blank?
     conditions = {}
