@@ -10,7 +10,10 @@
       params[:manufacturer]) %>
 
   <p>Limit to Category:</p>
-   input box goes here.
+	<%= select_tag :category_string,
+	  options_for_select(@category_tree, params[:category_string]),
+	  {:include_blank => true}%>
+
 <% end %>
 
 <%= will_paginate @supply_items %>

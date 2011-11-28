@@ -1,6 +1,5 @@
 class Category < ActiveRecord::Base
   has_and_belongs_to_many :products
-  belongs_to :supplier
   has_many :supply_items
 
   #acts_as_tree :order => "name"
@@ -8,7 +7,6 @@ class Category < ActiveRecord::Base
   acts_as_nested_set :order => "name"
 
   after_save :expire_cache_fragments
-  after_save :generate_ancestry
   after_destroy :expire_cache_fragments
 
   def fully_qualified_name
@@ -39,20 +37,6 @@ class Category < ActiveRecord::Base
     ([self.supply_items] + children.collect(&:children_supply_items)).flatten
   end
 
-
-  # It will only look for categories in one supplier's node
-  def create_if_not_present(name, level = nil, supplier = nil, create = true)
-    categories = children_categories.flatten
-    tab = []
-    categories.each { |category| tab << category if category.name == name }
-    found = tab.index {|category| category.level.eql? level }
-    if found
-      tab[found]
-    elsif create
-      Category.create!(:name => name, :parent_id => self.id, :supplier => supplier) unless name.empty?
-    end
-  end
-
   # Whenever any category changes, we need to expire all category-related
   # caches
   def expire_cache_fragments
@@ -62,13 +46,4 @@ class Category < ActiveRecord::Base
     end
   end
 
-  def generate_ancestry
-    # callbacks have to be turned off - to avoid loop execution
-    #puts self.ancestor_chain.map(&:id).join("/")
-    Category.skip_callback("save", :after, :generate_ancestry)
-    update_attributes(:ancestry => self.ancestor_chain.map(&:id).join("/"))
-    Category.set_callback("save", :after, :generate_ancestry)
-
-  end
 end
-

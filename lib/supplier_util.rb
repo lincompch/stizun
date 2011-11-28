@@ -15,18 +15,6 @@ class SupplierUtil
     return data
   end
 
-  def make_category_string(category1, category2, category3)
-    category3 ||= ""
-    category2 ||= ""
-    category1 ||= ""
-
-    if (category1.blank? and category2.blank? and category3.blank?)
-      return "::No Category::"
-    else
-      return "{#category1} :: {#category2} :: {#category3}"
-    end
-  end
-
   def overwrite_field(item, field, data)
     unless (data.blank? or data == item.send(field))
       item.send "#{field}=", data
@@ -48,9 +36,6 @@ class SupplierUtil
     overwrite_field(supply_item, "category01", "#{data[:category01]}")
     overwrite_field(supply_item, "category02", "#{data[:category02]}")
     overwrite_field(supply_item, "category03", "#{data[:category03]}")
-    overwrite_field(supply_item, "category_string", make_category_string("#{data[:category01]}",
-                                                                         "#{data[:category02]}",
-                                                                         "#{data[:category03]}"))
 
     unless supply_item.changes.empty?
       changes = supply_item.changes
@@ -84,7 +69,7 @@ class SupplierUtil
     file.close
     found_supplier_product_codes = item_hashes.collect{|h| h[:supplier_product_code]}
 
-
+    SupplyItem.expire_category_tree_cache(@supplier)
     #Update the local supply items information using the line from the CSV file
     SupplyItem.suspended_delta do
       # Deactivate the supply item if the line's not there anymore
@@ -128,6 +113,7 @@ class SupplierUtil
   def import_supply_items(filename = self.import_filename)
     # before calling this in a descended class, you must set up these variables:
     # @supplier = The supplier to import for (an AR object)
+    SupplyItem.expire_category_tree_cache(@supplier)
 
     SupplyItem.suspended_delta do
       File.open(filename, "r").each_with_index do |line, i|
@@ -177,9 +163,6 @@ class SupplierUtil
     si.category01 = "#{data[:category01]}"
     si.category02 = "#{data[:category02]}"
     si.category03 = "#{data[:category03]}"
-    si.category_string = make_category_string("#{data[:category01]}",
-                                              "#{data[:category02]}",
-                                              "#{data[:category03]}")
     return si
   end
 

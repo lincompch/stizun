@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110727080334) do
+ActiveRecord::Schema.define(:version => 20111126163755) do
 
   create_table "addresses", :force => true do |t|
     t.string   "company"
@@ -63,7 +63,6 @@ ActiveRecord::Schema.define(:version => 20110727080334) do
     t.integer  "supplier_id"
     t.integer  "lft"
     t.integer  "rgt"
-    t.string   "ancestry"
   end
 
   add_index "categories", ["parent_id"], :name => "index_categories_on_parent_id"
@@ -382,9 +381,9 @@ ActiveRecord::Schema.define(:version => 20110727080334) do
     t.string   "category01"
     t.string   "category02"
     t.string   "category03"
-    t.integer  "category_id"
     t.integer  "workflow_status_constant",                                 :default => 1
     t.string   "notes"
+    t.string   "category_string"
   end
 
   add_index "supply_items", ["supplier_id"], :name => "index_supply_items_on_supplier_id"

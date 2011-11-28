@@ -2,22 +2,16 @@ class Admin::SupplyItemsController < Admin::BaseController
 
   def index
     @supplier = Supplier.find(params[:supplier_id])
-    @root_category = @supplier.category
     cache_manufacturers_for_supplier(@supplier)
-      keyword = nil
-
+    cache_category_tree_for_supplier(@supplier)
+    keyword = nil
     keyword = params[:search][:keyword] unless params[:search].blank? or params[:search][:keyword].blank?
     conditions = {}
-    with = {}
-    with_all = {}
     conditions[:manufacturer] = params[:manufacturer] unless params[:manufacturer].blank?
-    with.merge!(:category_id => params[:category_id]) unless params[:category_id].blank?
-    with_all.merge!(:category_ids => [params[:category_id]]) unless params[:category_id].blank?
+    conditions[:category_string] = Riddle.escape(params[:category_string]) unless params[:category_string].blank?
 
     @supply_items = @supplier.supply_items.sphinx_available_items.search(keyword,
                                                   :conditions => conditions,
-#                                                  :with => with,
-                                                  :with_all => with_all,
                                                   :per_page => SupplyItem.per_page,
                                                   :page => params[:page],
                                                   :max_matches => 100000,
@@ -42,5 +36,12 @@ class Admin::SupplyItemsController < Admin::BaseController
     end
   end
 
-end
+  def cache_category_tree_for_supplier(supplier)
+    @category_tree = Rails.cache.read("supplier_#{supplier.id}_category_tree")
+    if @category_tree.nil?
+      @category_tree = SupplyItem.category_tree(supplier)
+      Rails.cache.write("supplier_#{supplier.id}_category_tree", @category_tree)
+    end
+  end
 
+end
