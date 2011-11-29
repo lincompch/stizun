@@ -52,7 +52,9 @@
     <td colspan="7"><%= render 'form', :item => item %></td>
   </tr>
 
-  <%= render :partial => 'product_alternatives', :locals => {:item => item}
+  <%= 
+# This is much too slow right now, we need to find its own view ("supply items that have alternatives") so we can justify this slowness
+#render :partial => 'product_alternatives', :locals => {:item => item}
 %>
 
 <% end %>
