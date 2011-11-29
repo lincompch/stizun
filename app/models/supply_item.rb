@@ -81,9 +81,10 @@ class SupplyItem < ActiveRecord::Base
   define_index do
     # fields
     indexes(:name, :sortable => true)
+    indexes(:category_string, :sortable => true)
     indexes manufacturer, description, supplier_product_code, manufacturer_product_code
     #indexes category_id
-    indexes status_constant, category_string
+    indexes status_constant
 
     # attributes
     has created_at, updated_at
