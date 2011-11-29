@@ -10,11 +10,18 @@ class Admin::SupplyItemsController < Admin::BaseController
     conditions[:manufacturer] = params[:manufacturer] unless params[:manufacturer].blank?
     conditions[:category_string] = Riddle.escape(params[:category_string]) unless params[:category_string].blank?
 
+    order = :name
+    sort_mode = :asc
+    
+    order = params[:order].to_sym unless params[:order].blank?
+    
     @supply_items = @supplier.supply_items.sphinx_available_items.search(keyword,
                                                   :conditions => conditions,
                                                   :per_page => SupplyItem.per_page,
                                                   :page => params[:page],
                                                   :max_matches => 100000,
+                                                  :order => order,
+                                                  :sort_mode => sort_mode,
                                                   :include => :product) # eager loading speeds up this view from e.g. 2500 ms to 1900 ms
   end
 

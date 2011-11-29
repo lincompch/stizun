@@ -14,6 +14,10 @@
 	  options_for_select(@category_tree, params[:category_string]),
 	  {:include_blank => true}%>
 
+  <p>Order by:</p>
+    <%= select_tag :order,
+        options_for_select(['name', 'manufacturer', 'supplier_product_code', 'manufacturer_product_code'] ,params[:order]) %>
+
 <% end %>
 
 <%= will_paginate @supply_items %>

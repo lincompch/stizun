@@ -82,7 +82,11 @@ class SupplyItem < ActiveRecord::Base
     # fields
     indexes(:name, :sortable => true)
     indexes(:category_string, :sortable => true)
-    indexes manufacturer, description, supplier_product_code, manufacturer_product_code
+    indexes(:manufacturer, :sortable => true)
+    indexes(:supplier_product_code, :sortable => true)
+    indexes(:manufacturer_product_code, :sortable => true)
+    
+    indexes description
     #indexes category_id
     indexes status_constant
 
