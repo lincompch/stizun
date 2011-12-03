@@ -21,7 +21,7 @@ class ProductsController < ApplicationController
         with.merge!(:category_id => params[:category_id])
       end
       
-      @products = Product.sphinx_available.search(keyword,
+      @products = Product.sphinx_available.search(Riddle.escape(keyword),
                                                   :conditions => conditions,
                                                   :with => with,
                                                   :order => order_string,
