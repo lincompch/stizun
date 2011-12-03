@@ -39,7 +39,7 @@ class Admin::ProductsController <  Admin::BaseController
       with = {}
       with.merge!(:category_id => params[:category_id]) unless params[:category_id].blank?
 
-      @products =       Product.search(keyword,
+      @products =       Product.search(Riddle.escape(keyword),
                                       :conditions => conditions,
                                       :with => with,
                                       :max_matches => 100000,
