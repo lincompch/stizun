@@ -13,6 +13,8 @@ class ProductsController < ApplicationController
         end
       end
       
+      keyword = Riddle.escape(keyword) unless keyword.nil?
+      
       with = {}
       conditions = {}
       
@@ -21,7 +23,7 @@ class ProductsController < ApplicationController
         with.merge!(:category_id => params[:category_id])
       end
       
-      @products = Product.sphinx_available.search(Riddle.escape(keyword),
+      @products = Product.sphinx_available.search(keyword,
                                                   :conditions => conditions,
                                                   :with => with,
                                                   :order => order_string,
