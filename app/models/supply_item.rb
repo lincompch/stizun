@@ -5,7 +5,7 @@ class SupplyItem < ActiveRecord::Base
   has_one :product
 
   before_create :set_status_to_available_if_nil
-  before_save :handle_supply_item_deletion
+  before_save :delete_if_stock_too_low, :handle_supply_item_deletion
   after_save :generate_categories
 
   def self.per_page
@@ -177,6 +177,10 @@ class SupplyItem < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def delete_if_stock_too_low
+    self.status_constant = SupplyItem::DELETED if self.stock < 0
   end
 
 

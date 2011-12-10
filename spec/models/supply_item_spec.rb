@@ -11,4 +11,29 @@ describe SupplyItem do
     end
   end
 
+  describe "disabling its product" do
+    it "should disable its product if the stock goes below 0" do
+      supply_item = Factory.build(:supply_item)
+      product = Factory.build(:product)
+      supply_item.product = product
+      product.save
+      supply_item.stock = 10
+      supply_item.save
+      
+      supply_item.stock = -1
+      supply_item.save
+      product.is_available.should == false
+    end
+    
+    it "should not disable its product if there is enough stock" do
+      supply_item = Factory.build(:supply_item)
+      product = Factory.build(:product)
+      supply_item.product = product
+      product.save
+      supply_item.stock = 10
+      supply_item.save
+      product.is_available.should == true
+    end
+  end
+
 end

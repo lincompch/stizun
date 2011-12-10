@@ -25,6 +25,7 @@ FactoryGirl.define do
     s.category01 "category1"
     s.category02 "category2"
     s.category03 "category3"
+    s.stock 1
     s.association :supplier
     s.association :tax_class
   end
