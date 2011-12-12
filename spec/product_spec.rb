@@ -67,6 +67,7 @@ describe Product do
     end
     
     
+    
     # When a product switches to a supply item from another supplier (that has the same
     # manufacturer product code, of course), all the related data in the product
     # should update as well on save.
@@ -152,6 +153,7 @@ describe Product do
     
     
   end
+  
   
   
 end

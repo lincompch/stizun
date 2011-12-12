@@ -43,7 +43,7 @@ class Product < ActiveRecord::Base
   before_save :update_notifications, :sync_supply_item_information
   
   def update_notifications
-    price_relevant_fields = ["purchase_price", "sales_price", "margin_percentage"]
+    price_relevant_fields = ["purchase_price", "sales_price"]
     relevant_changes = self.changes.keys & price_relevant_fields
         
     if relevant_changes.size > 0
@@ -181,8 +181,10 @@ class Product < ActiveRecord::Base
       end
       # We must use the compound product's tax class for legal reasons, no matter what
       # tax class the constituent components may have.
-            
+                  
       margin = (purchase_price / BigDecimal.new("100.0")) * self.margin_percentage
+      
+      
       gross_price = purchase_price + margin
     end
     @component_pricing ||= [gross_price, margin, purchase_price]
@@ -292,7 +294,6 @@ class Product < ActiveRecord::Base
     # Can be improved by flexibly reading the tax percentage from the CSV file in a first
     # step and then assigning it to a supply item, and THEN reading a proper TaxClass object from there
     p.tax_class = TaxClass.find_or_create_by_percentage("8.0", {:name => "Auto-created default"})
-    p.margin_percentage = 5.0
     p.supplier_id = si.supplier_id
     p.supply_item_id = si.id
     p.weight = si.weight
@@ -537,6 +538,9 @@ class Product < ActiveRecord::Base
 
   end
 
+  def margin_percentage
+    MarginRange.percentage_for_price(self.purchase_price)
+  end
   
   private
  
@@ -552,7 +556,7 @@ class Product < ActiveRecord::Base
   end
   
   def calculated_margin
-    margin = (purchase_price / 100.0) * margin_percentage
+    margin = (purchase_price / 100.0) * self.margin_percentage
     BigDecimal.new(margin.to_s)
   end
 

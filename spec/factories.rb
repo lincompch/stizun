@@ -47,5 +47,11 @@ FactoryGirl.define do
     sc.weight 10
     sc.price 10
   end
+  
+  factory :margin_range do |mr|
+    mr.start_price 0
+    mr.end_price 100
+    mr.margin_percentage 5.0    
+  end
 
 end

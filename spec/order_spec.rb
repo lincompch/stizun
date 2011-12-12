@@ -5,6 +5,12 @@ require 'spec_helper'
 describe Order do
   
   before(:each) do
+    mr0 = Factory.build(:margin_range)
+    mr0.start_price = nil
+    mr0.end_price = nil
+    mr0.margin_percentage = 5.0
+    mr0.save
+  
     @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
     TaxClass.all.count.should == 1
     
@@ -23,7 +29,6 @@ describe Order do
         :name => 'Test 1',
         :description => 'Foo',
         :purchase_price => 120.0,
-        :margin_percentage => 5.0,
         :weight => 5.0,
         :supplier => @supplier,
         :tax_class => @tax_class)
