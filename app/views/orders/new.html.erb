@@ -102,7 +102,6 @@
 
   <p><%= t("stizun.order.leave_this_empty_to_ship_to_billing_address")%></p>
 
-  <p style="strong">Wir können nicht an Postfächer liefern!</p>
   
   <% if current_user %>
   <p><%= t("stizun.order.use_saved_address") %></p>
@@ -114,6 +113,9 @@
   <%= fields_for :shipping_address, @order.shipping_address do |sa| %>
 
   <%= sa.error_messages %>
+
+
+  <p><strong>Wir können nicht an Postfächer liefern!.</strong></p>
 
   <table class="address" id="shipping_address">
     <tr>
@@ -132,7 +134,7 @@
     </tr>
     <tr>
       <td><%= sa.label :street, t('stizun.address.attributes.street') %> </td>
-      <td><%= sa.text_field :street %></td>
+      <td><%= sa.text_field :street %> <strong>(Wir können an Postfächer liefern!)</strong></td>
     </tr>
     <tr>
       <td>
