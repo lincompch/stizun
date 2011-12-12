@@ -168,8 +168,8 @@
   <% end %>
 
   <tr>
-    <td><%= f.label :margin_percentage, "Profit margin (in percent)" %></td>
-    <td><%= f.text_field :margin_percentage, :size => 4 %></td>
+    <td>Calculated margin percentage:</td>
+    <td><%= @product.margin_percentage %></td>
   </tr>
 
   <% if @product.componentized? %>
