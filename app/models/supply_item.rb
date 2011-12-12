@@ -5,7 +5,7 @@ class SupplyItem < ActiveRecord::Base
   has_one :product
 
   before_create :set_status_to_available_if_nil
-  before_save :delete_if_stock_too_low, :handle_supply_item_deletion
+  before_save :normalize_stock, :delete_if_stock_too_low, :handle_supply_item_deletion
   after_save :generate_categories
 
   def self.per_page
@@ -179,10 +179,14 @@ class SupplyItem < ActiveRecord::Base
     end
   end
 
+  # This should really be done as a default on the database instead
+  def normalize_stock
+    self.stock = 0 if self.stock.nil?
+  end
+
   def delete_if_stock_too_low
     self.status_constant = SupplyItem::DELETED if self.stock < 0
   end
-
 
   def handle_supply_item_deletion
     if self.status_constant_was == SupplyItem::AVAILABLE and \
