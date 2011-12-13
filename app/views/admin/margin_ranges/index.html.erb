@@ -1,0 +1,24 @@
+<h1>Listing margin_ranges</h1>
+
+<table>
+  <tr style="height: 25px;">
+    <td>Price from</td>
+    <td>Price to</td>
+    <td>Percentage</td>
+    <td></td><td></td><td></td>
+  </tr>
+
+<% @margin_ranges.each do |margin_range| %>
+  <tr class="<%= cycle("odd","even") %>">
+    <td><%= margin_range.start_price %></td>
+    <td><%= margin_range.end_price %></td>
+    <td><%= margin_range.margin_percentage %></td>
+    <td><%= link_to 'Edit', edit_admin_margin_range_path(margin_range) %></td>
+    <td><%= link_to 'Destroy', admin_margin_range_path(margin_range), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New margin range', new_admin_margin_range_path %>

@@ -1,0 +1,28 @@
+<h1>Editing margin range</h1>
+
+<%= form_for([:admin, @margin_range]) do |f| %>
+  <%= f.error_messages %>
+
+
+  <table>
+   <tr>
+      <td><%= f.label :start_price, "Start price" %> </td>
+      <td><%= f.text_field :start_price %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :end_price, "End price" %> </td>
+      <td><%= f.text_field :end_price %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :margin_percentage, "Percentage" %> </td>
+      <td><%= f.text_field :margin_percentage %></td>
+    </tr>
+  </table>  
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', admin_margin_range_path(@margin_range) %> |
+<%= link_to 'Back', admin_margin_ranges_path %>

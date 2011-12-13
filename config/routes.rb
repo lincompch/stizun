@@ -67,6 +67,7 @@ Stizun::Application.routes.draw do
 
     resources :shipping_costs
     resources :shipping_rates
+    resources :margin_ranges
     resources :histories
     resources :payment_methods
     resources :configuration_items
