@@ -4,9 +4,7 @@
 def create_product(prod)
 
     purchase_price = BigDecimal.new("0.0")
-    purchase_price = BigDecimal.new(prod['purchase_price'].to_s) unless prod['purchase_price'].nil?
-    margin_percentage = BigDecimal.new("0.0")
-    margin_percentage = prod['margin_percentage'].to_f unless prod['margin_percentage'].nil?
+    purchase_price = BigDecimal.new(prod['purchase_price'].to_s) unless prod['purchase_price'].nil?		
     sales_price = nil
     sales_price = BigDecimal.new(prod['sales_price']) unless prod['sales_price'].nil?
     direct_shipping = false
@@ -31,7 +29,6 @@ def create_product(prod)
                              :supplier => supplier,
                              :tax_class => tax_class,
                              :purchase_price => purchase_price,
-                             :margin_percentage => margin_percentage,
                              :manufacturer_product_code => manufacturer_product_code,
                              :direct_shipping => direct_shipping)
   if prod['category']

@@ -131,12 +131,7 @@
     <td><%= f.label :purchase_price, "Purchase price" %></td>
     <td><%= f.text_field :purchase_price, :size => 8 %></td>
   </tr>
-
-  <tr>
-    <td><%= f.label :margin_percentage, "Profit margin (in percent)" %></td>
-    <td><%= f.text_field :margin_percentage, :size => 4 %></td>
-  </tr>
-
+  
   <tr>
     <td><%= f.label :sales_price, "Sales price" %></td>
     <td><%= f.text_field :sales_price, :size => 8, :value => '' %> (Leave empty to make the system auto-calculate the sales price based on margin)</td>

@@ -7,17 +7,19 @@ Feature: Price calculation on products, orders, invoices
   Background: A system configuration needs to be here
     Given there is a configuration item named "tax_booker_class_name" with value "TaxBookers::SwissTaxBooker"
     And a tax class named "MwSt 8.0%" with the percentage 8.0%
+		And there are the following margin ranges:
+		|start_price|end_price|margin_percentage|
+		|nil        |nil      |0.0              |
 
-
+    # By default the margin range that exists hits at 0.0%
     Scenario: Show price based on purchase price plus margin calculation and taxes
       Given a product
       When I set the purchase price to 100.0
-      And I set the margin percentage to 5.0
       And I set the tax class to "MwSt 8.0%"
-      Then the taxed product price should be 113.40
-      And the taxed rounded price should be 113.40
-      And the absolute margin should be 5.0
-      And the taxes should be 8.40
+      Then the taxed product price should be 108.00
+      And the taxed rounded price should be 108.00
+      And the absolute margin should be 0.0
+      And the taxes should be 8.00
 
     Scenario: Show price based on absolutely defined sales price and taxes
       Given a product
@@ -58,8 +60,6 @@ Feature: Price calculation on products, orders, invoices
       And the taxed rounded price should be 130.20
       And the absolute margin should be 20.55
       And the taxes should be roughly 9.644
-
-
 
     Scenario: Show price based on more complicated absolutely defined sales price and taxes
       Given a product

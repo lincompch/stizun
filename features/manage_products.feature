@@ -20,6 +20,10 @@ Feature: Create and manage products
       And there are the following suppliers:
         |name|shipping_rate_name|
         |Alltron AG|Alltron AG|
+      And there are the following margin ranges:
+			|start_price|end_price|margin_percentage|
+			|nil|nil|0.0              |
+			|0|100000|5.0              |
       And there is a payment method called "Prepay" which is the default
       Given the Sphinx indexes are updated
 
@@ -30,7 +34,6 @@ Feature: Create and manage products
       And I wait for a fancybox to appear
       And I fill in "Some laptop" in the CKEditor instance "product_description"
       And I fill in the purchase price 100.0
-      And I fill in the margin percentage 5.0
       And I fill in the weight 5.0
       And I select the supplier "Alltron AG"
       And I select the tax class "MwSt 8.0%"
@@ -49,7 +52,6 @@ Feature: Create and manage products
       And I fill in the purchase price 100.0
       And I fill in the weight 5.0
       And I select the supplier "Alltron AG"
-      And I fill in the margin percentage 5.0
       And I click the create button
       Then I should see an error message inside the fancybox
       And there should not be a product called "Lenovo T500"

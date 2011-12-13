@@ -22,6 +22,9 @@ Feature: Browse products
       And there are the following suppliers:
         |name|shipping_rate_name|
         |Alltron AG|Alltron AG|
+      And there are the following margin ranges:
+        |start_price|end_price|margin_percentage|
+        |nil        |nil      |0.0              |
       And there is a payment method called "Prepay" which is the default
 
     Scenario: Browse all products

@@ -13,10 +13,6 @@ When /^I set the purchase price to (\d+\.\d+)$/ do  |num|
   @product.purchase_price = BigDecimal.new(num)
 end
 
-When /^I set the margin percentage to (\d+\.\d+)$/ do |num|
-  @product.margin_percentage = num
-end
-
 When /^I set the tax class to "([^\"]*)"$/ do |arg1|
   
   # TODO: This is dummy material -- needs to be updated with an elegant way to specify
