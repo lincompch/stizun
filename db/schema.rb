@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111126163755) do
+ActiveRecord::Schema.define(:version => 20111212200018) do
 
   create_table "addresses", :force => true do |t|
     t.string   "company"
@@ -175,6 +175,12 @@ ActiveRecord::Schema.define(:version => 20111126163755) do
   add_index "invoices", ["user_id"], :name => "index_invoices_on_user_id"
   add_index "invoices", ["uuid"], :name => "index_invoices_on_uuid"
 
+  create_table "margin_ranges", :force => true do |t|
+    t.float "start_price"
+    t.float "end_price"
+    t.float "margin_percentage"
+  end
+
   create_table "notifications", :force => true do |t|
     t.string   "email"
     t.string   "remove_hash"
@@ -271,7 +277,6 @@ ActiveRecord::Schema.define(:version => 20111126163755) do
     t.text     "description"
     t.integer  "tax_class_id"
     t.decimal  "purchase_price",            :precision => 20, :scale => 2,  :default => 0.0
-    t.decimal  "margin_percentage",         :precision => 8,  :scale => 2,  :default => 0.0
     t.decimal  "sales_price",               :precision => 20, :scale => 2,  :default => 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
