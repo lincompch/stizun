@@ -8,6 +8,7 @@ FactoryGirl.define do
     p.sequence(:name) {|i| "Product #{i}"}
     p.description "Some example description"
     p.weight 1.0
+    p.purchase_price 100.0
     p.association :supplier
     p.association :tax_class
     p.association :supply_item
@@ -43,8 +44,8 @@ FactoryGirl.define do
   factory :shipping_cost do |sc|
     sc.association :tax_class
     sc.association :shipping_rate
-    sc.weight 0
-    sc.weight 10
+    sc.weight_min 0
+    sc.weight_max 10000
     sc.price 10
   end
   

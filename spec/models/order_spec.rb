@@ -1,20 +1,23 @@
-# encoding: utf-8
-
 require 'spec_helper'
 
 describe Order do
-  
-  before(:each) do
+
+	
+	  
+  before(:all) do
     mr0 = Factory.build(:margin_range)
     mr0.start_price = nil
     mr0.end_price = nil
     mr0.margin_percentage = 5.0
     mr0.save
   
-    @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
-    TaxClass.all.count.should == 1
+    @tax_class = Factory.create(:tax_class, {:percentage => 8.0})
     
-    @supplier = Supplier.create(:name => 'Test Supplier', :shipping_rate => ShippingRate.get_default)
+    @shipping_rate = Factory.create(:shipping_rate, {:tax_class => @tax_class})
+    @shipping_rate.shipping_costs.create(:price => 10.0, :weight_min => 0, :weight_max => 10000, :tax_class => @tax_class)
+
+    @supplier = Factory.create(:supplier, :shipping_rate => @shipping_rate)
+    
     Country.create(:name => "Somewhereland")
     @address = Address.new(:street => 'Foo',
                   :firstname => 'Foo',
@@ -25,14 +28,13 @@ describe Order do
                   :country => Country.first)    
     @address.save.should == true
     
-    p = Product.new(
-        :name => 'Test 1',
-        :description => 'Foo',
-        :purchase_price => 120.0,
-        :weight => 5.0,
-        :supplier => @supplier,
-        :tax_class => @tax_class)
+    
+    # For some reason, using FactoryGirl to create this breaks everything, it creates all associated
+    # things along with it, ignores the @tax_class that we explicitly set and creates many unnecessary
+    # suppliers and tax rates, which messes everything up completely.
+    p = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => @supplier, :tax_class => @tax_class, :purchase_price => 120.0, :direct_shipping => true, :is_available => true)
     p.save.should == true
+    
   end
   
   describe "a normal order" do
@@ -76,6 +78,32 @@ describe Order do
       i.order_id.should == o.id
       o.invoice.should == i
     end
-    
+
+		pending "should have no shipping cost with n items, according to the shop's configuration" do
+			ConfigurationItem.create(:key => "free_shipping_minimum_items", :value =>3)
+      c = Cart.new
+      c.add_product(Product.first)
+      c.save
+
+      # Right now it still has the default shipping cost from the default shipping rate
+      c.shipping_cost.should == BigDecimal.new("10.80")
+      
+      c.add_product(Product.first)
+      c.shipping_cost.should == BigDecimal.new("21.60")
+      
+      c.add_product(Product.first)
+      c.shipping_cost.should == BigDecimal.new("0.0")
+
+		
+		end
+		
+		pending "should have no shipping cost starting at a certain order value, according to the shop's configuration" do
+			ConfigurationItem.create(:key => "free_shipping_minimum_amount", :value => 3)
+			
+		end
+		
+		
   end
+	
+
 end

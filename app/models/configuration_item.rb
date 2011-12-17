@@ -24,6 +24,7 @@ class ConfigurationItem < ActiveRecord::Base
       return item
     end
   end
+  
 
   
   def to_s
