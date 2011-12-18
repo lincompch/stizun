@@ -30,15 +30,42 @@ class Document < ActiveRecord::Base
     return taxes
   end
 
+  # Note: This could be improved by having a ShippingRate dealing specifically with free shipping
   # In future, incoming and outgoing directions could be handled by 'direction'
   def shipping_cost(direction = nil)
-    return shipping_rate.total_cost
+    cost = BigDecimal.new("0.0") if self.qualifies_for_free_shipping?
+    cost ||= shipping_rate.total_cost
+    return cost
   end
   
+  # Note: This could be improved by having a ShippingRate dealing specifically with free shipping
   def shipping_taxes
-    return shipping_rate.total_taxes
+    cost = BigDecimal.new("0.0") if self.qualifies_for_free_shipping?
+    cost ||= shipping_rate.total_taxes
+    return cost
   end
   
+  
+  def qualifies_for_free_shipping?
+    qualifies = false
+    begin
+      minimum_item_count = ConfigurationItem.get("free_shipping_minimum_items").value.to_i
+      qualifies = true if self.total_of_quantities >= minimum_item_count
+    rescue ArgumentError
+      # Can't find that configuration key, thus we do nothing, because the shipping rate's total_cost
+      # will be returned in such cases
+    end
+    
+    begin
+      minimum_order_amount = BigDecimal.new(ConfigurationItem.get("free_shipping_minimum_amount").value)
+      qualifies = true if self.products_price >= minimum_order_amount
+    rescue ArgumentError
+      # Can't find that configuration key, thus we do nothing, because the shipping rate's total_cost
+      # will be returned in such cases
+    end
+    
+    return qualifies
+  end
   
   # Note that this shipping_rate is only here so that a shipping rate can be attached to 
   # a document. It does not actually return a ShippingRate object for this order, because
@@ -51,6 +78,12 @@ class Document < ActiveRecord::Base
     return @sr
   end
  
+  def total_of_quantities
+    sum = 0
+    lines.each {|l| sum += l.quantity}
+    sum
+  end
+  
   def supplier_ids
     outgoing_supplier_ids
   end

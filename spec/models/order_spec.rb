@@ -79,7 +79,7 @@ describe Order do
       o.invoice.should == i
     end
 
-		pending "should have no shipping cost with n items, according to the shop's configuration" do
+		it "should have no shipping cost with n items, according to the shop's configuration" do
 			ConfigurationItem.create(:key => "free_shipping_minimum_items", :value =>3)
       c = Cart.new
       c.add_product(Product.first)
@@ -93,13 +93,25 @@ describe Order do
       
       c.add_product(Product.first)
       c.shipping_cost.should == BigDecimal.new("0.0")
-
-		
+      c.shipping_taxes.should == BigDecimal.new("0.0")
 		end
 		
-		pending "should have no shipping cost starting at a certain order value, according to the shop's configuration" do
-			ConfigurationItem.create(:key => "free_shipping_minimum_amount", :value => 3)
-			
+		it "should have no shipping cost starting at a certain order value, according to the shop's configuration" do
+			ConfigurationItem.create(:key => "free_shipping_minimum_amount", :value => 300)
+      c = Cart.new
+      c.add_product(Product.first)
+      c.save
+
+      # Right now it still has the default shipping cost from the default shipping rate
+      c.shipping_cost.should == BigDecimal.new("10.80")
+      
+      c.add_product(Product.first)
+      c.shipping_cost.should == BigDecimal.new("21.60")
+      
+      # Now the value goes over 300, thus triggering free shipping
+      c.add_product(Product.first)
+      c.shipping_cost.should == BigDecimal.new("0.0")
+      c.shipping_taxes.should == BigDecimal.new("0.0")
 		end
 		
 		
