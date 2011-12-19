@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe Order do
-
-	
-	  
+  
   before(:all) do
     mr0 = Factory.build(:margin_range)
     mr0.start_price = nil
@@ -79,8 +77,8 @@ describe Order do
       o.invoice.should == i
     end
 
-		it "should have no shipping cost with n items, according to the shop's configuration" do
-			ConfigurationItem.create(:key => "free_shipping_minimum_items", :value =>3)
+    it "should have no shipping cost with n items, according to the shop's configuration" do
+      ConfigurationItem.create(:key => "free_shipping_minimum_items", :value =>3)
       c = Cart.new
       c.add_product(Product.first)
       c.save
@@ -96,8 +94,8 @@ describe Order do
       c.shipping_taxes.should == BigDecimal.new("0.0")
 		end
 		
-		it "should have no shipping cost starting at a certain order value, according to the shop's configuration" do
-			ConfigurationItem.create(:key => "free_shipping_minimum_amount", :value => 300)
+    it "should have no shipping cost starting at a certain order value, according to the shop's configuration" do
+      ConfigurationItem.create(:key => "free_shipping_minimum_amount", :value => 300)
       c = Cart.new
       c.add_product(Product.first)
       c.save
@@ -112,10 +110,8 @@ describe Order do
       c.add_product(Product.first)
       c.shipping_cost.should == BigDecimal.new("0.0")
       c.shipping_taxes.should == BigDecimal.new("0.0")
-		end
-		
-		
+    end
+    
   end
-	
 
 end

@@ -19,7 +19,7 @@ class Document < ActiveRecord::Base
     self.lines.each do |ol|
       total += ol.price
     end
-    return total    
+    return total
   end
   
   def taxes
@@ -58,7 +58,7 @@ class Document < ActiveRecord::Base
     
     begin
       minimum_order_amount = BigDecimal.new(ConfigurationItem.get("free_shipping_minimum_amount").value)
-      qualifies = true if self.products_price >= minimum_order_amount
+      qualifies = true if self.products_taxed_price >= minimum_order_amount
     rescue ArgumentError
       # Can't find that configuration key, thus we do nothing, because the shipping rate's total_cost
       # will be returned in such cases
