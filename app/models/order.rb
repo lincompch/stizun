@@ -121,7 +121,7 @@ class Order < StaticDocument
   end
   
   def clone_from_cart(cart)
-    self.shipping_cost = cart.shipping_rate.total_cost.rounded
+    self.shipping_cost = cart.shipping_cost.rounded
     self.shipping_taxes = cart.shipping_taxes
     self.direct_shipping = true if cart.direct_shipping? == true
     self.rebate = BigDecimal.new("0.0") # Shouldn't be necessary because the DB default is 0.0, but better safe than sorry

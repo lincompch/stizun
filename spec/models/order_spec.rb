@@ -112,6 +112,19 @@ describe Order do
       c.shipping_taxes.should == BigDecimal.new("0.0")
     end
     
+    it "should get its shipping cost passed on correctly from a shopping cart" do
+      ConfigurationItem.create(:key => "free_shipping_minimum_amount", :value => 300)
+      c = Cart.new
+      c.add_product(Product.first)
+      c.add_product(Product.first)
+      c.add_product(Product.first)
+      c.save
+      
+      o = Order.new_from_cart(c)
+      o.shipping_cost.should == BigDecimal.new("0.0")
+      o.shipping_taxes.should == BigDecimal.new("0.0")
+    end
+    
   end
 
 end
