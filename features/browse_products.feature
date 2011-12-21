@@ -32,21 +32,21 @@ Feature: Browse products
       |name        |category               |supplier  |purchase_price|direct_shipping|manufacturer_product_code|
       |Foobar 2000 |Metasyntactic Variables|Alltron AG|100.0         |true           |foo1                     |
       |Fish        |Animals                |Alltron AG|100.0         |true           |foo2                     |
-      |Defender    |Arcade games           |Alltron AG|100.0         |true           |foo3                     |
+      |Defender    |Arcade games           |Alltron AG|100.0         |true           |foo3                     |      
       When I view the product list
       Then I should see a product named "Foobar 2000"
       And I should see a product named "Fish"
       And I should see a product named "Defender"
 
+    @javascript
     Scenario: Browse products in a category
       Given the following products exist(table):
       |name        |category               |supplier  |purchase_price|direct_shipping|manufacturer_product_code|
       |Foobar 2000 |Metasyntactic Variables|Alltron AG|100.0         |true           |foo1                     |
       |Fish        |Animals                |Alltron AG|100.0         |true           |foo2                     |
       |Defender    |Arcade games           |Alltron AG|100.0         |true           |foo3                     |
-      When I view the category "Animals"
+      When the Sphinx indexes are updated
+      And I view the category "Animals"
       Then I should see a product named "Fish"
       And I should not see a product named "Defender"
-
-    Scenario: View single product
 
