@@ -18,61 +18,69 @@ describe Product do
     end
   end
   
+  
   describe "a componentized product" do
-    it "should have some specific supply items in the system" do
-      array = [
-        { 'name' => 'Some fast CPU', 'purchase_price' => 115.0,
-          'weight' => 4.5, 'tax_percentage' => 8.0 },
-        { 'name' => 'Cool RAM', 'purchase_price' => 220.0,
-          'weight' => 0.3, 'tax_percentage' => 8.0 },
-        { 'name' => 'An old Mainboard', 'purchase_price' => 80.0,
-          'weight' => 1.2, 'tax_percentage' => 8.0 },
-        { 'name' => 'Semi-broken case with PSU', 'purchase_price' => 20.0,
-          'weight' => 10.2, 'tax_percentage' => 8.0 },
-        { 'name' => 'Defective screen', 'purchase_price' => 200.0,
-          'weight' => 2.8, 'tax_percentage' => 8.0 }
-      ]
-      supplier = create_supplier("Alltron AG")
-      supply_items = create_supply_items(supplier, array)
-      SupplyItem.all.count.should == 5
+      before(:all) do
+        array = [
+          { 'name' => 'Some fast CPU', 'purchase_price' => 115.0,
+            'weight' => 4.5, 'tax_percentage' => 8.0 },
+          { 'name' => 'Cool RAM', 'purchase_price' => 220.0,
+            'weight' => 0.3, 'tax_percentage' => 8.0 },
+          { 'name' => 'An old Mainboard', 'purchase_price' => 80.0,
+            'weight' => 1.2, 'tax_percentage' => 8.0 },
+          { 'name' => 'Semi-broken case with PSU', 'purchase_price' => 20.0,
+            'weight' => 10.2, 'tax_percentage' => 8.0 },
+          { 'name' => 'Defective screen', 'purchase_price' => 200.0,
+            'weight' => 2.8, 'tax_percentage' => 8.0 }
+        ]
+        supplier = create_supplier("Alltron AG")
+        supply_items = create_supply_items(supplier, array)
+        SupplyItem.all.count.should == 5
+    end
+    
+    it "should consist of supply items as components" do
+      p = Factory.build(:product)
+      p.name = "Ye Olde Wooden PC"
+      p.description = "A PC made of wood, with crappy components."
+      p.add_component(SupplyItem.where(:name => 'Some fast CPU').first) 
+      p.add_component(SupplyItem.where(:name => 'Cool RAM').first) 
+      p.add_component(SupplyItem.where(:name => 'An old Mainboard').first) 
+      p.add_component(SupplyItem.where(:name => 'Semi-broken case with PSU').first) 
+      p.add_component(SupplyItem.where(:name => 'Defective screen').first) 
+      p.components.count.should == 5
+      
+        
     end
 
     it "should have a correct price, a total of constituent supply items" do
       pending
     end
 
-    it "should have correct taxes" do
+    it "should have correct taxes, based on the totals of all the constituent supply items' purchase prices plus a total margin" do
       pending
     end
-
-  
   end
   
   describe "a product" do
-       
-    it "should have basic information" do
-      tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
+    before(:all) do
+      @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
       supplier = create_supplier("Alltron AG")
       supply_items = create_supply_items(supplier)
       supply_items.count.should > 0 
       suplier = Supplier.where(:name => 'Alltron AG').first
-      tax_class = TaxClass.where(:name => 'Test Tax Class').first
       p = Product.new
-      p.tax_class = tax_class
+      p.tax_class = @tax_class
       p.name = "Something"
       p.description = "Some stuff"
       p.weight = 1.0
       p.supplier = supplier
       p.save.should == true
     end
-    
-    
-    
+
     # When a product switches to a supply item from another supplier (that has the same
     # manufacturer product code, of course), all the related data in the product
     # should update as well on save.
     it "should have its supply item product code updated when its supply item changes to another supplier's identical supply item" do
-      tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
       supplier = create_supplier("Some Company 1")
       supplier.supply_items.create(:name => "Switchable Supply Item",
                                    :description => "It's switchable",
@@ -96,8 +104,7 @@ describe Product do
       p.manufacturer_product_code.should == "ABC"
       p.supplier_product_code.should == "123"
       p.supplier.should == supplier
-      p.tax_class.should == tax_class
-      #debugger; puts "lala"
+      #p.tax_class.should == @tax_class # Why doesn't this work?
       p.save.should == true
       
       p.supply_item = supplier2.supply_items.first
