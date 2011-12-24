@@ -15,8 +15,6 @@ gem 'devise'
 gem 'rails3-generators'
 gem 'rack-ssl-enforcer'
 
-gem 'ruby-prof', :git => 'git://github.com/wycats/ruby-prof.git'
-
 # CKEditor has a nice Rails integration thanks to Igor Galeta
 # Bundler is still hopelessly broken with the :git option ("is not checked out.
 # Please run `bundle install`" bug described here: http://www.ruby-forum.com/topic/213962
