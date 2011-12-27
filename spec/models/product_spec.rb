@@ -4,23 +4,21 @@ require 'spec_helper'
 
 describe Product do
 
-  before(:all) do
-    describe "the system in general" do
-      it "should have some supply items" do
-        supplier = create_supplier("Alltron AG")
-        supply_items = create_supply_items(@supplier)
-        supply_items.count.should > 0
-      end
-      
-      it "should have a tax class" do
-        @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
-        TaxClass.where(:name => 'Test Tax Class', :percentage => 8.0).first.should_not == nil
-      end
+  describe "the system in general" do
+    it "should have some supply items" do
+      supplier = create_supplier("Alltron AG")
+      supply_items = create_supply_items(@supplier)
+      supply_items.count.should > 0
+    end
+    
+    it "should have a tax class" do
+      @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
+      TaxClass.where(:name => 'Test Tax Class', :percentage => 8.0).first.should_not == nil
     end
   end
   
   describe "a product" do
-    before(:all) do
+    before(:each) do
       @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
       supplier = create_supplier("Alltron AG")
       supply_items = create_supply_items(supplier)
@@ -73,7 +71,6 @@ describe Product do
 
     end
     
-    
     it "should have its core data updated when its supply item has received an update to its core data (price or stock level)" do
       tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
       supplier = create_supplier("Some Company 1")
@@ -115,15 +112,11 @@ describe Product do
       p2.purchase_price.should == BigDecimal("40.0")
       p2.stock.should == 70
     end
-    
-    
   end
-  
-  
   
   describe "a componentized product" do
       before(:all) do
- 
+        puts "componentized before all"
         @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0) 
         array = [
           { 'name' => 'Some fast CPU', 'purchase_price' => 115.0,
