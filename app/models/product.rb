@@ -176,15 +176,11 @@ class Product < ActiveRecord::Base
         # This is handled more elegantly by disabling these components from outside
         # when this occurs, but let's check for this here just to be safe.
         unless ps.component.nil?
-          purchase_price += ps.quantity * ps.component.purchase_price
+          purchase_price += ps.purchase_price # Convenience method that does ps.quantity * ps.component.purchase_price
         end
       end
-      # We must use the compound product's tax class for legal reasons, no matter what
-      # tax class the constituent components may have.
                   
-      margin = (purchase_price / BigDecimal.new("100.0")) * self.margin_percentage
-      
-      
+      margin = (purchase_price / BigDecimal.new("100.0")) * MarginRange.percentage_for_price(purchase_price) # Must call MarginRange#percentage_for_price explicitly, not through self.margin_percentage, because otherwise an infinite loop occurs
       gross_price = purchase_price + margin
     end
     @component_pricing ||= [gross_price, margin, purchase_price]
@@ -449,7 +445,6 @@ class Product < ActiveRecord::Base
       return "#{supplier.product_base_url}#{self.supplier_product_code}"
     end
   end
-
   
   # Compare all products that are related to a supply item with
   # the supply item's current stock level and price. Make adjustments
@@ -500,7 +495,6 @@ class Product < ActiveRecord::Base
     return changes
   end
 
-
   def try_to_get_product_files
     unless self.supply_item.nil?
       if self.supply_item.retrieve_product_picture
@@ -518,7 +512,6 @@ class Product < ActiveRecord::Base
   
   def alternative_supply_items
     SupplyItem.where(:manufacturer_product_code => supply_item.manufacturer_product_code) - [supply_item]
-
   end
 
   def sync_supply_item_information
@@ -543,12 +536,6 @@ class Product < ActiveRecord::Base
   end
   
   private
- 
-  
-  def calculated_rounded_gross_price
-    calculated_rounded_sales_price = calculated_gross_price.round(1)
-    BigDecimal.new(calculated_rounded_gross_price.to_s)
-  end
   
   def calculated_gross_price
     calculated_gross_price = (purchase_price + calculated_margin)

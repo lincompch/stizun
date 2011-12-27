@@ -58,7 +58,7 @@ group :test, :development do
   gem 'launchy'
   gem 'ruby-debug19'
   gem 'ZenTest'
-  # gem 'pry'
+  gem 'pry'
   # gem 'pry-doc'
   gem 'therubyracer', '>= 0.8.2'
 end

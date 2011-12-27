@@ -4,60 +4,18 @@ require 'spec_helper'
 
 describe Product do
 
-  
-  describe "the system in general" do
-    it "should have some supply items" do
-      supplier = create_supplier("Alltron AG")
-      supply_items = create_supply_items(@supplier)
-      supply_items.count.should > 0
-    end
-    
-    it "should have a tax class" do
-      @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
-      TaxClass.where(:name => 'Test Tax Class', :percentage => 8.0).first.should_not == nil
-    end
-  end
-  
-  
-  describe "a componentized product" do
-      before(:all) do
-        array = [
-          { 'name' => 'Some fast CPU', 'purchase_price' => 115.0,
-            'weight' => 4.5, 'tax_percentage' => 8.0 },
-          { 'name' => 'Cool RAM', 'purchase_price' => 220.0,
-            'weight' => 0.3, 'tax_percentage' => 8.0 },
-          { 'name' => 'An old Mainboard', 'purchase_price' => 80.0,
-            'weight' => 1.2, 'tax_percentage' => 8.0 },
-          { 'name' => 'Semi-broken case with PSU', 'purchase_price' => 20.0,
-            'weight' => 10.2, 'tax_percentage' => 8.0 },
-          { 'name' => 'Defective screen', 'purchase_price' => 200.0,
-            'weight' => 2.8, 'tax_percentage' => 8.0 }
-        ]
+  before(:all) do
+    describe "the system in general" do
+      it "should have some supply items" do
         supplier = create_supplier("Alltron AG")
-        supply_items = create_supply_items(supplier, array)
-        SupplyItem.all.count.should == 5
-    end
-    
-    it "should consist of supply items as components" do
-      p = Factory.build(:product)
-      p.name = "Ye Olde Wooden PC"
-      p.description = "A PC made of wood, with crappy components."
-      p.add_component(SupplyItem.where(:name => 'Some fast CPU').first) 
-      p.add_component(SupplyItem.where(:name => 'Cool RAM').first) 
-      p.add_component(SupplyItem.where(:name => 'An old Mainboard').first) 
-      p.add_component(SupplyItem.where(:name => 'Semi-broken case with PSU').first) 
-      p.add_component(SupplyItem.where(:name => 'Defective screen').first) 
-      p.components.count.should == 5
+        supply_items = create_supply_items(@supplier)
+        supply_items.count.should > 0
+      end
       
-        
-    end
-
-    it "should have a correct price, a total of constituent supply items" do
-      pending
-    end
-
-    it "should have correct taxes, based on the totals of all the constituent supply items' purchase prices plus a total margin" do
-      pending
+      it "should have a tax class" do
+        @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
+        TaxClass.where(:name => 'Test Tax Class', :percentage => 8.0).first.should_not == nil
+      end
     end
   end
   
@@ -161,6 +119,91 @@ describe Product do
     
   end
   
+  
+  
+  describe "a componentized product" do
+      before(:all) do
+ 
+        @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0) 
+        array = [
+          { 'name' => 'Some fast CPU', 'purchase_price' => 115.0,
+            'weight' => 4.5, 'tax_percentage' => 8.0 },
+          { 'name' => 'Cool RAM', 'purchase_price' => 220.0,
+            'weight' => 0.3, 'tax_percentage' => 8.0 },
+          { 'name' => 'An old Mainboard', 'purchase_price' => 80.0,
+            'weight' => 1.2, 'tax_percentage' => 8.0 },
+          { 'name' => 'Semi-broken case with PSU', 'purchase_price' => 20.0,
+            'weight' => 10.2, 'tax_percentage' => 8.0 },
+          { 'name' => 'Defective screen', 'purchase_price' => 200.0,
+            'weight' => 2.8, 'tax_percentage' => 8.0 }
+        ]
+        supplier = create_supplier("Alltron AG")
+        supply_items = create_supply_items(supplier, array)
+        SupplyItem.all.count.should == 5
+    end
+    
+    it "should consist of supply items as components" do
+      p = Factory.build(:product)
+      p.name = "Ye Olde Wooden PC"
+      p.description = "A PC made of wood, with crappy components."
+      p.add_component(SupplyItem.where(:name => 'Some fast CPU').first) 
+      p.add_component(SupplyItem.where(:name => 'Cool RAM').first) 
+      p.add_component(SupplyItem.where(:name => 'An old Mainboard').first) 
+      p.add_component(SupplyItem.where(:name => 'Semi-broken case with PSU').first) 
+      p.add_component(SupplyItem.where(:name => 'Defective screen').first) 
+      p.save
+      p.components.count.should == 5
+    end
+
+    it "should have a correct price, a total of constituent supply items" do
+      mr = Factory.create(:margin_range, :start_price => nil, :end_price => nil, :margin_percentage => 0.0)
+      p = Factory.build(:product)
+      
+      p.name = "Ye Olde Wooden PC"
+      p.description = "A PC made of wood, with crappy components."
+      p.add_component(SupplyItem.where(:name => 'Some fast CPU').first) 
+      p.add_component(SupplyItem.where(:name => 'Cool RAM').first) 
+      p.add_component(SupplyItem.where(:name => 'An old Mainboard').first) 
+      p.add_component(SupplyItem.where(:name => 'Semi-broken case with PSU').first) 
+      p.add_component(SupplyItem.where(:name => 'Defective screen').first) 
+      p.save
+      p.purchase_price.should == (115 + 220 + 80 + 20 + 200) # The total of purchase prices
+      p.gross_price.should == (115 + 220 + 80 + 20 + 200) # The same, since we set MarginRange to be 0.0 above
+    end
+
+    it "should have correct taxes and sales price, based on the totals of all the constituent supply items' purchase prices plus a total margin" do
+      mr = Factory.create(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
+      p = Factory.build(:product)
+      p.name = "Ye Olde Wooden PC"
+      p.description = "A PC made of wood, with crappy components."
+      p.add_component(SupplyItem.where(:name => 'Some fast CPU').first) 
+      p.add_component(SupplyItem.where(:name => 'Cool RAM').first) 
+      p.add_component(SupplyItem.where(:name => 'An old Mainboard').first) 
+      p.add_component(SupplyItem.where(:name => 'Semi-broken case with PSU').first) 
+      p.add_component(SupplyItem.where(:name => 'Defective screen').first)
+      p.tax_class = @tax_class
+      p.save
+      p.taxes.should == 55.88
+      p.taxed_price.should == 754.38
+    end
+    
+    it "should be affected by MarginRanges just like normal products" do
+      mr = Factory.create(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
+      p = Factory.build(:product)
+      p.name = "Ye Olde Wooden PC"
+      p.description = "A PC made of wood, with crappy components."
+      p.add_component(SupplyItem.where(:name => 'Some fast CPU').first) 
+      p.add_component(SupplyItem.where(:name => 'Cool RAM').first) 
+      p.add_component(SupplyItem.where(:name => 'An old Mainboard').first) 
+      p.add_component(SupplyItem.where(:name => 'Semi-broken case with PSU').first) 
+      p.add_component(SupplyItem.where(:name => 'Defective screen').first) 
+      p.save
+      total = 115 + 220 + 80 + 20 + 200
+      p.purchase_price.should == total # The total of purchase prices
+      p.gross_price.should == total + ((total / 100.0) * mr.margin_percentage)
+    end
+    
+  end # end componentized product
   
   
 end
