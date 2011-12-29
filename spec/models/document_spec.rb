@@ -47,6 +47,17 @@ describe Document do
       c.shipping_cost.should == BigDecimal.new("0.0")
       c.shipping_taxes.should == BigDecimal.new("0.0")
     end
+    
+    it "should report the correct total including taxes and shipping" do
+      ConfigurationItem.create(:key => "free_shipping_minimum_amount", :value => 120)
+      c = Cart.new
+      c.add_product(Product.first)
+      c.save
+      
+      c.shipping_cost.should == BigDecimal.new("0.0")
+      c.shipping_taxes.should == BigDecimal.new("0.0")
+      c.taxed_price.should == c.products_taxed_price # No added shipping!
+    end
   end
   
 end

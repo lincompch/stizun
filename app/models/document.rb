@@ -3,7 +3,7 @@ class Document < ActiveRecord::Base
 
   
   def taxed_price
-    return products_taxed_price + shipping_rate.total_cost
+    return products_taxed_price + shipping_cost
   end
   
   def products_taxed_price
@@ -11,7 +11,7 @@ class Document < ActiveRecord::Base
     self.lines.each do |ol|
       total += ol.taxed_price
     end
-    return total    
+    return total
   end
   
   def products_price
