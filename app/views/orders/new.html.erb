@@ -155,11 +155,9 @@
   </table>
   <% end %>
 
-
 <p><%= t("stizun.order.notification_email_explanation") %></p>
 
-<p style="font-weight: bold;"><%= t("stizun.order.terms_explanation") %></p>
-
+<p><strong><%= f.check_box 'terms_of_service' %> <%= f.label 'terms_of_service', t("stizun.order.i_accept_terms") %></strong> (<%= link_to t("stizun.order.read_terms_of_service"), :controller => 'page', :action => 'tos' %>)</p>
 
 <%= submit_tag t("stizun.order.submit_order") %>
 

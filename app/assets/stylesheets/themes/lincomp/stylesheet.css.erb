@@ -2,6 +2,22 @@
 *= require_self
 *= require "jquery-ui/smoothness/jquery-ui-1.8.6.custom"
 */
+
+
+/* Prevent tearing apart checkboxes and labels etc. */
+div.field_with_errors { 
+  display: inline; 
+} 
+
+div.field_with_errors input {
+  border: 2px solid #9E3434;
+}
+
+div.field_with_errors label {
+   color: #9E3434;
+}
+
+
 body {
     background-color: #EFEFEF;
 	font-size: 10pt;

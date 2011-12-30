@@ -8,12 +8,15 @@ class Order < StaticDocument
   
   # === Validations
   
-  validates_presence_of :billing_address
+  #validates_presence_of :billing_address
   
-  validates_associated :billing_address, :message => 'is incomplete'
-  validates_associated :shipping_address, :unless => :addressing_ok?, :message => 'is incomplete'
+  validates_associated :billing_address, :message => I18n.t('stizun.address.is_incomplete')
+  validates_associated :shipping_address, :unless => :addressing_ok?, :message => I18n.t('stizun.address.is_incomplete')
+  
+  validates_acceptance_of :terms_of_service, :on => :create, :message => I18n.t("stizun.order.terms_must_be_accepted")
   
   validate :must_be_authorized_for_payment_method
+  
   
   # === Callbacks
   

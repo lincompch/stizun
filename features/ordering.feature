@@ -65,6 +65,7 @@ Feature: Ordering
       |PLZ            |8000|
       |Stadt          |Sometown|
       And I select "USAnia" from "Land" within "#billing_address"
+      And I check "order_terms_of_service"
       And I submit my order
       Then I should see "Danke für Ihre Bestellung!"
       And I should receive 2 e-mails
@@ -99,6 +100,7 @@ Feature: Ordering
       |PLZ            |7000|
       |Stadt          |Othertown|
       And I select "USAnia" from "Land" within "#shipping_address"
+      And I check "order_terms_of_service"
       And I submit my order
       Then I should see "Danke für Ihre Bestellung!"
       And I should receive 2 e-mails
