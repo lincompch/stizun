@@ -38,6 +38,7 @@
               <li class="nav_menu_item"><%= link_to "Ausloggen", destroy_user_session_path %></li>
               <li class="nav_menu_item"><%= link_to "Mein Konto", user_path(current_user) %></li>
             <% end %>
+            <li class="nav_menu_item"><%= link_to "Versandkosten", :controller => 'page', :action => 'shipping' %></a></li>
             <li class="nav_menu_item"><%= link_to "Einkaufswagen", cart_path %></a></li>
             <li class="nav_menu_item"><%= link_to "Zur Kasse", new_order_path %></a></li>
             <li class="nav_menu_item"><%= link_to "AGB", :controller => 'page', :action => 'tos' %></a></li>

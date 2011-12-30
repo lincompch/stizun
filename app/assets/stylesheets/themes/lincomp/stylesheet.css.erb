@@ -375,7 +375,7 @@ table.specs th {
 
 /* More or less new stuff here (Stizun) */
 
-table.productlist {
+table.productlist, table.shipping_costs {
   width: 100%;
   border-collapse: collapse;
 }
@@ -384,7 +384,7 @@ table.productlist td.buy {
   width: 10em;
 }
 
-table.productlist td {
+table.productlist td, table.shipping_costs td {
   text-align: left;
   vertical-align: top;
   padding: 1.2em 0.8em 1.2em 1.0em;
@@ -392,7 +392,7 @@ table.productlist td {
   border-top: 2px solid #E0E0E0;
 }
 
-table.productlist tr.odd td {
+table.productlist tr.odd td, table.shipping_costs tr.odd td {
   background: #fff;
 }
 
@@ -424,6 +424,16 @@ table.productlist td .product_picture, table#notifications td .product_picture {
 
 table.productlist .compact_add_to_cart_box {
   margin-top: 1.2em;
+}
+
+
+table.shipping_costs thead th, table.shipping_costs tfoot th {
+  text-align: left;
+  padding: 0.3em 0.6em 0.3em 0.6em;
+  background: #EDEDED;
+  border-top: 1px solid #D1D1D1;
+  border-bottom: 1px solid #D1D1D1;
+
 }
 
 

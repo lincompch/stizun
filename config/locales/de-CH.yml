@@ -246,6 +246,10 @@ de-CH:
       delete: "Löschen"
       price: "Preis"
       actions: "Aktionen"
+      total: "Total"
+      to: "bis"
+      from: "von"
+      excluding_vat: "exkl. MwSt."
     table_headers:
       number: "Nr."
       date: "Datum"
@@ -417,7 +421,18 @@ de-CH:
       logout_successful: "Sie sind jetzt ausgeloggt."
       stay_logged_in: "Eingeloggt bleiben."
       log_in: "Einloggen"
-
+    shipping:
+      shipping: "Versand"
+      shipping_fees: "Versandkosten"
+      normal_shipping_fees: "Normale Versandkosten"
+      our_shipping_fees_are_as_follows: "Unsere Versandkosten setzen sich wie folgt zusammen"
+      free_shipping: "Gratisversand"
+      free_shipping_is_possible_if_one_of_the_following_occurs: "Gratisversand ist möglich, wenn"
+      from_minimum_amount: 'Sie Produkte mit einem einem Gesamtwert von mindestens %{currency} %{price} im Warenkorb haben'
+      from_minimum_item_count: "Sie mindestens %{count} Produkte im Warenkorb haben"
+      it_does_not_matter_which_one: "Dabei ist es egal, welche dieser Situationen zutrifft."
+      if_your_order_does_not_qualify_for_free_shipping: "Falls Ihre Bestellung nicht für den Gratisversand in Frage kommt, gelten die folgenden Tarife"
+      weight_from: "Gewicht von"
   authlogic:
     error_messages:
       email_invalid: "E-Mail-Adresse ist ungültig."

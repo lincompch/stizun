@@ -1,0 +1,50 @@
+<h3><%= t("stizun.shipping.shipping_fees") %></h3>
+
+<p><%= t("stizun.shipping.our_shipping_fees_are_as_follows") %>:</p>
+
+
+<% if (!@minimum_item_count.nil? or @minimum_order_amount.nil?) %>
+  <h4><%= t("stizun.shipping.free_shipping") %></h4>
+  <p><%= t("stizun.shipping.free_shipping_is_possible_if_one_of_the_following_occurs") %></p>
+  <ul>
+    <% if !@minimum_order_amount.nil? %>
+      <li><%= t("stizun.shipping.from_minimum_amount", {currency: @currency, price:  "%05.2f" % @minimum_order_amount})%></li>
+    <% end %>
+    <% if !@minimum_item_count.nil? %>
+      <li><%= t("stizun.shipping.from_minimum_item_count", {count: @minimum_item_count})%></li>
+    <% end %>
+  </ul>
+  <p><%= t("stizun.shipping.it_does_not_matter_which_one") %></p>
+<% end %>
+
+
+<h4><%= t("stizun.shipping.normal_shipping_fees") %></h4>
+
+<p><%= t("stizun.shipping.if_your_order_does_not_qualify_for_free_shipping")%>:</p>
+
+<table class="shipping_costs">
+  <thead>
+    <tr>
+      <th><%= t("stizun.shipping.weight_from")%></th>
+      <th><%= t("stizun.general.to")%></th>
+      <th><%= t("stizun.general.price")%></th>
+    </tr>
+  </thead>
+  
+  <% @shipping_rate.shipping_costs.each do |sc| %>
+  
+    <tr class="<%= cycle('odd', 'even')%>">
+      <td><%= sc.weight_min / 1000.0 %> kg</td>
+      <td><%= sc.weight_max / 1000.0 %> kg</td>
+      <td><%= pretty_price(sc.price) %> <%= t("stizun.general.excluding_vat")%></td>
+  <% end %>
+  
+  <tfoot>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </tfoot>
+  
+</table>
