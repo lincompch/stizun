@@ -4,12 +4,13 @@ class StaticDocumentLine < ActiveRecord::Base
 
   before_save :recalculate_totals
   
+  # All this BigDecimal wrangling is getting on my nerves, maybe we should move to doing all calculations
+  # in cents.
   def recalculate_totals
-    #puts "-------_---__---_---","SOME STUFF #{self.single_untaxed_price.inspect} AND OTHER STUFF #{self.single_rebate.inspect}","--------_---__--____"
-    single_untaxed_price_after_rebate = self.single_untaxed_price - self.single_rebate
-    self.gross_price = self.quantity * single_untaxed_price_after_rebate
+    single_untaxed_price_after_rebate = BigDecimal.new( (self.single_untaxed_price - self.single_rebate).to_s )
+    self.gross_price = BigDecimal.new( (self.quantity * single_untaxed_price_after_rebate).to_s )
     self.taxes = (self.gross_price / BigDecimal.new("100.0")) * self.tax_percentage
-    self.taxed_price = (self.gross_price + self.taxes).rounded
+    self.taxed_price = BigDecimal.new( (self.gross_price + self.taxes).to_s ).rounded
     self.single_price = single_untaxed_price_after_rebate + ((single_untaxed_price_after_rebate / BigDecimal.new("100.0")) * self.tax_percentage)
     self.single_price = self.single_price.rounded
   end

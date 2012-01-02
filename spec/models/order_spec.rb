@@ -79,35 +79,39 @@ describe Order do
 
     it "should have no shipping cost with n items, according to the shop's configuration" do
       ConfigurationItem.create(:key => "free_shipping_minimum_items", :value =>3)
+      
+      product = Product.where(:name => 'foo').first
       c = Cart.new
-      c.add_product(Product.first)
+      c.add_product(product)
       c.save
 
       # Right now it still has the default shipping cost from the default shipping rate
       c.shipping_cost.should == BigDecimal.new("10.80")
       
-      c.add_product(Product.first)
+      c.add_product(product)
       c.shipping_cost.should == BigDecimal.new("21.60")
       
-      c.add_product(Product.first)
+      c.add_product(product)
       c.shipping_cost.should == BigDecimal.new("0.0")
       c.shipping_taxes.should == BigDecimal.new("0.0")
 		end
 		
     it "should have no shipping cost starting at a certain order value, according to the shop's configuration" do
       ConfigurationItem.create(:key => "free_shipping_minimum_amount", :value => 300)
+      
+      product = Product.where(:name => 'foo').first      
       c = Cart.new
-      c.add_product(Product.first)
+      c.add_product(product)
       c.save
 
       # Right now it still has the default shipping cost from the default shipping rate
       c.shipping_cost.should == BigDecimal.new("10.80")
       
-      c.add_product(Product.first)
+      c.add_product(product)
       c.shipping_cost.should == BigDecimal.new("21.60")
       
       # Now the value goes over 300, thus triggering free shipping
-      c.add_product(Product.first)
+      c.add_product(product)
       c.shipping_cost.should == BigDecimal.new("0.0")
       c.shipping_taxes.should == BigDecimal.new("0.0")
     end
