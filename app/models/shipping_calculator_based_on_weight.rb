@@ -6,8 +6,6 @@ class ShippingCalculatorBasedOnWeight < ShippingCalculator
       self.configuration.shipping_costs << {:weight_min => 0, :weight_max => 2000, :price => 8.35}
       self.configuration.shipping_costs << {:weight_min => 2001, :weight_max => 5000, :price => 10.20}
       self.configuration.shipping_costs << {:weight_min => 5001, :weight_max => 31000, :price => 15.20}
-
-    
     
     @cost = calculate_for_weight(document.weight * 1000)
     @package_count = package_count_for_weight(document.weight * 1000)
@@ -59,7 +57,11 @@ class ShippingCalculatorBasedOnWeight < ShippingCalculator
   
   # Maximum weight carried by this ShippingRate's ShippingCosts, in grams
   def maximum_weight
-    self.configuration.shipping_costs.collect(&:weight_max).max
+    max = 0
+    self.configuration.shipping_costs.each do |sc|
+      max = sc[:weight_max] if sc[:weight_max] > max
+    end
+    return max
   end
   
   

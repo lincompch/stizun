@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 
-describe ShippingCalculators::ShippingCalculator do
+describe ShippingCalculator do
   
 end
 
-describe ShippingCalculators::WeightBased do
+describe ShippingCalculatorBasedOnWeight do
 
   before(:each) do
     @cart = Cart.new
@@ -17,11 +17,9 @@ describe ShippingCalculators::WeightBased do
   it "returns a shipping cost when given a document, based on the documents's weight" do
   
 #     binding.pry
-     sc = ShippingCalculators::WeightBased.new
+     sc = ShippingCalculatorBasedOnWeight.new
      sc.calculate_for(@cart)
-     sc.cost.should == BigDecimal.new("15.20")
-#     sc.taxes.should == @cart.weight
-    
+     sc.cost.should == BigDecimal.new("15.20")    
   end
 
 end
