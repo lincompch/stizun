@@ -1,4 +1,4 @@
-class WeightBasedShippingCalculator < ShippingCalculator
+class ShippingCalculatorBasedOnWeight < ShippingCalculator
   
   def calculate_for(document)
     

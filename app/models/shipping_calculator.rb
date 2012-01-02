@@ -2,14 +2,14 @@ class ShippingCalculator < ActiveRecord::Base
 
   serialize :configuration, OpenStruct
   belongs_to :tax_class
-  
+
   def initialize
     @cost = BigDecimal.new("0")
     @taxes = BigDecimal.new("0")
     @gross_cost = BigDecimal.new("0")
     @package_count = 0
+     super
   end
-
   
   # Define this method on the child classes
   def calculate_for

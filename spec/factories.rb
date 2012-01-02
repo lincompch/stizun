@@ -54,5 +54,19 @@ FactoryGirl.define do
     mr.end_price 100
     mr.margin_percentage 5.0    
   end
-
+  
+  factory :country do |c|
+    c.name "Somewhereland"
+  end
+  
+  factory :address do |a|
+    a.firstname "Foo"
+    a.lastname "Bar"
+    a.sequence(:street) {|i| "Some Street No. #{i}"}
+    a.sequence(:postalcode) {|i| "#{i}"}
+    a.city "The Bay of No Hope"
+    a.email "foo@bar.com"
+    association :country
+  end
+  
 end
