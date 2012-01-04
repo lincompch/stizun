@@ -14,6 +14,7 @@ class ShippingCalculatorBasedOnWeight < ShippingCalculator
   # Input: Weight in grams
   # Output: Price for delivery according to configured ShippingCosts
   def calculate_for_weight(weight)
+    cost = 0
     @remaining_weight ||= weight  
     
     while @remaining_weight > 0.to_f
@@ -26,8 +27,12 @@ class ShippingCalculatorBasedOnWeight < ShippingCalculator
         matching_cost = self.configuration.shipping_costs.select{|s| s.weight_max == self.maximum_weight}.first
       else
         
-        shipping_cost = self.configuration.shipping_costs.select{ |sc| @remaining_weight.between?(sc.weight_min, sc.weight_max) }
-        if shipping_cost.blank?
+        shipping_cost = nil
+        self.configuration.shipping_costs.each do |sc|
+          shipping_cost = sc if @remaining_weight.between?(sc[:weight_min], sc[:weight_max])
+        end
+				
+        if shipping_cost.nil?
           # No shipping cost was found that matches the weight of this order
           # so we assume the order is below the lowest weight and pick the first
           # shipping cost of this supplier
@@ -35,17 +40,17 @@ class ShippingCalculatorBasedOnWeight < ShippingCalculator
           @remaining_weight -= @remaining_weight
           
         else
-          # A match was found, the weight is between two available shipping rates (shipping_cost.first is this rate)
-          matching_cost = shipping_cost.first
+          # A match was found, the weight is between two available shipping costs
+          matching_cost = shipping_cost
           @remaining_weight -= @remaining_weight
         end
       end
-      
+      binding.pry
       # Add the prices of the matching shipping cost that was found above
-      @cost += matching_cost.price
+      cost += matching_cost[:price]
     end
     
-    return BigDecimal.new(@cost.to_s)
+    return BigDecimal.new(cost.to_s)
   end
   
   # Input: Weight in grams
