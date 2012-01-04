@@ -2,11 +2,7 @@ class ShippingCalculatorBasedOnWeight < ShippingCalculator
   
   def calculate_for(document)
     
-      self.configuration.shipping_costs = []
-      self.configuration.shipping_costs << {:weight_min => 0, :weight_max => 2000, :price => 8.35}
-      self.configuration.shipping_costs << {:weight_min => 2001, :weight_max => 5000, :price => 10.20}
-      self.configuration.shipping_costs << {:weight_min => 5001, :weight_max => 31000, :price => 15.20}
-    
+      
     @cost = calculate_for_weight(document.weight * 1000)
     @package_count = package_count_for_weight(document.weight * 1000)
   end
@@ -24,7 +20,9 @@ class ShippingCalculatorBasedOnWeight < ShippingCalculator
       # orders into multiple packages)
       if @remaining_weight > self.maximum_weight
         @remaining_weight = (@remaining_weight - self.maximum_weight)
-        matching_cost = self.configuration.shipping_costs.select{|s| s.weight_max == self.maximum_weight}.first
+        self.configuration.shipping_costs.each do |sc|
+          matching_cost = sc if sc[:weight_max].to_f == self.maximum_weight.to_f
+        end
       else
         
         shipping_cost = nil
@@ -45,7 +43,6 @@ class ShippingCalculatorBasedOnWeight < ShippingCalculator
           @remaining_weight -= @remaining_weight
         end
       end
-      binding.pry
       # Add the prices of the matching shipping cost that was found above
       cost += matching_cost[:price]
     end
