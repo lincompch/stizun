@@ -52,7 +52,6 @@ module Stizun
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
 
-    # For CKEditor Rails integration (mostly for the uploads, which we've disabled)
     config.autoload_paths += %W( #{config.root}/app/models/ckeditor )
 
     # Enable the asset pipeline
