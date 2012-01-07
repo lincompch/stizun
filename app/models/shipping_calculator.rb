@@ -1,6 +1,7 @@
 class ShippingCalculator < ActiveRecord::Base
 
-  serialize :configuration, OpenStruct
+  # Great, this randomly does not work...
+  #serialize :configuration, OpenStruct
   belongs_to :tax_class
 
   def after_initialize
