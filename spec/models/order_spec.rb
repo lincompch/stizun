@@ -15,6 +15,8 @@ describe Order do
     @shipping_rate.shipping_costs.create(:price => 10.0, :weight_min => 0, :weight_max => 10000, :tax_class => @tax_class)
 
     @supplier = Factory.create(:supplier, :shipping_rate => @shipping_rate)
+    @supplier.shipping_rate = @shipping_rate
+    @supplier.save
     
     Country.create(:name => "Somewhereland")
     @address = Address.new(:street => 'Foo',
