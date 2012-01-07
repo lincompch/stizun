@@ -54,7 +54,7 @@ group :test, :development do
   gem 'cucumber-rails'
   gem 'cucumber'
   gem 'rspec-rails'
-  gem 'spork', '0.9.0.rc9'
+  gem 'spork'
   gem 'launchy'
   gem 'ruby-debug19'
   gem 'ZenTest'

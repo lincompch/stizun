@@ -22,7 +22,17 @@ describe ShippingCalculatorBasedOnWeight do
     @cart.add_product(Factory.create(:product, :weight => 10.0), 2)
     @cart.weight.should == 30.0
   end
-
+  
+  it "finds its maximum weight correctly" do
+    @sc.maximum_weight.should == 31000
+  end
+  
+  it "finds the correct package count based on weight" do
+    @sc.package_count_for_weight(31000).should == 1
+    @sc.package_count_for_weight(31001).should == 2
+    @sc.package_count_for_weight(120000).should == 4
+  end
+  
   it "returns a shipping cost when given a document, based on the documents's weight" do
      #sc = ShippingCalculatorBasedOnWeight.new
      @sc.calculate_for(@cart)
@@ -36,11 +46,20 @@ describe ShippingCalculatorBasedOnWeight do
     @sc.package_count.should == 2
   end
 
+
   it "adds up the cost correctly, even for multiple packages" do
     @cart.add_product(Factory.create(:product, :weight => 30.0))
     @cart.weight.should == 60.0
     @sc.calculate_for(@cart)
+    @sc.package_count.should == 2
+
     @sc.cost.should == BigDecimal.new("30.40") # 2 packages, total weight 60.0
+    
+    @cart.add_product(Factory.create(:product, :weight => 30.0), 2)
+    @cart.weight.should == 120.0
+    @sc.calculate_for(@cart)
+    @sc.package_count.should == 4
+    @sc.cost.should == BigDecimal.new("60.80")
   end
   
 end
