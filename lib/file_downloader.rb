@@ -24,7 +24,7 @@ class FileDownloader
           if File.exists?(destination_path)
             return destination_path
           else
-            file = File.open(destination_path, 'w') do |output|
+            file = File.open(destination_path, 'wb') do |output|
                 output << input.read
             end
             return file.path
