@@ -3,20 +3,18 @@ require 'spec_helper'
 describe Order do
   
   before(:all) do
-    mr0 = Factory.build(:margin_range)
+    mr0 = Fabricate.build(:margin_range)
     mr0.start_price = nil
     mr0.end_price = nil
     mr0.margin_percentage = 5.0
     mr0.save
   
-    tax_class2 ||= Factory.create(:tax_class, {:percentage => 50.0})
-    tax_class2.percentage = 8.0
-    tax_class2.save
+    tax_class2 ||= Fabricate(:tax_class, {:percentage => 10.0})
     
-    shipping_rate = Factory.create(:shipping_rate, {:tax_class => tax_class2})
+    shipping_rate = Fabricate(:shipping_rate, {:tax_class => tax_class2})
     shipping_rate.shipping_costs.create(:price => 10.0, :weight_min => 0, :weight_max => 10000, :tax_class => tax_class2)
 
-    supplier = Factory.create(:supplier, :shipping_rate => shipping_rate)
+    supplier = Fabricate(:supplier, :shipping_rate => shipping_rate)
     supplier.shipping_rate = shipping_rate
     supplier.save
     
@@ -32,7 +30,7 @@ describe Order do
     address.save.should == true
     
     
-    # For some reason, using FactoryGirl to create this breaks everything, it creates all associated
+    # For some reason, using FabricateGirl to create this breaks everything, it creates all associated
     # things along with it, ignores the @tax_class that we explicitly set and creates many unnecessary
     # suppliers and tax rates, which messes everything up completely.
     p = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => supplier, :tax_class => tax_class2, :purchase_price => 120.0, :direct_shipping => true, :is_available => true)
@@ -91,10 +89,10 @@ describe Order do
       c.save
             
       # Right now it still has the default shipping cost from the default shipping rate
-      c.shipping_cost.should == BigDecimal.new("15.0")
+      c.shipping_cost.should == BigDecimal.new("11.0")
       
       c.add_product(product)
-      c.shipping_cost.should == BigDecimal.new("30.0")
+      c.shipping_cost.should == BigDecimal.new("22.0")
       
       c.add_product(product)
       c.shipping_cost.should == BigDecimal.new("0.0")
@@ -110,9 +108,10 @@ describe Order do
       c.save
 
       # Right now it still has the default shipping cost from the default shipping rate
-      c.shipping_cost.should == BigDecimal.new("15.0")
+      c.shipping_cost.should == BigDecimal.new("11.0")
       
       # Now the value goes over 300, thus triggering free shipping
+      c.add_product(product)
       c.add_product(product)
       c.shipping_cost.should == BigDecimal.new("0.0")
       c.shipping_taxes.should == BigDecimal.new("0.0")

@@ -3,18 +3,18 @@ require 'spec_helper'
 describe Document do
   
   before(:all) do
-    mr0 = Factory.build(:margin_range)
+    mr0 = Fabricate.build(:margin_range)
     mr0.start_price = nil
     mr0.end_price = nil
     mr0.margin_percentage = 5.0
     mr0.save
   
-    @tax_class = Factory.create(:tax_class, {:percentage => 50.0})
+    @tax_class = Fabricate.create(:tax_class, {:percentage => 50.0})
     
-    @shipping_rate = Factory.create(:shipping_rate, {:tax_class => @tax_class})
+    @shipping_rate = Fabricate.create(:shipping_rate, {:tax_class => @tax_class})
     @shipping_rate.shipping_costs.create(:price => 10.0, :weight_min => 0, :weight_max => 10000, :tax_class => @tax_class)
 
-    @supplier = Factory.create(:supplier, :shipping_rate => @shipping_rate)
+    @supplier = Fabricate.create(:supplier, :shipping_rate => @shipping_rate)
     
     Country.create(:name => "Somewhereland")
     @address = Address.new(:street => 'Foo',
@@ -27,7 +27,7 @@ describe Document do
     @address.save.should == true
     
     
-    # For some reason, using FactoryGirl to create this breaks everything, it creates all associated
+    # For some reason, using FabricateGirl to create this breaks everything, it creates all associated
     # things along with it, ignores the @tax_class that we explicitly set and creates many unnecessary
     # suppliers and tax rates, which messes everything up completely.
     p = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => @supplier, :tax_class => @tax_class, :purchase_price => 100.0, :direct_shipping => true, :is_available => true)

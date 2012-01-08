@@ -140,7 +140,7 @@ describe Product do
     end
     
     it "should consist of supply items as components" do
-      p = Factory.build(:product)
+      p = Fabricate.build(:product)
       p.name = "Ye Olde Wooden PC"
       p.description = "A PC made of wood, with crappy components."
       p.add_component(SupplyItem.where(:name => 'Some fast CPU').first) 
@@ -154,8 +154,8 @@ describe Product do
 
     it "should have a correct price, a total of constituent supply items" do
       MarginRange.destroy_all
-      mr = Factory.create(:margin_range, :start_price => nil, :end_price => nil, :margin_percentage => 0.0)
-      p = Factory.build(:product)
+      mr = Fabricate.create(:margin_range, :start_price => nil, :end_price => nil, :margin_percentage => 0.0)
+      p = Fabricate.build(:product)
       
       p.name = "Ye Olde Wooden PC"
       p.description = "A PC made of wood, with crappy components."
@@ -170,8 +170,8 @@ describe Product do
     end
 
     it "should have correct taxes and sales price, based on the totals of all the constituent supply items' purchase prices plus a total margin" do
-      mr = Factory.create(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
-      p = Factory.build(:product)
+      mr = Fabricate.create(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
+      p = Fabricate.build(:product)
       p.name = "Ye Olde Wooden PC"
       p.description = "A PC made of wood, with crappy components."
       p.add_component(SupplyItem.where(:name => 'Some fast CPU').first) 
@@ -187,8 +187,8 @@ describe Product do
     
     it "should be affected by MarginRanges just like normal products" do
       MarginRange.destroy_all
-      mr = Factory.create(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
-      p = Factory.build(:product)
+      mr = Fabricate.create(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
+      p = Fabricate.build(:product)
       p.name = "Ye Olde Wooden PC"
       p.description = "A PC made of wood, with crappy components."
       p.add_component(SupplyItem.where(:name => 'Some fast CPU').first) 

@@ -47,7 +47,8 @@ end
 
 group :test, :development do
   gem 'cover_me'
-  gem 'factory_girl_rails'
+  #gem 'factory_girl_rails'
+  gem 'fabrication'
   gem 'pickle'
   gem 'capybara'
   gem 'database_cleaner'

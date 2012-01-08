@@ -85,11 +85,7 @@ GEM
     erubis (2.7.0)
     execjs (1.2.13)
       multi_json (~> 1.0)
-    factory_girl (2.3.2)
-      activesupport
-    factory_girl_rails (1.4.0)
-      factory_girl (~> 2.3.0)
-      railties (>= 3.0.0)
+    fabrication (1.2.0)
     feedzirra (0.0.31)
       activesupport (>= 3.0.8)
       builder (~> 3.0.0)
@@ -266,7 +262,7 @@ DEPENDENCIES
   devise
   dynamic_form
   erubis
-  factory_girl_rails
+  fabrication
   feedzirra (~> 0.0.24)
   jquery-rails
   later_dude (>= 0.3.1)
