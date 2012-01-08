@@ -18,8 +18,8 @@ describe ShippingCalculatorBasedOnWeight do
   
   before(:each) do
     @cart = Cart.new
-    @cart.add_product(Fabricate.create(:product, :weight => 10.0))
-    @cart.add_product(Fabricate.create(:product, :weight => 10.0), 2)
+    @cart.add_product(Fabricate(:product, :weight => 10.0))
+    @cart.add_product(Fabricate(:product, :weight => 10.0), 2)
     @cart.weight.should == 30.0
   end
   
@@ -40,7 +40,7 @@ describe ShippingCalculatorBasedOnWeight do
   end
   
   it "splits large shipments into multiple packages" do
-    @cart.add_product(Fabricate.create(:product, :weight => 30.0))
+    @cart.add_product(Fabricate(:product, :weight => 30.0))
     @cart.weight.should == 60.0
     @sc.calculate_for(@cart)
     @sc.package_count.should == 2
@@ -48,14 +48,14 @@ describe ShippingCalculatorBasedOnWeight do
 
 
   it "adds up the cost correctly, even for multiple packages" do
-    @cart.add_product(Fabricate.create(:product, :weight => 30.0))
+    @cart.add_product(Fabricate(:product, :weight => 30.0))
     @cart.weight.should == 60.0
     @sc.calculate_for(@cart)
     @sc.package_count.should == 2
 
     @sc.cost.should == BigDecimal.new("30.40") # 2 packages, total weight 60.0
     
-    @cart.add_product(Fabricate.create(:product, :weight => 30.0), 2)
+    @cart.add_product(Fabricate(:product, :weight => 30.0), 2)
     @cart.weight.should == 120.0
     @sc.calculate_for(@cart)
     @sc.package_count.should == 4

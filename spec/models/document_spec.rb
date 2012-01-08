@@ -9,12 +9,12 @@ describe Document do
     mr0.margin_percentage = 5.0
     mr0.save
   
-    @tax_class = Fabricate.create(:tax_class, {:percentage => 50.0})
+    @tax_class = Fabricate(:tax_class, {:percentage => 50.0})
     
-    @shipping_rate = Fabricate.create(:shipping_rate, {:tax_class => @tax_class})
+    @shipping_rate = Fabricate(:shipping_rate, {:tax_class => @tax_class})
     @shipping_rate.shipping_costs.create(:price => 10.0, :weight_min => 0, :weight_max => 10000, :tax_class => @tax_class)
 
-    @supplier = Fabricate.create(:supplier, :shipping_rate => @shipping_rate)
+    @supplier = Fabricate(:supplier, :shipping_rate => @shipping_rate)
     
     Country.create(:name => "Somewhereland")
     @address = Address.new(:street => 'Foo',

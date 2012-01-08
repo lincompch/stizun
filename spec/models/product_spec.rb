@@ -60,7 +60,6 @@ describe Product do
       p.manufacturer_product_code.should == "ABC"
       p.supplier_product_code.should == "123"
       p.supplier.should == supplier
-      #p.tax_class.should == @tax_class # Why doesn't this work?
       p.save.should == true
       
       p.supply_item = supplier2.supply_items.first
@@ -116,22 +115,26 @@ describe Product do
   
   describe "a componentized product" do
       before(:all) do
-        puts "componentized before all"
-        @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0) 
+        @tax_class = Fabricate(:tax_class, :name => 'Test Tax Class', :percentage => 8.0) 
+        @supplier = Fabricate(:alltron)
         array = [
           { 'name' => 'Some fast CPU', 'purchase_price' => 115.0,
-            'weight' => 4.5, 'tax_percentage' => 8.0 },
+            'weight' => 4.5 },
           { 'name' => 'Cool RAM', 'purchase_price' => 220.0,
-            'weight' => 0.3, 'tax_percentage' => 8.0 },
+            'weight' => 0.3 },
           { 'name' => 'An old Mainboard', 'purchase_price' => 80.0,
-            'weight' => 1.2, 'tax_percentage' => 8.0 },
+            'weight' => 1.2 },
           { 'name' => 'Semi-broken case with PSU', 'purchase_price' => 20.0,
-            'weight' => 10.2, 'tax_percentage' => 8.0 },
+            'weight' => 10.2 },
           { 'name' => 'Defective screen', 'purchase_price' => 200.0,
-            'weight' => 2.8, 'tax_percentage' => 8.0 }
+            'weight' => 2.8 }
         ]
-        supplier = create_supplier("Alltron AG")
-        supply_items = create_supply_items(supplier, array)
+        
+        array.each do |si|
+          options = {:supplier => @supplier, :tax_class => @tax_class }
+          Fabricate(:supply_item, si.merge!(:supplier => @supplier, :tax_class => @tax_class))
+        end
+        
         SupplyItem.all.count.should == 5
     end
     
@@ -143,6 +146,8 @@ describe Product do
       p = Fabricate.build(:product)
       p.name = "Ye Olde Wooden PC"
       p.description = "A PC made of wood, with crappy components."
+      p.supplier = @supplier
+      
       p.add_component(SupplyItem.where(:name => 'Some fast CPU').first) 
       p.add_component(SupplyItem.where(:name => 'Cool RAM').first) 
       p.add_component(SupplyItem.where(:name => 'An old Mainboard').first) 
@@ -154,11 +159,13 @@ describe Product do
 
     it "should have a correct price, a total of constituent supply items" do
       MarginRange.destroy_all
-      mr = Fabricate.create(:margin_range, :start_price => nil, :end_price => nil, :margin_percentage => 0.0)
+      mr = Fabricate(:margin_range, :start_price => nil, :end_price => nil, :margin_percentage => 0.0)
       p = Fabricate.build(:product)
       
       p.name = "Ye Olde Wooden PC"
       p.description = "A PC made of wood, with crappy components."
+      p.supplier = @supplier
+
       p.add_component(SupplyItem.where(:name => 'Some fast CPU').first) 
       p.add_component(SupplyItem.where(:name => 'Cool RAM').first) 
       p.add_component(SupplyItem.where(:name => 'An old Mainboard').first) 
@@ -170,10 +177,12 @@ describe Product do
     end
 
     it "should have correct taxes and sales price, based on the totals of all the constituent supply items' purchase prices plus a total margin" do
-      mr = Fabricate.create(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
+      mr = Fabricate(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
       p = Fabricate.build(:product)
       p.name = "Ye Olde Wooden PC"
       p.description = "A PC made of wood, with crappy components."
+      p.supplier = @supplier
+ 
       p.add_component(SupplyItem.where(:name => 'Some fast CPU').first) 
       p.add_component(SupplyItem.where(:name => 'Cool RAM').first) 
       p.add_component(SupplyItem.where(:name => 'An old Mainboard').first) 
@@ -187,10 +196,12 @@ describe Product do
     
     it "should be affected by MarginRanges just like normal products" do
       MarginRange.destroy_all
-      mr = Fabricate.create(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
+      mr = Fabricate(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
       p = Fabricate.build(:product)
       p.name = "Ye Olde Wooden PC"
       p.description = "A PC made of wood, with crappy components."
+      p.supplier = @supplier
+      
       p.add_component(SupplyItem.where(:name => 'Some fast CPU').first) 
       p.add_component(SupplyItem.where(:name => 'Cool RAM').first) 
       p.add_component(SupplyItem.where(:name => 'An old Mainboard').first) 
