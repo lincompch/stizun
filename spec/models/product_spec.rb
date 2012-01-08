@@ -20,19 +20,42 @@ describe Product do
   describe "a product" do
     before(:each) do
       @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
-      supplier = create_supplier("Alltron AG")
-      supply_items = create_supply_items(supplier)
+      @supplier = create_supplier("Alltron AG")
+      supply_items = create_supply_items(@supplier)
       supply_items.count.should > 0 
-      suplier = Supplier.where(:name => 'Alltron AG').first
+      @suplier = Supplier.where(:name => 'Alltron AG').first
       p = Product.new
       p.tax_class = @tax_class
       p.name = "Something"
       p.description = "Some stuff"
       p.weight = 1.0
-      p.supplier = supplier
+      p.supplier = @supplier
       p.save.should == true
     end
 
+    
+    it "should be able to retrieve a product picture and PDF if the respective URLs are valid" do
+      download_dir = Rails.root + "tmp/downloads"
+      system("mkdir -p #{download_dir}") unless Dir.exist?("tmp/downloads")
+      p = Fabricate(:product)
+      p.supplier = @supplier
+      si = Fabricate(:supply_item)
+      si.image_url = "http://l.yimg.com/g/images/en-us/flickr-yahoo-logo.png.v3"
+      si.pdf_url = "http://www.scala-lang.org/sites/default/files/linuxsoft_archives/docu/files/ScalaByExample.pdf"
+      si.save.should == true
+      
+      p.supply_item = si
+      p.save.should == true      
+      p.try_to_get_product_files
+      
+      image_path = "#{download_dir}/#{p.supply_item.id}_#{File.basename(si.image_url)}"
+      pdf_path = "#{download_dir}/#{p.supply_item.id}_#{File.basename(si.pdf_url)}"
+      puts image_path, pdf_path
+      File.exist?(image_path).should == true
+      File.exist?(pdf_path).should == true
+    end
+    
+    
     # When a product switches to a supply item from another supplier (that has the same
     # manufacturer product code, of course), all the related data in the product
     # should update as well on save.
