@@ -14,9 +14,11 @@ class ShippingCalculator < ActiveRecord::Base
   end
   
   def calculate_for(document)
-    # Define this method as a subclass
+    # Define this method in a subclass
+
     calculator = self.configuration.behavior.constantize.new
-    calculator.calculate_for(document)
+    calculator.configuration = self.configuration
+    calculator.calculate(document)
     @cost = calculator.cost
     @package_count = calculator.package_count
   end
