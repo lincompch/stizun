@@ -1,0 +1,31 @@
+
+
+
+<h1>Listing admin_shipping_calculators</h1>
+
+<table>
+  <tr>
+    <th><%= t('stizun.general.name') %></th>
+    <th><%= t('stizun.general.type') %></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @shipping_calculators.each do |shipping_calculator| %>
+<% controller_name = "admin/" + shipping_calculator.class.superclass.name.to_s.underscore.pluralize %>
+
+  <tr>
+    <td><%= shipping_calculator.name %></td>
+    <td><%= shipping_calculator.type %></td>
+    <td><%= link_to 'Show', :controller => controller_name, :action => 'show', :id => shipping_calculator %></td>
+    <td><%= link_to 'Edit', :controller => controller_name, :action => 'edit', :id => shipping_calculator %></td>
+    <td><%= #link_to 'Destroy', shipping_calculator, confirm: 'Are you sure?', method: :delete 
+     %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Shipping calculator', new_admin_shipping_calculator_path %>

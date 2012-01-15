@@ -1,0 +1,17 @@
+
+<% if notice %>
+<p id="notice"><%= notice %></p>
+<% end %>
+
+
+<h2><%= @shipping_calculator.name %></h2>
+
+
+<h3><%= t('stizun.general.configuration') %></h3>
+
+<%= render @shipping_calculator.class.name.underscore + "_configuration_show" %>
+
+
+<%= #link_to 'Edit', edit_admin_shipping_calculator_path(@shipping_calculator) 
+%> |
+<%= link_to 'Back', admin_shipping_calculators_path %>

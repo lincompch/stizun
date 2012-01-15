@@ -71,6 +71,7 @@ Stizun::Application.routes.draw do
     resources :histories
     resources :payment_methods
     resources :configuration_items
+    resources :shipping_calculators
 
     resources :users do
       resources :addresses

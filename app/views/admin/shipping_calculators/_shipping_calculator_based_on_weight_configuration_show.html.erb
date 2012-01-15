@@ -1,0 +1,10 @@
+<% if @shipping_calculator.configuration.nil? or @shipping_calculator.configuration.shipping_costs.nil? %>
+
+  <%= t("stizun.shipping_calculator.shipping_calculator_has_no_configuration") %>
+
+<% else %>
+  <% @shipping_calculator.configuration.shipping_costs.each do |sc| %>
+    lala
+  <% end %>
+
+<% end %>

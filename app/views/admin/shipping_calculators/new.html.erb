@@ -1,0 +1,12 @@
+<h1>New admin_shipping_calculator</h1>
+
+<p>
+  <%= form_for [:admin, @shipping_calculator] do |f| %>
+    <%= f.label :name, t('stizun.general.name') %>: <%= f.text_field :name %><br>
+    <%= f.label :type, t('stizun.general.type') %>: <%= select_tag 'shipping_calculator_class', options_for_select([['Weight-based shipping calculator','ShippingCalculatorBasedOnWeight']]) %><br>
+    <%= f.submit %>
+    
+  <% end %>
+</p>
+
+<%= link_to 'Back', admin_shipping_calculators_path %>

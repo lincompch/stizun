@@ -250,6 +250,9 @@ de-CH:
       to: "bis"
       from: "von"
       excluding_vat: "exkl. MwSt."
+      name: "Name"
+      type: "Typ"
+      configuration: "Konfiguration"
     table_headers:
       number: "Nr."
       date: "Datum"
@@ -433,6 +436,9 @@ de-CH:
       it_does_not_matter_which_one: "Dabei ist es egal, welche dieser Situationen zutrifft."
       if_your_order_does_not_qualify_for_free_shipping: "Falls Ihre Bestellung nicht für den Gratisversand in Frage kommt, gelten die folgenden Tarife"
       weight_from: "Gewicht von"
+    shipping_calculator:
+      shipping_calculator: "Versandrechner"
+      shipping_calculator_has_no_configuration: "Dieser Versandrechner ist noch nicht konfiguriert."
   authlogic:
     error_messages:
       email_invalid: "E-Mail-Adresse ist ungültig."

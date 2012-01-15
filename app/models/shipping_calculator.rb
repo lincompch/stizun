@@ -1,7 +1,7 @@
 require 'ostruct'
 
 class ShippingCalculator < ActiveRecord::Base
-  
+      
   serialize :configuration, OpenStruct
   belongs_to :tax_class
 
@@ -10,11 +10,15 @@ class ShippingCalculator < ActiveRecord::Base
     @taxes = BigDecimal.new("0")
     @gross_cost = BigDecimal.new("0")
     @package_count = 0    
+    self.configuration.behavior ||= "ShippingCalculatorBasedOnWeight"
   end
   
-  # Define this method on the child classes
-  def calculate_for
-    
+  def calculate_for(document)
+    # Define this method as a subclass
+    calculator = self.configuration.behavior.constantize.new
+    calculator.calculate_for(document)
+    @cost = calculator.cost
+    @package_count = calculator.package_count
   end
   
   def cost
@@ -31,3 +35,5 @@ class ShippingCalculator < ActiveRecord::Base
   
   
 end
+
+
