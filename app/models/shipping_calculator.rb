@@ -5,6 +5,15 @@ class ShippingCalculator < ActiveRecord::Base
   serialize :configuration, OpenStruct
   belongs_to :tax_class
 
+  def self.inherited(child)  
+    child.instance_eval do
+      def model_name
+        ShippingCalculator.model_name
+      end
+    end
+    super 
+  end
+
   def after_initialize
     @cost = BigDecimal.new("0")
     @taxes = BigDecimal.new("0")
