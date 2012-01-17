@@ -19,10 +19,9 @@
     <td><%= shipping_calculator.name %></td>
     <td><%= shipping_calculator.type %></td>
     <td><%= link_to 'Show', :controller => controller_name, :action => 'show', :id => shipping_calculator %></td>
-    <td><%= #link_to 'Edit', :controller => controller_name, :action => 'edit', :id => shipping_calculator 
-    %></td>
-    <%= link_to "foob", edit_admin_shipping_calculator_path(shipping_calculator) %>
-    <td><%= #link_to 'Destroy', shipping_calculator, confirm: 'Are you sure?', method: :delete 
+    <td><%= link_to "Edit", edit_admin_shipping_calculator_path(shipping_calculator) %></td>
+    
+    <td><%= link_to 'Destroy', admin_shipping_calculator_path(shipping_calculator), confirm: 'Are you sure?', method: :delete 
      %></td>
   </tr>
 <% end %>

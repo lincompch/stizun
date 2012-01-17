@@ -439,6 +439,7 @@ de-CH:
     shipping_calculator:
       shipping_calculator: "Versandrechner"
       shipping_calculator_has_no_configuration: "Dieser Versandrechner ist noch nicht konfiguriert."
+      create_configuration: "Versandrechner konfigurieren"
   authlogic:
     error_messages:
       email_invalid: "E-Mail-Adresse ist ungültig."

@@ -1,6 +1,21 @@
 <% if @shipping_calculator.configuration.nil? or @shipping_calculator.configuration.shipping_costs.nil? %>
 
-  <%= t("stizun.shipping_calculator.shipping_calculator_has_no_configuration") %>
+  <p><%= t("stizun.shipping_calculator.shipping_calculator_has_no_configuration") %></p>
+
+  <p><%= t("stizun.shipping_calculator.create_configuration") %>:</p>
+
+
+  <%= fields_for @shipping_calculator do |f| %>
+    <table>
+      <% (1..10).each do |n| %>
+        <tr>
+          <td><%= text_field_tag "shipping_calculator[configuration][weight_min][]" %></td>
+          <td><%= text_field_tag "shipping_calculator[configuration][weight_max][]" %></td>
+          <td><%= text_field_tag "shipping_calculator[configuration][price][]" %></td>
+        </tr>
+      <% end %> 
+    </table>
+  <% end %>
 
 <% else %>
   <% @shipping_calculator.configuration.shipping_costs.each do |sc| %>
