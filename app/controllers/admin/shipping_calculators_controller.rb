@@ -54,11 +54,13 @@ class Admin::ShippingCalculatorsController < Admin::BaseController
     @shipping_calculator = ShippingCalculator.find(params[:id])
     config = params[:shipping_calculator][:configuration]
     unless config.empty? or config.blank?
+    
       if @shipping_calculator.class.name == "ShippingCalculatorBasedOnWeight"
+        @shipping_calculator.configuration.shipping_costs = []
         (0..config[:weight_min].count).each do |n|
-          @shipping_calculator.configuration.weight_min = config[:weight_min][n]
-          @shipping_calculator.configuration.weight_max = config[:weight_max][n]
-          @shipping_calculator.configuration.price = config[:price][n]          
+          @shipping_calculator.configuration.shipping_costs.weight_min = config[:weight_min][n]
+          @shipping_calculator.configuration.shipping_costs.weight_max = config[:weight_max][n]
+          @shipping_calculator.configuration.shipping_costs.price = config[:price][n]          
         end
       end
     end
