@@ -1,8 +1,6 @@
 class ShippingCalculatorBasedOnWeight < ShippingCalculator
-  self.abstract_class = true
-  set_table_name "shipping_calculators"
   
-  def calculate(document)
+  def calculate_for(document)
     @cost = calculate_for_weight(document.weight * 1000)
     @package_count = package_count_for_weight(document.weight * 1000)
   end

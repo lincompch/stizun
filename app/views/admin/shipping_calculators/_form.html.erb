@@ -1,19 +1,12 @@
-<%= #form_tag({:controller => 'admin/' + @shipping_calculator.class.superclass.name.to_s.underscore.pluralize, 
-    #         :action => 'update'}, 
-     #        {:method => :put}) do
-              %>
 
-    <%= #fields_for(@shipping_calculator, :as => 'foo') do |f| 
-    %>
-    
-    <%= form_for(@shipping_calculator.becomes(ShippingCalculator)) do %>
-      <%= f.label :name, t('stizun.general.name') %>: <%= f.text_field :name %>
+<%= form_for([:admin, @shipping_calculator]) do |f| %>
+  <%= f.label :name, t('stizun.general.name') %>: <%= f.text_field :name %>
 
-      <h3><%= t('stizun.general.configuration') %></h3>
-      
-      <%= render @shipping_calculator.class.name.underscore + "_configuration_form" %>
+  <h3><%= t('stizun.general.configuration') %></h3>
 
-      <%= f.submit %>
+  <%= render @shipping_calculator.class.name.underscore + "_configuration_form" %>
+
+  <%= f.submit %>
 
 
 
