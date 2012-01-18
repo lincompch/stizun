@@ -9,17 +9,27 @@
     <table>
       <% (1..10).each do |n| %>
         <tr>
-          <td><%= text_field_tag "shipping_calculator[configuration][weight_min][]" %></td>
-          <td><%= text_field_tag "shipping_calculator[configuration][weight_max][]" %></td>
-          <td><%= text_field_tag "shipping_calculator[configuration][price][]" %></td>
+          <td><%= text_field_tag "shipping_calculator[new_configuration][weight_min][]" %></td>
+          <td><%= text_field_tag "shipping_calculator[new_configuration][weight_max][]" %></td>
+          <td><%= text_field_tag "shipping_calculator[new_configuration][price][]" %></td>
         </tr>
       <% end %> 
     </table>
   <% end %>
 
 <% else %>
-  <% @shipping_calculator.configuration.shipping_costs.each do |sc| %>
-    lala
-  <% end %>
-
+  <table>
+    <tr>
+      <th>Weight min.</th>
+      <th>Weight max.</th>
+      <th>Price</th>
+    </tr>
+    <% @shipping_calculator.configuration.shipping_costs.each do |sc| %>
+      <tr>
+        <td><%= sc['weight_min'] %></td>
+        <td><%= sc['weight_max'] %></td>
+        <td><%= sc['price'] %></td>
+      </tr>
+    <% end %>
+  </table>
 <% end %>
