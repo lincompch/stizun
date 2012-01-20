@@ -4,32 +4,44 @@
 
   <p><%= t("stizun.shipping_calculator.create_configuration") %>:</p>
 
+<% end %>
+
 
   <%= fields_for @shipping_calculator do |f| %>
-    <table>
-      <% (1..10).each do |n| %>
-        <tr>
-          <td><%= text_field_tag "shipping_calculator[new_configuration][weight_min][]" %></td>
-          <td><%= text_field_tag "shipping_calculator[new_configuration][weight_max][]" %></td>
-          <td><%= text_field_tag "shipping_calculator[new_configuration][price][]" %></td>
-        </tr>
-      <% end %> 
+    <table>    
+      <tr>
+        <th>Weight min.</th>
+        <th>Weight max.</th>
+        <th>Price</th>
+      </tr>
+      
+      <% if @shipping_calculator.configuration.shipping_costs.nil? %>
+        <% (1..10).each do |n| %>
+          <tr>
+            <td><%= text_field_tag "shipping_calculator[new_configuration][weight_min][]" %></td>
+            <td><%= text_field_tag "shipping_calculator[new_configuration][weight_max][]" %></td>
+            <td><%= text_field_tag "shipping_calculator[new_configuration][price][]" %></td>
+          </tr>
+        <% end %> 
+      <% else %>
+        <% @shipping_calculator.configuration.shipping_costs.each do |sc| %>
+          <tr>
+            <td><%= text_field_tag "shipping_calculator[new_configuration][weight_min][]", sc[:weight_min] %></td>
+            <td><%= text_field_tag "shipping_calculator[new_configuration][weight_max][]", sc[:weight_max] %></td>
+            <td><%= text_field_tag "shipping_calculator[new_configuration][price][]", sc[:price] %></td>
+          </tr>
+        <% end %>
+        
+        <% (1..4).each do |n| %>
+          <tr>
+            <td><%= text_field_tag "shipping_calculator[new_configuration][weight_min][]" %></td>
+            <td><%= text_field_tag "shipping_calculator[new_configuration][weight_max][]" %></td>
+            <td><%= text_field_tag "shipping_calculator[new_configuration][price][]" %></td>
+          </tr>
+        <% end %>        
+        
+      <% end %>  
+      
     </table>
   <% end %>
 
-<% else %>
-  <table>
-    <tr>
-      <th>Weight min.</th>
-      <th>Weight max.</th>
-      <th>Price</th>
-    </tr>
-    <% @shipping_calculator.configuration.shipping_costs.each do |sc| %>
-      <tr>
-        <td><%= sc['weight_min'] %></td>
-        <td><%= sc['weight_max'] %></td>
-        <td><%= sc['price'] %></td>
-      </tr>
-    <% end %>
-  </table>
-<% end %>

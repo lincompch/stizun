@@ -56,13 +56,7 @@ class Admin::ShippingCalculatorsController < Admin::BaseController
     unless config.empty? or config.blank?
     
       if @shipping_calculator.class.name == "ShippingCalculatorBasedOnWeight"
-        @shipping_calculator.configuration.shipping_costs = []
-        (0..config[:weight_min].size).each do |n|
-          @shipping_calculator.configuration.shipping_costs << 
-            { :weight_min => config[:weight_min][n],
-              :weight_max => config[:weight_max][n],
-              :price => config[:price][n] }          
-        end
+        configuration = self.send("assign_configuration_for_#{@shipping_calculator.class.name.underscore}", config)        
       end
     end
     
@@ -71,12 +65,25 @@ class Admin::ShippingCalculatorsController < Admin::BaseController
     respond_to do |format|
       #if @shipping_calculator.update_attributes(params[:shipping_calculator])
       if @shipping_calculator.save
-        format.html { redirect_to url_for(action: 'show', controller: 'shipping_calculators', id: @shipping_calculator), notice: 'Shipping calculator was successfully updated.' }
+        format.html { redirect_to url_for(action: 'edit', controller: 'shipping_calculators', id: @shipping_calculator), notice: 'Shipping calculator was successfully updated.' }
       else
         format.html { render action: "edit" }
       end
     end
   end
+
+  def assign_configuration_for_shipping_calculator_based_on_weight(config)
+    @shipping_calculator.configuration.shipping_costs = []
+    (0..config[:weight_min].size).each do |n|
+      unless (config[:weight_min][n].blank? or config[:weight_max][n].blank? or config[:price][n].blank?)
+      @shipping_calculator.configuration.shipping_costs << 
+        { :weight_min => config[:weight_min][n].to_f,
+          :weight_max => config[:weight_max][n].to_f,
+          :price => config[:price][n].to_f }
+      end
+    end
+  end
+
 
   # DELETE /admin/shipping_calculators/1
   def destroy
