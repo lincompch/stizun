@@ -81,19 +81,7 @@ class Document < ActiveRecord::Base
     lines.each {|l| sum += l.quantity}
     sum
   end
-  
-  def supplier_ids
-    outgoing_supplier_ids
-  end
-  
-  def incoming_supplier_ids
-    return incoming_products_and_supply_items.collect(&:supplier_id).uniq
-  end
-  
-  def outgoing_supplier_ids
-    products.collect(&:supplier_id).uniq
-  end
-  
+
   def suppliers
     products.collect(&:supplier).uniq
   end
@@ -104,39 +92,6 @@ class Document < ActiveRecord::Base
       supplier_lines << line if !line.product.blank? and line.product.supplier == supplier
     end
     return supplier_lines
-  end
-  
-  
-  # This returns only IDs of suppliers that have a matching entry in our database
-  # It's a precaution for the ShippingRate calculation methods. This shouldn't be necessary
-  # in a well-kept database where each product has an existing supplier.
-  def existing_supplier_ids
-    return supplier_ids & Supplier.all.collect(&:id)
-  end
-  
-  def existing_incoming_supplier_ids
-    return incoming_supplier_ids & Supplier.all.collect(&:id)
-  end
-  
-  
-  def products
-    products = outgoing_products
-  end
-  
-  def incoming_products_and_supply_items
-    incoming_products = []
-    outgoing_products.each do |p|
-      if p.componentized?
-        incoming_products << p.product_sets.collect(&:component)
-      else
-        incoming_products << p
-      end
-    end
-    return incoming_products.flatten
-  end
-  
-  def outgoing_products
-    products = self.lines.collect(&:product)  
   end
   
   
@@ -179,14 +134,6 @@ class Document < ActiveRecord::Base
     end
     
     return emails.uniq
-  end
-  
-  def direct_shipping?
-    direct = true
-    states = products.collect(&:direct_shipping).uniq
-    # In future, raise exception when there is more than one supplier
-    direct = false if (states.include?(false) or suppliers.count > 1)
-    return direct
   end
   
   
