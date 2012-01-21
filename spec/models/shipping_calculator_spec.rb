@@ -9,7 +9,6 @@ describe ShippingCalculatorBasedOnWeight do
 
   before(:all) do
     @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing')
-    @sc.configuration.behavior = "ShippingCalculatorBasedOnWeight"
     @sc.configuration.shipping_costs = []
     @sc.configuration.shipping_costs << {:weight_min => 0, :weight_max => 2000, :price => 8.35}
     @sc.configuration.shipping_costs << {:weight_min => 2001, :weight_max => 5000, :price => 10.20}

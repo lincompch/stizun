@@ -10,23 +10,8 @@ describe IngramUtil do
         SupplyItem.count.should == 0
       end
 
-      it "should have some shipping rate" do
-        tax_class = TaxClass.find_or_create_by_percentage(:name => "8.0", :percentage => 8.0)
-        sr = ShippingRate.new
-        sr.tax_class = tax_class
-        sr.name = "Ingram Micro GmbH"
-        sr.shipping_costs << ShippingCost.new(:weight_min => 0, :weight_max => 999999,
-                                              :price => 14, :tax_class => tax_class)
-        if !sr.save
-          puts sr.errors.full_messages.inspect
-        end
-        sr.save.should == true
-
-      end
-
       it "should have a supplier called 'Ingram Micro GmbH'" do
-        supplier = Supplier.find_or_create_by_name(:name => "Ingram Micro GmbH",
-                                                   :shipping_rate => ShippingRate.where(:name => "Ingram Micro GmbH").first)
+        supplier = Supplier.find_or_create_by_name(:name => "Ingram Micro GmbH")
         supplier.name.should == "Ingram Micro GmbH"
       end
     end

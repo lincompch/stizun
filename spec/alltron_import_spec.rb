@@ -10,32 +10,8 @@ describe AlltronUtil do
         SupplyItem.count.should == 0
       end
 
-      it "should have some shipping rate" do
-        tax_class = TaxClass.find_or_create_by_percentage(:name => "8.0", :percentage => 8.0)
-        sr = ShippingRate.new
-        sr.tax_class = tax_class
-        sr.name = "Alltron AG"
-        sr.shipping_costs << ShippingCost.new(:weight_min => 0, :weight_max => 1000,
-                                              :price => 10, :tax_class => tax_class)
-        sr.shipping_costs << ShippingCost.new(:weight_min => 1001, :weight_max => 2000,
-                                              :price => 20, :tax_class => tax_class)
-        sr.shipping_costs << ShippingCost.new(:weight_min => 2001, :weight_max => 3000,
-                                              :price => 30, :tax_class => tax_class)
-        sr.shipping_costs << ShippingCost.new(:weight_min => 3001, :weight_max => 4000,
-                                              :price => 40, :tax_class => tax_class)
-        sr.shipping_costs << ShippingCost.new(:weight_min => 4001, :weight_max => 5000,
-                                              :price => 50, :tax_class => tax_class)
-
-        if !sr.save
-          puts sr.errors.full_messages.inspect
-        end
-        sr.save.should == true
-
-      end
-
       it "should have a supplier called 'Alltron AG'" do
-        Supplier.find_or_create_by_name(:name => "Alltron AG",
-                                        :shipping_rate => ShippingRate.where(:name => "Alltron AG").first)
+        Supplier.find_or_create_by_name(:name => "Alltron AG")
       end
 
     end

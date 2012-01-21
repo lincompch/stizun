@@ -11,10 +11,14 @@ describe Document do
   
     @tax_class = Fabricate(:tax_class, {:percentage => 50.0})
     
-    @shipping_rate = Fabricate(:shipping_rate, {:tax_class => @tax_class})
-    @shipping_rate.shipping_costs.create(:price => 10.0, :weight_min => 0, :weight_max => 10000, :tax_class => @tax_class)
+    @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing')
+    @sc.configuration.shipping_costs = []
+    @sc.configuration.shipping_costs << {:weight_min => 0, :weight_max => 10000, :price => 10.0}
+    @sc.tax_class = @tax_class
+    @sc.save
+    ConfigurationItem.create(:key => 'default_shipping_calculator_id', :value => @sc.id)
 
-    @supplier = Fabricate(:supplier, :shipping_rate => @shipping_rate)
+    @supplier = Fabricate(:supplier)
     
     Country.create(:name => "Somewhereland")
     @address = Address.new(:street => 'Foo',

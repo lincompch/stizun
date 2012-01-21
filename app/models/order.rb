@@ -113,10 +113,6 @@ class Order < StaticDocument
     return "O-#{document_number}"
   end
   
-  def direct_shipping?
-    direct_shipping
-  end
-  
   def self.new_from_cart(cart)    
     order = self.new
     order.clone_from_cart(cart)
@@ -126,7 +122,6 @@ class Order < StaticDocument
   def clone_from_cart(cart)
     self.shipping_cost = cart.shipping_cost.rounded
     self.shipping_taxes = cart.shipping_taxes
-    self.direct_shipping = true if cart.direct_shipping? == true
     self.rebate = BigDecimal.new("0.0") # Shouldn't be necessary because the DB default is 0.0, but better safe than sorry
     self.order_lines_from_cart(cart)   
     return self

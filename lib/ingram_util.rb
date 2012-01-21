@@ -12,8 +12,6 @@ class IngramUtil < SupplierUtil
     if @supplier.nil?
       @supplier = Supplier.new
       @supplier.name = "Ingram Micro GmbH"
-      sr = ShippingRate.get_default
-      @supplier.shipping_rate = sr
       @supplier.save
     end
     
@@ -51,43 +49,9 @@ class IngramUtil < SupplierUtil
   
   # Synchronize all supply items from a supplier's provided CSV file
   def import_supply_items(filename = self.import_filename)
-    IngramUtil.create_shipping_rate
     super
   end
   
-  
-  # Create a default shipping rate for this supplier if it doesn't exist. 
-  # This supplier may accidentally not have a matching shipping rate set up,
-  # which would ruin shipping calculations. Create a rate with sane defaults
-  # if that's the case.
-  def self.create_shipping_rate
-
-    
-    supplier = Supplier.find_or_create_by_name("Ingram Micro GmbH")
-    if supplier.shipping_rate.nil?
-      
-      tc = TaxClass.find_or_create_by_percentage_and_name(:percentage => 8.0, 
-                                                          :name => 'Schweizer Mehrwertsteuer (Normalsatz)') 
-      shipping_rate = ShippingRate.new(:name => "Ingram Micro GmbH")  
-      shipping_rate.tax_class = tc
-      # min_weight, max_weight, price (without VAT)
-      costs = [     
-                [0, 1000000, 15.60]
-              ]
-      costs.each do |c|    
-        shipping_rate.shipping_costs << ShippingCost.new(:weight_min => c[0], 
-                                                         :weight_max => c[1], 
-                                                         :price => c[2], 
-                                                         :tax_class => tc)
-      end
-      shipping_rate.save
-      supplier.shipping_rate = shipping_rate
-      supplier.save
-      return shipping_rate
-    end
-    return supplier.shipping_rate
-  end
-
 
   # Update a product's information (stock level, price) from Ingram Micro's live update URL
   # Input: DocumentLines object if multiple products need to be updated (e.g. from a Cart object)

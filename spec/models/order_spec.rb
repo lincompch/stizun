@@ -10,12 +10,16 @@ describe Order do
     mr0.save
   
     tax_class2 ||= Fabricate(:tax_class, {:percentage => 10.0})
-    
-    shipping_rate = Fabricate(:shipping_rate, {:tax_class => tax_class2})
-    shipping_rate.shipping_costs.create(:price => 10.0, :weight_min => 0, :weight_max => 10000, :tax_class => tax_class2)
 
-    supplier = Fabricate(:supplier, :shipping_rate => shipping_rate)
-    supplier.shipping_rate = shipping_rate
+    
+    @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing')
+    @sc.configuration.shipping_costs = []
+    @sc.configuration.shipping_costs << {:weight_min => 0, :weight_max => 10000, :price => 10.0}
+    @sc.tax_class = tax_class2
+    @sc.save
+    ConfigurationItem.create(:key => 'default_shipping_calculator_id', :value => @sc.id)
+
+    supplier = Fabricate(:supplier)
     supplier.save
     
     
@@ -87,12 +91,15 @@ describe Order do
       c = Cart.new
       c.add_product(product)
       c.save
-            
-      # Right now it still has the default shipping cost from the default shipping rate
-      c.shipping_cost.should == BigDecimal.new("11.0")
       
+      
+      # Right now it still has the default shipping cost      
+      c.shipping_cost.should == BigDecimal.new("10.0")
+      c.shipping_taxes.should == BigDecimal.new("1.0")
+            
       c.add_product(product)
-      c.shipping_cost.should == BigDecimal.new("22.0")
+      c.shipping_cost.should == BigDecimal.new("20.0")
+      c.shipping_taxes.should == BigDecimal.new("2.0")      
       
       c.add_product(product)
       c.shipping_cost.should == BigDecimal.new("0.0")
@@ -107,9 +114,10 @@ describe Order do
       c.add_product(product)
       c.save
 
-      # Right now it still has the default shipping cost from the default shipping rate
-      c.shipping_cost.should == BigDecimal.new("11.0")
-      
+      # Right now it still has the default shipping cost
+      c.shipping_cost.should == BigDecimal.new("10.0")
+      c.shipping_taxes.should == BigDecimal.new("1.0")
+            
       # Now the value goes over 300, thus triggering free shipping
       c.add_product(product)
       c.add_product(product)

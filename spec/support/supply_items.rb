@@ -26,8 +26,6 @@ end
 def create_supplier(name)
   s = Supplier.new
   s.name = name
-  sr = ShippingRate.get_default
-  s.shipping_rate = sr
   s.save
   return s
 end
