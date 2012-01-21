@@ -34,11 +34,18 @@ class ShippingCalculator < ActiveRecord::Base
   def self.get_default
     begin
       default_calculator_id = ConfigurationItem.get("default_shipping_calculator_id").value
-      default_calculator = ShippingCalculator.find(default_calculator_id)
-      return default_calculator      
+      default_calculator = ShippingCalculator.find(default_calculator_id)  
     rescue ArgumentError
       logger.error("Fatal error: Default shipping calculator is not defined. Please create one and define configuration item: default_shipping_calculator_id")
       raise "Fatal error: Default shipping calculator is not defined. Please create one and define configuration item: default_shipping_calculator_id"
+    end
+    
+    if default_calculator.nil?
+      logger.error("Fatal error: Default shipping calculator could not be found. Please make sure it exists in the database and is configured via configuration item.")
+      raise "Fatal error: Default shipping calculator could not be found. Please make sure it exists in the database and is configured via configuration item."
+      return false
+    else
+      return default_calculator
     end
   end
   

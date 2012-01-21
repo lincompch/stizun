@@ -29,24 +29,28 @@ class Document < ActiveRecord::Base
     end
     return taxes
   end
-
-  # TODO: Allow setting the shipping calculator during the order process, thereby
-  # choosing the shipping company to use
-  def shipping_calculator
-    ShippingCalculator.get_default
-  end
   
   # Note: This could be improved by having a ShippingCalculator dealing specifically with free shipping
   def shipping_cost(direction = nil)
-    cost = BigDecimal.new("0.0") if self.qualifies_for_free_shipping?
-    cost ||= shipping_calculator.cost
+    if self.qualifies_for_free_shipping?
+      cost = BigDecimal.new("0.0") 
+    else
+      sc = ShippingCalculator.get_default
+      sc.calculate_for(self)
+      cost = sc.cost
+    end
     return cost
   end
   
   # Note: This could be improved by having a ShippingCalculator dealing specifically with free shipping
   def shipping_taxes
-    cost = BigDecimal.new("0.0") if self.qualifies_for_free_shipping?
-    cost ||= shipping_calculator.taxes
+    if self.qualifies_for_free_shipping?
+      cost = BigDecimal.new("0.0") 
+    else
+      sc = ShippingCalculator.get_default
+      sc.calculate_for(self)
+      cost = sc.taxes
+    end
     return cost
   end
   

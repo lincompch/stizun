@@ -22,6 +22,9 @@
 
 <p><%= t("stizun.shipping.if_your_order_does_not_qualify_for_free_shipping")%>:</p>
 
+
+<!-- TODO: Render a different partial depending on which calculator is in use, and make that partial responsible for knowing how to display that particular calculator's shipping costs -->
+
 <table class="shipping_costs">
   <thead>
     <tr>
@@ -31,7 +34,7 @@
     </tr>
   </thead>
   
-  <% @calculator.configuration.shipping_costs.each do |sc| %>
+  <% @shipping_calculator.configuration.shipping_costs.each do |sc| %>
   
     <tr class="<%= cycle('odd', 'even')%>">
       <td><%= sc[:weight_min] / 1000.0 %> kg</td>

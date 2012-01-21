@@ -102,7 +102,7 @@
     <td></td>
     <td></td>
     <td></td>
-    <td class="price"><%= pretty_price(invoice.shipping_cost, "") %></td>
+    <td class="price"><%= pretty_price(invoice.shipping_cost + invoice.shipping_taxes, "") %></td>
     <td></td>
   </tr>
 

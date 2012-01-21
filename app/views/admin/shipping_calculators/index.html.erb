@@ -5,6 +5,7 @@
 
 <table>
   <tr>
+    <th>ID</th>
     <th><%= t('stizun.general.name') %></th>
     <th><%= t('stizun.general.type') %></th>
     <!--<th></th>-->
@@ -16,6 +17,7 @@
 <% controller_name = "admin/" + shipping_calculator.class.superclass.name.to_s.underscore.pluralize %>
 
   <tr>
+    <td><%= shipping_calculator.id %></td>
     <td><%= shipping_calculator.name %></td>
     <td><%= shipping_calculator.type %></td>
     <!--<td><%= link_to 'Show', :controller => controller_name, :action => 'show', :id => shipping_calculator %></td>-->

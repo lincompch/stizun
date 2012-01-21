@@ -77,8 +77,8 @@ class Admin::ShippingCalculatorsController < Admin::BaseController
     (0..config[:weight_min].size).each do |n|
       unless (config[:weight_min][n].blank? or config[:weight_max][n].blank? or config[:price][n].blank?)
         @shipping_calculator.configuration.shipping_costs << 
-        { :weight_min => config[:weight_min][n].to_f,
-          :weight_max => config[:weight_max][n].to_f,
+        { :weight_min => config[:weight_min][n].to_i,
+          :weight_max => config[:weight_max][n].to_i,
           :price => config[:price][n].to_f }
         @shipping_calculator.configuration.shipping_costs.sort!{|a,b| a[:weight_min] <=> b[:weight_min]}
       end
