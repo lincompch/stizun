@@ -5,39 +5,39 @@ Feature: Ordering
 
     Background: Some data to select from
       Given a country called "USAnia" exists
-      And there is a shipping rate called "Alltron AG" with the following costs:
-        |weight_min|weight_max|price|tax_percentage|
-        |         0|      1000|   10|           8.0|
-        |      1001|      2000|   20|           8.0|
-        |      2001|      3000|   30|           8.0|
-        |      3001|      4000|   40|           8.0|
-        |      4001|      5000|   50|           8.0|
+      And there is a default shipping shipping calculator of type ShippingCalculatorBasedOnWeight called "Alltron AG" with the following costs:
+        |weight_min|weight_max|price|
+        |         0|      1000|   10|
+        |      1001|      2000|   20|        
+        |      2001|      3000|   30|          
+        |      3001|      4000|   40|       
+        |      4001|      5000|   50| 
       And there are the following suppliers:
-        |name|shipping_rate_name|
-        |Alltron AG|Alltron AG|
+        |name|
+        |Alltron AG|
       And ActionMailer is set to test mode
 
 
     Scenario: Add to cart
       Given the following products exist(table):
-      |name|category|supplier|purchase_price|direct_shipping|
-      |Fish|Animals|Alltron AG|100.0|true|
+      |name|category|supplier|purchase_price|
+      |Fish|Animals|Alltron AG|100.0|
       When I view the category "Animals"
       And I add the product "Fish" to my cart 1 times
       Then my cart should contain a product named "Fish"
 
     Scenario: Add to cart multiple times
       Given the following products exist(table):
-      |name|category|supplier|purchase_price|direct_shipping|
-      |Fish|Animals|Alltron AG|100.0|true|
+      |name|category|supplier|purchase_price|
+      |Fish|Animals|Alltron AG|100.0|
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       Then my cart should contain a product named "Fish" 4 times
 
     Scenario: View checkout
       Given the following products exist(table):
-      |name|category|supplier|purchase_price|direct_shipping|
-      |Fish|Animals|Alltron AG|100.0|true|
+      |name|category|supplier|purchase_price|
+      |Fish|Animals|Alltron AG|100.0|
       |Terminator T-1000|Cyborgs|Alltron AG|100.0|true|
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
@@ -48,9 +48,9 @@ Feature: Ordering
 
     Scenario: Complete checkout
       Given the following products exist(table):
-      |name|category|supplier|purchase_price|direct_shipping|
-      |Fish|Animals|Alltron AG|100.0|true|
-      |Terminator T-1000|Cyborgs|Alltron AG|100.0|true|
+      |name|category|supplier|purchase_price|
+      |Fish|Animals|Alltron AG|100.0|
+      |Terminator T-1000|Cyborgs|Alltron AG|100.0|
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       And I view the category "Cyborgs"
@@ -74,9 +74,9 @@ Feature: Ordering
 
     Scenario: Complete checkout with different shipping address
       Given the following products exist(table):
-      |name|category|supplier|purchase_price|direct_shipping|
-      |Fish|Animals|Alltron AG|100.0|true|
-      |Terminator T-1000|Cyborgs|Alltron AG|100.0|true|
+      |name|category|supplier|purchase_price|
+      |Fish|Animals|Alltron AG|100.0|
+      |Terminator T-1000|Cyborgs|Alltron AG|100.0|
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       And I view the category "Cyborgs"

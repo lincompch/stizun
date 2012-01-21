@@ -12,16 +12,16 @@ Feature: Create componentized products
       And the user group "Admins" has admin permissions
       And the user is member of the group "Admins"
       And I log in with e-mail address "admin@something.com" and password "foobar"
-      And there is a shipping rate called "Alltron AG" with the following costs:
-        |weight_min|weight_max|price|tax_percentage|
-        |         0|      1000|   10|           8.0|
-        |      1001|      2000|   20|           8.0|
-        |      2001|      3000|   30|           8.0|
-        |      3001|      4000|   40|           8.0|
-        |      4001|      5000|   50|           8.0|
+      And there is a default shipping shipping calculator of type ShippingCalculatorBasedOnWeight called "Alltron AG" with the following costs:
+        |weight_min|weight_max|price|
+        |         0|      1000|   10|
+        |      1001|      2000|   20|
+        |      2001|      3000|   30|
+        |      3001|      4000|   40|
+        |      4001|      5000|   50|
       And there are the following suppliers:
-        |name|shipping_rate_name|
-        |Alltron AG|Alltron AG|
+        |name|
+        |Alltron AG|
       And there is a payment method called "Prepay" which is the default
       And there are the following supply items:
       |product_code|weight|price|stock|name         |supplier   |
