@@ -5,13 +5,14 @@ Given /^there is a default shipping shipping calculator of type ShippingCalculat
   
   # Only create and assign new costs if we don't have any yet on this 
   # @shipping_rate. Otherwise, leave stuff alone.
-  if @shipping_calculator.configuration.shipping_costs.count == 0
+  if @shipping_calculator.configuration.shipping_costs.blank?
     table.hashes.each do |sc|
-      
+        @shipping_calculator.configuration.shipping_costs = []
         @shipping_calculator.configuration.shipping_costs << {:weight_min => sc['weight_min'],
                                                               :weight_max => sc['weight_max'],
                                                               :price => BigDecimal(sc['price'].to_s)}
-    end    
+    end
+    @shipping_calculator.save    
   end
 
 end

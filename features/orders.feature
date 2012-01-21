@@ -18,5 +18,4 @@ Feature: Orders as collections of items
     |       1|Laptop|   0.90|MwSt 8.0%|Alltron AG|           100|              5.0|123|
     |       4|Fish  |   1.00|MwSt 8.0%|Alltron AG|           100|              5.0|456|
     |      18|Foo   |   2.00|MwSt 8.0%|Alltron AG|           100|              5.0|789|
-    When I calculate the shipping rate for the order
     Then the order's total weight should be 40.9

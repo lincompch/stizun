@@ -20,8 +20,8 @@ Feature: Browse products
         |      3001|      4000|   40|
         |      4001|      5000|   50|
       And there are the following suppliers:
-        |name|shipping_rate_name|
-        |Alltron AG|Alltron AG|
+        |name|
+        |Alltron AG|
       And there are the following margin ranges:
         |start_price|end_price|margin_percentage|
         |nil        |nil      |0.0              |
