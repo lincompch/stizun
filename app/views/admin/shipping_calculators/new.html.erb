@@ -1,10 +1,16 @@
-<h1>New admin_shipping_calculator</h1>
+<h1><%= t("stizun.shipping_calculator.new_shipping_calculator")%></h1>
+
+<%= error_messages_for(:shipping_calculator) %>
 
 <p>
   <%= form_for [:admin, @shipping_calculator] do |f| %>
     <%= f.label :name, t('stizun.general.name') %>: <%= f.text_field :name %><br>
-    <%= f.label :type, t('stizun.general.type') %>: <%= select_tag 'shipping_calculator_class', options_for_select([['Weight-based shipping calculator','ShippingCalculatorBasedOnWeight']]) %><br>
-    <%= f.submit %>
+    <%= f.label :type, t('stizun.general.type') %>: 
+      <%= select_tag 'shipping_calculator_class', 
+          options_for_select([[t("stizun.shipping_calculator.shipping_calculator_based_on_weight"), 'ShippingCalculatorBasedOnWeight']]) %><br>
+      <%= f.label :tax_class_id, t("activerecord.models.tax_class") %>: <%= f.collection_select(:tax_class_id, TaxClass.find(:all, :order => 'name ASC'), :id, :name, {:prompt => true}) %><br> 
+          
+    <%= f.submit t("stizun.shipping_calculator.create_shipping_calculator") %>
     
   <% end %>
 </p>

@@ -1,5 +1,8 @@
 class ShippingCalculatorBasedOnWeight < ShippingCalculator
   
+  validates_presence_of :configuration
+  validate :validate_configuration
+  
   def calculate_for(document)
     @cost = calculate_for_weight(document.weight * 1000)
     @package_count = package_count_for_weight(document.weight * 1000)
@@ -65,6 +68,19 @@ class ShippingCalculatorBasedOnWeight < ShippingCalculator
       max = sc[:weight_max] if sc[:weight_max] > max
     end
     return max.to_f
+  end
+  
+  def validate_configuration
+    unless self.configuration.nil?
+      if self.configuration.shipping_costs.blank?
+        errors.add(:shipping_costs, "can't be blank")
+      else
+        self.configuration.shipping_costs.each do |sc|
+          errors.add(:shipping_costs, "minimum weights must be smaller than their maximum counterpart (#{sc[:weight_min]} < #{sc[:weight_max]})") if sc[:weight_min] > sc[:weight_max]
+          errors.add(:shipping_costs, "minimum and maximum weights may not be the same (#{sc[:weight_min]} == #{sc[:weight_max]})") if sc[:weight_min] == sc[:weight_max]
+        end
+      end
+    end
   end
   
   

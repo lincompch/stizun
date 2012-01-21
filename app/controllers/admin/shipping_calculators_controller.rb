@@ -42,7 +42,7 @@ class Admin::ShippingCalculatorsController < Admin::BaseController
   
     respond_to do |format|
       if @shipping_calculator.save
-        format.html { redirect_to polymorphic_path(@shipping_calculator), notice: 'Shipping calculator was successfully created.' }
+        format.html { redirect_to edit_admin_shipping_calculator_path(@shipping_calculator), notice: 'Shipping calculator was successfully created.' }
       else
         format.html { render action: "new" }
       end

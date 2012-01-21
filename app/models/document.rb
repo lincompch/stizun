@@ -30,18 +30,23 @@ class Document < ActiveRecord::Base
     return taxes
   end
 
-  # Note: This could be improved by having a ShippingRate dealing specifically with free shipping
-  # In future, incoming and outgoing directions could be handled by 'direction'
+  # TODO: Allow setting the shipping calculator during the order process, thereby
+  # choosing the shipping company to use
+  def shipping_calculator
+    ShippingCalculator.get_default
+  end
+  
+  # Note: This could be improved by having a ShippingCalculator dealing specifically with free shipping
   def shipping_cost(direction = nil)
     cost = BigDecimal.new("0.0") if self.qualifies_for_free_shipping?
-    cost ||= shipping_rate.total_cost
+    cost ||= shipping_calculator.cost
     return cost
   end
   
-  # Note: This could be improved by having a ShippingRate dealing specifically with free shipping
+  # Note: This could be improved by having a ShippingCalculator dealing specifically with free shipping
   def shipping_taxes
     cost = BigDecimal.new("0.0") if self.qualifies_for_free_shipping?
-    cost ||= shipping_rate.total_taxes
+    cost ||= shipping_calculator.taxes
     return cost
   end
   
@@ -65,17 +70,6 @@ class Document < ActiveRecord::Base
     end
     
     return qualifies
-  end
-  
-  # Note that this shipping_rate is only here so that a shipping rate can be attached to 
-  # a document. It does not actually return a ShippingRate object for this order, because
-  # one order's products can come from any number of shipping partners and at any rates.
-  # To get to a specific supplier's shipping rate object, you should rather do something like:
-  # ShippingRate.find(document.suppliers.first.shipping_rate.id)
-  def shipping_rate
-    @sr ||= ShippingRate.new
-    @sr.calculate_for(self)
-    return @sr
   end
  
   def total_of_quantities

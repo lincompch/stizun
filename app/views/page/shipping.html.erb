@@ -31,12 +31,12 @@
     </tr>
   </thead>
   
-  <% @shipping_rate.shipping_costs.each do |sc| %>
+  <% @calculator.configuration.shipping_costs.each do |sc| %>
   
     <tr class="<%= cycle('odd', 'even')%>">
-      <td><%= sc.weight_min / 1000.0 %> kg</td>
-      <td><%= sc.weight_max / 1000.0 %> kg</td>
-      <td><%= pretty_price(sc.price) %> <%= t("stizun.general.excluding_vat")%></td>
+      <td><%= sc[:weight_min] / 1000.0 %> kg</td>
+      <td><%= sc[:weight_max] / 1000.0 %> kg</td>
+      <td><%= pretty_price(sc[:price]) %> <%= t("stizun.general.excluding_vat")%></td>
   <% end %>
   
   <tfoot>

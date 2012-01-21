@@ -224,6 +224,8 @@ de-CH:
     models:
       address: "Adresse"
       order: "Bestellung"
+      shipping_calculator: "Versandrechner"
+      tax_class: "Steuerklasse"
     attributes:
       address:
         company: "Firma"
@@ -438,8 +440,16 @@ de-CH:
       weight_from: "Gewicht von"
     shipping_calculator:
       shipping_calculator: "Versandrechner"
+      shipping_calculators: "Versandrechner"
       shipping_calculator_has_no_configuration: "Dieser Versandrechner ist noch nicht konfiguriert."
       create_configuration: "Versandrechner konfigurieren"
+      new_shipping_calculator: "Neuer Versandrechner"
+      edit_shipping_calculator: "Versandrechner bearbeiten"
+      shipping_calculator_based_on_weight: "Versandrechner nach Gewicht"
+      create_shipping_calculator: "Versandrechner erstellen"
+      weight_is_specified_in_grams: "Das Gewicht wird in Gramm angegeben"
+      weight_min: "Gewicht min."
+      weight_max: "Gewicht max."
   authlogic:
     error_messages:
       email_invalid: "E-Mail-Adresse ist ungültig."

@@ -30,7 +30,7 @@ class PageController < ApplicationController
     rescue ArgumentError
     end
     
-    @shipping_rate = ShippingRate.get_default
+    @shipping_calculator = ShippingCalculator.get_default
     
   end
 

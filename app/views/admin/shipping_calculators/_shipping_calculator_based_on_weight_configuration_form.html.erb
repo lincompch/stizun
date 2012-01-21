@@ -4,15 +4,21 @@
 
   <p><%= t("stizun.shipping_calculator.create_configuration") %>:</p>
 
+
+
+
 <% end %>
 
-
   <%= fields_for @shipping_calculator do |f| %>
+
+
+  <p><%= t("stizun.shipping_calculator.weight_is_specified_in_grams") %>.</p>
+
     <table>    
       <tr>
-        <th>Weight min.</th>
-        <th>Weight max.</th>
-        <th>Price</th>
+        <th><%= t("stizun.shipping_calculator.weight_min") %></th>
+        <th><%= t("stizun.shipping_calculator.weight_max") %></th>
+        <th><%= t("stizun.general.price") %></th>
       </tr>
       
       <% if @shipping_calculator.configuration.shipping_costs.nil? %>
