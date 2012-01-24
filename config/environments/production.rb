@@ -25,7 +25,7 @@ Stizun::Application.configure do
   config.assets.compress = true
 
   # Don't fallback to assets pipeline
-  config.assets.compile = false
+  config.assets.compile = true
 
   # But gimme those extra assets
   config.assets.precompile += %w( theme-lincomp.css theme-lincomp-print.css general.css general_admin.css admin_blank.css in_place_styles.css modal.css scaffold.css public.js administration.js )
