@@ -71,7 +71,10 @@ class ShippingCalculatorBasedOnWeight < ShippingCalculator
   end
   
   def validate_configuration
-    unless self.configuration.nil?
+    # Only validate if there is actually a configuration sent into us
+    # Very evil hack because calling .blank? doesn't actually return true even when the
+    # OpenStruct is empty
+    unless self.configuration.inspect == "#<OpenStruct>"
       if self.configuration.shipping_costs.blank?
         errors.add(:shipping_costs, "can't be blank")
       else
