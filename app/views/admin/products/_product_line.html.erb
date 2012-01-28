@@ -7,7 +7,6 @@
 
       <%= form_for [:admin, product_line] do |f| %>
         <%= f.check_box :is_available %> Available for sale <br>
-        <%= f.check_box :direct_shipping %> Direct shipping <br>
         <%= f.submit 'Save' %>
       <% end %>
 

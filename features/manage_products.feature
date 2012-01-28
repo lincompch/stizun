@@ -10,20 +10,20 @@ Feature: Create and manage products
       And the user group "Admins" has admin permissions
       And the user is member of the group "Admins"
       And I log in with e-mail address "admin@something.com" and password "foobar"
-      And there is a default shipping shipping calculator of type ShippingCalculatorBasedOnWeight called "Alltron AG" with the following costs:
+      And there are the following suppliers:
+      |name|
+      |Alltron AG|
+      And there is a default shipping calculator of type ShippingCalculatorBasedOnWeight called "Alltron AG" with the following costs:
       |weight_min|weight_max|price|
       |         0|      1000|   10|
       |      1001|      2000|   20|
       |      2001|      3000|   30|
-      |      3001|      4000|   40| 
+      |      3001|      4000|   40|
       |      4001|      5000|   50|
-      And there are the following suppliers:
-      |name|
-      |Alltron AG|
       And there are the following margin ranges:
 			|start_price|end_price|margin_percentage|
-			|nil|nil|0.0              |
-			|0|100000|5.0              |
+			|nil|nil|0.0|
+			|0|100000|5.0|
       And there is a payment method called "Prepay" which is the default
       Given the Sphinx indexes are updated
 

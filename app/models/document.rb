@@ -82,6 +82,10 @@ class Document < ActiveRecord::Base
     sum
   end
 
+  def products
+    products = self.lines.collect(&:product) 
+  end
+
   def suppliers
     products.collect(&:supplier).uniq
   end

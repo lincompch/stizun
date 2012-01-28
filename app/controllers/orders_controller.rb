@@ -60,11 +60,7 @@ class OrdersController < ApplicationController
     
     if @order.save
       @cart.destroy
-      
-      if @order.direct_shipping? == true
-        invoice_order(@order)
-      end
-      
+      invoice_order(@order)
       @order.send_order_confirmation(current_user)
         
       flash[:notice] = I18n.t("stizun.order.thanks_for_your_order")
