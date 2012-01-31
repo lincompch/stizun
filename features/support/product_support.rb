@@ -4,11 +4,9 @@
 def create_product(prod)
 
     purchase_price = BigDecimal.new("0.0")
-    purchase_price = BigDecimal.new(prod['purchase_price'].to_s) unless prod['purchase_price'].nil?		
+    purchase_price = BigDecimal.new(prod['purchase_price'].to_s) unless prod['purchase_price'].nil?
     sales_price = nil
     sales_price = BigDecimal.new(prod['sales_price']) unless prod['sales_price'].nil?
-    direct_shipping = false
-    direct_shipping = true if prod['direct_shipping'] == "true"
     weight = 0
     weight = prod['weight'].to_f unless prod['weight'].nil?
     manufacturer_product_code = prod['manufacturer_product_code']
@@ -20,7 +18,7 @@ def create_product(prod)
     end
 
     prod['description'].blank? ? description = "No description" : description = prod['description']
-    
+
     supplier = Supplier.find_by_name(prod['supplier'])
     product = Product.create(:name => prod['name'],
                              :description => description,
@@ -29,8 +27,7 @@ def create_product(prod)
                              :supplier => supplier,
                              :tax_class => tax_class,
                              :purchase_price => purchase_price,
-                             :manufacturer_product_code => manufacturer_product_code,
-                             :direct_shipping => direct_shipping)
+                             :manufacturer_product_code => manufacturer_product_code)
   if prod['category']
     category = Category.where(:name => prod['category']).first
     category = Category.create(:name => prod['category']) if category.nil?

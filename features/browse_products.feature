@@ -13,26 +13,26 @@ Feature: Browse products
       And the user is member of the group "Admins"
       And I log in with e-mail address "admin@something.com" and password "foobar"
       And there is a default shipping calculator of type ShippingCalculatorBasedOnWeight called "Alltron AG" with the following costs:
-        |weight_min|weight_max|price|
-        |         0|      1000|   10|
-        |      1001|      2000|   20|
-        |      2001|      3000|   30|
-        |      3001|      4000|   40|
-        |      4001|      5000|   50|
+      |weight_min|weight_max|price|
+      |         0|      1000|   10|
+      |      1001|      2000|   20|
+      |      2001|      3000|   30|
+      |      3001|      4000|   40|
+      |      4001|      5000|   50|
       And there are the following suppliers:
-        |name|
-        |Alltron AG|
+      |name|
+      |Alltron AG|
       And there are the following margin ranges:
-        |start_price|end_price|margin_percentage|
-        |nil        |nil      |0.0              |
+      |start_price|end_price|margin_percentage|
+      |nil        |nil      |0.0              |
       And there is a payment method called "Prepay" which is the default
 
     Scenario: Browse all products
       Given the following products exist(table):
-      |name        |category               |supplier  |purchase_price|direct_shipping|manufacturer_product_code|
-      |Foobar 2000 |Metasyntactic Variables|Alltron AG|100.0         |true           |foo1                     |
-      |Fish        |Animals                |Alltron AG|100.0         |true           |foo2                     |
-      |Defender    |Arcade games           |Alltron AG|100.0         |true           |foo3                     |      
+      |name        |category               |supplier  |purchase_price|manufacturer_product_code|
+      |Foobar 2000 |Metasyntactic Variables|Alltron AG|100.0         |foo1                     |
+      |Fish        |Animals                |Alltron AG|100.0         |foo2                     |
+      |Defender    |Arcade games           |Alltron AG|100.0         |foo3                     |
       When I view the product list
       Then I should see a product named "Foobar 2000"
       And I should see a product named "Fish"
@@ -41,12 +41,11 @@ Feature: Browse products
     @javascript
     Scenario: Browse products in a category
       Given the following products exist(table):
-      |name        |category               |supplier  |purchase_price|direct_shipping|manufacturer_product_code|
-      |Foobar 2000 |Metasyntactic Variables|Alltron AG|100.0         |true           |foo1                     |
-      |Fish        |Animals                |Alltron AG|100.0         |true           |foo2                     |
-      |Defender    |Arcade games           |Alltron AG|100.0         |true           |foo3                     |
+      |name        |category               |supplier  |purchase_price|manufacturer_product_code|
+      |Foobar 2000 |Metasyntactic Variables|Alltron AG|100.0         |foo1                     |
+      |Fish        |Animals                |Alltron AG|100.0         |foo2                     |
+      |Defender    |Arcade games           |Alltron AG|100.0         |foo3                     |
       When the Sphinx indexes are updated
       And I view the category "Animals"
       Then I should see a product named "Fish"
       And I should not see a product named "Defender"
-

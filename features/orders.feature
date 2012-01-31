@@ -1,7 +1,7 @@
 Feature: Orders as collections of items
 
-  Background: Shipping rates and payment methods exist
-      And there is a default shipping calculator of type ShippingCalculatorBasedOnWeight called "Alltron AG" with the following costs:
+  Background: Shipping calculators and payment methods exist
+    And there is a default shipping calculator of type ShippingCalculatorBasedOnWeight called "Alltron AG" with the following costs:
     |weight_min|weight_max|price|
     |         0|      1000|   10|
     |      1001|      2000|   20|

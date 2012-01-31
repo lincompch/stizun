@@ -26,13 +26,13 @@ When /^I add the product "([^\"]*)" to my cart (\d+) times$/ do |name, num|
           box_id = tr.find(".compact_add_to_cart_box")['id']
           fill_in field_id, :with => num
           within "##{box_id}" do
-            click_button 'Kaufen' 
+            click_button 'Kaufen'
           end
         end
       end
     end
   end
-  
+
 end
 
 
@@ -42,7 +42,7 @@ When /^I visit the checkout$/ do
 end
 
 When /^I submit my order$/ do
-  click_button "Bestellung aufgeben"  
+  click_button "Bestellung aufgeben"
 end
 
 Then /^I should see an order summary$/ do
@@ -57,7 +57,7 @@ Then /^my cart should contain a product named "([^\"]*)"$/ do |arg1|
   page.should have_content(arg1)
 end
 
-Then /^my cart should contain a product named "([^\"]*)" (\d+) times$/ do |name, quantity|                                                                     
+Then /^my cart should contain a product named "([^\"]*)" (\d+) times$/ do |name, quantity|
   visit cart_path
   #page.should have_selector("input", :name => 'cart_line[quantity]', :value => arg2)
   #page.should have_content(arg1)
@@ -67,12 +67,12 @@ Then /^my cart should contain a product named "([^\"]*)" (\d+) times$/ do |name,
     end
   end
 
-end    
+end
 
-Then /^my cart should contain some stuff$/ do                                                         
+Then /^my cart should contain some stuff$/ do
       Then %{my cart should contain a product named "Fish" 3 times}
       And %{my cart should contain a product named "Terminator T-1000" 2 times}
-end    
+end
 
 Then /^I should receive (\d+) e\-mails$/ do |num|
   @emails = ActionMailer::Base.deliveries
@@ -86,3 +86,29 @@ Then /^the subject of e\-mail (\d+) should be "([^"]*)"$/ do |num, subject|
   @emails[index].subject.should == subject
 end
 
+
+Then /^the order summary should contain a total excluding VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
+  amount = (arg1.to_s + "." + arg2.to_s).to_f
+
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^the order summary should contain a VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
+  amount = (arg1.to_s + "." + arg2.to_s).to_f
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^the order summary should contain a product total including VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
+  amount = (arg1.to_s + "." + arg2.to_s).to_f
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^the order summary should contain VAT on shipping of (\d+)\.(\d+)$/ do |arg1, arg2|
+  amount = (arg1.to_s + "." + arg2.to_s).to_f
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^the order summary should contain a grand total of (\d+)\.(\d+)$/ do |arg1, arg2|
+  amount = (arg1.to_s + "." + arg2.to_s).to_f
+  pending # express the regexp above with the code you wish you had
+end
