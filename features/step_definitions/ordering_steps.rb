@@ -89,26 +89,25 @@ end
 
 Then /^the order summary should contain a total excluding VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
   amount = (arg1.to_s + "." + arg2.to_s).to_f
-
-  pending # express the regexp above with the code you wish you had
+  find("#document_products_price").text.strip.to_f.should == amount
 end
 
 Then /^the order summary should contain a VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
   amount = (arg1.to_s + "." + arg2.to_s).to_f
-  pending # express the regexp above with the code you wish you had
+  find("#document_taxes").text.strip.to_f.should == amount
 end
 
 Then /^the order summary should contain a product total including VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
   amount = (arg1.to_s + "." + arg2.to_s).to_f
-  pending # express the regexp above with the code you wish you had
+  find("#document_products_taxed_price").text.strip.to_f.should == amount
 end
 
-Then /^the order summary should contain VAT on shipping of (\d+)\.(\d+)$/ do |arg1, arg2|
+Then /^the order summary should contain shipping cost including VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
   amount = (arg1.to_s + "." + arg2.to_s).to_f
-  pending # express the regexp above with the code you wish you had
+  find("#document_shipping_cost_including_taxes").text.strip.to_f.should == amount
 end
 
 Then /^the order summary should contain a grand total of (\d+)\.(\d+)$/ do |arg1, arg2|
   amount = (arg1.to_s + "." + arg2.to_s).to_f
-  pending # express the regexp above with the code you wish you had
+  find("#document_taxed_price").text.strip.to_f.should == amount
 end

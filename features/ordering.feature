@@ -34,6 +34,20 @@ Feature: Ordering
       And I add the product "Fish" to my cart 4 times
       Then my cart should contain a product named "Fish" 4 times
 
+    Scenario: See correct totals on checkout page for one single product
+      Given the following products exist(table):
+      |name|category|supplier|purchase_price|weight|
+      |Fish|Animals|Alltron AG|100.0|10.0|
+      When I view the category "Animals"
+      And I add the product "Fish" to my cart 1 times
+      And I visit the checkout
+      Then I should see an order summary
+      And the order summary should contain a total excluding VAT of 105.0
+      And the order summary should contain a VAT of 8.40
+      And the order summary should contain a product total including VAT of 113.40
+      And the order summary should contain shipping cost including VAT of 108.0
+      And the order summary should contain a grand total of 221.40
+
     Scenario: View checkout
       Given the following products exist(table):
       |name|category|supplier|purchase_price|weight|
@@ -45,11 +59,6 @@ Feature: Ordering
       And I add the product "Terminator T-1000" to my cart 2 times
       And I visit the checkout
       Then I should see an order summary
-      And the order summary should contain a total excluding VAT of 105.0
-      And the order summary should contain a VAT of 8.40
-      And the order summary should contain a product total including VAT of 113.40
-      And the order summary should contain VAT on shipping of 8.0
-      And the order summary should contain a grand total of 213.40
 
     Scenario: Complete checkout
       Given the following products exist(table):

@@ -1,11 +1,11 @@
 class Document < ActiveRecord::Base
   self.abstract_class = true
 
-  
+
   def taxed_price
-    return products_taxed_price + shipping_cost
+    return products_taxed_price + (shipping_cost + shipping_taxes)
   end
-  
+
   def products_taxed_price
     total = BigDecimal.new("0.0")
     self.lines.each do |ol|
@@ -13,7 +13,7 @@ class Document < ActiveRecord::Base
     end
     return total
   end
-  
+
   def products_price
     total = BigDecimal.new("0.0")
     self.lines.each do |ol|
@@ -21,7 +21,7 @@ class Document < ActiveRecord::Base
     end
     return total
   end
-  
+
   def taxes
     taxes = BigDecimal.new("0.0")
     self.lines.each do |ol|
@@ -29,11 +29,11 @@ class Document < ActiveRecord::Base
     end
     return taxes
   end
-  
+
   # Note: This could be improved by having a ShippingCalculator dealing specifically with free shipping
   def shipping_cost(direction = nil)
     if self.qualifies_for_free_shipping?
-      cost = BigDecimal.new("0.0") 
+      cost = BigDecimal.new("0.0")
     else
       sc = ShippingCalculator.get_default
       sc.calculate_for(self)
@@ -41,11 +41,11 @@ class Document < ActiveRecord::Base
     end
     return cost
   end
-  
+
   # Note: This could be improved by having a ShippingCalculator dealing specifically with free shipping
   def shipping_taxes
     if self.qualifies_for_free_shipping?
-      cost = BigDecimal.new("0.0") 
+      cost = BigDecimal.new("0.0")
     else
       sc = ShippingCalculator.get_default
       sc.calculate_for(self)
@@ -53,8 +53,8 @@ class Document < ActiveRecord::Base
     end
     return cost
   end
-  
-  
+
+
   def qualifies_for_free_shipping?
     qualifies = false
     begin
@@ -64,7 +64,7 @@ class Document < ActiveRecord::Base
       # Can't find that configuration key, thus we do nothing, because the shipping rate's total_cost
       # will be returned in such cases
     end
-    
+
     begin
       minimum_order_amount = BigDecimal.new(ConfigurationItem.get("free_shipping_minimum_amount").value)
       qualifies = true if self.products_taxed_price >= minimum_order_amount
@@ -72,10 +72,10 @@ class Document < ActiveRecord::Base
       # Can't find that configuration key, thus we do nothing, because the shipping rate's total_cost
       # will be returned in such cases
     end
-    
+
     return qualifies
   end
- 
+
   def total_of_quantities
     sum = 0
     lines.each {|l| sum += l.quantity}
@@ -83,13 +83,13 @@ class Document < ActiveRecord::Base
   end
 
   def products
-    products = self.lines.collect(&:product) 
+    products = self.lines.collect(&:product)
   end
 
   def suppliers
     products.collect(&:supplier).uniq
   end
-  
+
   def lines_by_supplier(supplier)
     supplier_lines = []
     lines.each do |line|
@@ -97,8 +97,8 @@ class Document < ActiveRecord::Base
     end
     return supplier_lines
   end
-  
-  
+
+
   def weight
     weight = 0.0
     lines.each do |l|
@@ -106,7 +106,7 @@ class Document < ActiveRecord::Base
     end
     return weight
   end
-  
+
   # Returns the quantity of a certain product or supply item as present in this order
   def quantity_of(product_or_supply_item)
     quantity = 0
@@ -119,10 +119,10 @@ class Document < ActiveRecord::Base
         quantity = l.quantity if l.product == product_or_supply_item
       end
     end
-    
+
     return quantity
   end
-  
+
   def notification_email_addresses
     emails = []
     if self.billing_address.email.blank? and self.shipping_address.email.blank? and !self.user.nil?
@@ -136,13 +136,13 @@ class Document < ActiveRecord::Base
       emails << self.billing_address.email unless self.billing_address.email.blank?
       emails << self.shipping_address.email unless self.shipping_address.email.blank?
     end
-    
+
     return emails.uniq
   end
-  
-  
+
+
   def contains_componentized_products?
-    return products.collect(&:componentized?).uniq.include?(true)    
+    return products.collect(&:componentized?).uniq.include?(true)
   end
 
   def live_update_products
@@ -162,5 +162,5 @@ class Document < ActiveRecord::Base
     end
     return product_updates
   end
-  
+
 end
