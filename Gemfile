@@ -46,7 +46,7 @@ group :assets do
 end
 
 group :test, :development do
-  gem 'cover_me'
+  gem 'simplecov'
   #gem 'factory_girl_rails'
   gem 'fabrication'
   gem 'pickle'
