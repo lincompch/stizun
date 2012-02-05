@@ -86,6 +86,7 @@ describe Order do
 
       o.total_taxed_shipping_price.to_f.should == 11.0
       o.products_taxed_price.to_f.should == 396.9
+
       o.taxed_price.to_f.should == 407.9
     end
     

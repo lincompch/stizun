@@ -3,7 +3,7 @@ class Document < ActiveRecord::Base
 
 
   def taxed_price
-    return products_taxed_price + total_taxed_shipping_price
+    return (products_taxed_price + total_taxed_shipping_price)
   end
 
   def products_taxed_price
@@ -55,7 +55,7 @@ class Document < ActiveRecord::Base
   end
 
   def total_taxed_shipping_price
-    shipping_cost + shipping_taxes
+    return (shipping_cost + shipping_taxes)
   end
 
   def qualifies_for_free_shipping?
