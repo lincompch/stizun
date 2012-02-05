@@ -17,7 +17,13 @@ describe Order do
     @sc.configuration.shipping_costs << {:weight_min => 0, :weight_max => 10000, :price => 10.0}
     @sc.tax_class = tax_class2
     @sc.save
-    ConfigurationItem.create(:key => 'default_shipping_calculator_id', :value => @sc.id)
+    ci = ConfigurationItem.where(:key => 'default_shipping_calculator_id').first
+    if ci.nil?
+      ci = ConfigurationItem.create(:key => 'default_shipping_calculator_id', :value => @sc.id)
+    else
+      ci.value = @sc.id
+      ci.save
+    end
 
     supplier = Fabricate(:supplier)
     supplier.save

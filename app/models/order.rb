@@ -134,7 +134,7 @@ class Order < StaticDocument
       ol.quantity = cl.quantity
       ol.text = cl.product.name
       ol.product = cl.product
-      ol.single_untaxed_price = cl.product.gross_price.rounded
+      ol.single_untaxed_price = cl.product.gross_price
       ol.tax_percentage = cl.product.tax_class.percentage
       ol.manufacturer = cl.product.manufacturer
       ol.manufacturer_product_code = cl.product.manufacturer_product_code
@@ -218,7 +218,7 @@ class Order < StaticDocument
     # Normalize this, we don't want nil values in the rebate field because that's
     # used in very central bits of code.
     self.rebate = BigDecimal.new("0.0") if self.rebate.nil?
-    self.rebate = self.rebate.rounded
+    self.rebate = self.rebate
   end
 
   # If a new rebate is added to this order, of course the old invoice becomes invalid
