@@ -3,7 +3,7 @@ class Document < ActiveRecord::Base
 
 
   def taxed_price
-    return products_taxed_price + (shipping_cost + shipping_taxes)
+    return products_taxed_price + total_taxed_shipping_price
   end
 
   def products_taxed_price

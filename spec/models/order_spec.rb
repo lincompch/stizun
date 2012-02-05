@@ -45,13 +45,38 @@ describe Order do
   
   describe "a normal order" do
     
-    it "should be created from a cart" do
+    it "should be created from a cart or other dynamic document" do
       c = Cart.new
       c.add_product(Product.first)
       c.save
       o = Order.new_from_cart(c)
       o.billing_address = Address.first
       o.save.should == true
+    end
+
+    it "should report the same totals as the dynamic order it came from" do
+      c = Cart.new
+      tc = Fabricate(:tax_class, {:percentage => 8.0})
+      product = Fabricate(:product, {:purchase_price => 100.0, :tax_class => tc})
+      product2 = Fabricate(:product, {:purchase_price => 250.0, :tax_class => tc})
+
+      c.add_product(product)
+      c.add_product(product2)
+
+      c.lines[0].taxed_price.to_f.should == 113.4
+      c.lines[1].taxed_price.to_f.should == 283.50
+
+      c.total_taxed_shipping_price.to_f.should == 11.0
+      c.products_taxed_price.to_f.should == 396.9 # 113.40 + 283.50
+      c.taxed_price.to_f.should == 407.9
+
+      o = Order.new_from_cart(c)
+      o.billing_address = Address.first
+      o.save
+
+      o.total_taxed_shipping_price.to_f.should == 11.0
+      o.products_taxed_price.to_f.should == 396.9
+      o.taxed_price.to_f.should == 407.9
     end
     
     it "should cancel its invoice when it is cancelled itself" do   
