@@ -74,6 +74,10 @@ describe Order do
       o.billing_address = Address.first
       o.save
 
+
+      o.lines[0].taxed_price.to_f.should == 113.4
+      o.lines[1].taxed_price.to_f.should == 283.50
+
       o.total_taxed_shipping_price.to_f.should == 11.0
       o.products_taxed_price.to_f.should == 396.9
       o.taxed_price.to_f.should == 407.9
