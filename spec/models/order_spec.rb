@@ -34,9 +34,10 @@ describe Order do
     address.save.should == true
     
     
-    # For some reason, using FabricateGirl to create this breaks everything, it creates all associated
+    # For some reason, using FactoryGirl to create this breaks everything, it creates all associated
     # things along with it, ignores the @tax_class that we explicitly set and creates many unnecessary
-    # suppliers and tax rates, which messes everything up completely.
+    # suppliers and tax rates, which messes everything up completely. Might work better with
+    # Fabricate, haven't tried yet.
     p = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => supplier, :tax_class => tax_class2, :purchase_price => 120.0, :direct_shipping => true, :is_available => true)
     p.save.should == true
     
