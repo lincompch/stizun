@@ -33,7 +33,7 @@
         <tr>
           <td><%= link_to t("stizun.shipping.shipping"), controller: 'page', action: 'shipping' %>:</td>
           <td class="price">
-	    <%= pretty_price( (@cart.shipping_cost + @cart.shipping_taxes).rounded, "") %>
+	    <%= pretty_price(@cart.total_taxed_shipping_price.rounded, "") %>
 	  </td>
           <td></td>
         </tr>

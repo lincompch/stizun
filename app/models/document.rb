@@ -54,6 +54,9 @@ class Document < ActiveRecord::Base
     return cost
   end
 
+  def total_taxed_shipping_price
+    shipping_cost + shipping_taxes
+  end
 
   def qualifies_for_free_shipping?
     qualifies = false

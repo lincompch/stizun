@@ -87,7 +87,7 @@
       <td></td>
       <td></td>
       <td></td>
-      <td class="price" id="document_shipping_cost_including_taxes"><%= pretty_price( (document.shipping_cost + document.shipping_taxes).rounded, "") %></td>
+      <td class="price" id="document_shipping_cost_including_taxes"><%= pretty_price( document.total_taxed_shipping_price.rounded, "") %></td>
       <td></td>
     </tr>
     <tr>

@@ -22,7 +22,7 @@ class StaticDocument < ActiveRecord::Base
   # === Methods
   
   def taxed_price
-    return lines.sum("taxed_price") + shipping_cost - rebate - tax_reduction.rounded
+    return (lines.sum("taxed_price") + shipping_cost - rebate - tax_reduction).rounded
   end
 
   def gross_price
@@ -30,7 +30,7 @@ class StaticDocument < ActiveRecord::Base
   end
   
   def products_taxed_price
-    return lines.sum("taxed_price") - rebate - tax_reduction.rounded
+    return (lines.sum("taxed_price") - rebate - tax_reduction).rounded
   end
 
   def weight
@@ -48,6 +48,10 @@ class StaticDocument < ActiveRecord::Base
 
   def total_taxes
     taxes + shipping_taxes - tax_reduction
+  end
+
+  def total_taxed_shipping_price
+    shipping_cost + shipping_taxes
   end
 
   # Tax reduction that happens due to a rebate on the whole order
