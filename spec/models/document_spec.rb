@@ -31,9 +31,6 @@ describe Document do
     @address.save.should == true
     
     
-    # For some reason, using FabricateGirl to create this breaks everything, it creates all associated
-    # things along with it, ignores the @tax_class that we explicitly set and creates many unnecessary
-    # suppliers and tax rates, which messes everything up completely.
     p = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => @supplier, :tax_class => @tax_class, :purchase_price => 100.0, :direct_shipping => true, :is_available => true)
     p.save.should == true
     

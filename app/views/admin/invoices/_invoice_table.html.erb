@@ -8,7 +8,7 @@
         <td>Shipping</td>
         <td> </td>
         <td> </td>
-        <td class="price"><%= pretty_price(invoice_table.shipping_cost) %></td>
+        <td class="price"><%= pretty_price(invoice_table.shipping_cost.rounded) %></td>
       </tr>
       
       <tr>
@@ -16,7 +16,7 @@
         <td><strong>Total</strong></td>
         <td> </td>
         <td> </td>
-        <td class="price"><strong><%= pretty_price(invoice_table.taxed_price) %></strong></td>
+        <td class="price"><strong><%= pretty_price(invoice_table.taxed_price.rounded) %></strong></td>
       </tr>
 
 </table>

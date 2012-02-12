@@ -13,7 +13,7 @@
     <%= short_address(detail_row.shipping_address) if detail_row.shipping_address %>
   </td>
   <td class="price">
-    <%= pretty_price(detail_row.taxed_price) %>
+    <%= pretty_price(detail_row.taxed_price.rounded) %>
   </td>
   <td>
     <%= detail_row.status_human %>
