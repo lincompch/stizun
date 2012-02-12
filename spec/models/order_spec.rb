@@ -16,7 +16,7 @@ describe Order do
     @sc.configuration.shipping_costs = []
     @sc.configuration.shipping_costs << {:weight_min => 0, :weight_max => 10000, :price => 10.0}
     @sc.tax_class = tax_class2
-    @sc.save
+    @sc.save.should == true
     ci = ConfigurationItem.where(:key => 'default_shipping_calculator_id').first
     if ci.nil?
       ci = ConfigurationItem.create(:key => 'default_shipping_calculator_id', :value => @sc.id)
@@ -137,7 +137,7 @@ describe Order do
       c.add_product(product)
       c.shipping_cost.should == BigDecimal.new("0.0")
       c.shipping_taxes.should == BigDecimal.new("0.0")
-		end
+    end
 		
     it "should have no shipping cost starting at a certain order value, according to the shop's configuration" do
       ConfigurationItem.create(:key => "free_shipping_minimum_amount", :value => 300)

@@ -120,10 +120,10 @@ class Order < StaticDocument
   end
   
   def clone_from_cart(cart)
-    self.shipping_cost = cart.shipping_cost
-    self.shipping_taxes = cart.shipping_taxes
+    self.shipping_cost = cart.shipping_cost.rounded
+    self.shipping_taxes = cart.shipping_taxes.rounded
     self.rebate = BigDecimal.new("0.0") # Shouldn't be necessary because the DB default is 0.0, but better safe than sorry
-    self.order_lines_from_cart(cart)   
+    self.order_lines_from_cart(cart)
     return self
   end
   
