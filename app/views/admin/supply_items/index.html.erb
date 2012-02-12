@@ -40,7 +40,7 @@
     <td class="workflow_<%= item.workflow_status_constant %>"><%= item.workflow_status_to_human %></td>
     <td><%= item.manufacturer %></td>
     <td><%= item.supplier_product_code %> / <%=h item.manufacturer_product_code %></td>
-    <td><%= item.name %></td>
+    <td><%= item.product.nil? ? "" : "[HAS PRODUCT] " %><%= item.name %></td>
     <td><%= item.status_human %></td>
     <td class="price"><%= item.purchase_price %></td>
     <td>
