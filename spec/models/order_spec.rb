@@ -12,11 +12,15 @@ describe Order do
     tax_class2 ||= Fabricate(:tax_class, {:percentage => 10.0})
 
     
-    @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing')
-    @sc.configuration.shipping_costs = []
-    @sc.configuration.shipping_costs << {:weight_min => 0, :weight_max => 10000, :price => 10.0}
-    @sc.tax_class = tax_class2
-    @sc.save.should == true
+    @sc = ShippingCalculatorBasedOnWeight.where(:name => 'For Testing').first
+    if @sc.nil?
+      @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing')
+      @sc.configuration.shipping_costs = []
+      @sc.configuration.shipping_costs << {:weight_min => 0, :weight_max => 10000, :price => 10.0}
+      @sc.tax_class = tax_class2
+      @sc.save.should == true
+    end
+
     ci = ConfigurationItem.where(:key => 'default_shipping_calculator_id').first
     if ci.nil?
       ci = ConfigurationItem.create(:key => 'default_shipping_calculator_id', :value => @sc.id)
