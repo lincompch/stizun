@@ -41,7 +41,9 @@
       <h4><%= t('stizun.product.attachments') %></h4>
       <ul>
         <% @product.attachments.each do |att| %>
-          <li><%= link_to File.basename(att.file.current_path), att.file.url %></li>
+	  <% unless att.file.blank? %>
+            <li><%= link_to File.basename(att.file.current_path), att.file.url %></li>
+	  <% end %>
         <% end %>
       </ul>
     <% end %>
