@@ -11,7 +11,7 @@
     <tr>
       <td></td>
       <td><%= t("stizun.order.shipping_cost")%></td>
-      <td class="price"><%= pretty_price(order.shipping_cost) %></td>
+      <td class="price"><%= pretty_price(order.total_taxed_shipping_price) %></td>
     </tr>
 
     <tr>

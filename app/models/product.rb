@@ -116,7 +116,7 @@ class Product < ActiveRecord::Base
         rebate = absolute_rebate
       elsif percentage_rebate?
         rebate = (full_price / BigDecimal.new("100.0")) * percentage_rebate
-        rebate = rebate.rounded
+        #rebate = rebate.rounded
       end
     end
     # This check makes sure only loss-leader products can go below their purchase
