@@ -26,4 +26,23 @@ describe ApplicationHelper do
       end
       
    end
+
+
+  describe "display prices" do
+    it "should round prices if rounding is set" do
+      price = 150.22
+      pretty_price(price, "CHF").should == "CHF 150.22"
+
+      price = 150.22
+      pretty_price(price, "CHF", true).should == "CHF 150.22"
+
+      price = BigDecimal.new("150.22")
+      pretty_price(price, "CHF").should == "CHF 150.20"
+
+      price = BigDecimal.new("150.22")
+      pretty_price(price, "CHF", false).should == "CHF 150.22"
+
+    end
+  end
+
 end
