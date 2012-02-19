@@ -12,14 +12,6 @@ class StaticDocumentLine < ActiveRecord::Base
     self.taxes = (self.gross_price / BigDecimal.new("100.0")) * self.tax_percentage
     self.taxed_price = BigDecimal.new( (self.gross_price + self.taxes).to_s )
     self.single_price = single_untaxed_price_after_rebate + ((single_untaxed_price_after_rebate / BigDecimal.new("100.0")) * self.tax_percentage)
-    self.single_price = self.single_price
-
-    # Round everything, to be consistent with how it's handled for a dynamic document
-    self.gross_price = self.gross_price.rounded
-    self.taxes = self.taxes.rounded
-    self.taxed_price = self.taxed_price.rounded
-    self.single_price = self.single_price.rounded
-
   end
 
   def has_rebate?
