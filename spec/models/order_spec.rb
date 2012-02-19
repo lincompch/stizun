@@ -9,12 +9,13 @@ describe Order do
     mr0.margin_percentage = 5.0
     mr0.save
   
-    tax_class2 ||= Fabricate(:tax_class, {:percentage => 10.0})
+    tax_class2 = TaxClass.where(:percentage => 10.0).first
+    tax_class2 = Fabricate(:tax_class, {:percentage => 10.0}) if tax_class2.nil?
 
     
-    @sc = ShippingCalculatorBasedOnWeight.where(:name => 'For Testing').first
+    @sc = ShippingCalculatorBasedOnWeight.where(:name => 'For Testing Orders').first
     if @sc.nil?
-      @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing')
+      @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing Orders')
       @sc.configuration.shipping_costs = []
       @sc.configuration.shipping_costs << {:weight_min => 0, :weight_max => 10000, :price => 10.0}
       @sc.tax_class = tax_class2
@@ -31,7 +32,6 @@ describe Order do
 
     supplier = Fabricate(:supplier)
     supplier.save
-    
     
     Country.create(:name => "Somewhereland")
     address = Address.new(:street => 'Foo',
