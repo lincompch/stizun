@@ -27,19 +27,19 @@
       <table>
         <tr>
           <td><%= t("stizun.general.products") %>:</td>
-          <td class="price"><%= pretty_price(@cart.products_taxed_price.rounded, "") %></td>
+          <td class="price"><%= pretty_price(@cart.products_taxed_price, "") %></td>
           <td></td>
         </tr>
         <tr>
           <td><%= link_to t("stizun.shipping.shipping"), controller: 'page', action: 'shipping' %>:</td>
           <td class="price">
-	    <%= pretty_price(@cart.total_taxed_shipping_price.rounded, "") %>
+	    <%= pretty_price(@cart.total_taxed_shipping_price, "") %>
 	  </td>
           <td></td>
         </tr>
         <tr>
           <td><strong><%= t("stizun.general.total")%>:</strong></td>
-          <td class="price"><strong><%= pretty_price @cart.taxed_price.rounded %></strong></td>
+          <td class="price"><strong><%= pretty_price @cart.taxed_price %></strong></td>
           <td></td>
         </tr>
       </table>

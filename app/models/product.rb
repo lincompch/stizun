@@ -147,7 +147,7 @@ class Product < ActiveRecord::Base
     calculation = BigDecimal.new("0")
     absolutely_priced? ? base_price = sales_price : base_price = gross_price
     calculation = ( (base_price - rebate) / BigDecimal.new("100.0")) * tax_class.percentage
-    calculation
+    calculation.rounded
   end
   
   def margin
@@ -333,8 +333,11 @@ class Product < ActiveRecord::Base
     percentage = (BigDecimal.new("100.0") / gross_price) * margin
     BigDecimal.new(percentage.to_s)
   end
-  
-  
+
+  def margin_percentage
+    MarginRange.percentage_for_price(self.purchase_price)
+  end
+    
   # Boolean statuses that need processing (non-trivial booleans that can't be handled by ActiveRecord itself)
   
   def in_a_document?
@@ -405,7 +408,7 @@ class Product < ActiveRecord::Base
       return read_attribute :purchase_price
     end
   end
-  
+
   def stock
     if self.componentized?
       return self.component_stock
@@ -533,21 +536,19 @@ class Product < ActiveRecord::Base
     end
 
   end
-
-  def margin_percentage
-    MarginRange.percentage_for_price(self.purchase_price)
-  end
   
   private
   
   def calculated_gross_price
     calculated_gross_price = (purchase_price + calculated_margin)
-    BigDecimal.new(calculated_gross_price.to_s)
+    calculated_gross_price = calculated_gross_price.rounded
+    calculated_gross_price
   end
   
   def calculated_margin
-    margin = (purchase_price / 100.0) * self.margin_percentage
-    BigDecimal.new(margin.to_s)
+    margin = (purchase_price / BigDecimal.new("100.0")) * BigDecimal.new(self.margin_percentage.to_s)
+    margin = margin.rounded
+    margin
   end
 
   

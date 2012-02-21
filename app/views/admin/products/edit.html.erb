@@ -181,7 +181,7 @@
   <% if @product.componentized? %>
     <tr>
       <td><%= f.label :sales_price, "Sales price" %></td>
-      <td><%= pretty_price(@product.price.rounded) %></td>
+      <td><%= pretty_price(@product.price) %></td>
     </tr>
   <% else %>
 

@@ -1,3 +1,4 @@
+
 <div id="compact_cart" class="compact">
 
 <%= form_for @cart, :url => { :controller => 'carts', :action => 'update' } do |f| %>
@@ -13,7 +14,7 @@
 
         <%= f.fields_for "cart_lines[]", ci do |cl_fields| %>
           <%= cl_fields.text_field :quantity, :size => 3 %> x 
-          <%= ci.product.name %> (<%= pretty_price(ci.product.taxed_price.rounded) %>)
+          <%= ci.product.name %> (<%= pretty_price(ci.product.taxed_price) %>)
            <%= link_to t("stizun.cart.remove"), :controller => 'carts', :action => 'remove_all', :product_id => ci.product %>
 
         <% end %>

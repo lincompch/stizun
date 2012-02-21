@@ -1,3 +1,4 @@
+
 <table>
 
       <tr>
@@ -23,7 +24,7 @@
         <td colspan="2">- Rebate for whole order</td>
         <td></td>
         <td> </td>
-        <td class="price"><em><%= pretty_price(order_table.rebate.rounded) %></em></td>
+        <td class="price"><em><%= pretty_price(order_table.rebate) %></em></td>
       </tr>   
 
       <tr>
@@ -33,7 +34,7 @@
         <td colspan="2">- Tax reduction due to rebate</td>
         <td></td>
         <td> </td>
-        <td class="price"><em><%= pretty_price(order_table.tax_reduction.rounded) %></em></td>
+        <td class="price"><em><%= pretty_price(order_table.tax_reduction) %></em></td>
       </tr>
       <% end %>
 
@@ -44,7 +45,7 @@
         <td colspan="2">Taxes</td>
         <td></td>
         <td> </td>
-        <td class="price"><em><%= pretty_price(order_table.total_taxes.rounded) %></em></td>
+        <td class="price"><em><%= pretty_price(order_table.total_taxes) %></em></td>
       </tr>      
 
       <tr>
@@ -55,7 +56,7 @@
         <td><%= order_table.weight.to_s%>kg</td>
         <td>incl. <%= pretty_price(order_table.shipping_taxes)%> VAT</td>
         <td> </td>
-        <td class="price"><em><%= pretty_price(order_table.shipping_cost.rounded) %></em></td>
+        <td class="price"><em><%= pretty_price(order_table.shipping_cost) %></em></td>
       </tr>
       
       <tr>
@@ -66,6 +67,6 @@
         <td> </td>
         <td></td>
         <td> </td>        
-        <td class="price"><strong><%= pretty_price(order_table.taxed_price.rounded) %></strong></td>
+        <td class="price"><strong><%= pretty_price(order_table.taxed_price) %></strong></td>
      </tr>
 </table>

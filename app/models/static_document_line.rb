@@ -4,8 +4,6 @@ class StaticDocumentLine < ActiveRecord::Base
 
   before_save :recalculate_totals
   
-  # All this BigDecimal wrangling is getting on my nerves, maybe we should move to doing all calculations
-  # in cents.
   def recalculate_totals
     single_untaxed_price_after_rebate = BigDecimal.new( (self.single_untaxed_price - self.single_rebate).to_s )
     self.gross_price = BigDecimal.new( (self.quantity * single_untaxed_price_after_rebate).to_s )
