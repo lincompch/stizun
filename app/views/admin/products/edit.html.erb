@@ -167,9 +167,15 @@
 
   <% end %>
 
+
   <tr>
     <td>Calculated margin percentage:</td>
     <td><%= @product.margin_percentage %></td>
+  </tr>
+
+  <tr>
+    <td>Calculated sales price:</td>
+    <td><%= @product.gross_price %></td>
   </tr>
 
   <% if @product.componentized? %>
