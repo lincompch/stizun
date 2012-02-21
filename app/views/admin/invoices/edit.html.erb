@@ -17,7 +17,9 @@
 
 <h4>Items invoiced</h4>
 
-<%= render :partial => 'invoice_table', :object => @invoice %>
+<div id="invoice_table">
+  <%= render :partial => 'invoices/invoice_table', :locals => { :invoice => @invoice } %>
+</div>
 
 <%= form_for [:admin, @invoice] do |f| %>
 <table>
