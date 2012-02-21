@@ -9,12 +9,12 @@ describe StaticDocument do
     mr0.margin_percentage = 5.0
     mr0.save
   
-    @tax_class = Fabricate(:tax_class, {:percentage => 8.2})
+    tax_class = Fabricate(:tax_class, {:percentage => 8.2})
     
     @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing')
     @sc.configuration.shipping_costs = []
     @sc.configuration.shipping_costs << {:weight_min => 0, :weight_max => 10000, :price => 10.0}
-    @sc.tax_class = @tax_class
+    @sc.tax_class = tax_class
     @sc.save
     ConfigurationItem.create(:key => 'default_shipping_calculator_id', :value => @sc.id)
 
@@ -31,9 +31,9 @@ describe StaticDocument do
     @address.save.should == true
     
     
-    p1 = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => @supplier, :tax_class => @tax_class, :purchase_price => 118.27, :direct_shipping => true, :is_available => true)
+    p1 = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => @supplier, :tax_class => tax_class, :purchase_price => 118.27, :direct_shipping => true, :is_available => true)
     p1.save.should == true
-    p2 = Product.new(:name => "foo 2", :description => "bar 2", :weight => 10.0, :supplier => @supplier, :tax_class => @tax_class, :purchase_price => 236.22, :direct_shipping => true, :is_available => true)
+    p2 = Product.new(:name => "foo 2", :description => "bar 2", :weight => 10.0, :supplier => @supplier, :tax_class => tax_class, :purchase_price => 236.22, :direct_shipping => true, :is_available => true)
     p2.save.should == true
   end
   
