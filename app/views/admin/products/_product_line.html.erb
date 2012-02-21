@@ -28,6 +28,14 @@
     <td class="price">
       <%= sprintf "%.2f", product_line.purchase_price %>
     </td>
+    <td class="price">
+      <%= sprintf "%.2f", product_line.margin %>
+    </td>
+
+    <td class="price">
+      <%= sprintf "%.2f", product_line.gross_price %>
+    </td>
+
     <td>
       <%= link_to "Edit", edit_admin_product_path(product_line), :class => 'fancybox' %>
       <%= link_to "Delete", admin_product_path(product_line), :confirm => 'Are you sure?', :method => 'delete' unless product_line.in_a_document?  %>
