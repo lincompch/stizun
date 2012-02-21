@@ -55,7 +55,7 @@ describe StaticDocument do
       c.shipping_cost.to_s.should == "20.0"
       c.total_taxed_shipping_price.to_s.should == "21.65"
 
-      # c.lines[0].taxed_price.to_s.should == "134.366546999999998918"
+      c.lines[0].taxed_price.to_s.should == "134.45"
       # c.lines[0].gross_price.to_s.should == "124.183499999999999"
       # c.lines[0].price.to_s.should == "124.183499999999999"
       # c.lines[0].taxes.to_s.should == "10.183046999999999918"
