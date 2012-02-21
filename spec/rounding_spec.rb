@@ -11,13 +11,19 @@ describe StaticDocument do
   
     tax_class = Fabricate(:tax_class, {:percentage => 8.2})
     
-    @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing')
+    @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing Rounding')
     @sc.configuration.shipping_costs = []
     @sc.configuration.shipping_costs << {:weight_min => 0, :weight_max => 10000, :price => 10.0}
     @sc.tax_class = tax_class
     @sc.save
-    ConfigurationItem.create(:key => 'default_shipping_calculator_id', :value => @sc.id)
-
+    
+    ci = ConfigurationItem.where(:key => 'default_shipping_calculator_id').first
+    if ci.nil?
+      ci = ConfigurationItem.create(:key => 'default_shipping_calculator_id', :value => @sc.id)
+    else
+      ci.value = @sc.id
+      ci.save
+    end
     @supplier = Fabricate(:supplier)
     
     Country.create(:name => "Somewhereland")
