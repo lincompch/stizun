@@ -23,8 +23,8 @@
             <td class="qty"><%= cl_fields.text_field :quantity, :size => 3 %> </td>
             <td class="product"><%= link_to ci.product.name, ci.product %></td>
             <td class="price"><%= ci.product.tax_class.percentage %></td>
-            <td class="price vertborders"><%= pretty_price(ci.product.price, "") %></td>
-            <td class="price vertborders"><%= pretty_price(ci.product.taxed_price, "") %></td>
+            <td class="price vertborders"><%= pretty_price(ci.product.price, "", false) %></td>
+            <td class="price vertborders"><%= pretty_price(ci.product.taxed_price, "", false) %></td>
             <td class="price"><%= pretty_price(ci.taxed_price, "") %></td>
             <td><%= link_to("X", {:controller => 'carts', :action => 'remove_all', :product_id => ci.product}, {:class => 'exx'}) %></td>
           </tr>
@@ -36,8 +36,8 @@
           <td><%= dl.quantity %></td>
           <td class="product"><%= link_to dl.product.name, dl.product %></td>
           <td class="price"><%= dl.product.tax_class.percentage %></td>
-          <td class="price vertborders"><%= pretty_price(dl.product.price, "") %></td>
-          <td class="price vertborders"><%= pretty_price(dl.product.taxed_price, "") %></td>
+          <td class="price vertborders"><%= pretty_price(dl.product.price, "", false) %></td>
+          <td class="price vertborders"><%= pretty_price(dl.product.taxed_price, "", false) %></td>
           <td class="price"><%= pretty_price(dl.taxed_price, "") %></td>
           <td></td>
         </tr>

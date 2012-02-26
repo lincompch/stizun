@@ -19,15 +19,15 @@
   <% invoice.lines.each do |il| %>
     <% rebate_string = ""
        rebate_string = " (#{pretty_price(il.single_rebate)} Rabatt)" if il.has_rebate? 
-       untaxed_price_string = pretty_price(il.single_untaxed_price, "")
-       untaxed_price_string = pretty_price(il.single_untaxed_price - il.single_rebate, "") if il.has_rebate? %>
+       untaxed_price_string = pretty_price(il.single_untaxed_price, "", false)
+       untaxed_price_string = pretty_price(il.single_untaxed_price - il.single_rebate, "", false) if il.has_rebate? %>
 
     <tr class="<%= cycle('even', 'odd')%>">
       <td><%= il.quantity %></td>
       <td class="product"><%= il.text %><%= rebate_string %></td>
       <td class="price"><%= il.tax_percentage %></td>
       <td class="price vertborders"><%= untaxed_price_string %></td>
-      <td class="price vertborders"><%= pretty_price(il.single_price, "") %></td>
+      <td class="price vertborders"><%= pretty_price(il.single_price, "", false) %></td>
       <td class="price"><%= pretty_price(il.taxed_price, "") %></td>
       <td></td>
     </tr>
@@ -120,4 +120,4 @@
 
 
 <p style="margin-top: 3em; text-align: right;">Produkte exkl. MwSt.: <%= pretty_price(invoice.gross_price.to_s, ConfigurationItem.get('currency').value) %><br>
-Enthaltene MwSt.: <%= pretty_price(invoice.total_taxes, ConfigurationItem.get('currency').value) %></p>
+Enthaltene MwSt.: <%= pretty_price(invoice.total_taxes, ConfigurationItem.get('currency').value, true) %></p>

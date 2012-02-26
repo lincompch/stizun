@@ -1,17 +1,20 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   
-  def pretty_price(price, currency = nil)
-    #OPTIMIZE: In future, we will have to support multiple currencies
+  def pretty_price(price, currency = nil, rounding = true)
     begin
       currency ||= ConfigurationItem.get("currency").value
     rescue ArgumentError
       currency ||= ""
     end
     currency = currency + " " unless currency.blank?
+
+    if rounding == true and price.class.name == "BigDecimal"
+      price = price.rounded
+    end
     sprintf "#{currency}%.2f", price
   end
-  
+
   def short_date(datetime)
     # Should return the date in a short form, appropriate
     # for the current locale.
