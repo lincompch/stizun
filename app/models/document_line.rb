@@ -17,7 +17,10 @@ class DocumentLine < ActiveRecord::Base
   end
   
   def taxes
+    # Bottom-up calculation from single taxes
     self.quantity * self.product.taxes
+    # Top-down calculation from gross price
+    #(self.gross_price / BigDecimal.new("100.0")) * self.product.tax_class.percentage
   end
   
 end

@@ -44,62 +44,74 @@ describe StaticDocument do
   end
   
   context "when created from a dynamic document" do
-    it "should round amounts on sale and on shipping cost calculation" do
+
+    it "should round its gross price" do
+      Product.first.gross_price.to_s.should == "124.25"
+    end
+
+    it "should not round its taxes" do
+      Product.first.taxes.to_s.should == "10.1885"
+    end
+
+    it "should round amounts (but not taxes) and keep the same rounded prices when creating static documents" do
       c = Cart.new
       c.add_product(Product.first)
       c.add_product(Product.last)
       c.save
       c.lines.count.should == 2
 
-      c.shipping_taxes.to_s.should == "1.65"
+      c.shipping_taxes.to_s.should == "1.64"
       c.shipping_cost.to_s.should == "20.0"
-      c.total_taxed_shipping_price.to_s.should == "21.65"
+      c.total_taxed_shipping_price.to_s.should == "21.64"
 
-      c.lines[0].taxed_price.to_s.should == "134.45"
-      # c.lines[0].gross_price.to_s.should == "124.183499999999999"
-      # c.lines[0].price.to_s.should == "124.183499999999999"
-      # c.lines[0].taxes.to_s.should == "10.183046999999999918"
 
-      # c.lines[1].taxed_price.to_s.should == "268.369542"
-      # c.lines[1].gross_price.to_s.should == "248.031"
-      # c.lines[1].price.to_s.should == "248.031"
-      # c.lines[1].taxes.to_s.should == "20.338542"
+      c.lines[0].taxed_price.to_s.should == "134.4385"
+      c.lines[0].gross_price.to_s.should == "124.25"
+      c.lines[0].price.to_s.should == "124.25"
+      c.lines[0].taxes.to_s.should == "10.1885"
 
-      # c.products_taxed_price.to_s.should == "402.736088999999998918"
-      # c.products_price.to_s.should == "372.214499999999999"
-      # c.taxed_price.to_s.should == "424.376088999999998918"
-      # c.taxes.to_s.should == "30.521588999999999918"
-      # c.total_taxed_shipping_price.to_s.should == "21.64"
+      c.lines[1].taxed_price.to_s.should == "268.4442"
+      c.lines[1].gross_price.to_s.should == "248.1"
+      c.lines[1].price.to_s.should == "248.1"
+      c.lines[1].taxes.to_s.should == "20.3442"
 
-      # o = Order.new_from_cart(c)
-      # o.shipping_address = Address.first
-      # o.billing_address = Address.first
-      # o.save.should == true
+      c.products_taxed_price.to_s.should == "402.8827"
+      c.products_price.to_s.should == "372.35"
+      c.taxed_price.to_s.should == "424.5227"
+      c.taxes.to_s.should == "30.5327"
+      c.total_taxed_shipping_price.to_s.should == "21.64"
 
-      # o.shipping_taxes.to_s.should == "1.64"
-      # o.shipping_cost.to_s.should == "20.0"
-      # o.total_taxed_shipping_price.to_s.should == "21.64"
+      o = Order.new_from_cart(c)
+      o.shipping_address = Address.first
+      o.billing_address = Address.first
+      o.save.should == true
 
-      # o.lines[0].taxed_price.to_s.should == "134.366546999999998918"
-      # o.lines[0].single_price.to_s.should == "134.366546999999998918"
-      # o.lines[0].gross_price.to_s.should == "124.183499999999999"
-      # o.lines[0].single_untaxed_price.to_s.should == "124.183499999999999"
-      # o.lines[0].taxes.to_s.should == "10.183046999999999918"
+      o.shipping_taxes.to_s.should == "1.64"
+      o.shipping_cost.to_s.should == "20.0"
+      o.total_taxed_shipping_price.to_s.should == "21.64"
 
-      # o.lines[1].taxed_price.to_s.should == "268.369542"
-      # o.lines[1].single_price.to_s.should == "268.369542"
-      # o.lines[1].gross_price.to_s.should == "248.031"
-      # o.lines[1].single_untaxed_price.to_s.should == "248.031"
-      # o.lines[1].taxes.to_s.should == "20.338542"
+      o.lines[0].taxed_price.to_s.should == "134.4385"
+      o.lines[0].single_price.to_s.should == "134.4385"
+      o.lines[0].gross_price.to_s.should == "124.25"
+      o.lines[0].single_untaxed_price.to_s.should == "124.25"
+      o.lines[0].taxes.to_s.should == "10.1885"
 
-      # o.products_taxed_price.to_s.should == "402.736088999999998918"
-      # o.taxed_price.to_s.should == "424.376088999999998918"
-      # o.total_taxes.to_s.should == "32.161588999999999918"
-      # o.taxes.to_s.should == "30.521588999999999918"
+      o.lines[1].taxed_price.to_s.should == "268.4442"
+      o.lines[1].single_price.to_s.should == "268.4442"
+      o.lines[1].gross_price.to_s.should == "248.1"
+      o.lines[1].single_untaxed_price.to_s.should == "248.1"
+      o.lines[1].taxes.to_s.should == "20.3442"
+
+      o.products_taxed_price.to_s.should == "402.8827"
+      o.taxed_price.to_s.should == "424.5227"
+      o.taxes.to_s.should == "30.5327"
 
     end
 
-    it "should still calculate unrounded totals correctly, even when there are many multiplications involved" do
+
+    # Many multiplications could trigger accumulated rounding errors, that's why
+    # it's good to test for this.
+    it "should still calculate totals correctly, even when there are many multiplications involved" do
       c = Cart.new
       c.add_product(Product.first, 863)
       c.save
@@ -109,34 +121,33 @@ describe StaticDocument do
       c.shipping_cost.to_s.should == "4750.0"
       c.total_taxed_shipping_price.to_s.should == "5139.5"
 
+      c.lines[0].taxed_price.to_s.should == "116020.4255"
+      c.lines[0].gross_price.to_s.should == "107227.75"
+      c.lines[0].price.to_s.should == "107227.75"
+      c.lines[0].taxes.to_s.should == "8792.6755"
 
-      # c.lines[0].taxed_price.to_s.should == "115958.330060999999066234"
-      # c.lines[0].gross_price.to_s.should == "107170.360499999999137"
-      # c.lines[0].price.to_s.should == "107170.360499999999137"
-      # c.lines[0].taxes.to_s.should == "8787.969560999999929234"
+      c.products_taxed_price.to_s.should == "116020.4255"
+      c.products_price.to_s.should == "107227.75"
+      
+      c.taxed_price.to_s.should == "121159.9255"
+      c.taxes.to_s.should == "8792.6755"
 
-      # c.products_taxed_price.to_s.should == "115958.330060999999066234"
-      # c.products_price.to_s.should == "107170.360499999999137"
+      o = Order.new_from_cart(c)
+      o.shipping_address = Address.first
+      o.billing_address = Address.first
+      o.save.should == true
 
-      # c.taxed_price.to_s.should == "121097.830060999999066234"
-      # c.taxes.to_s.should == "8787.969560999999929234"
+      o.shipping_taxes.to_s.should == "389.5"
+      o.shipping_cost.to_s.should == "4750.0"
+      o.total_taxed_shipping_price.to_s.should == "5139.5"
 
-      # o = Order.new_from_cart(c)
-      # o.shipping_address = Address.first
-      # o.billing_address = Address.first
-      # o.save.should == true
+      o.lines[0].taxed_price.to_s.should == "116020.4255"
+      o.lines[0].gross_price.to_s.should == "107227.75"
+      o.lines[0].taxes.to_s.should == "8792.6755"
 
-      # o.shipping_taxes.to_s.should == "389.5"
-      # o.shipping_cost.to_s.should == "4750.0"
-      # o.total_taxed_shipping_price.to_s.should == "5139.5"
-
-      # o.lines[0].taxed_price.to_s.should == "115958.330060999999066234"
-      # o.lines[0].gross_price.to_s.should == "107170.360499999999137"
-      # o.lines[0].taxes.to_s.should == "8787.969560999999929234"
-
-      # o.products_taxed_price.to_s.should == "115958.330060999999066234"
-      # o.taxed_price.to_s.should == "121097.830060999999066234"
-      # o.taxes.to_s.should == "8787.969560999999929234"
+      o.products_taxed_price.to_s.should == "116020.4255"
+      o.taxed_price.to_s.should == "121159.9255"
+      o.taxes.to_s.should == "8792.6755"
     end
 
   end

@@ -147,7 +147,6 @@ class Product < ActiveRecord::Base
     calculation = BigDecimal.new("0")
     absolutely_priced? ? base_price = sales_price : base_price = gross_price
     calculation = ( (base_price - rebate) / BigDecimal.new("100.0")) * tax_class.percentage
-    calculation.rounded
   end
   
   def margin
