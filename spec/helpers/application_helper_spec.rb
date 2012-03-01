@@ -47,6 +47,9 @@ describe ApplicationHelper do
       pretty_price(price, "CHF").should == "CHF 150.00" 
 
       price = BigDecimal.new("150.03392")
+      pretty_price(price, "CHF").should == "CHF 150.00" 
+
+      price = BigDecimal.new("150.05392")
       pretty_price(price, "CHF").should == "CHF 150.05" 
      
 
