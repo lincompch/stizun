@@ -22,15 +22,17 @@ class StaticDocument < ActiveRecord::Base
   # === Methods
   
   def taxed_price
-    return ((lines.sum("taxed_price") + total_taxed_shipping_price) - rebate - tax_reduction)
+    rounding_bias = BigDecimal.new("0.005")
+    return (((lines.sum("taxed_price") + total_taxed_shipping_price) - rebate - tax_reduction) + rounding_bias)
   end
 
   def gross_price
-    return lines.sum("gross_price") - rebate
+    return (lines.sum("gross_price") - rebate)
   end
   
   def products_taxed_price
-    return ((lines.sum("taxed_price")) - rebate - tax_reduction)
+    rounding_bias = BigDecimal.new("0.005")
+    return (((lines.sum("taxed_price")) - rebate - tax_reduction) + rounding_bias)
   end
 
   def weight

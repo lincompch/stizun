@@ -540,13 +540,11 @@ class Product < ActiveRecord::Base
   
   def calculated_gross_price
     calculated_gross_price = (purchase_price + calculated_margin)
-    calculated_gross_price = calculated_gross_price.rounded
     calculated_gross_price
   end
   
   def calculated_margin
     margin = (purchase_price / BigDecimal.new("100.0")) * BigDecimal.new(self.margin_percentage.to_s)
-    margin = margin.rounded
     margin
   end
 

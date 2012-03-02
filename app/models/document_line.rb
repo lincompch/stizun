@@ -5,7 +5,7 @@ class DocumentLine < ActiveRecord::Base
 
   
   def taxed_price
-    self.quantity * self.product.taxed_price
+    (self.quantity * self.product.taxed_price).rounded
   end
   
   def gross_price
@@ -13,7 +13,7 @@ class DocumentLine < ActiveRecord::Base
   end
   
   def price
-    self.quantity * self.product.price
+    (self.quantity * self.product.price).rounded
   end
   
   def taxes
