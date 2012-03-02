@@ -42,21 +42,24 @@ describe StaticDocument do
     p2 = Product.new(:name => "foo 2", :description => "bar 2", :weight => 10.0, :supplier => @supplier, :tax_class => tax_class, :purchase_price => 236.22, :direct_shipping => true, :is_available => true)
     p2.save.should == true
   end
-  
-  context "when created from a dynamic document" do
 
-    it "should round its gross price" do
-      Product.first.gross_price.to_s.should == "124.25"
+
+  context "the product involved" do
+    it "should not round its gross price" do
+      Product.first.gross_price.to_s.should == "124.1835"
     end
 
     it "should not round its taxes" do
-      Product.first.taxes.to_s.should == "10.1885"
+      Product.first.taxes.to_s.should == "10.183047"
     end
+  end
+  
+  context "when created from a dynamic document" do
 
     it "should round amounts (but not taxes) and keep the same rounded prices when creating static documents" do
       c = Cart.new
-      c.add_product(Product.first)
-      c.add_product(Product.last)
+      c.add_product(Product.where(:name => 'foo').first)
+      c.add_product(Product.where(:name => 'foo 2').first)
       c.save
       c.lines.count.should == 2
 
@@ -65,22 +68,23 @@ describe StaticDocument do
       c.total_taxed_shipping_price.to_s.should == "21.64"
 
 
-      c.lines[0].taxed_price.to_s.should == "134.4385"
-      c.lines[0].gross_price.to_s.should == "124.25"
-      c.lines[0].price.to_s.should == "124.25"
-      c.lines[0].taxes.to_s.should == "10.1885"
+      c.lines[0].taxed_price.to_s.should == "134.35"
+      c.lines[0].gross_price.to_s.should == "124.1835"
+      c.lines[0].price.to_s.should == "124.2"
+      c.lines[0].taxes.to_s.should == "10.183047"
 
-      c.lines[1].taxed_price.to_s.should == "268.4442"
-      c.lines[1].gross_price.to_s.should == "248.1"
-      c.lines[1].price.to_s.should == "248.1"
-      c.lines[1].taxes.to_s.should == "20.3442"
+      c.lines[1].taxed_price.to_s.should == "268.35"
+      c.lines[1].gross_price.to_s.should == "248.031"
+      c.lines[1].price.to_s.should == "248.05"
+      c.lines[1].taxes.to_s.should == "20.338542"
 
-      c.products_taxed_price.to_s.should == "402.8827"
-      c.products_price.to_s.should == "372.35"
-      c.taxed_price.to_s.should == "424.5227"
-      c.taxes.to_s.should == "30.5327"
+      c.products_taxed_price.to_s.should == "402.7"
+      c.products_price.to_s.should == "372.25"
+      c.taxed_price.to_s.should == "424.34"
+      c.taxes.to_s.should == "30.521589"
       c.total_taxed_shipping_price.to_s.should == "21.64"
 
+      # TODO from here
       o = Order.new_from_cart(c)
       o.shipping_address = Address.first
       o.billing_address = Address.first
@@ -90,14 +94,14 @@ describe StaticDocument do
       o.shipping_cost.to_s.should == "20.0"
       o.total_taxed_shipping_price.to_s.should == "21.64"
 
-      o.lines[0].taxed_price.to_s.should == "134.4385"
+      o.lines[0].taxed_price.to_s.should == "134.35"
       o.lines[0].single_price.to_s.should == "134.4385"
       o.lines[0].gross_price.to_s.should == "124.25"
       o.lines[0].single_untaxed_price.to_s.should == "124.25"
       o.lines[0].taxes.to_s.should == "10.1885"
 
-      o.lines[1].taxed_price.to_s.should == "268.4442"
-      o.lines[1].single_price.to_s.should == "268.4442"
+      o.lines[1].taxed_price.to_s.should == "268.45"
+      o.lines[1].single_price.to_s.should == "268.45"
       o.lines[1].gross_price.to_s.should == "248.1"
       o.lines[1].single_untaxed_price.to_s.should == "248.1"
       o.lines[1].taxes.to_s.should == "20.3442"
@@ -113,7 +117,7 @@ describe StaticDocument do
     # it's good to test for this.
     it "should still calculate totals correctly, even when there are many multiplications involved" do
       c = Cart.new
-      c.add_product(Product.first, 863)
+      c.add_product(Product.where(:name => 'foo').first, 863)
       c.save
       c.lines.count.should == 1
 
