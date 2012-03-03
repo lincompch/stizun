@@ -16,9 +16,8 @@ class StaticDocumentLine < ActiveRecord::Base
 
     # Line's single prices (for qty 1 * amount)
     single_taxes = ((single_untaxed_price_after_rebate / BigDecimal.new("100.0")) * self.tax_percentage) # like in product.rb
-    self.single_price = single_untaxed_price_after_rebate + single_taxes
+    self.single_price = (single_untaxed_price_after_rebate + single_taxes).rounded # Like in document_line.rb
 
-#    binding.pry
   end
 
   def has_rebate?

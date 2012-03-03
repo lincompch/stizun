@@ -96,13 +96,13 @@ describe StaticDocument do
       o.lines[0].taxed_price.to_s.should == "134.35"
       o.lines[0].gross_price.should == c.lines[0].gross_price # The same since we're at qty = 1
       o.lines[0].single_untaxed_price.should == c.lines[0].gross_price # The same since we're at qty = 1
-      o.lines[0].single_price.to_s.should == "134.4385"
+      o.lines[0].single_price.to_s.should == "134.35"
       o.lines[0].taxes.to_s.should == "10.183047"
 
       o.lines[1].taxed_price.to_s.should == "268.35"
       o.lines[1].gross_price.should == c.lines[1].gross_price # The same since we're at qty = 1
       o.lines[1].single_untaxed_price.should == c.lines[1].gross_price # The same since we're at qty = 1
-      o.lines[1].single_price.to_s.should == "268.45"
+      o.lines[1].single_price.to_s.should == "268.35"
       o.lines[1].taxes.to_s.should == "20.338542"
 
       o.products_taxed_price.to_s.should == "402.7"
@@ -124,33 +124,33 @@ describe StaticDocument do
       c.shipping_cost.to_s.should == "4750.0"
       c.total_taxed_shipping_price.to_s.should == "5139.5"
 
-      c.lines[0].taxed_price.to_s.should == "116020.4255"
-      c.lines[0].gross_price.to_s.should == "107227.75"
-      c.lines[0].price.to_s.should == "107227.75"
-      c.lines[0].taxes.to_s.should == "8792.6755"
+      c.lines[0].taxed_price.to_s.should == "115958.35"
+      c.lines[0].gross_price.to_s.should == "107170.3605"
+      c.lines[0].price.to_s.should == "107170.35"
+      c.lines[0].taxes.to_s.should == "8787.969561"
 
-      c.products_taxed_price.to_s.should == "116020.4255"
-      c.products_price.to_s.should == "107227.75"
+      c.products_taxed_price.to_s.should == "115958.35"
+      c.products_price.to_s.should == "107170.35"
       
-      c.taxed_price.to_s.should == "121159.9255"
-      c.taxes.to_s.should == "8792.6755"
+      c.taxed_price.to_s.should == "121097.85"
+      c.taxes.to_s.should == "8787.969561"
 
       o = Order.new_from_cart(c)
       o.shipping_address = Address.first
       o.billing_address = Address.first
       o.save.should == true
-
+ 
       o.shipping_taxes.to_s.should == "389.5"
       o.shipping_cost.to_s.should == "4750.0"
       o.total_taxed_shipping_price.to_s.should == "5139.5"
 
-      o.lines[0].taxed_price.to_s.should == "116020.4255"
-      o.lines[0].gross_price.to_s.should == "107227.75"
-      o.lines[0].taxes.to_s.should == "8792.6755"
+      o.lines[0].taxed_price.should == c.lines[0].taxed_price
+      o.lines[0].gross_price.should == c.lines[0].gross_price
+      o.lines[0].taxes.should == c.lines[0].taxes
 
-      o.products_taxed_price.to_s.should == "116020.4255"
-      o.taxed_price.to_s.should == "121159.9255"
-      o.taxes.to_s.should == "8792.6755"
+      o.products_taxed_price.should == c.products_taxed_price
+      o.taxed_price.should == c.taxed_price
+      o.taxes.should == c.taxes
     end
 
   end
