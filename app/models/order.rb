@@ -136,7 +136,7 @@ class Order < StaticDocument
       ol.product = cl.product
       ol.single_untaxed_price = cl.product.gross_price
       ol.tax_percentage = cl.product.tax_class.percentage
-      ol.taxes = cl.product.taxes
+      ol.taxes = cl.taxes # cl.product.taxes
       ol.manufacturer = cl.product.manufacturer
       ol.manufacturer_product_code = cl.product.manufacturer_product_code
       ol.weight = cl.product.weight
