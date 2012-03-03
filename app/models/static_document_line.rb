@@ -3,7 +3,9 @@ class StaticDocumentLine < ActiveRecord::Base
   validates_inclusion_of :quantity, :in => 1..1000, :message => "must be between 1 and 1000" 
 
   before_save :recalculate_totals
-  
+
+  # If any prices or rebates have changed, we have to recalculate the totals, since they are
+  # stored statically in the database
   def recalculate_totals
     # Line's total prices (qty * amount)
     single_untaxed_price_after_rebate = BigDecimal.new( (self.single_untaxed_price - self.single_rebate).to_s )

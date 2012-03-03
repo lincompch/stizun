@@ -84,7 +84,6 @@ describe StaticDocument do
       c.taxes.to_s.should == "30.521589"
       c.total_taxed_shipping_price.to_s.should == "21.64"
 
-      # TODO from here
       o = Order.new_from_cart(c)
       o.shipping_address = Address.first
       o.billing_address = Address.first
@@ -95,20 +94,20 @@ describe StaticDocument do
       o.total_taxed_shipping_price.to_s.should == "21.64"
 
       o.lines[0].taxed_price.to_s.should == "134.35"
+      o.lines[0].gross_price.should == c.lines[0].gross_price # The same since we're at qty = 1
+      o.lines[0].single_untaxed_price.should == c.lines[0].gross_price # The same since we're at qty = 1
       o.lines[0].single_price.to_s.should == "134.4385"
-      o.lines[0].gross_price.to_s.should == "124.25"
-      o.lines[0].single_untaxed_price.to_s.should == "124.25"
-      o.lines[0].taxes.to_s.should == "10.1885"
+      o.lines[0].taxes.to_s.should == "10.183047"
 
-      o.lines[1].taxed_price.to_s.should == "268.45"
+      o.lines[1].taxed_price.to_s.should == "268.35"
+      o.lines[1].gross_price.should == c.lines[1].gross_price # The same since we're at qty = 1
+      o.lines[1].single_untaxed_price.should == c.lines[1].gross_price # The same since we're at qty = 1
       o.lines[1].single_price.to_s.should == "268.45"
-      o.lines[1].gross_price.to_s.should == "248.1"
-      o.lines[1].single_untaxed_price.to_s.should == "248.1"
-      o.lines[1].taxes.to_s.should == "20.3442"
+      o.lines[1].taxes.to_s.should == "20.338542"
 
-      o.products_taxed_price.to_s.should == "402.8827"
-      o.taxed_price.to_s.should == "424.5227"
-      o.taxes.to_s.should == "30.5327"
+      o.products_taxed_price.to_s.should == "402.7"
+      o.taxed_price.to_s.should == "424.34"
+      o.taxes.to_s.should == "30.521589"
 
     end
 
