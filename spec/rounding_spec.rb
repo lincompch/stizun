@@ -51,16 +51,19 @@ describe StaticDocument do
     p1.save.should == true
     p2 = Product.new(:name => "foo 2", :description => "bar 2", :weight => 10.0, :supplier => @supplier, :tax_class => tax_class, :purchase_price => 236.22, :direct_shipping => true, :is_available => true)
     p2.save.should == true
+
+    binding.pry
+  
   end
 
 
   context "the product involved" do
     it "should not round its gross price" do
-      Product.first.gross_price.to_s.should == "124.1835"
+      Product.where(:name => 'foo').first.gross_price.to_s.should == "124.1835"
     end
 
     it "should not round its taxes" do
-      Product.first.taxes.to_s.should == "10.183047"
+      Product.where(:name => 'foo').first.taxes.to_s.should == "10.183047"
     end
   end
   
