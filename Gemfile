@@ -11,7 +11,7 @@ gem 'dynamic_form'
 # Hacked to work with Rails 3 thanks to rails3-generators
 # But need to consider Devise instead
 
-gem 'devise'
+gem 'devise', '<2.0.0' 
 gem 'rails3-generators'
 gem 'rack-ssl-enforcer'
 
