@@ -3,12 +3,15 @@ require 'spec_helper'
 describe StaticDocument do
   
   before(:all) do
+    MarginRange.destroy_all
     mr0 = Fabricate.build(:margin_range)
     mr0.start_price = nil
     mr0.end_price = nil
     mr0.margin_percentage = 5.0
     mr0.save
   
+    # Why doesn't DatabaseCleaner do its job properly?
+    TaxClass.destroy_all
     tax_class = Fabricate(:tax_class, {:percentage => 8.2})
     
     @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing Rounding')
