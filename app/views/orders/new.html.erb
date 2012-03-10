@@ -42,7 +42,7 @@
   <p><%= t("stizun.order.select_payment_method") %></p>
   <%= f.select(:payment_method_id, options_from_collection_for_select(current_user.payment_methods, :id, :name) ) %>
   <% else %>
-  <%= t("stizun.order.if_you_had_an_account") %>
+  <p><%= t("stizun.order.if_you_had_an_account") %></p>
   <% end %>
 
 
@@ -159,6 +159,6 @@
 
 <p><strong><%= f.check_box 'terms_of_service' %> <%= f.label 'terms_of_service', t("stizun.order.i_accept_terms") %></strong> (<%= link_to t("stizun.order.read_terms_of_service"), :controller => 'page', :action => 'tos' %>)</p>
 
-<%= submit_tag t("stizun.order.submit_order") %>
+<p><%= submit_tag t("stizun.order.submit_order") %></p>
 
 <% end %>

@@ -92,7 +92,7 @@
     <td></td>
     <td></td>
     <td></td>
-    <td class="price"><%= pretty_price(invoice.products_taxed_price, "") %></td>
+    <td class="price" id="invoice_products_taxed_price"><%= pretty_price(invoice.products_taxed_price, "") %></td>
     <td></td>
   </tr>
 
@@ -102,7 +102,7 @@
     <td></td>
     <td></td>
     <td></td>
-    <td class="price"><%= pretty_price(invoice.total_taxed_shipping_price, "") %></td>
+    <td class="price" id="invoice_shipping_cost_including_taxes"><%= pretty_price(invoice.total_taxed_shipping_price, "") %></td>
     <td></td>
   </tr>
 
@@ -112,12 +112,12 @@
     <td></td>
     <td></td>
     <td></td>
-    <td class="price"><strong><%= pretty_price invoice.taxed_price %></strong></td>
+    <td class="price" id="invoice_taxed_price"><strong><%= pretty_price invoice.taxed_price %></strong></td>
     <td></td>
   </tr>
 
 </table>
 
 
-<p style="margin-top: 3em; text-align: right;">Produkte exkl. MwSt.: <%= pretty_price(invoice.gross_price.to_s, ConfigurationItem.get('currency').value) %><br>
-Enthaltene MwSt.: <%= pretty_price(invoice.total_taxes, ConfigurationItem.get('currency').value, true) %></p>
+<p style="margin-top: 3em; text-align: right;">Produkte exkl. MwSt.: <span id="invoice_products_price"><%= pretty_price(invoice.gross_price.to_s, ConfigurationItem.get('currency').value) %></span><br>
+Enthaltene MwSt.: <span id="invoice_taxes"><%= pretty_price(invoice.total_taxes, ConfigurationItem.get('currency').value, true) %></span></p>

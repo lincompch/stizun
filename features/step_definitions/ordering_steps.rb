@@ -10,41 +10,65 @@ Given /^I am logged in as "([^\"]*)"$/ do |username|
 end
 
 When /^I view my personal order list$/ do
-  pending # express the regexp above with the code you wish you had
+  visit "/users/me"
+  click_link "Bestellungen"
 end
 
-Then /^I should see (\d+) order(s?)$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^I should see (\d+) order(s)?$/ do |count, foo|
+  all("div.order").count.should == count.to_i
 end
 
-When /^I view the order$/ do
-  pending # express the regexp above with the code you wish you had
+When /^I view the invoice for order number (\d+)$/ do |num|
+  all("div.order")[num.to_i - 1].find("a", :text => 'Rechnung ansehen').click
 end
 
-Then /^the order should show a total excluding VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^the order should show a VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^the order should show a product total including VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^the order should show a shipping cost including VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+When /^my eyes stick to order number (\d+)$/ do |num|
+  @order_container = all("div.order")[num.to_i - 1]
 end
 
 Then /^the order should show a grand total of (\d+)\.(\d+)$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+  amount = (arg1.to_s + "." + arg2.to_s).to_f
+  @order_container.find(".taxed_price").text.strip.to_f.should == amount
+end
+
+Then /^the order should show a shipping cost including VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
+  amount = (arg1.to_s + "." + arg2.to_s).to_f
+  @order_container.find(".shipping_cost_including_taxes").text.strip.to_f.should == amount
+end
+
+When "I view the order's invoice" do
+  @order_container.find("a", :text => 'Rechnung ansehen').click
 end
 
 When /^I view my personal invoice list$/ do
-  pending # express the regexp above with the code you wish you had
+  visit "/users/me"
+  click_link "Rechnungen"
 end
 
+Then /^the invoice should show a total excluding VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
+  amount = (arg1.to_s + "." + arg2.to_s).to_f
+  find("#invoice_products_price").text.strip.to_f.should == amount
+end
+
+Then /^the invoice should show a total VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
+  amount = (arg1.to_s + "." + arg2.to_s).to_f
+  find("#invoice_taxes").text.strip.to_f.should == amount
+end
+
+Then /^the invoice should show a product total including VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
+  amount = (arg1.to_s + "." + arg2.to_s).to_f
+  find("#invoice_products_taxed_price").text.strip.to_f.should == amount
+end
+
+Then /^the invoice should show a grand total of (\d+)\.(\d+)$/ do |arg1, arg2|
+  amount = (arg1.to_s + "." + arg2.to_s).to_f
+  find("#invoice_taxed_price").text.strip.to_f.should == amount
+end
+
+Then /^the invoice should show a shipping cost including VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
+  amount = (arg1.to_s + "." + arg2.to_s).to_f
+  find("#invoice_shipping_cost_including_taxes").text.strip.to_f.should == amount
+end
 
 
 
@@ -120,8 +144,8 @@ Then /^my cart should contain a product named "([^\"]*)" (\d+) times$/ do |name,
 end
 
 Then /^my cart should contain some stuff$/ do
-      Then %{my cart should contain a product named "Fish" 3 times}
-      And %{my cart should contain a product named "Terminator T-1000" 2 times}
+  Then %{my cart should contain a product named "Fish" 3 times}
+  And %{my cart should contain a product named "Terminator T-1000" 2 times}
 end
 
 Then /^I should receive (\d+) e\-mails$/ do |num|
@@ -142,7 +166,7 @@ Then /^the order summary should contain a total excluding VAT of (\d+)\.(\d+)$/ 
   find("#document_products_price").text.strip.to_f.should == amount
 end
 
-Then /^the order summary should contain a VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
+Then /^the order summary should contain a product VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
   amount = (arg1.to_s + "." + arg2.to_s).to_f
   find("#document_taxes").text.strip.to_f.should == amount
 end
@@ -160,4 +184,9 @@ end
 Then /^the order summary should contain a grand total of (\d+)\.(\d+)$/ do |arg1, arg2|
   amount = (arg1.to_s + "." + arg2.to_s).to_f
   find("#document_taxed_price").text.strip.to_f.should == amount
+end
+
+Then /^the order summary should contain a total VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
+  amount = (arg1.to_s + "." + arg2.to_s).to_f
+  find("#document_total_taxes").text.strip.to_f.should == amount
 end

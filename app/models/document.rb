@@ -54,6 +54,10 @@ class Document < ActiveRecord::Base
     return cost
   end
 
+  def total_taxes
+    return (shipping_taxes + taxes)
+  end
+
   def total_taxed_shipping_price
     return (shipping_cost + shipping_taxes)
   end
