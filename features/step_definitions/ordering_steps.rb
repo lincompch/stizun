@@ -1,3 +1,53 @@
+
+Given /^I am logged in as "([^\"]*)"$/ do |username|
+  # TODO: Factory
+  user = User.create(:email => username, :password => "foobarbar", :password_confirmation => "foobarbar")
+  user.save.should == true
+  visit "/users/sign_in"
+  fill_in "user[email]", :with => username
+  fill_in "user[password]", :with => "foobarbar"
+  click_button "Einloggen"
+end
+
+When /^I view my personal order list$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^I should see (\d+) order(s?)$/ do |arg1|
+  pending # express the regexp above with the code you wish you had
+end
+
+When /^I view the order$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^the order should show a total excluding VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^the order should show a VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^the order should show a product total including VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^the order should show a shipping cost including VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^the order should show a grand total of (\d+)\.(\d+)$/ do |arg1, arg2|
+  pending # express the regexp above with the code you wish you had
+end
+
+When /^I view my personal invoice list$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+
+
+
 Given /^I have ordered some stuff$/ do
   create_product({'name' => 'Fish', 'category' => 'Animals', 'supplier' => 'Alltron AG', 'purchase_price' => 100.0})
   create_product({'name' => 'Terminator T-1000', 'category' => 'Cyborgs', 'supplier' => 'Alltron AG', 'purchase_price' => 100.0})

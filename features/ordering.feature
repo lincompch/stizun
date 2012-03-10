@@ -48,6 +48,28 @@ Feature: Ordering
       And the order summary should contain shipping cost including VAT of 108.0
       And the order summary should contain a grand total of 221.40
 
+    @work
+    Scenario: See correct totals on order listings in my user page
+      Given I am logged in as "foo@bar.com"
+        And the following products exist(table):
+        |name|category|supplier|purchase_price|weight|
+        |Fish|Animals|Alltron AG|100.0|10.0|
+      When I view the category "Animals"
+       And I add the product "Fish" to my cart 1 times
+       And I visit the checkout
+      Then I should see an order summary
+      When I view my personal order list
+      Then I should see 1 order
+      When I view the order
+      Then the order should show a total excluding VAT of 105.0
+      Then the order should show a VAT of 8.40
+      Then the order should show a product total including VAT of 113.40
+      Then the order should show a shipping cost including VAT of 108.0
+      Then the order should show a grand total of 221.40
+      When I view my personal invoice list
+
+
+
     Scenario: View checkout
       Given the following products exist(table):
       |name|category|supplier|purchase_price|weight|
