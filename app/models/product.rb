@@ -38,7 +38,7 @@ class Product < ActiveRecord::Base
   
   
   # === AR callbacks
-  before_save :set_explicit_sale_state, :cache_calculations
+  before_save :set_explicit_sale_state, :handle_swiss_rounding, :cache_calculations
   after_create :try_to_get_product_files
   before_save :update_notifications, :sync_supply_item_information
   
@@ -51,6 +51,16 @@ class Product < ActiveRecord::Base
         notification.set_active
       end
     end
+  end
+
+  def handle_swiss_rounding
+
+    unless self.absolutely_priced? or self.componentized?
+      purchase_price = read_attribute :purchase_price
+      margin_percentage = self.margin_percentage
+      self.purchase_price = purchase_price + calculate_swiss_rounding_component(purchase_price, self.margin_percentage)
+    end
+
   end
   
   # Thinking Sphinx configuration
@@ -145,7 +155,7 @@ class Product < ActiveRecord::Base
   def taxes
     calculation = BigDecimal.new("0")
     absolutely_priced? ? base_price = sales_price : base_price = gross_price
-    calculation = ( (base_price - rebate) / BigDecimal.new("100.0")) * tax_class.percentage
+    calculation = ( (base_price - rebate) / BigDecimal.new("100.0")) * tax_class.percentage # Look out! Duplicated below in calculate_swiss_rouding_component in order to prevent infinite loop between taxes() and gross_price()
   end
   
   def margin
@@ -534,10 +544,30 @@ class Product < ActiveRecord::Base
     end
 
   end
-  
+
+  # In Switzerland, only 0.05 coins exist, therefore we must try to get as close as possible to a sales price
+  # that ends in .05, otherwise various price rounding calculations lead to situations where the price displayed
+  # for a single item is not the same as for buying several of those items in bulk (e.g. 2 * 144.02 = 288.04, rounded to 288.05, even
+  # though a single item of the same kind would display as 144.00 in the store.
+  def calculate_swiss_rounding_component(purchase_price, margin_percentage)
+    swiss_rounding_component = BigDecimal.new("0.0")
+    margin = (purchase_price / BigDecimal.new("100.0")) * BigDecimal.new(margin_percentage.to_s) # Duplicated from below
+    taxes = ( (purchase_price + calculated_margin - rebate) / BigDecimal.new("100.0")) * tax_class.percentage # Duplicated from above
+    anticipated_sales_price = (purchase_price + margin + taxes)
+    if ((anticipated_sales_price * 100) % 5).to_s != "0.0"
+#      new_purchase_price = anticipated_sales_price.round(1, BigDecimal::ROUND_UP)
+      new_price = (anticipated_sales_price/BigDecimal.new("5")).round(2, BigDecimal::ROUND_UP) * BigDecimal.new("5")
+      new_price_without_taxes = (new_price / (BigDecimal.new("100.0") + tax_class.percentage)) * BigDecimal.new("100.0")
+      new_price_without_margin = (new_price_without_taxes / BigDecimal.new((100 + margin_percentage).to_s) * BigDecimal.new("100.0"))
+      swiss_rounding_component = new_price_without_margin - purchase_price
+    end
+    return swiss_rounding_component
+  end
+
   private
-  
+
   def calculated_gross_price
+    #calculated_gross_price = (purchase_price + calculated_margin + calculate_swiss_rounding_component(purchase_price, self.margin_percentage))
     calculated_gross_price = (purchase_price + calculated_margin)
     calculated_gross_price
   end
