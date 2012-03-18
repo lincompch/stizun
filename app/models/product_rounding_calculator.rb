@@ -2,11 +2,12 @@ class ProductRoundingCalculator
 
 
 
-  def self.calculate_rounding_component(purchase_price, margin_percentage, tax_percentage)
+  def self.calculate_rounding_component(options)
+    options[:rebate] ||= BigDecimal.new("0.0")
     # Depending on how the system is configured, we can pick which rounding behavior
     # to use. For the moment, we don't allow this to be configured at all, though, so
     # no need to read any configuration from anywhere :)
-    return calculate_swiss_rounding_component(purchase_price, margin_percentage, tax_percentage)
+    return self.calculate_swiss_rounding_component(options[:purchase_price], options[:margin_percentage], options[:tax_percentage], options[:rebate])
   end
 
 
@@ -14,10 +15,10 @@ class ProductRoundingCalculator
   # that ends in .05, otherwise various price rounding calculations lead to situations where the price displayed
   # for a single item is not the same as for buying several of those items in bulk (e.g. 2 * 144.02 = 288.04, rounded to 288.05, even
   # though a single item of the same kind would display as 144.00 in the store.
-  def calculate_swiss_rounding_component(purchase_price, margin_percentage, tax_percentage)
+  def self.calculate_swiss_rounding_component(purchase_price, margin_percentage, tax_percentage, rebate = BigDecimal.new("0.0"))
     swiss_rounding_component = BigDecimal.new("0.0")
-    margin = (purchase_price / BigDecimal.new("100.0")) * BigDecimal.new(margin_percentage.to_s) # Duplicated from below
-    taxes = ( (purchase_price + calculated_margin - rebate) / BigDecimal.new("100.0")) * tax_percentage # Duplicated from above
+    margin = (purchase_price / BigDecimal.new("100.0")) * BigDecimal.new(margin_percentage.to_s) # Duplicated from product.rb
+    taxes = ( (purchase_price + margin - rebate) / BigDecimal.new("100.0")) * tax_percentage # Duplicated from product.rb
     anticipated_sales_price = (purchase_price + margin + taxes)
     if ((anticipated_sales_price * 100) % 5).to_s != "0.0"
 #      new_purchase_price = anticipated_sales_price.round(1, BigDecimal::ROUND_UP)

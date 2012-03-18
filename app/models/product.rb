@@ -536,7 +536,9 @@ class Product < ActiveRecord::Base
   end
 
   def calculate_rounding_component
-    self.rounding_component = ProductRoundingCalculator.calculate_rounding_component(self.purchase_price, self.margin_percentage, self.tax_class.percentage)
+    self.rounding_component = ProductRoundingCalculator.calculate_rounding_component(:purchase_price => self.purchase_price, 
+                                                                                     :margin_percentage => self.margin_percentage, 
+                                                                                     :tax_percentage => self.tax_class.percentage)
   end
 
   private
