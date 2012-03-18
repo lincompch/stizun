@@ -38,7 +38,7 @@ class Product < ActiveRecord::Base
   
   
   # === AR callbacks
-  before_save :set_explicit_sale_state, :calculate_rounding_component, :cache_calculations
+  before_save :calculate_rounding_component, :set_explicit_sale_state, :cache_calculations
   after_create :try_to_get_product_files
   before_save :update_notifications, :sync_supply_item_information
   
@@ -145,7 +145,7 @@ class Product < ActiveRecord::Base
   def taxes
     calculation = BigDecimal.new("0")
     absolutely_priced? ? base_price = sales_price : base_price = gross_price
-    calculation = ( (base_price - rebate) / BigDecimal.new("100.0")) * tax_class.percentage # Look out! Duplicated below in calculate_swiss_rouding_component in order to prevent infinite loop between taxes() and gross_price()
+    calculation = ( (base_price - rebate) / BigDecimal.new("100.0")) * tax_class.percentage
   end
   
   def margin
@@ -190,7 +190,7 @@ class Product < ActiveRecord::Base
   
   def component_gross_price
     calculate_component_pricing
-    return @component_pricing[0]
+    return @component_pricing[0] + rounding_component
   end
   
   def component_margin    
@@ -536,16 +536,29 @@ class Product < ActiveRecord::Base
   end
 
   def calculate_rounding_component
+    absolute_rebate_for_rounding = BigDecimal.new("0.0")
+    percentage_rebate_for_rounding = BigDecimal.new("0.0")
+
+    end_date = rebate_until || DateTime.new(1940,01,01)
+    if DateTime.now < end_date
+      absolute_rebate_for_rounding = absolute_rebate
+      percentage_rebate_for_rounding = percentage_rebate
+    end
+
     self.rounding_component = ProductRoundingCalculator.calculate_rounding_component(:purchase_price => self.purchase_price, 
                                                                                      :margin_percentage => self.margin_percentage, 
-                                                                                     :tax_percentage => self.tax_class.percentage)
+                                                                                     :tax_percentage => self.tax_class.percentage,
+                                                                                     :absolute_rebate => absolute_rebate_for_rounding,
+                                                                                     :percentage_rebate => percentage_rebate_for_rounding)
   end
 
   private
 
   def calculated_gross_price
     #calculated_gross_price = (purchase_price + calculated_margin + calculate_swiss_rounding_component(purchase_price, self.margin_percentage))
+    #calculated_gross_price = (purchase_price + calculated_margin + rounding_component)
     calculated_gross_price = (purchase_price + calculated_margin)
+    #
     calculated_gross_price
   end
   
