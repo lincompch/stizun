@@ -50,9 +50,9 @@ class ShippingCalculator < ActiveRecord::Base
   end
   
   def cost
-    return @cost.rounded
+    return @cost
   end
-  
+
   def taxes
     @taxes = (self.cost / BigDecimal.new("100.0")) * self.tax_class.percentage
     return @taxes

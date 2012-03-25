@@ -1,0 +1,62 @@
+%table
+  %tr
+    %th Anz.
+    %th
+    %th{:style => "text-align: center;"} %
+    %th{:style => "text-align: center;"} brutto
+    %th{:style => "text-align: center;"} MwSt.
+    %th{:style => "text-align: right;"} Total
+    
+  - if defined?(f)
+    - document.lines.each do |ci|
+      = f.fields_for "cart_lines[]", ci do |cl_fields|
+        %tr{:class => cycle('even', 'odd')}
+          %td.qty
+            = cl_fields.text_field :quantity, :size => 3
+          %td.product= link_to ci.product.name, ci.product
+          %td.price= ci.product.tax_class.percentage
+          %td.price.vertborders= pretty_price(ci.gross_price, "", false)
+          %td.price.vertborders= pretty_price(ci.taxes, "", false)
+          %td.price= pretty_price(ci.taxed_price, "")
+          %td= link_to("X", {:controller => 'carts', :action => 'remove_all', :product_id => ci.product}, {:class => 'exx'})
+  - else
+    - document.lines.each do |dl|
+      %tr{:class => cycle('even', 'odd')}
+        %td= dl.quantity
+        %td.product= link_to dl.product.name, dl.product
+        %td.price= dl.product.tax_class.percentage
+        %td.price.vertborders= pretty_price(dl.gross_price, "", false)
+        %td.price.vertborders= pretty_price(dl.taxes, "", false)
+        %td.price= pretty_price(dl.taxed_price, "")
+        %td          
+
+  %tr
+    %td
+    %td.product Produkte-Total
+    %td.price
+    %td.price.vertborders= pretty_price(document.products_gross_price, "", false)
+    %td.price.vertborders= pretty_price(document.taxes, "", false)
+    %td#document_products_taxed_price.price= pretty_price(document.products_taxed_price, "")    
+    %td
+          
+  %tr
+    %td
+    %td.product Versandkosten
+    %td.price
+    %td.price.vertborders= pretty_price(document.shipping_cost, "", false)
+    %td.price.vertborders= pretty_price(document.shipping_taxes, "", false)
+    %td#document_shipping_cost_including_taxes.price= pretty_price(document.total_taxed_shipping_price, "")
+    %td
+
+  %tr.padded
+    %td
+    %td.product
+      %strong Total
+    %td
+    %td#document_gross_price.price.vertborders
+      %strong= pretty_price(document.gross_price, "", false)
+    %td#document_total_taxes.price.vertborders
+      %strong= pretty_price(document.total_taxes, "", false)
+    %td#document_taxed_price.price
+      %strong= pretty_price(document.taxed_price)
+    %td

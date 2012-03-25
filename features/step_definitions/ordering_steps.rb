@@ -163,7 +163,7 @@ end
 
 Then /^the order summary should contain a total excluding VAT of (\d+)\.(\d+)$/ do |arg1, arg2|
   amount = (arg1.to_s + "." + arg2.to_s).to_f
-  find("#document_products_price").text.strip.to_f.should == amount
+  find("#document_gross_price").text.strip.to_f.should == amount
 end
 
 Then /^the order summary should contain a product VAT of (\d+)\.(\d+)$/ do |arg1, arg2|

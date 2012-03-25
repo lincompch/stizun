@@ -6,6 +6,19 @@ class Document < ActiveRecord::Base
     return (products_taxed_price + total_taxed_shipping_price)
   end
 
+  # This is *untaxed*
+  def gross_price
+    return products_gross_price + shipping_cost
+  end
+
+  def products_gross_price
+    total = BigDecimal.new("0.0")
+    self.lines.each do |dl|
+      total += dl.gross_price
+    end
+    return total
+  end
+
   def products_taxed_price
     total = BigDecimal.new("0.0")
     self.lines.each do |ol|
