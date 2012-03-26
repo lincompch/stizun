@@ -25,6 +25,10 @@ class StaticDocument < ActiveRecord::Base
     return ((lines.sum("taxed_price") + total_taxed_shipping_price) - rebate - tax_reduction)
   end
 
+  def total_gross_shipping_price
+    return gross_price + shipping_cost
+  end
+
   def gross_price
     return (lines.sum("gross_price") - rebate)
   end

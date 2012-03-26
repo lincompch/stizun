@@ -7,7 +7,7 @@ class Document < ActiveRecord::Base
   end
 
   # This is *untaxed*
-  def gross_price
+  def total_gross_shipping_price
     return products_gross_price + shipping_cost
   end
 
