@@ -1,17 +1,11 @@
 <table>
-  <tr>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th colspan="2" style="text-align: center;">MwSt.</th>
-    <th></th>
-  </tr>
+
   <tr>
     <th>Anz.</th>
     <th></th>
     <th style="text-align: center;">&#37;</th>
-    <th style="text-align: center;">exkl.</th>
-    <th style="text-align: center;">inkl.</th>
+    <th style="text-align: center;">brutto</th>
+    <th style="text-align: center;">MwSt.</th>
     <th style="text-align: right;">Total</th>
   </tr>
 
@@ -27,7 +21,7 @@
       <td class="product"><%= il.text %><%= rebate_string %></td>
       <td class="price"><%= il.tax_percentage %></td>
       <td class="price vertborders"><%= untaxed_price_string %></td>
-      <td class="price vertborders"><%= pretty_price(il.single_price, "", false) %></td>
+      <td class="price vertborders"><%= pretty_price(il.taxes, "", false) %></td>
       <td class="price"><%= pretty_price(il.taxed_price, "") %></td>
       <td></td>
     </tr>
@@ -70,7 +64,7 @@
     <td></td>
     <td></td>
     <td></td>
-    <td class="price"><%= pretty_price(invoice.gross_price, "") %></td>
+    <td class="price" id="invoice_products_price"><%= pretty_price(invoice.gross_price, "") %></td>
     <td></td>
   </tr>
 
@@ -85,33 +79,37 @@
   </tr>
   <% end %>
 
+<!-- new stuff here -->
 
   <tr>
     <td></td>
-    <td>Produkte inkl. MwSt.</td>
+    <td>Produkte-Total</td>
     <td></td>
-    <td></td>
-    <td></td>
+    <td class="price" id="invoice_products_price"><%= pretty_price(invoice.gross_price, "", false)%></td>
+    <td class="price"><%= pretty_price(invoice.taxes, "", false) %></td>
     <td class="price" id="invoice_products_taxed_price"><%= pretty_price(invoice.products_taxed_price, "") %></td>
     <td></td>
   </tr>
 
   <tr>
     <td></td>
-    <td>Versand inkl. MwSt.</td>
+    <td>Versand</td>
     <td></td>
-    <td></td>
-    <td></td>
+    <td class="price"><%= pretty_price(invoice.shipping_cost, "", false)%></td>
+    <td class="price"><%= pretty_price(invoice.shipping_taxes, "", false)%></td>
     <td class="price" id="invoice_shipping_cost_including_taxes"><%= pretty_price(invoice.total_taxed_shipping_price, "") %></td>
     <td></td>
   </tr>
 
-  <tr>
+  <!-- end new stuff -->
+
+
+  <tr class="padded">
     <td></td>
     <td><strong>Gesamttotal</strong></td>
     <td></td>
     <td></td>
-    <td></td>
+    <td class="price" id="invoice_taxes"><%= pretty_price invoice.total_taxes %></td>
     <td class="price" id="invoice_taxed_price"><strong><%= pretty_price invoice.taxed_price %></strong></td>
     <td></td>
   </tr>
@@ -119,5 +117,3 @@
 </table>
 
 
-<p style="margin-top: 3em; text-align: right;">Produkte exkl. MwSt.: <span id="invoice_products_price"><%= pretty_price(invoice.gross_price.to_s, ConfigurationItem.get('currency').value) %></span><br>
-Enthaltene MwSt.: <span id="invoice_taxes"><%= pretty_price(invoice.total_taxes, ConfigurationItem.get('currency').value, true) %></span></p>
