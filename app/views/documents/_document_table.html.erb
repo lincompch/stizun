@@ -1,0 +1,68 @@
+  <table>
+    <tr>
+      <th>Anz.</th>
+      <th></th>
+      <th style="text-align: center;">&#37;</th>
+      <th style="text-align: center;">brutto</th>
+      <th style="text-align: center;">MwSt.</th>
+      <th style="text-align: right;">Total</th>
+    </tr>
+
+  <% if defined?(f) %>
+    <% document.lines.each do |ci| %>
+        <%= f.fields_for "cart_lines[]", ci do |cl_fields| %>
+          <tr class="<%= cycle('even', 'odd')%>">
+            <td class="qty"><%= cl_fields.text_field :quantity, :size => 3 %> </td>
+            <td class="product"><%= link_to ci.product.name, ci.product %></td>
+            <td class="price"><%= ci.product.tax_class.percentage %></td>
+            <td class="price vertborders"><%= pretty_price(ci.gross_price, "", false) %></td>
+            <td class="price vertborders"><%= pretty_price(ci.taxes, "", false) %></td>
+            <td class="price"><%= pretty_price(ci.taxed_price, "") %></td>
+            <td><%= link_to("X", {:controller => 'carts', :action => 'remove_all', :product_id => ci.product}, {:class => 'exx'}) %></td>
+          </tr>
+        <% end %>
+      <% end %>
+   <% else %>
+      <% document.lines.each do |dl| %>
+        <tr class="<%= cycle('even', 'odd')%>">
+          <td><%= dl.quantity %></td>
+          <td class="product"><%= link_to dl.product.name, dl.product %></td>
+          <td class="price"><%= dl.product.tax_class.percentage %></td>
+          <td class="price vertborders"><%= pretty_price(dl.gross_price, "", false) %></td>
+          <td class="price vertborders"><%= pretty_price(dl.taxes, "", false) %></td>
+          <td class="price"><%= pretty_price(dl.taxed_price, "") %></td>
+          <td></td>
+        </tr>
+      <% end %>
+   <% end %>
+
+    <tr>
+      <td></td>
+      <td>Produkte-Total</td>
+      <td></td>
+      <td class="price vertborders"><%=pretty_price(document.products_gross_price, "", false) %></td>
+      <td class="price vertborders"><%= pretty_price(document.taxes, "", false)%></td>
+      <td class="price" id="document_products_taxed_price"><%= pretty_price(document.products_taxed_price, "") %></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td>Versandkosten</td>
+      <td></td>
+      <td class="price vertborders"><%= pretty_price(document.shipping_cost, "", false)%></td>
+      <td class="price vertborders"><%= pretty_price(document.shipping_taxes, "", false) %></td>
+      <td class="price" id="document_shipping_cost_including_taxes"><%= pretty_price( document.total_taxed_shipping_price, "") %></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><strong>Total</strong></td>
+      <td></td>
+      <td class="price vertborders" id="document_gross_price"><%= pretty_price(document.total_gross_shipping_price, "", false) %></td>
+      <td class="price vertborders" id="document_total_taxes"><%= pretty_price(document.total_taxes, "", false) %></td>
+      <td class="price" id="document_taxed_price"><strong><%= pretty_price document.taxed_price %></strong></td>
+      <td></td>
+    </tr>
+
+  </table>
