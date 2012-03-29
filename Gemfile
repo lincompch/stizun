@@ -52,7 +52,7 @@ group :test, :development do
   #gem 'factory_girl_rails'
   gem 'fabrication'
 #  gem 'pickle'
-  gem 'capybara'
+  gem 'capybara', ' ~> 1.1'
   gem 'database_cleaner'
   gem 'cucumber'
   gem 'rspec-rails'
