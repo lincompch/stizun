@@ -124,6 +124,9 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (>= 0.0.2)
       mime-types
+    pickle (0.4.10)
+      cucumber (>= 0.8)
+      rake
     polyglot (0.3.3)
     pry (0.9.8.4)
       coderay (~> 1.0.5)
@@ -259,6 +262,7 @@ DEPENDENCIES
   mysql2
   nokogiri
   paperclip
+  pickle
   pry
   rack-ssl-enforcer
   rails (= 3.1.1)

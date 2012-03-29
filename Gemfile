@@ -51,7 +51,7 @@ group :test, :development do
   gem 'simplecov'
   #gem 'factory_girl_rails'
   gem 'fabrication'
-#  gem 'pickle'
+  gem 'pickle'
   gem 'capybara'
   gem 'database_cleaner'
   gem 'cucumber'
