@@ -51,10 +51,9 @@ group :test, :development do
   gem 'simplecov'
   #gem 'factory_girl_rails'
   gem 'fabrication'
-  gem 'pickle'
+#  gem 'pickle'
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'cucumber-rails'
   gem 'cucumber'
   gem 'rspec-rails'
   gem 'spork'
@@ -66,3 +65,6 @@ group :test, :development do
   gem 'therubyracer', '>= 0.8.2'
 end
 
+group :test do 
+  gem 'cucumber-rails', ">= 1.2.0"
+end

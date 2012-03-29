@@ -31,7 +31,7 @@ describe StaticDocument do
     # DatabaseCleaner or something seems to mess up these things royally on some machines, but not on others.
     # That's why we have to test explictly (what a waste of time!)
     sc = ShippingCalculator.get_default
-    sc.tax_class.percentage.should == 8.2
+    sc.tax_class.percentage.to_f.should == 8.2
     sc.name.should == 'For Testing Rounding'
 
     @supplier = Fabricate(:supplier)
