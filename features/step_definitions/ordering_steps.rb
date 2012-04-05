@@ -190,3 +190,7 @@ Then /^the order summary should contain a total VAT of (\d+)\.(\d+)$/ do |arg1, 
   amount = (arg1.to_s + "." + arg2.to_s).to_f
   find("#document_total_taxes").text.strip.to_f.should == amount
 end
+
+Then /^I should see an invoice$/ do
+  all("h2").first.text.should =~ /.*Rechnung.*/
+end

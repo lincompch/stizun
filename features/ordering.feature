@@ -52,7 +52,7 @@ Feature: Ordering
       And the order summary should contain shipping cost including VAT of 108.0
       And the order summary should contain a grand total of 221.40
 
-    @work @javascript
+    @javascript
     Scenario: See correct totals on order listings in my user page
       Given I am logged in as "foo@bar.com"
         And the following products exist(table):
@@ -122,6 +122,7 @@ Feature: Ordering
       And I check "order_terms_of_service"
       And I submit my order
       Then I should see "Danke für Ihre Bestellung!"
+      And I should see an invoice
       And I should receive 2 e-mails
       And the subject of e-mail 2 should be "[Local Shop] Bestätigung Ihrer Bestellung"
       And the subject of e-mail 1 should be "[Local Shop] Elektronische Rechnung"

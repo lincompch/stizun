@@ -371,7 +371,7 @@ de-CH:
       shipping_cost: "Versandkosten"
       included_vat: "Enthaltene MwSt."
       shopping_cart_empty: "Ihr Einkaufswagen ist leer. Sie können nicht weiter zur Kasse. Kaufen Sie doch ein paar Produkte."
-      thanks_for_your_order: "Danke für Ihre Bestellung!"
+      thanks_for_your_order: "Danke für Ihre Bestellung! Bitte bezahlen Sie diese Rechnung."
       problem_with_your_order: "Es gibt ein Problem mit Ihrer Bestellung"
       orders_awaiting_payment: "Unbezahlte Bestellungen"
       orders_in_processing_or_ready_to_ship: "Bestellungen in Bearbeitung"

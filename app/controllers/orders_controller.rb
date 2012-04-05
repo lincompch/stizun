@@ -65,12 +65,8 @@ class OrdersController < ApplicationController
         
       flash[:notice] = I18n.t("stizun.order.thanks_for_your_order")
       
-      # Redirect to a summary page instead
-      if current_user
-        redirect_to :controller => 'users', :action => 'me'
-      else
-        redirect_to :root 
-      end
+      # Redirect to the invoice, to entice people to immediately pay for the stuff they've ordered      
+      redirect_to url_for(:controller => '/invoices', :action => 'uuid', :uuid => @order.invoice.uuid) 
     else
       flash[:error] = I18n.t("stizun.order.problem_with_your_order")
       render :action => 'new'
