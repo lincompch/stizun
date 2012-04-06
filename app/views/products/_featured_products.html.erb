@@ -1,0 +1,7 @@
+<% if @featured_products.count == 0 %>
+  <p>Im Moment gibt es keine aktuellen Produkte. Schauen Sie sich doch bei unseren <%= link_to 'anderen Produkten', products_path %> um.</p>
+<% else %>
+
+  <%= render :partial => 'products/product_table', :object => @featured_products %>
+   
+<% end %>

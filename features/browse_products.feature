@@ -49,3 +49,18 @@ Feature: Browse products
       And I view the category "Animals"
       Then I should see a product named "Fish"
       And I should not see a product named "Defender"
+
+
+    Scenario: See featured products
+      Given the following products exist(table):
+      | name     | category | supplier   | purchase_price | manufacturer_product_code | featured |
+      | Penguin  | Animals  | Alltron AG |          100.0 | foo1                      | yes      |
+      | Fish     | Animals  | Alltron AG |          100.0 | foo2                      | yes      |
+      | Duckling | Animals  | Alltron AG |          100.0 | foo3                      | yes      |
+      When the Sphinx indexes are updated
+      And I go to the home page
+      Then I see the following featured products:
+      | name     |
+      | Penguin  |
+      | Fish     |
+      | Duckling |

@@ -4,6 +4,13 @@ Given /^the following products exist\(table\):$/ do |table|
  end
 end
 
+Then "I see the following featured products:" do |table|
+  table.hashes.each do |prod|
+    binding.pry
+    find("#featured_products").text.should =~ /.*#{prod['name']}.*/
+  end
+end
+
 When /^I check #{capture_model}'s first checkbox$/ do |model_name|
   model = model!(model_name)
   check("product_id_#{model.id}")

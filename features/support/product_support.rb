@@ -18,7 +18,10 @@ def create_product(prod)
     end
 
     prod['description'].blank? ? description = "No description" : description = prod['description']
-
+    
+    is_featured = false
+    is_featured = true if prod['featured'] == "yes"
+    
     supplier = Supplier.find_by_name(prod['supplier'])
     product = Product.create(:name => prod['name'],
                              :description => description,
@@ -27,13 +30,15 @@ def create_product(prod)
                              :supplier => supplier,
                              :tax_class => tax_class,
                              :purchase_price => purchase_price,
-                             :manufacturer_product_code => manufacturer_product_code)
+                             :manufacturer_product_code => manufacturer_product_code,
+                             :is_featured => is_featured)
   if prod['category']
     category = Category.where(:name => prod['category']).first
     category = Category.create(:name => prod['category']) if category.nil?
     product.categories << category
     product.save
   end
+
 
   # Ugly, but at least it makes test authors know what went wrong
   if product.errors.empty?

@@ -29,7 +29,8 @@ class Product < ActiveRecord::Base
   
   has_many :notifications
   has_many :users, :through => :notifications
-  
+ 
+  scope :featured, :conditions => { :is_featured => true }
   scope :available, :conditions => { :is_available => true }
   scope :supplied, :conditions => "supply_item_id IS NOT NULL"
   scope :loss_leaders, :conditions => { :is_loss_leader => true }
@@ -65,7 +66,7 @@ class Product < ActiveRecord::Base
     has categories(:id), :as => :category_id
     
     # attributes
-    has(:id, created_at, updated_at, is_available)
+    has(:id, created_at, updated_at, is_available, is_featured)
     
     set_property :delta => true
   end
@@ -76,6 +77,13 @@ class Product < ActiveRecord::Base
     }
   }
   
+
+  sphinx_scope(:sphinx_featured) {
+    {
+    :with => { :is_featured => 1}
+    }
+  }
+
   
   # Pagination with will_paginate
   def self.per_page
