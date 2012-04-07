@@ -13,7 +13,7 @@ describe SupplyItem do
   end
 
   describe "disabling its product" do
-    it "should disable its product if the stock goes below 0" do
+    it "should not disable its product even if the stock goes below 0" do
       supply_item = Fabricate.build(:supply_item)
       product = Fabricate.build(:product)
       supply_item.product = product
@@ -23,7 +23,7 @@ describe SupplyItem do
 
       supply_item.stock = -1
       supply_item.save
-      product.is_available.should == false
+      product.is_available.should == true
     end
 
     it "should not disable its product if there is enough stock" do
