@@ -44,6 +44,36 @@ task :link_files do
   run "ln -s #{deploy_to}/#{shared_dir}/uploads #{release_path}/public/uploads"
 end
 
+
+task :retrieve_db_config do
+  # DB credentials needed by mysqldump etc.
+  get(db_config, "/tmp/stizun_db_config.yml")
+  dbconf = YAML::load_file("/tmp/stizun_db_config.yml")["production"]
+  set :sql_database, dbconf['database']
+  set :sql_username, dbconf['username']
+  set :sql_password, dbconf['password']
+end
+
+task :migrate_database do
+  # Produce a string like 2010-07-15T09-16-35+02-00
+  date_string = DateTime.now.to_s.gsub(":","-")
+  dump_dir = "#{deploy_to}/#{shared_dir}/db_backups"
+  dump_path =  "#{dump_dir}/#{sql_database}-#{date_string}.sql"
+  run "mkdir -p #{dump_dir}"
+  # If mysqldump fails for any reason, Capistrano will stop here
+  # because run catches the exit code of mysqldump
+  run "mysqldump --user=#{sql_username} --password=#{sql_password} -r #{dump_path} #{sql_database}"
+  run "bzip2 #{dump_path}"
+
+  # Migration here 
+  # deploy.migrate should work, but is buggy and is run in the _previous_ release's
+  # directory, thus never runs anything? Strange.
+  #deploy.migrate
+  run "cd #{release_path} && RAILS_ENV='production'  bundle exec rake db:migrate"
+end
+
+
+
 task :configure_sphinx do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:conf && RAILS_ENV=production bundle exec rake ts:reindex"
 end
@@ -66,6 +96,8 @@ end
 before "deploy:assets:precompile", :link_config
 after "deploy:restart", "stop_sphinx"
 after "link_config", "link_files"
+before "migrate_database", "retrieve_db_config"
+before "configure_sphinx", "migrate_database"
 after "link_config", "configure_sphinx"
 after "deploy:restart", "start_sphinx"
 after "deploy", "deploy:cleanup"

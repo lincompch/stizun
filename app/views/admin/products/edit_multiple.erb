@@ -15,7 +15,7 @@
 <div style="width: 400px; float: left;">
   <p><%= f.label :category_ids, "Categories" %><br>
      <%= select_tag "product[category_ids][]",
-      options_for_select(Category.where(:supplier_id => nil).map {|c| [c.fully_qualified_name, c.id]}),
+      options_for_select(Category.sorted_fully_qualified_categories.map {|c| [c.fully_qualified_name, c.id]}),
       {:multiple => true, :style => 'min-height: 35em'} %>
   </p>
   <p>Hold CTRL to select multiple.</p>
