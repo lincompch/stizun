@@ -5,7 +5,7 @@ class SupplyItem < ActiveRecord::Base
   has_one :product
 
   before_create :set_status_to_available_if_nil
-  before_save :normalize_stock, :delete_if_stock_too_low, :handle_supply_item_deletion
+  before_save :normalize_stock, :handle_supply_item_deletion
   after_save :generate_categories
 
   def self.per_page
@@ -184,6 +184,10 @@ class SupplyItem < ActiveRecord::Base
     self.stock = 0 if self.stock.nil?
   end
 
+  # This is NOT enabled in the before filters further up in this code.
+  # The reason is that it turned out not to be wise in all cases, since sometimes things that had
+  # a stock of -214 miraculously came back into the supplier's stock, and then we didn't have the matching 
+  # products anymore, thus never received price updates again and didn't actually sell any of the products.
   def delete_if_stock_too_low
     self.status_constant = SupplyItem::DELETED if self.stock < 0
   end
