@@ -43,7 +43,18 @@ class Category < ActiveRecord::Base
     Supplier.all.each do |sup|
       Rails.cache.delete("supplier_#{sup.id}_categories_sorted")
       Rails.cache.delete("#{sup.id}_select_tag")
+      Rails.cache.delete("sorted_fully_qualified_categories")
     end
   end
+
+  def self.sorted_fully_qualified_categories
+    sorted_categories = Rails.cache.read("sorted_fully_qualified_categories")
+    if sorted_categories.nil?
+        sorted_categories = Category.where(:supplier_id => nil).sort { |a,b| a.fully_qualified_name <=> b.fully_qualified_name }
+        Rails.cache.write("sorted_fully_qualified_categories", sorted_categories)
+    end
+    return sorted_categories
+  end
+
 
 end
