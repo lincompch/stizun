@@ -6,7 +6,6 @@ end
 
 Then "I see the following featured products:" do |table|
   table.hashes.each do |prod|
-    binding.pry
     find("#featured_products").text.should =~ /.*#{prod['name']}.*/
   end
 end
