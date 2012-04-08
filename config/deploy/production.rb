@@ -40,6 +40,16 @@ task :link_files do
     run "ln -s #{deploy_to}/#{shared_dir}/uploads #{release_path}/public/uploads"
 end
 
+task :retrieve_db_config do
+  # DB credentials needed by mysqldump etc.
+  get(db_config, "/tmp/stizun_db_config.yml")
+  dbconf = YAML::load_file("/tmp/stizun_db_config.yml")["production"]
+  set :sql_database, dbconf['database']
+  set :sql_username, dbconf['username']
+  set :sql_password, dbconf['password']
+end
+
+
 task :migrate_database do
   # Produce a string like 2010-07-15T09-16-35+02-00
   date_string = DateTime.now.to_s.gsub(":","-")
