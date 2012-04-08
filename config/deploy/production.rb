@@ -88,6 +88,7 @@ end
 before "deploy:assets:precompile", :link_config
 after "deploy:restart", "stop_sphinx"
 after "link_config", "link_files"
+before "migrate_database", "retrieve_db_config"
 before "configure_sphinx", "migrate_database"
 after "link_config", "configure_sphinx"
 after "link_config", "overwrite_custom"
