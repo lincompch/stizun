@@ -121,6 +121,11 @@ class IngramUtil < SupplierUtil
           update_lines = response.body.split("\n")
           update_lines.each do |line|
             product_code, stock, price_in_cents, time, delivery_date = line.split(";")
+            if price_in_cents.to_i == 0
+              logger.info "[#{DateTime.now.to_s}] Live update for #{product} would have set our price to 0.0. Skipping this product."
+              next
+            end
+
             product = Product.where(:supplier_product_code => product_code).first
             
             # Skip if the product already had an update less than 30 minutes ago, and assign
