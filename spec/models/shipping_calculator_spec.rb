@@ -48,7 +48,6 @@ describe ShippingCalculatorBasedOnWeight do
     @sc.package_count.should == 2
   end
 
-
   it "adds up the cost correctly, even for multiple packages" do
     @cart.add_product(Fabricate(:product, :weight => 30.0))
     @cart.weight.should == 60.0
@@ -63,5 +62,15 @@ describe ShippingCalculatorBasedOnWeight do
     @sc.package_count.should == 4
     @sc.cost.should == BigDecimal.new("60.80")
   end
-  
+ 
+
+  it "uses the shipping fee for the lightest possible package if the weight of the item is exactly 0.0" do
+    light_cart = Cart.new
+    light_cart.add_product(Fabricate(:product, :weight => 0.0))
+    light_cart.weight.should == 0.0
+    @sc.calculate_for(light_cart)
+    @sc.cost.should == BigDecimal.new("8.35")
+
+  end
+ 
 end
