@@ -72,8 +72,9 @@ class SupplierUtil
     SupplyItem.expire_category_tree_cache(@supplier)
     #Update the local supply items information using the line from the CSV file
     SupplyItem.suspended_delta do
+      available_supply_item_product_codes = SupplyItem.available.collect(&:supplier_product_code)
       # Deactivate the supply item if the line's not there anymore
-      to_delete = affected_supplier_product_codes - found_supplier_product_codes
+      to_delete = available_supply_item_product_codes - found_supplier_product_codes
       to_delete.each do |td|
         supply_item = @supplier.supply_items.where(:supplier_product_code => td).first
         supply_item.status_constant = SupplyItem::DELETED
