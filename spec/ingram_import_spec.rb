@@ -101,7 +101,7 @@ describe IngramUtil do
       IngramTestHelper.update_from_file(Rails.root + "spec/data/360_im_products.csv")
       SupplyItem.count.should == 370 # but 10 of them marked deleted
       # The others should *not* be deleted
-      SupplyItem.available.where(:supplier_id => supplier).count.should == 370
+      SupplyItem.available.where(:supplier_id => supplier).count.should == 360
 
       ids = SupplyItem.where(:supplier_product_code => product_codes, :supplier_id => supplier).collect(&:id)
       supply_items_should_be_marked_deleted(ids, supplier)
