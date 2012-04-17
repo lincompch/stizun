@@ -55,31 +55,34 @@ class SupplierUtil
   # If the item is there, we read the updated product information from the CSV file and update the
   # supply item and its related products.
   def update_supply_items(filename = self.import_filename)
-    affected_items = @supplier.products.supplied.collect(&:supply_item)
-    affected_supplier_product_codes = affected_items.collect(&:supplier_product_code)
+    available_supplier_product_codes = @supplier.supply_items.available.collect(&:supplier_product_code)
+    to_delete = available_supplier_product_codes.dup
     item_hashes = []
+
     file = File.open(filename, "r")
     file.each do |line|
       data = parse_line(line)
       next if data[:supplier_product_code].blank? # The line is incomplete, skip it
-      if affected_supplier_product_codes.include?(data[:supplier_product_code])
+      if available_supplier_product_codes.include?(data[:supplier_product_code])
         item_hashes << data
+        to_delete -= [data[:supplier_product_code]] # Remove those items that were actually found, so we can delete the rest
       end
     end
     file.close
-    found_supplier_product_codes = item_hashes.collect{|h| h[:supplier_product_code]}
 
     SupplyItem.expire_category_tree_cache(@supplier)
     #Update the local supply items information using the line from the CSV file
     SupplyItem.suspended_delta do
-      available_supply_item_product_codes = SupplyItem.available.collect(&:supplier_product_code)
       # Deactivate the supply item if the line's not there anymore
-      to_delete = available_supply_item_product_codes - found_supplier_product_codes
       to_delete.each do |td|
         supply_item = @supplier.supply_items.where(:supplier_product_code => td).first
-        supply_item.status_constant = SupplyItem::DELETED
-        if supply_item.save
-          supplier_logger.info("[#{DateTime.now.to_s}] Marked Supply Item as deleted: #{supply_item.to_s}")
+        unless supply_item.nil?         
+          supply_item.status_constant = SupplyItem::DELETED
+          if supply_item.save
+            supplier_logger.info("[#{DateTime.now.to_s}] Marked Supply Item as deleted: #{supply_item.to_s}")
+          else
+            supplier_logger.info("[#{DateTime.now.to_s}] Could not mark Supply Item as deleted: #{supply_item.to_s}: #{supply_item.errors.full_messages}")
+          end
         end
       end
 

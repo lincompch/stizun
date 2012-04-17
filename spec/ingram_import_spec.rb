@@ -92,14 +92,16 @@ describe IngramUtil do
       product_codes = ["0711642", "0712027", "0712259", "0712530", "0712577", "07701A5", "07701F4", "07702U8", "07702V2", "0770987"]
 
       # Create products so only those get updated/marked deleted
-      product_codes.each do |code|
-        supply_item = SupplyItem.where(:supplier_product_code => code).first
-        product = Product.new_from_supply_item(supply_item)
-        product.save.should == true
-      end
+      # product_codes.each do |code|
+      #   supply_item = SupplyItem.where(:supplier_product_code => code).first
+      #   product = Product.new_from_supply_item(supply_item)
+      #   product.save.should == true
+      # end
 
       IngramTestHelper.update_from_file(Rails.root + "spec/data/360_im_products.csv")
       SupplyItem.count.should == 370 # but 10 of them marked deleted
+      # The others should *not* be deleted
+      SupplyItem.available.where(:supplier_id => supplier).count.should == 370
 
       ids = SupplyItem.where(:supplier_product_code => product_codes, :supplier_id => supplier).collect(&:id)
       supply_items_should_be_marked_deleted(ids, supplier)
