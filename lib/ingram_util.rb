@@ -122,7 +122,7 @@ class IngramUtil < SupplierUtil
           update_lines.each do |line|
             product_code, stock, price_in_cents, time, delivery_date = line.split(";")
             if price_in_cents.to_i == 0
-              logger.info "[#{DateTime.now.to_s}] Live update for #{product} would have set our price to 0.0. Skipping this product."
+              logger.info "[#{DateTime.now.to_s}] Live update for product with supplier product code #{product_code} would have set our price to 0.0. Skipping this product."
               next
             end
 
