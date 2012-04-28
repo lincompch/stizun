@@ -408,6 +408,7 @@ de-CH:
       invoice_notification_subject: "Elektronische Rechnung"
       shipping_notification_subject: "Ihre Bestellung wurde versandt"
       product_notification_subject: "Preisveränderungen bei Ihren abonnierten Produkten"
+      payment_reminder_subject: "Zahlungserinnerung"
     users:
       account_not_created: "Das Konto konnte nicht erstellt werden."
       account_created_successfully: "Ihr Konto ist erstellt worden."

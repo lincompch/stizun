@@ -62,6 +62,7 @@ Stizun::Application.routes.draw do
       collection do
         post :create_from_order
         post :resend_invoice
+        post :send_payment_reminder
       end
     end
 

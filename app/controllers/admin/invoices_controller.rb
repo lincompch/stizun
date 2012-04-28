@@ -40,6 +40,26 @@ class Admin::InvoicesController <  Admin::BaseController
     end
     redirect_to :back
   end
+
+  def send_payment_reminder
+    @invoice = Invoice.find(params[:id])
+    if @invoice
+      address_string = @invoice.notification_email_addresses.join(", ")
+      if StoreMailer.payment_reminder(@invoice).deliver
+        new_reminder_count = @invoice.reminder_count + 1
+        @invoice.update_attributes(:reminder_count => new_reminder_count,
+                                   :last_reminded_at => DateTime.now)        
+        flash[:notice] = "Payment reminder sent to: #{address_string}"
+      else
+        flash[:error] = "Mail system error while delivering reminder."
+      end
+    else
+      flash[:error] = "Invoice with ID #{params[:id]} not found."
+    end
+    redirect_to :back
+  end
+
+
   
   def new
     @invoice = Invoice.new

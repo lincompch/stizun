@@ -44,6 +44,19 @@ class StoreMailer < ActionMailer::Base
     end
   end
 
+  def payment_reminder(invoice)
+    @from = APP_CONFIG['default_from_email'] || 'stizun@localhost'
+    subject = "#{APP_CONFIG['email_subject_prefix']} #{t("stizun.store_mailer.payment_reminder_subject")}"
+    @invoice = invoice
+    mail(:to => invoice.notification_email_addresses,
+         :bcc => @from,
+         :subject => subject) do |format|
+      
+      
+      format.text { render StoreMailer.template_path("payment_reminder") }
+    end
+  end
+
   def shipping_notification(order)
     @from = APP_CONFIG['default_from_email'] || 'stizun@localhost'
     subject = "#{APP_CONFIG['email_subject_prefix']} #{t("stizun.store_mailer.shipping_notification_subject")}"

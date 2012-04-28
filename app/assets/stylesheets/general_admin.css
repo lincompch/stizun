@@ -123,3 +123,8 @@ td.workflow_2 {
 td.workflow_3 {
   background: red;
 }
+
+
+tr.odd td {
+  background-color: #ededed;
+}

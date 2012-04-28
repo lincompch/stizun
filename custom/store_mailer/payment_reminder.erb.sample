@@ -1,0 +1,25 @@
+Liebe Lincomp-Kundin
+Lieber Lincomp-Kunde
+
+Bis heute ist Ihre Zahlung für Rechnung Nr. <%= "#{@invoice.document_id}" %> 
+noch nicht bei uns eingetroffen.
+
+Bitte begleichen Sie die Rechnung umgehend.
+
+Rechnungsdetails und Zahlungsanweisungen finden Sie hier:
+
+<%= url_for :only_path => false, :controller => 'invoices', :action => 'uuid', :uuid => @invoice.uuid %>
+
+Alle Rechnungs- und Bestellungs-Informationen finden Sie ausserdem in Ihrem 
+persönlichen Konto unter:
+
+http://www.lincomp.ch/users/me
+
+
+Freundliche Grüsse
+
+Lincomp GmbH
+
+--
+
+info@lincomp.ch | http://www.lincomp.ch
