@@ -1,6 +1,58 @@
+# -*- coding: utf-8 -*-
 class Admin::InvoicesController <  Admin::BaseController
   def index
-    @invoices = Invoice.all(:order => 'created_at DESC')
+    if params[:search_invoices] and params[:search_invoices].values.uniq != ["","0"]
+      keyword = params[:search_invoices][:keyword] unless (params[:search_invoices][:keyword].nil? or params[:search_invoices][:keyword].blank?)
+      total_minimum = params[:search_invoices][:total_minimum] unless (params[:search_invoices][:total_minimum].nil? or params[:search_invoices][:total_minimum].blank?)
+      total_maximum = params[:search_invoices][:total_maximum] unless (params[:search_invoices][:total_maximum].nil? or params[:search_invoices][:total_maximum].blank?)
+      having_reminders = params[:search_invoices][:having_reminders] unless (params[:search_invoices][:having_reminders].nil? or params[:search_invoices][:having_reminders] == "0")
+
+      @invoices = Invoice.all(:order => 'created_at DESC').collect{|invoice|
+
+        if keyword
+          text = " #{invoice.document_id} "
+          text += "#{invoice.billing_address.one_line_summary} " if invoice.billing_address
+          text += " #{invoice.shipping_address.one_line_summary} " if invoice.shipping_address
+          text += invoice.lines.collect(&:text).join(" ")
+          if text.downcase.parameterize.include?(keyword) # .parameterize changes special characters to their base character, e.g. öóòô -> o
+            matched_keyword = true
+          else
+            matched_keyword = false
+          end
+        end
+
+        if total_minimum
+          if invoice.taxed_price >= BigDecimal.new(total_minimum)
+            matched_minimum = true
+          else
+            matched_minimum = false
+          end
+        end
+
+        if total_maximum
+          if invoice.taxed_price <= BigDecimal.new(total_maximum)
+            matched_maximum = true
+          else
+            matched_maximum = false
+          end
+        end
+ 
+        if having_reminders
+          if invoice.reminder_count > 0
+            matched_reminders = true
+          else
+            matched_reminders = false
+          end
+        end
+
+        # If they are present, all must match (AND)
+        if [matched_keyword, matched_minimum, matched_maximum, matched_reminders].compact.uniq == [true]
+          invoice
+        end
+      }.compact
+    else
+      @invoices = Invoice.all(:order => 'created_at DESC')
+    end
   end
   
   def create_from_order

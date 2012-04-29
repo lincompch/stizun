@@ -1,0 +1,21 @@
+
+<% 
+
+if params[:search_invoices]
+   keyword = params[:search_invoices][:keyword] || ""
+   total_minimum = params[:search_invoices][:total_minimum] || ""
+   total_maximum = params[:search_invoices][:total_maximum] || ""
+   if params[:search_invoices][:having_reminders] == "1"
+     having_reminders_checked =  true
+   end
+end
+
+%>
+
+<%= form_tag({:controller => 'invoices', :action => 'index'}, {:method => 'get'}) do %>
+  <p>Search for text: <%= text_field :search_invoices, :keyword, :size => 25, :value => keyword %> 
+  Total between: <%= text_field :search_invoices, :total_minimum, :size => 8, :value => total_minimum %> and <%= text_field :search_invoices, :total_maximum, :size => 8, :value => total_maximum  %>
+  <%= check_box :search_invoices, :having_reminders, :checked => having_reminders_checked %> having reminders
+
+  <%= submit_tag 'Search' %></p>
+<% end %>
