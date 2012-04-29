@@ -34,6 +34,10 @@ When /^I am in the admin area$/ do
   visit "/admin"
 end
 
+When /^I go to the invoice area$/ do
+  click "Invoices"
+end
+
 When /^I search for some text from that invoice$/ do
   pending # express the regexp above with the code you wish you had
 end
