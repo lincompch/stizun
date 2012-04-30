@@ -11,10 +11,11 @@ class Admin::InvoicesController <  Admin::BaseController
 
         if keyword
           text = " #{invoice.document_id} "
-          text += "#{invoice.billing_address.one_line_summary} " if invoice.billing_address
-          text += " #{invoice.shipping_address.one_line_summary} " if invoice.shipping_address
+          text += "#{invoice.billing_address.block_summary} " if invoice.billing_address
+          text += " #{invoice.shipping_address.block_summary} " if invoice.shipping_address
           text += invoice.lines.collect(&:text).join(" ")
-          if text.downcase.parameterize.include?(keyword) # .parameterize changes special characters to their base character, e.g. öóòô -> o
+
+          if text.downcase.parameterize(" ").include?(keyword) # .parameterize changes special characters to their base character, e.g. öóòô -> o
             matched_keyword = true
           else
             matched_keyword = false

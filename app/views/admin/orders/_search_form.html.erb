@@ -1,0 +1,18 @@
+
+<% 
+
+if params[:search_orders]
+   keyword = params[:search_orders][:keyword] || ""
+   total_minimum = params[:search_orders][:total_minimum] || ""
+   total_maximum = params[:search_orders][:total_maximum] || ""
+end
+
+%>
+
+<%= form_tag({:controller => 'orders', :action => 'index'}, {:method => 'get'}) do %>
+  <p>Search for text: <%= text_field :search_orders, :keyword, :size => 25, :value => keyword %> 
+  Total between: <%= text_field :search_orders, :total_minimum, :size => 8, :value => total_minimum %> and <%= text_field :search_orders, :total_maximum, :size => 8, :value => total_maximum  %>
+  
+
+  <%= submit_tag 'Search' %></p>
+<% end %>
