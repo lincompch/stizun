@@ -30,8 +30,6 @@
 
 <% if @invoices.count > 0 %>
 
-  <%= render :partial => 'admin/invoices/search_form' %>
-
   <table>
   <% @invoices.each do |i| %>
     <%= render :partial => 'admin/invoices/detail_row', :object => i %>
