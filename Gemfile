@@ -31,7 +31,7 @@ gem 'sanitize'
 gem 'thinking-sphinx'
 gem 'carrierwave'
 gem 'mini_magick'
-gem 'paperclip'
+gem 'paperclip', ">= 3.0.2"
 gem 'mysql2'
 gem 'erubis'
 gem 'will_paginate', "3.0.0"
