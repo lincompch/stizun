@@ -213,7 +213,7 @@ $(function() {
 
   <tr>
     <td><%= f.label :rebate_until, "Rebate end date/time" %></td>
-    <td><%= f.datetime_select :rebate_until %></td>
+    <td><%= f.datetime_select(:rebate_until, :include_blank => true) %></td>
   </tr>
 
   <tr>

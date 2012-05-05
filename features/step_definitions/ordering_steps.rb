@@ -194,3 +194,10 @@ end
 Then /^I should see an invoice$/ do
   all("h2").first.text.should =~ /.*Rechnung.*/
 end
+
+
+Given /^the latest order has an estimated delivery date of "([^"]*)"$/ do |date_string|
+  o = Order.last
+  o.estimated_delivery_date =  Date.strptime("#{date_string}", "%d.%m.%Y")
+  o.save
+end

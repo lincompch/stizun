@@ -15,7 +15,6 @@ class ShippingCalculatorBasedOnWeight < ShippingCalculator
     remaining_weight ||= weight.to_f
     
     if remaining_weight <= 0.0
-      puts "weight was null"
       matching_cost = self.configuration.shipping_costs.first
       cost += matching_cost[:price]
       remaining_weight = 0.0

@@ -9,6 +9,7 @@ class UsersController < ApplicationController
     @orders_awaiting_payment = @user.orders.awaiting_payment
     @orders_processing = @user.orders.processing
     @orders_unprocessed = @user.orders.unprocessed
+    @last_shipped_orders = @user.orders.shipped.limit(5)
     @addresses = @user.addresses.active
     @notifications = @user.notifications
 

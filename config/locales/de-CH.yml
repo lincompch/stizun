@@ -384,6 +384,8 @@ de-CH:
       i_accept_terms: "Ich akzeptiere die Allgemeinen Geschäftsbedingungen (AGB)"
       terms_must_be_accepted: "Sie müssen die Allgemeinen Geschäftsbedingungen (AGB) akzeptieren"
       read_terms_of_service: "Allgemeine Geschäftsbedingungen lesen"
+      last_shipped_orders: "Zuletzt versandte Bestellungen"
+      no_shipped_orders: "Es sind noch keine Bestellungen versandt worden."
     product:
       pcs_in_stock_short: "Stück an Lager"
       no_products: "Diese Produkteliste ist leer."

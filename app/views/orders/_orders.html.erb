@@ -1,21 +1,36 @@
 
 <div class="orders">
 <% orders.each do |o| %>
-  <div class="order <%= cycle('even', 'odd') %>">
-    <h5><%= short_date(o.created_at) %>, Bestellnr. <%= o.document_id %> (<%= o.status_human %>)</h5>
-    
+  <div class="order <%= cycle('even', 'odd') %>"  style="overflow: hidden;">
 
-      <table>
-          <%= render :partial => 'orders/order', :object => o %>
-      </table>
-    
-    <p class="rightalign">
-      <% if o.has_tracking_information? %>
-        <%= link_to "Paket verfolgen", o.tracking_url, { :class => 'fake_button'}  %>
+
+    <div class="order_information">
+
+      <strong>Bestellnr. <%= o.document_id %></strong>
+      <p>Erstellt: <%= short_date(o.created_at) %><br />
+         Status: <%= o.status_human %></p>
+
+      <% unless o.estimated_delivery_date.blank? %>
+        <p>Voraussichtl. Lieferdatum: <%= short_date(o.estimated_delivery_date) %></p>
       <% end %>
 
-      <%= link_to t("stizun.invoice.view_invoice"), url_for(:controller => 'invoices', :action => 'uuid', :uuid => o.invoice.uuid), { :class => 'fake_button'} if o.invoice %>
-    </p>
+      <% if o.has_tracking_information? %>
+        <p><%= link_to "Paket verfolgen", o.tracking_url, { :class => 'fake_button'}  %></p>
+      <% end %>
+
+      <p><%= link_to t("stizun.invoice.view_invoice"), url_for(:controller => 'invoices', :action => 'uuid', :uuid => o.invoice.uuid), { :class => 'fake_button'} if o.invoice %></p>
+
+    </div>
+
+
+      <div class="order_details">
+        <table>
+          <%= render :partial => 'orders/order', :object => o %>
+        </table>
+      
+      </div>
+
+
     </div>
 <% end %>
 </div>

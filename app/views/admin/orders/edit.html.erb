@@ -43,6 +43,11 @@
   </tr>
 
   <tr>
+    <td>Estimated delivery date</td>
+    <td><%= f.date_select(:estimated_delivery_date, :include_blank => true) %></td>
+  </tr>
+
+  <tr>
     <td>Carrier/Tracking no.</td>
     <td><%= f.collection_select :shipping_carrier_id, ShippingCarrier.all, :id, :name, {:include_blank => true} %> <%= f.text_field :tracking_number %></td>
   </tr>
