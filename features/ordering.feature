@@ -185,7 +185,7 @@ Feature: Ordering
       Then I should see "Danke für Ihre Bestellung!"
       Given the latest order has an estimated delivery date of "05.05.2014"
       When I view my personal order list
-      Then I should see "Voraussichtliches Lieferdatum: 05.05.2014"
+      Then I should see "Voraussichtl. Lieferdatum: 05.05.2014"
 
     Scenario: Forget filling in some important fields when ordering
 
