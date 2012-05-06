@@ -1,0 +1,12 @@
+
+<%= f.fields_for :tracking_codes do |fields| %>
+
+ <p>
+  <%= fields.collection_select :shipping_carrier_id, ShippingCarrier.all, :id, :name, {:include_blank => true} %> 
+
+  <%= fields.text_field :tracking_code %>
+
+  <%= fields.check_box :_destroy %> delete
+ </p>
+
+<% end %>

@@ -63,6 +63,10 @@ class Admin::OrdersController <  Admin::BaseController
   
   def edit
     @order = Order.find(params[:id])
+    if @order.tracking_codes.select{|tc| tc.new_record?}.count == 0
+      @order.tracking_codes.build # Build empty tracking code so that nested attributes form works and presents an empty field for new codes
+    end
+    
   end
   
   def show

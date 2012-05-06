@@ -15,7 +15,14 @@
       <% end %>
 
       <% if o.has_tracking_information? %>
-        <p><%= link_to "Paket verfolgen", o.tracking_url, { :class => 'fake_button'}  %></p>
+        <% o.tracking_codes.each_with_index do |tc,index| %>
+	<% if o.tracking_codes.count == 1
+	     n = " "
+           else
+             n = " #{index + 1} "
+           end %>
+        <p><%= link_to "Paket#{n}verfolgen", tc.tracking_url, { :class => 'fake_button'}  %></p>
+	<% end %>
       <% end %>
 
       <p><%= link_to t("stizun.invoice.view_invoice"), url_for(:controller => 'invoices', :action => 'uuid', :uuid => o.invoice.uuid), { :class => 'fake_button'} if o.invoice %></p>

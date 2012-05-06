@@ -5,7 +5,9 @@ class Order < StaticDocument
   has_many :order_lines
   has_one :invoice 
   belongs_to :shipping_carrier
-  
+  has_many :tracking_codes
+  accepts_nested_attributes_for :tracking_codes, :allow_destroy => true, :reject_if =>  proc { |attributes| attributes['shipping_carrier_id'].blank? }
+
   # === Validations
   
   #validates_presence_of :billing_address
@@ -96,17 +98,8 @@ class Order < StaticDocument
   end
 
   def has_tracking_information?
-    !tracking_number.blank? && !shipping_carrier_id.nil?
-  end
-  
-  # Pretty primitive, but mostly effective provided that tracking_base_url end
-  # in a query string (e.g. http://www.foo.com/tracking?blah=lala&foo=)
-  def tracking_url
-    if has_tracking_information?
-      return "#{shipping_carrier.tracking_base_url}#{tracking_number}"
-    else
-      return false
-    end
+    tracking_codes.count > 0
+    #!tracking_number.blank? && !shipping_carrier_id.nil?
   end
   
   def document_id

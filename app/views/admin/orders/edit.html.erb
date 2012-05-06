@@ -48,9 +48,16 @@
   </tr>
 
   <tr>
-    <td>Carrier/Tracking no.</td>
+    <td>Carrier/Tracking number.</td>
     <td><%= f.collection_select :shipping_carrier_id, ShippingCarrier.all, :id, :name, {:include_blank => true} %> <%= f.text_field :tracking_number %></td>
   </tr>
+
+  <tr>
+    <td>Tracking codes</td>
+    <td><%= render :partial => 'tracking_code_editor', :locals => {:f => f} %></td>
+  </tr>
+
+
 
 </table>
 
