@@ -201,3 +201,23 @@ Given /^the latest order has an estimated delivery date of "([^"]*)"$/ do |date_
   o.estimated_delivery_date =  Date.strptime("#{date_string}", "%d.%m.%Y")
   o.save
 end
+
+Given /^the latest order has a status of "([^"]*)"$/ do |status_string|
+  o = Order.last
+  o.status_constant =  status_string.constantize
+  o.save
+end
+
+Then /^I should see the latest order under the heading for orders that are processing$/ do
+  o = Order.last
+  did = o.document_id
+  page.should have_selector("#orders_in_processing_or_ready_to_ship div.orders div.order")
+  order_block = find("#orders_in_processing_or_ready_to_ship").find(".order").text.should =~ /.*#{did}.*/
+end
+
+Then /^the order should show up as "([^"]*)"$/ do |status_string|
+  order_block = find("#orders_in_processing_or_ready_to_ship").find(".order").text.should =~ /.*Status: #{status_string}.*/
+end
+
+
+

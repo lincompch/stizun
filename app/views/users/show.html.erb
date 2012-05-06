@@ -16,18 +16,20 @@
     <% else %>
       <p><%= t("stizun.order.no_orders_awaiting_payment") %></p>
     <% end %>
+    
+    <div id="orders_in_processing_or_ready_to_ship">
+      <h4><%= t("stizun.order.orders_in_processing_or_ready_to_ship") %></h4>
 
-    <h4><%= t("stizun.order.orders_in_processing_or_ready_to_ship") %></h4>
+      <% if (@orders_processing.count + @orders_to_ship.count + @orders_unprocessed.count) > 0 %>
 
-    <% if (@orders_processing.count + @orders_to_ship.count + @orders_unprocessed.count) > 0 %>
+        <%= render :partial => 'orders/orders', :object => @orders_unprocessed %>
+        <%= render :partial => 'orders/orders', :object => @orders_processing %>
+        <%= render :partial => 'orders/orders', :object => @orders_to_ship %>
 
-      <%= render :partial => 'orders/orders', :object => @orders_unprocessed %>
-      <%= render :partial => 'orders/orders', :object => @orders_processing %>
-      <%= render :partial => 'orders/orders', :object => @orders_to_ship %>
-
-    <% else %>
-      <p><%= t("stizun.order.no_orders_in_processing_or_ready_to_ship") %></p>
-    <% end %>
+      <% else %>
+        <p><%= t("stizun.order.no_orders_in_processing_or_ready_to_ship") %></p>
+      <% end %>
+    </div>
 
 
     <h4><%= t("stizun.order.last_shipped_orders") %></h4>

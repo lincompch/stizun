@@ -162,7 +162,6 @@ Feature: Ordering
       And the subject of e-mail 2 should be "[Local Shop] Bestätigung Ihrer Bestellung"
       And the subject of e-mail 1 should be "[Local Shop] Elektronische Rechnung"
 
-   @work
    Scenario: Complete checkout and see an estimated delivery date on my order
       Given I am logged in as "foo@bar.com"
       When the following products exist(table):
@@ -186,6 +185,32 @@ Feature: Ordering
       Given the latest order has an estimated delivery date of "05.05.2014"
       When I view my personal order list
       Then I should see "Voraussichtl. Lieferdatum: 05.05.2014"
+
+   @work
+   Scenario: See that an order is processing
+      Given I am logged in as "foo@bar.com"
+      When the following products exist(table):
+      | name | category | supplier   | purchase_price |
+      | Fish | Animals  | Alltron AG |          100.0 |
+      When I view the category "Animals"
+      And I add the product "Fish" to my cart 4 times
+      When I visit the checkout
+      And I fill in the following within "#billing_address":
+      | Firma          | Some Company             |
+      | Vorname        | Dude                     |
+      | Nachname       | Someguy                  |
+      | E-Mail-Adresse | dude.someguy@example.com |
+      | Strasse        | Such an Ordinary Road 1  |
+      | PLZ            | 8000                     |
+      | Stadt          | Sometown                 |
+      And I select "USAnia" from "Land" within "#billing_address"
+      And I check "order_terms_of_service"
+      And I submit my order
+      Then I should see "Danke für Ihre Bestellung!"
+      Given the latest order has a status of "Order::PROCESSING"
+      When I view my personal order list
+      Then I should see the latest order under the heading for orders that are processing
+      And the order should show up as "In Bearbeitung"
 
     Scenario: Forget filling in some important fields when ordering
 
