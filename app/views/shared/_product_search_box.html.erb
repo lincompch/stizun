@@ -1,8 +1,6 @@
-<div>
+<div class="product_search_box">
 <%= form_tag '/products', :method => :get do %>
-
-  <%= text_field_tag('q', "#{params['q']}",{:size => '17'}) %>
-  <%= submit_tag 'Suchen' %>
-
+  <%= text_field_tag('q', "#{params['q']}",{:size => '17', :class => 'text with-magnifying-glass'}) %>
+  <%= submit_tag 'Produkte suchen', :class => 'real_button' %>
 <% end %>
 </div>

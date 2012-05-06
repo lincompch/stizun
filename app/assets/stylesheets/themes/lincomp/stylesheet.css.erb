@@ -152,10 +152,27 @@ td {
 }
 
 #nav_rightbox {
-        width: 240px;
+        width: 340px;
         float: right;
-
+	text-align: right;
+	padding-right: 8px;
+	padding-top: 4px;
 }
+
+#nav_rightbox .product_search_box input.text {
+  border-radius: 0.4em;
+  -moz-border-radius: 0.4em;
+  -webkit-border-radius: 0.4em;
+  background: #fff;
+}
+
+#nav_rightbox .product_search_box input.text.with-magnifying-glass {
+  background-image: url(<%= asset_path 'themes/lincomp/magnifying_glass.png'%>); 
+  background-position: 3px 1px; 
+  background-repeat: no-repeat;
+}
+
+
 
 #content {
   background: #FFFFFF;
