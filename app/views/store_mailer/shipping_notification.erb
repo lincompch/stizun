@@ -5,7 +5,7 @@ Your stuff is on its way!
 <% if @order.has_tracking_information? %>
 To track your order, click the following tracking links: 
 
-<% @order.tracking_codes.each_with_index do |tc, i| %>
+  <% @order.tracking_codes.each_with_index do |tc, i| %>
 
   Package no. <%= i + 1 %>
 
@@ -15,6 +15,4 @@ To track your order, click the following tracking links:
   <% end %>
 <% end %>
 
-
-<% end %>
 That's just the kind of news you'd been waiting for, no?
