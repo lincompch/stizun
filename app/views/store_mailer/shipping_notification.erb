@@ -3,9 +3,18 @@ Hi there.
 Your stuff is on its way!
 
 <% if @order.has_tracking_information? %>
-To track your order, click the following tracking link: 
-<%= raw @order.tracking_url %>
+To track your order, click the following tracking links: 
 
-Your tracking number for the carrier <%= "#{@order.shipping_carrier.name}" %> is: <%= @order.tracking_number %>
+<% @order.tracking_codes.each_with_index do |tc, i| %>
+
+  Package no. <%= i + 1 %>
+
+  <%= raw tc.tracking_url %>
+  Carrier: <%= "#{tc.shipping_carrier.name}" %>
+  Tracking number: <%= tc.tracking_code %>
+  <% end %>
+<% end %>
+
+
 <% end %>
 That's just the kind of news you'd been waiting for, no?
