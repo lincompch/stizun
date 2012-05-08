@@ -13,6 +13,21 @@
 <% end %>
 
 
+
+
+<h3>Orders currently in processing</h3>
+
+<% if @orders_processing.count > 0 %>
+  <table>
+  <% @orders_processing.each do |o| %>
+    <%= render :partial => 'admin/orders/detail_row', :object => o %>
+  <% end %>
+  </table>
+<% else %>
+  There are no orders in processing right now at this time.
+<% end %>
+
+
 <h3>Unprocessed Orders</h3>
 
 <% if @orders.count > 0 %>
