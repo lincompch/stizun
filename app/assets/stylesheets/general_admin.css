@@ -114,15 +114,16 @@ tr.odd td {
   background-color: #ededed;
 }
 
-td.workflow_1 {
+/* Increased specificity, watch out! Only with the two selectors do we override above rule */
+tr.odd td.workflow_1, td.workflow_1 {
   background: green;
 }
 
-td.workflow_2 {
+tr.odd td.workflow_2, td.workflow_2 {
   background: orange;
 }
 
-td.workflow_3 {
+tr.odd td.workflow_3, td.workflow_3 {
   background: red;
 }
 
