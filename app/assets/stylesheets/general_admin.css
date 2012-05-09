@@ -110,7 +110,9 @@
   float: right;
 }
 
-
+tr.odd td {
+  background-color: #ededed;
+}
 
 td.workflow_1 {
   background: green;
@@ -124,7 +126,3 @@ td.workflow_3 {
   background: red;
 }
 
-
-tr.odd td {
-  background-color: #ededed;
-}
