@@ -10,6 +10,10 @@ class SupplierUtil
     line_array = line.split(@csv_parse_options[:col_sep])
     @field_mapping.each do |k,v|
       value = v.nil? ? nil : line_array[v]
+      unless value.nil? or @csv_parse_options[:quote_char].nil?
+        result = value.match(/^#{@csv_parse_options[:quote_char]}(.*)#{@csv_parse_options[:quote_char]}/)
+        value = result[1] unless result.nil?
+      end
       data[k] = value
     end
     return data
