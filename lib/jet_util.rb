@@ -17,7 +17,7 @@ class JetUtil < SupplierUtil
                       :description01 => 1, 
                       :description02 => nil, 
                       :supplier_product_code => 0, 
-                      :price_excluding_vat => 9, 
+                      :price_excluding_vat => 2, 
                       :stock_level => 9, 
                       :manufacturer_product_code => 11, 
                       :manufacturer => 10, 
