@@ -30,7 +30,7 @@ class SupplierUtil
   end
 
   def update_supply_item(supply_item, data)
-    overwrite_field(supply_item, "purchase_price", data[:price_excluding_vat].to_s.gsub(",",".")) unless data[:price_excluding_vat].to_f == 0
+    overwrite_field(supply_item, "purchase_price", data[:price_excluding_vat].to_s.gsub(",",".").gsub("'","") unless data[:price_excluding_vat].to_f == 0
     overwrite_field(supply_item, "stock", data[:stock_level].gsub("'","").to_i)
     overwrite_field(supply_item, "weight", data[:weight].gsub(",",".").to_f)
     overwrite_field(supply_item, "manufacturer", data[:manufacturer])
@@ -163,7 +163,7 @@ class SupplierUtil
     si.description = "#{data[:description01].to_s.gsub("ß","ss")}"
     si.description += "#{data[:description02].to_s.gsub("ß","ss")}" unless data[:description02].blank?
     si.description = si.description.strip
-    si.purchase_price = BigDecimal.new(data[:price_excluding_vat].to_s.gsub(",","."))
+    si.purchase_price = BigDecimal.new(data[:price_excluding_vat].to_s.gsub(",",".").gsub("'",""))
     # TODO: Read actual tax percentage from import file and create class as needed
     si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
     si.stock = data[:stock_level].gsub("'","").to_i
