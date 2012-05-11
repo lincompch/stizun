@@ -8,15 +8,23 @@ class SupplierUtil
   def parse_line(line)
     data = {}
     line_array = line.split(@csv_parse_options[:col_sep])
-    @field_mapping.each do |k,v|
-      value = v.nil? ? nil : line_array[v]
-      unless value.nil? or @csv_parse_options[:quote_char].nil?
-        result = value.match(/^#{@csv_parse_options[:quote_char]}(.*)#{@csv_parse_options[:quote_char]}/)
-        value = result[1] unless result.nil?
-      end
-      data[k] = value
+    unless @expected_csv_field_count.nil?
+      broken_line = true if line_array.count < @expected_csv_field_count # This line is invalid, we don't want it
     end
-    return data
+
+    if broken_line == true
+      return false
+    else
+      @field_mapping.each do |k,v|
+        value = v.nil? ? nil : line_array[v]
+        unless value.nil? or @csv_parse_options[:quote_char].nil?
+          result = value.match(/^#{@csv_parse_options[:quote_char]}(.*)#{@csv_parse_options[:quote_char]}/)
+          value = result[1] unless result.nil?
+        end
+        data[k] = value
+      end
+      return data
+    end
   end
 
   def overwrite_field(item, field, data)
@@ -30,7 +38,7 @@ class SupplierUtil
   end
 
   def update_supply_item(supply_item, data)
-    overwrite_field(supply_item, "purchase_price", data[:price_excluding_vat].to_s.gsub(",",".").gsub("'","") unless data[:price_excluding_vat].to_f == 0
+    overwrite_field(supply_item, "purchase_price", data[:price_excluding_vat].to_s.gsub(",",".").gsub("'","")) unless data[:price_excluding_vat].to_f == 0
     overwrite_field(supply_item, "stock", data[:stock_level].gsub("'","").to_i)
     overwrite_field(supply_item, "weight", data[:weight].gsub(",",".").to_f)
     overwrite_field(supply_item, "manufacturer", data[:manufacturer])
@@ -66,6 +74,7 @@ class SupplierUtil
     file = File.open(filename, "r")
     file.each do |line|
       data = parse_line(line)
+      next if data == false
       next if data[:supplier_product_code].blank? # The line is incomplete, skip it
       if available_supplier_product_codes.include?(data[:supplier_product_code])
         item_hashes << data
@@ -127,6 +136,7 @@ class SupplierUtil
       File.open(filename, "r").each_with_index do |line, i|
         next if i == 0 # We skip the first line, it only contains header information
         data = parse_line(line)
+        next if data == false
         next if data[:supplier_product_code].blank? # The line is incomplete, skip it
         # check if we have the supply item
         local_supply_item = SupplyItem.where(:supplier_id => @supplier.id,

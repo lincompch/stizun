@@ -32,6 +32,7 @@ class JetUtil < SupplierUtil
     # Possible options:
     #   :col_sep => the separator character to split() on
     @csv_parse_options = { :col_sep => ";", :quote_char => '"' }
+    @expected_csv_field_count = 15 # How many fields does a valid line need to have? So we can discard the others
   end
 
   def self.data_directory
