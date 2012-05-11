@@ -13,7 +13,7 @@ class JetUtil < SupplierUtil
     end
     @field_mapping = {:name01 => 1,
                       :name02 => nil, 
-                      :name03 => nil,
+                      :name03 => 11,
                       :description01 => 1, 
                       :description02 => nil, 
                       :supplier_product_code => 0, 
