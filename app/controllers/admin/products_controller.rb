@@ -137,7 +137,7 @@ class Admin::ProductsController <  Admin::BaseController
    if @product.save == true
      flash[:notice] = "Product metamorphosis complete."
    else
-     flash[:error] = "Sorry, could not metamorphosize product."
+     flash[:error] = "Sorry, could not metamorphosize product: #{@product.errors.full_messages}"
    end
    #redirect_to edit_admin_product_path(@product)
    redirect_to :back
@@ -167,6 +167,12 @@ class Admin::ProductsController <  Admin::BaseController
     cookies[:batch] = nil
     flash[:notice] = "Edit multiple products - cleared"
     redirect_to [:admin, :products]
+  end
+
+
+  def switch_to_cheaper_supply_item
+    @product = Product.find(params[:id])
+    @cheaper_supply_items = @product.cheaper_supply_items
   end
 
 

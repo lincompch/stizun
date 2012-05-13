@@ -1,0 +1,39 @@
+<h1><%= @product.to_s %></h1>
+
+<h2>Switch to cheaper available supply item</h2>
+
+<p>These are the cheaper available supply items for this product, from other suppliers:</p>
+
+
+<% if @cheaper_supply_items.count <= 0 %>
+
+<p>There are <strong>no</strong> cheaper supply items for this product. Congratulations!</p>
+
+<% else %>
+
+
+<table>
+  <tr>
+    <th>Supplier</th>
+    <th>Supply item</th>
+    <th>Purchase price</th>
+    <th>Potential savings</th>
+
+    <th>Actions</th>
+
+    <% @cheaper_supply_items.each do |si| %>
+
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td><%= si.supplier.name %></td>
+    <td><%= si.to_s %></td>
+    <td><%= pretty_price(si.purchase_price) %></td>
+    <td><%= pretty_price(@product.purchase_price - si.purchase_price) %> = <%= sprintf("%.2f", 100.0 - (100.0 / @product.purchase_price) * si.purchase_price) %>% </td>
+
+    <td><%= link_to "switch to this", switch_to_supply_item_admin_product_path(@product, :supply_item_id => si.id) %></td>
+</tr>
+
+<% end %>
+</table>
+
+
+<% end %>

@@ -110,8 +110,23 @@
   float: right;
 }
 
+
+tr th {
+    text-align: left;
+}
+
 tr.odd td {
   background-color: #ededed;
+}
+
+table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+}
+
+table td {
+    border: 1px solid #ddd;
+    padding: 0.2em;
 }
 
 /* Increased specificity, watch out! Only with the two selectors do we override above rule */

@@ -17,5 +17,23 @@ module Admin::SupplyItemsHelper
     end
     cached_select.gsub(/value="#{selected}"/, "selected=\"selected\" value=\"#{selected.to_i}\"")
   end
+
+
+  def extended_status_links(item)
+    links_html = ""
+
+    if item.product.nil?
+      product = Product.available.where(:manufacturer_product_code => item.manufacturer_product_code).first
+      if product
+        links_html += "[#{link_to 'HAS PRODUCT', edit_admin_product_path(product), :class => 'fancybox'}] "
+      end      
+    else  
+      links_html += "[#{link_to 'IS PRODUCT', edit_admin_product_path(item.product), :class => 'fancybox'}] "     
+      links_html += item.product.cheaper_supply_item_available? ? "[#{link_to 'CHEAPER SIs', switch_to_cheaper_supply_item_admin_product_path(item.product)}] " : "[CHEAPEST SI] "
+    end
+
+    return links_html.html_safe
+  end
+
 end
 

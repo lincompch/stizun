@@ -30,6 +30,7 @@
     <th>Supplier Code/Mfg. Code</th>
     <th>Name</th>
     <th>Status</th>
+    <th>Ext. Status</th>
     <th>Purchase price</th>
     <th>Action</th>
   </tr>
@@ -40,8 +41,9 @@
     <td class="workflow_<%= item.workflow_status_constant %>"><%= item.workflow_status_to_human %></td>
     <td><%= item.manufacturer %></td>
     <td><%= item.supplier_product_code %> / <%=h item.manufacturer_product_code %></td>
-    <td><%= item.product.nil? ? "" : "[HAS PRODUCT] " %><%= item.name %></td>
+    <td><%= item.name %></td>
     <td><%= item.status_human %></td>
+    <td><%= extended_status_links(item) %></td>
     <td class="price"><%= item.purchase_price %></td>
     <td>
       <%= link_to 'Create Product', new_from_supply_item_admin_products_path(:supply_item_id => item), :class => 'fancybox' %>
@@ -49,7 +51,7 @@
     </td>
   </tr>
   <tr class="form">
-    <td colspan="7"><%= render 'form', :item => item %></td>
+    <td colspan="9"><%= render 'form', :item => item %></td>
   </tr>
 
   <%= 

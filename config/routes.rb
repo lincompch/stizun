@@ -48,6 +48,7 @@ Stizun::Application.routes.draw do
       end
       member do
         get 'switch_to_supply_item'
+        get 'switch_to_cheaper_supply_item'
       end
     end
 
