@@ -497,6 +497,8 @@ class Product < ActiveRecord::Base
   end
   
   def sync_from_supply_item(supply_item = self.supply_item)
+    self.name = supply_item.name
+    self.description = supply_item.description
     self.stock = supply_item.stock
     self.purchase_price = supply_item.purchase_price
     self.manufacturer = supply_item.manufacturer
@@ -558,6 +560,18 @@ class Product < ActiveRecord::Base
                                                                                      :tax_percentage => self.tax_class.percentage,
                                                                                      :absolute_rebate => absolute_rebate_for_rounding,
                                                                                      :percentage_rebate => percentage_rebate_for_rounding)
+  end
+
+  def cheaper_supply_items
+    cheaper_supply_items = []
+    unless self.supply_item.nil?
+      cheaper_supply_items = SupplyItem.available.where(:manufacturer_product_code => self.supply_item.manufacturer_product_code).where("purchase_price < ?", self.supply_item.purchase_price.to_f)
+    end
+    return cheaper_supply_items
+  end
+
+  def cheaper_supply_item_available?
+    self.cheaper_supply_items.count >= 1
   end
 
   private
