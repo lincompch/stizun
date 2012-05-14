@@ -519,6 +519,16 @@ class Product < ActiveRecord::Base
       self.supply_item.retrieve_pdf
     end
   end
+
+
+  # If an URL to retrieve a product description from is set on this product's supply item,
+  # try to retrieve its product description from there and overwrite our own.
+  def try_to_get_product_description
+    unless self.supply_item.nil?
+      description = self.supply_item.get_description
+      self.update_attributes(:description => description) unless (description == false or description.blank? or description.nil?)
+    end
+  end
   
   def alternative_supply_items?
     alternative_supply_items.count > 0

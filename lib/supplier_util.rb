@@ -190,4 +190,10 @@ class SupplierUtil
     return nil
   end
 
+  # Return a safe, sanitized product description (HTML or text). Apply any transformations, special retrieval,
+  # any type of data mangling in a method inside the supplier-specific subclass.
+  def get_product_description(url)
+    return nil
+  end
+
 end

@@ -223,5 +223,18 @@ class SupplyItem < ActiveRecord::Base
   def self.expire_category_tree_cache(supplier)
     Rails.cache.delete("supplier_#{supplier.id}_category_tree")
   end
+
+  def get_description
+    description = nil
+    unless self.supplier.nil? or self.supplier.class_name.blank?
+      lib_path = Rails.root + "lib/#{self.supplier.class_name.underscore}" 
+      if File.exists?(lib_path)
+        require lib_path
+        description = self.supplier.class_name.constantize.get_product_description(self.description_url)
+      end
+    end
+    return description
+  end
+
 end
 

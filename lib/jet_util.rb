@@ -48,6 +48,23 @@ class JetUtil < SupplierUtil
     super
   end
 
+  def self.get_product_description(url)
+    require 'net/http'
+    begin
+      res = Net::HTTP.get_response(URI.parse(url))
+      case res
+      when Net::HTTPSuccess 
+        return self.sanitize_product_description(res.body)
+      else 
+        return nil # do nothing!
+      end
+    rescue Exception => e # For SocketErrors, failed name lookups etc.
+      return nil
+    end
+  end
 
+  def self.sanitize_product_description(description)
+    description = Sanitize.clean(description, Sanitize::Config::STIZUN)
+  end
 
 end
