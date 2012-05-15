@@ -40,7 +40,7 @@ class Product < ActiveRecord::Base
   
   # === AR callbacks
   before_save :calculate_rounding_component, :set_explicit_sale_state, :cache_calculations
-  after_create :try_to_get_product_files
+  after_create :try_to_get_product_files, :try_to_get_product_description
   before_save :update_notifications, :sync_supply_item_information
   
   def update_notifications

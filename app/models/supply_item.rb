@@ -226,11 +226,11 @@ class SupplyItem < ActiveRecord::Base
 
   def get_description
     description = nil
-    unless self.supplier.nil? or self.supplier.class_name.blank?
-      lib_path = Rails.root + "lib/#{self.supplier.class_name.underscore}" 
-      if File.exists?(lib_path)
+    unless self.supplier.nil? or self.supplier.utility_class_name.blank? or self.description_url.blank?
+      lib_path = Rails.root + "lib/#{self.supplier.utility_class_name.underscore}" 
+      if File.exists?("#{lib_path}.rb")
         require lib_path
-        description = self.supplier.class_name.constantize.get_product_description(self.description_url)
+        description = self.supplier.utility_class_name.constantize.get_product_description_from_url(self.description_url)
       end
     end
     return description

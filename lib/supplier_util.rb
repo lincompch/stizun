@@ -177,7 +177,8 @@ class SupplierUtil
     # TODO: Read actual tax percentage from import file and create class as needed
     si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
     si.stock = data[:stock_level].gsub("'","").to_i
-    si.image_url = "#{data[:image_url]}" unless data[:image_url].blank?
+    si.image_url = "#{data[:image_url].strip}" unless data[:image_url].blank?
+    si.description_url = "#{data[:description_url].strip}" unless data[:description_url].blank?
     si.category01 = "#{data[:category01]}"
     si.category02 = "#{data[:category02]}"
     si.category03 = "#{data[:category03]}"
@@ -192,7 +193,7 @@ class SupplierUtil
 
   # Return a safe, sanitized product description (HTML or text). Apply any transformations, special retrieval,
   # any type of data mangling in a method inside the supplier-specific subclass.
-  def get_product_description(url)
+  def get_product_description_from_url(url)
     return nil
   end
 

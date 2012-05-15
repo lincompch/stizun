@@ -4,7 +4,7 @@ class Sanitize
       :elements => [
         'h3','h4','h5','a', 'b', 'blockquote', 'br', 'cite', 'code', 'dd', 'dl', 'dt', 'em',
         'i', 'li', 'ol', 'p', 'pre', 'q', 'small', 'strike', 'strong', 'sub',
-        'sup', 'u', 'ul'],
+        'sup', 'u', 'ul', 'table', 'tr', 'td', 'th', 'tbody', 'thead', 'tfoot'],
 
       :attributes => {
         'a'          => ['href'],
@@ -21,7 +21,9 @@ class Sanitize
                                     :relative]},
         'blockquote' => {'cite' => ['http', 'https', :relative]},
         'q'          => {'cite' => ['http', 'https', :relative]}
-      }
+      },
+
+      :remove_contents => ['title']
     }
   end
 end

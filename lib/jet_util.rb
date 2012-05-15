@@ -23,6 +23,7 @@ class JetUtil < SupplierUtil
                       :manufacturer => 10, 
                       :weight => 8, 
                       :pdf_url => nil,
+                      :description_url => 14,
                       :product_link => nil, 
                       :category01 => 5, 
                       :category02 => 6, 
@@ -48,17 +49,20 @@ class JetUtil < SupplierUtil
     super
   end
 
-  def self.get_product_description(url)
+  def self.get_product_description_from_url(url)
     require 'net/http'
+    http_logger = Logger.new("#{Rails.root}/log/http_errors.log")
     begin
       res = Net::HTTP.get_response(URI.parse(url))
       case res
       when Net::HTTPSuccess 
-        return self.sanitize_product_description(res.body)
+        return self.sanitize_product_description(res.body.force_encoding("ISO-8859-1").encode("UTF-8")) # When jET change their encoding, you need to change this
       else 
+        http_logger.error("Could not retrieve description from #{url}. Response code was: #{res.code}")
         return nil # do nothing!
       end
     rescue Exception => e # For SocketErrors, failed name lookups etc.
+      http_logger.error("Could not retrieve description from #{url}. Exception was: #{e.to_s}")
       return nil
     end
   end
