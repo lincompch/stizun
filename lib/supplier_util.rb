@@ -187,13 +187,13 @@ class SupplierUtil
 
   # If you want to implement a live update method for your own supplier util, subclass this class and override
   # live_update to return an array of change hashes like ActiveRecord uses them.
-  def live_update(object)
+  def self.live_update(object)
     return nil
   end
 
   # Return a safe, sanitized product description (HTML or text). Apply any transformations, special retrieval,
   # any type of data mangling in a method inside the supplier-specific subclass.
-  def get_product_description_from_url(url)
+  def self.get_product_description_from_url(url)
     return nil
   end
 

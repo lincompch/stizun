@@ -40,9 +40,10 @@ class Product < ActiveRecord::Base
   
   # === AR callbacks
   before_save :calculate_rounding_component, :set_explicit_sale_state, :cache_calculations
-  after_create :try_to_get_product_files, :try_to_get_product_description
   before_save :update_notifications, :sync_supply_item_information
-  
+  before_create :try_to_get_product_description
+  after_create :try_to_get_product_files  
+
   def update_notifications
     price_relevant_fields = ["purchase_price", "sales_price"]
     relevant_changes = self.changes.keys & price_relevant_fields
@@ -525,8 +526,8 @@ class Product < ActiveRecord::Base
   # try to retrieve its product description from there and overwrite our own.
   def try_to_get_product_description
     unless self.supply_item.nil?
-      description = self.supply_item.get_description
-      self.update_attributes(:description => description) unless (description == false or description.blank? or description.nil?)
+      gotten_description = self.supply_item.get_description
+      self.description = gotten_description unless (gotten_description == false or gotten_description.blank? or gotten_description.nil?)
     end
   end
   

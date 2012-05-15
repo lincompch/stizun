@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'supplier_util'
+require 'nokogiri'
 
 class JetUtil < SupplierUtil
 
@@ -49,6 +50,8 @@ class JetUtil < SupplierUtil
     super
   end
 
+
+
   def self.get_product_description_from_url(url)
     require 'net/http'
     http_logger = Logger.new("#{Rails.root}/log/http_errors.log")
@@ -56,7 +59,16 @@ class JetUtil < SupplierUtil
       res = Net::HTTP.get_response(URI.parse(url))
       case res
       when Net::HTTPSuccess 
-        return self.sanitize_product_description(res.body.force_encoding("ISO-8859-1").encode("UTF-8")) # When jET change their encoding, you need to change this
+        description = self.sanitize_product_description(res.body.force_encoding("ISO-8859-1").encode("UTF-8")) # When jET change their encoding, you need to change this
+
+        # Normalize all headers above level 5 to level 5 -- looks like crap otherwise when used in our pages
+        description_html = Nokogiri::HTML(description)  
+        description_html.xpath("//h1").each{|header| header.name = "h5"}
+        description_html.xpath("//h2").each{|header| header.name = "h5"}
+        description_html.xpath("//h3").each{|header| header.name = "h5"}
+        description_html.xpath("//h4").each{|header| header.name = "h5"}
+
+        return description_html.to_s
       else 
         http_logger.error("Could not retrieve description from #{url}. Response code was: #{res.code}")
         return nil # do nothing!
