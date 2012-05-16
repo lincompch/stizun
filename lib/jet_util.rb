@@ -10,6 +10,7 @@ class JetUtil < SupplierUtil
     if @supplier.nil?
       @supplier = Supplier.new
       @supplier.name = "jET Schweiz IT AG"
+      @supplier.utility_class_name = "JetUtil"
       @supplier.save
     end
     @field_mapping = {:name01 => 1,
@@ -63,10 +64,10 @@ class JetUtil < SupplierUtil
 
         # Normalize all headers above level 5 to level 5 -- looks like crap otherwise when used in our pages
         description_html = Nokogiri::HTML(description)  
-        description_html.xpath("//h1").each{|header| header.name = "h5"}
-        description_html.xpath("//h2").each{|header| header.name = "h5"}
-        description_html.xpath("//h3").each{|header| header.name = "h5"}
-        description_html.xpath("//h4").each{|header| header.name = "h5"}
+        description_html = description_html.xpath("//h1").each{|header| header.name = "h5"}
+        description_html = description_html.xpath("//h2").each{|header| header.name = "h5"}
+        description_html = description_html.xpath("//h3").each{|header| header.name = "h5"}
+        description_html = description_html.xpath("//h4").each{|header| header.name = "h5"}
 
         return description_html.to_s
       else 
