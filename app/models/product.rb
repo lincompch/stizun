@@ -345,11 +345,11 @@ class Product < ActiveRecord::Base
 
   def applicable_margin_percentage_for_price(price)
     if !self.margin_ranges.empty?
-      MarginRange.percentage_for_price(self.margin_ranges, price)
+      MarginRange.percentage_for_price(price, self.margin_ranges)
     elsif !self.supplier.margin_ranges.empty?
-      MarginRange.percentage_for_price(supplier.margin_ranges, price)
+      MarginRange.percentage_for_price(price, supplier.margin_ranges)
     else
-      MarginRange.percentage_for_price(MarginRange.where(:supplier_id => nil, :product_id => nil), price)
+      MarginRange.percentage_for_price(price, MarginRange.where(:supplier_id => nil, :product_id => nil))
     end
   end
 

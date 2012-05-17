@@ -3,7 +3,7 @@ class MarginRange < ActiveRecord::Base
   belongs_to :supplier
   belongs_to :product
 
-  def self.percentage_for_price(ranges, price)
+  def self.percentage_for_price(price, ranges = nil)
     percentage = 5.0
     price = price.to_i
     ranges = MarginRange.where(:supplier_id => nil, :product_id => nil) if ranges.nil?
