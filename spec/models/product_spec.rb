@@ -134,6 +134,23 @@ describe Product do
       p2.purchase_price.should == BigDecimal("40.0")
       p2.stock.should == 70
     end
+
+    it "should, when switching supply items, change its name to match the naming style of the supply item it is being switched to" do
+
+      product = Fabricate(:product, :name => 'Product One')
+      product.name.should == "Product One"
+      supply_item1 = Fabricate(:supply_item, :name => 'Style of Supply Item One')
+      supply_item2 = Fabricate(:supply_item, :name => 'Style of Supply Item Two')
+      
+      product.supply_item = supply_item1
+      product.save
+      product.name.should == "Style of Supply Item One"
+
+      product.supply_item = supply_item2
+      product.save
+      product.name.should == "Style of Supply Item Two"
+    end
+
   end
   
   describe "a componentized product" do
