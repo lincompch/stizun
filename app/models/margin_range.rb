@@ -1,14 +1,20 @@
 class MarginRange < ActiveRecord::Base
   
-  def self.percentage_for_price(price)
+  belongs_to :supplier
+  belongs_to :product
+
+  def self.percentage_for_price(ranges, price)
     percentage = 5.0
     price = price.to_i
-    range = self.where("start_price <= ? AND end_price >= ?", price, price).first
+    ranges = MarginRange.where(:supplier_id => nil, :product_id => nil) if ranges.nil?
+    range = ranges.where("start_price <= ? AND end_price >= ?", price, price).first
     if range.nil?
-      range = self.where("start_price IS ? AND end_price IS ?", nil, nil).first 
+      range = ranges.where("start_price IS ? AND end_price IS ?", nil, nil).first 
     end
     percentage = range.margin_percentage unless range.nil?
     return percentage
   end
   
+
+
 end

@@ -27,6 +27,8 @@ class Product < ActiveRecord::Base
   
   belongs_to :supplier
   
+  has_many :margin_ranges
+
   has_many :notifications
   has_many :users, :through => :notifications
  
@@ -187,7 +189,7 @@ class Product < ActiveRecord::Base
         end
       end
                   
-      margin = (purchase_price / BigDecimal.new("100.0")) * MarginRange.percentage_for_price(purchase_price) # Must call MarginRange#percentage_for_price explicitly, not through self.margin_percentage, because otherwise an infinite loop occurs
+      margin = (purchase_price / BigDecimal.new("100.0")) * self.applicable_margin_percentage_for_price(purchase_price) # Must call MarginRange#percentage_for_price explicitly, not through self.margin_percentage, because otherwise an infinite loop occurs
       gross_price = purchase_price + margin
       
       margin = BigDecimal.new(margin.to_s)
@@ -341,8 +343,21 @@ class Product < ActiveRecord::Base
     BigDecimal.new(percentage.to_s)
   end
 
+  def applicable_margin_percentage_for_price(price)
+    if !self.margin_ranges.empty?
+      MarginRange.percentage_for_price(self.margin_ranges, price)
+    elsif !self.supplier.margin_ranges.empty?
+      MarginRange.percentage_for_price(supplier.margin_ranges, price)
+    else
+      MarginRange.percentage_for_price(MarginRange.where(:supplier_id => nil, :product_id => nil), price)
+    end
+  end
+
   def margin_percentage
-    MarginRange.percentage_for_price(self.purchase_price)
+    #MarginRange.percentage_for_price(self.purchase_price)
+    self.applicable_margin_percentage_for_price(self.purchase_price)
+    
+
   end
     
   # Boolean statuses that need processing (non-trivial booleans that can't be handled by ActiveRecord itself)
