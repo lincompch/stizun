@@ -1,8 +1,16 @@
-<h1>New margin range</h1>
+<h1>New Margin Range</h1>
+
+<% if @product %>
+  <h2>Specific for product: <%= @product.to_s %></h2>
+<% elsif @supplier %>
+  <h2>Specific for supplier: <%= @supplier.name %></h2>
+<% else %>
+  <h2>Non-specific, system-wide default margin range</h2>
+<% end %>
+
 
 <%= form_for([:admin, @margin_range]) do |f| %>
   <%= f.error_messages %>
-
 
   <table>
    <tr>
@@ -19,9 +27,10 @@
     </tr>
   </table>  
 
+  <%= f.hidden_field :supplier_id %>
+  <%= f.hidden_field :product_id %>
+
   <p>
     <%= f.submit 'Create' %>
   </p>
 <% end %>
-
-<%= link_to 'Back', admin_margin_ranges_path %>

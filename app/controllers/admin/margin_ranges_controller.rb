@@ -2,7 +2,19 @@ class Admin::MarginRangesController < Admin::BaseController
   # GET /margin_ranges
   # GET /margin_ranges.xml
   def index
-    @margin_ranges = MarginRange.order("start_price ASC, end_price ASC")
+
+    conditions = {:supplier_id => nil, :product_id => nil}
+    if params[:supplier_id]
+      conditions.merge!(:supplier_id => params[:supplier_id])
+      @supplier = Supplier.find(params[:supplier_id])
+    end
+
+    if params[:product_id]
+      conditions.merge!(:product_id => params[:product_id])
+      @product = Supplier.find(params[:supplier_id])
+    end
+
+    @margin_ranges = MarginRange.where(conditions).order("start_price ASC, end_price ASC")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +25,18 @@ class Admin::MarginRangesController < Admin::BaseController
   # GET /margin_ranges/new
   # GET /margin_ranges/new.xml
   def new
-    @margin_range = MarginRange.new
+    conditions = {}
+    if params[:supplier_id]
+      conditions.merge!(:supplier_id => params[:supplier_id])
+      @supplier = Supplier.find(params[:supplier_id])
+    end
+
+    if params[:product_id]
+      conditions.merge!(:product_id => params[:product_id])
+      @product = Supplier.find(params[:supplier_id])
+    end
+
+    @margin_range = MarginRange.new(conditions)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -24,6 +47,8 @@ class Admin::MarginRangesController < Admin::BaseController
   # GET /margin_ranges/1/edit
   def edit
     @margin_range = MarginRange.find(params[:id])
+    @product = @margin_range.product if @margin_range.product
+    @supplier = @margin_range.supplier if @margin_range.supplier
   end
 
   # POST /margin_ranges
@@ -34,10 +59,10 @@ class Admin::MarginRangesController < Admin::BaseController
     respond_to do |format|
       if @margin_range.save
         flash[:notice] = 'MarginRange was successfully created.'
-        format.html { redirect_to(admin_margin_ranges_path()) }
+        format.html { redirect_to(admin_margin_ranges_path(:supplier_id => @margin_range.supplier_id, :product_id => @margin_range.product_id)) }
         format.xml  { render :xml => @margin_range, :status => :created, :location => @margin_range }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "new", :supplier_id => @margin_range.supplier_id, :product_id => @margin_range.product_id }
         format.xml  { render :xml => @margin_range.errors, :status => :unprocessable_entity }
       end
     end
@@ -47,14 +72,16 @@ class Admin::MarginRangesController < Admin::BaseController
   # PUT /margin_ranges/1.xml
   def update
     @margin_range = MarginRange.find(params[:id])
+    @product = @margin_range.product if @margin_range.product
+    @supplier = @margin_range.supplier if @margin_range.supplier
 
     respond_to do |format|
       if @margin_range.update_attributes(params[:margin_range])
         flash[:notice] = 'MarginRange was successfully updated.'
-        format.html { redirect_to(admin_margin_ranges_path()) }
+        format.html { redirect_to(admin_margin_ranges_path(:supplier_id => @margin_range.supplier_id, :product_id => @margin_range.product_id)) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => "edit", :supplier_id => @margin_range.supplier_id, :product_id => @margin_range.product_id }
         format.xml  { render :xml => @margin_range.errors, :status => :unprocessable_entity }
       end
     end
@@ -67,7 +94,7 @@ class Admin::MarginRangesController < Admin::BaseController
     @margin_range.destroy
 
     respond_to do |format|
-      format.html { redirect_to(admin_margin_ranges_url) }
+      format.html { redirect_to(admin_margin_ranges_url(:supplier_id => @margin_range.supplier_id, :product_id => @margin_range.product_id)) }
       format.xml  { head :ok }
     end
   end

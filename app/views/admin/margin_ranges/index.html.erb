@@ -1,11 +1,20 @@
-<h1>Listing margin_ranges</h1>
+<h1>Listing Margin Ranges</h1>
+
+<% if @product %>
+  <h2>Specific for product: <%= @product.to_s %></h2>
+<% elsif @supplier %>
+  <h2>Specific for supplier: <%= @supplier.name %></h2>
+<% else %>
+  <h2>Non-specific, system-wide default margin ranges</h2>
+<% end %>
+
 
 <table>
   <tr style="height: 25px;">
-    <td>Price from</td>
-    <td>Price to</td>
-    <td>Percentage</td>
-    <td></td><td></td><td></td>
+    <th>Price from</th>
+    <th>Price to</th>
+    <th>Percentage</th>
+    <th></th><th></th>
   </tr>
 
 <% @margin_ranges.each do |margin_range| %>
@@ -21,4 +30,11 @@
 
 <br />
 
-<%= link_to 'New margin range', new_admin_margin_range_path %>
+<% if params[:supplier_id] %>
+  <%= link_to 'New margin range', new_admin_supplier_margin_range_path(:supplier_id => params[:supplier_id]) %>
+<% elsif params[:product_id] %>
+  <%= link_to 'New margin range', new_admin_product_margin_range_path(:product_id => params[:product_id]) %>
+<% else %>
+  <%= link_to 'New margin range', new_admin_margin_range_path %>
+<% end %>
+ 
