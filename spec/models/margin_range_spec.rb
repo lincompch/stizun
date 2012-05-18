@@ -66,6 +66,7 @@ describe MarginRange do
     it "should re-save all products affected by a product- or supplier-specific margin range creation or deletion, so that their cached prices are updated" do
       supplier = Fabricate(:supplier)
 
+
       product1 = Fabricate.build(:product, :purchase_price => 100.0)
       product1.supplier = supplier
       product1.save.should == true
@@ -73,6 +74,9 @@ describe MarginRange do
       product2 = Fabricate.build(:product, :purchase_price => 200.0)
       product2.supplier = supplier
       product2.save.should == true
+
+      MarginRange.destroy_all # In case Fabricate is messing things up
+      MarginRange.count.should == 0
 
       # right now it uses the hard-coded margin range, since there was no applicable margin range defined yet.
 
