@@ -189,7 +189,7 @@ class Product < ActiveRecord::Base
         end
       end
                   
-      margin = (purchase_price / BigDecimal.new("100.0")) * self.applicable_margin_percentage_for_price(purchase_price) # Must call MarginRange#percentage_for_price explicitly, not through self.margin_percentage, because otherwise an infinite loop occurs
+      margin = (purchase_price / BigDecimal.new("100.0")) * self.applicable_margin_percentage_for_price(purchase_price) # Must not call through self.margin_percentage, because otherwise an infinite loop occurs
       gross_price = purchase_price + margin
       
       margin = BigDecimal.new(margin.to_s)

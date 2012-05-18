@@ -2,6 +2,8 @@ class MarginRange < ActiveRecord::Base
   
   belongs_to :supplier
   belongs_to :product
+  after_save :recalculate_affected_products
+
 
   validate :cannot_be_for_supplier_and_product_simultaneously
 
@@ -15,6 +17,36 @@ class MarginRange < ActiveRecord::Base
     end
     percentage = range.margin_percentage unless range.nil?
     return percentage
+  end
+
+  def recalculate_affected_products
+    unless self.product.nil?
+      puts "saving #{self.product} due to product margin range change"
+      self.product.reload.save
+    end
+    
+    unless self.supplier.nil?
+      Product.suspended_delta do
+        self.supplier.products.each do |p|
+          puts "saving #{p} due to supplier's margin range change"
+          p.reload.save
+        end
+      end
+    end
+
+    if self.product.nil? and self.supplier.nil?
+      unaffected_products = []
+      unaffected_products << MarginRange.where("supplier_id IS NOT NULL").select{|mr| mr.supplier.products}
+      unaffected_products << MarginRange.where("product_id IS NOT NULL").select{|mr| mr.product}
+      affected_products = Product.all - unaffected_products
+      Product.suspended_delta do
+        affected_products.each do |p|
+          puts "saving #{p} due to global margin range change"
+          p.reload.save
+        end
+      end      
+    end
+
   end
 
   def cannot_be_for_supplier_and_product_simultaneously
