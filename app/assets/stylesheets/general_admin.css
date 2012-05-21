@@ -115,6 +115,11 @@ tr th {
     text-align: left;
 }
 
+th {
+    border: 1px solid #e1e1e1;
+}
+
+
 tr.odd td {
   background-color: #ededed;
 }

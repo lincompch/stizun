@@ -55,7 +55,44 @@ describe Product do
       File.exist?(pdf_path).should == true
     end
     
-    
+    it "should use the most specific margin range available to it for price calculation" do
+      supplier = Fabricate(:supplier)
+
+      product = Fabricate.build(:product)
+      product.purchase_price = 100.0
+      product.supplier = supplier
+      product.save.should == true
+
+      # default system-wide margin range
+      mr0 = Fabricate.build(:margin_range)
+      mr0.start_price = nil
+      mr0.end_price = nil
+      mr0.margin_percentage = 10.0
+      mr0.save.should == true
+
+      product.margin_percentage.should == 10.0
+      
+      mr1 = Fabricate.build(:margin_range)
+      mr1.start_price = nil
+      mr1.end_price = nil
+      mr1.supplier = supplier
+      mr1.margin_percentage = 20.0
+      mr1.save.should == true
+      supplier.reload
+      product.margin_percentage.should == 20.0
+
+      mr2 = Fabricate.build(:margin_range)
+      mr2.start_price = nil
+      mr2.end_price = nil
+      mr2.product = product
+      mr2.margin_percentage = 30.0
+      mr2.save.should == true
+      product.reload
+
+      product.margin_percentage.should == 30.0
+
+    end
+
     # When a product switches to a supply item from another supplier (that has the same
     # manufacturer product code, of course), all the related data in the product
     # should update as well on save.
@@ -134,6 +171,23 @@ describe Product do
       p2.purchase_price.should == BigDecimal("40.0")
       p2.stock.should == 70
     end
+
+    it "should, when switching supply items, change its name to match the naming style of the supply item it is being switched to" do
+
+      product = Fabricate(:product, :name => 'Product One')
+      product.name.should == "Product One"
+      supply_item1 = Fabricate(:supply_item, :name => 'Style of Supply Item One')
+      supply_item2 = Fabricate(:supply_item, :name => 'Style of Supply Item Two')
+      
+      product.supply_item = supply_item1
+      product.save
+      product.name.should == "Style of Supply Item One"
+
+      product.supply_item = supply_item2
+      product.save
+      product.name.should == "Style of Supply Item Two"
+    end
+
   end
   
   describe "a componentized product" do
