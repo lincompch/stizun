@@ -15,7 +15,7 @@ class AlltronUtil < SupplierUtil
     end
     @field_mapping = {:name01 => 2, # 'Bezeichung',
                       :name02 => 3, #'Bezeichung 2',
-                      :name03 => nil,
+                      :name03 => 11,
                       :description01 => 8, #'Webtext',
                       :description02 => 9, #'Webtext 2',
                       :supplier_product_code => 0, #'Artikelnummer 2',
