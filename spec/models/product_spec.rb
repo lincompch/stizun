@@ -63,6 +63,8 @@ describe Product do
       product.supplier = supplier
       product.save.should == true
 
+      MarginRange.destroy_all # Sometimes Fabricate goes a little overboard creating associated records
+
       # default system-wide margin range
       mr0 = Fabricate.build(:margin_range)
       mr0.start_price = nil
@@ -254,6 +256,7 @@ describe Product do
     end
 
     it "should have correct taxes and sales price, based on the totals of all the constituent supply items' purchase prices plus a total margin" do
+      MarginRange.destroy_all
       mr = Fabricate(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
       p = Fabricate.build(:product)
       p.name = "Ye Olde Wooden PC"
