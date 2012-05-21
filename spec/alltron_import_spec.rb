@@ -25,7 +25,7 @@ describe AlltronUtil do
       supplier = Supplier.where(:name => 'Alltron AG').first
 
 
-      supply_item_should_be(supplier, 1289, { :name => "Transferrolle z.Telefax Brother Fax 910-930 ca. 2x230 Kopien (PC72RF)",
+      supply_item_should_be(supplier, 1289, { :name => "Transferrolle z.Telefax Brother Fax 910-930 ca. 2x230 Kopien (PC302RF)",
                                               :category01 => "Büromaterial/-bedarf",
                                               :category02 => "Bürogeräte",
                                               :category03 => "Fax",
