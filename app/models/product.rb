@@ -592,18 +592,20 @@ class Product < ActiveRecord::Base
     cheaper_supply_items = []
     unless self.supply_item.nil?
       #cheaper_supply_items = SupplyItem.available.where(:manufacturer_product_code => self.supply_item.manufacturer_product_code).where("purchase_price < ?", self.supply_item.purchase_price.to_f)
-      if supply_item.supplier and !supply_item.supplier.margin_ranges.empty?
-        margin_ranges = supply_item.supplier.margin_ranges
-      else
-        margin_ranges = MarginRange.where(:supplier_id => nil, :product_id => nil)
-      end
+      
 
       potentially_cheaper_supply_items = SupplyItem.available.where(:manufacturer_product_code => self.supply_item.manufacturer_product_code)
       
-      cheaper_supply_items = potentially_cheaper_supply_items.select{|si| 
+      cheaper_supply_items = potentially_cheaper_supply_items.select{|si|
+        if si.supplier and !si.supplier.margin_ranges.empty?
+          margin_ranges = si.supplier.margin_ranges
+        else
+          margin_ranges = MarginRange.system_wide_ranges
+        end
         price = si.purchase_price
         margin_percentage = MarginRange.percentage_for_price(price, margin_ranges)
-        si if (price + (price / BigDecimal.new("100.0")) * margin_percentage) < self.gross_price
+        margin = (price / BigDecimal.new("100.0")) * margin_percentage
+        si if (price + margin) < self.gross_price
       }
     end
     return cheaper_supply_items

@@ -94,6 +94,41 @@ describe SupplyItem do
       expensive_supply_item.product.cheaper_supply_item_available?.should == false      
     end
 
+    it "should not offer a supply item as cheaper if the margin makes it more expensive" do
+      expensive_supplier = Fabricate(:supplier, :name => 'Expensive Supplier')
+
+      cheap_supplier = Fabricate(:supplier, :name => 'Cheap Supplier')
+
+      margin_range = Fabricate.build(:margin_range)
+      margin_range.start_price = nil
+      margin_range.end_price = nil
+      margin_range.margin_percentage = 50.0
+      margin_range.supplier = cheap_supplier
+      margin_range.save
+
+      expensive_supply_item = Fabricate(:supply_item, :purchase_price => 2000.00, 
+                                        :supplier => expensive_supplier, :supplier_product_code => '1234', 
+                                        :manufacturer_product_code => 'ABC123',
+                                        :description => 'This is expensive',
+                                        :weight => 1.5)
+
+      cheap_supply_item = Fabricate(:supply_item, :purchase_price => 1700.00, 
+                                    :supplier => cheap_supplier, :supplier_product_code => '8379', 
+                                    :manufacturer_product_code => 'ABC123',
+                                    :description => 'This looks cheaper on the surface, but is more expensive with margin',
+                                    :weight => 1.2)
+
+      
+      expensive_product = Product.new_from_supply_item(expensive_supply_item)
+      expensive_product.save.should == true
+      expensive_product.cheaper_supply_items.count.should == 0
+      expensive_product.cheaper_supply_items.include?(cheap_supply_item).should == false
+      
+      expensive_supply_item.product.should_not == nil
+      expensive_supply_item.product.cheaper_supply_item_available?.should == false      
+    end
+
+
 
   end
 

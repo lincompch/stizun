@@ -7,6 +7,10 @@ class MarginRange < ActiveRecord::Base
 
   validate :cannot_be_for_supplier_and_product_simultaneously
 
+  def self.system_wide_ranges
+    MarginRange.where(:supplier_id => nil, :product_id => nil)
+  end
+
   def self.percentage_for_price(price, ranges = nil)
     percentage = 5.0
     price = price.to_i
