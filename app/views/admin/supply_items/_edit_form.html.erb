@@ -3,6 +3,10 @@
   <td><%= f.label :name, "Name" %></td>
   <td><%= f.text_field :name, :size => 100 %></td>
 </tr>
+<tr>
+  <td><%= f.label :manufacturer, "Manufacturer" %></td>
+  <td><%= f.text_field :manufacturer, :size => 100 %></td>
+</tr>
 
 <tr>
   <td><%= f.label :description, "Description" %></td>
@@ -12,6 +16,21 @@
 <tr>
   <td><%= f.label :description_url, "Description URL" %></td>
   <td><%= f.text_field :description_url, :size => 150 %></td>
+</tr>
+
+<tr>
+  <td><%= f.label :supplier_product_code, "Supplier Product Code" %></td>
+  <td><%= f.text_field :supplier_product_code, :size => 40 %></td>
+</tr>
+
+<tr>
+  <td><%= f.label :manufacturer_product_code, "Manufacturer Product Code" %></td>
+  <td><%= f.text_field :manufacturer_product_code, :size => 40 %></td>
+</tr>
+
+<tr>
+  <td><%= f.label :stock, "Stock" %></td>
+  <td><%= f.text_field :stock, :size => 4 %></td>
 </tr>
 
 <tr>
