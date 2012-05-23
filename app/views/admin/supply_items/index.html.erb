@@ -1,5 +1,9 @@
 <h2>Supply items for <%= @supplier.name %></h2>
 
+<p>
+  <%= link_to 'Create new Supply Item', new_admin_supplier_supply_item_path(@supplier) %>
+</p>
+
 <%= form_tag({:action => 'index'}, {:method => 'get'}) do %>
   <p>Search for: <%= text_field :search, :keyword, :size => 25 %> <%= submit_tag 'Search' %></p>
 

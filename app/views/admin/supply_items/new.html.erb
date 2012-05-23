@@ -1,0 +1,11 @@
+<h1>Create Supply Item</h1>
+
+<h2>For supplier: <%= @supplier.name %></h2>
+
+<%= error_messages_for(@supply_item) %>
+
+<%= form_for([:admin, @supplier, @supply_item]) do |f| %>
+<%= render :partial => 'edit_form', :locals => {:f => f} %>
+
+<%= f.submit 'Create' %>
+<% end %>

@@ -1,9 +1,15 @@
 <h1>Edit Supply Item</h1>
 <h2><%= @supply_item.name %></h2>
 
+<%= error_messages_for(@supply_item) %>
 
 <%= form_for([:admin, @supply_item.supplier, @supply_item]) do |f| %>
 <%= render :partial => 'edit_form', :locals => {:f => f} %>
 
 <%= f.submit 'Save' %>
 <% end %>
+
+<p>
+  <%= link_to 'Create new Supply Item', new_admin_supplier_supply_item_path(@supply_item.supplier) %>
+  <%= link_to "Supply items for #{@supply_item.supplier.name}", admin_supplier_supply_items_path(@supply_item.supplier) %>
+</p>

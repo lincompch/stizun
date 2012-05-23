@@ -30,13 +30,40 @@ class Admin::SupplyItemsController < Admin::BaseController
     @updated = @supply_item.update_attributes(params[:supply_item])
 
     respond_to do |format|
-      format.html
+      format.html do
+        if @updated == true
+          flash[:notice] = "Supply item saved"
+          render :action => 'edit'
+        else
+          flash[:error] = "Couldn't save supply item."
+          render :action => 'edit'
+        end
+      end
       format.js {render :layout => false}
+    end
+  end
+
+  def new
+    @supply_item = SupplyItem.new
+    @supplier = Supplier.find(params[:supplier_id])
+  end
+
+  def create
+    @supply_item = SupplyItem.new(params[:supply_item])
+    @supplier = Supplier.find(params[:supplier_id])
+    @supply_item.supplier = @supplier
+    if @supply_item.save
+      flash[:notice] = "Supply Item created"
+      redirect_to :action => 'edit', :supplier => @supplier, :id => @supply_item
+    else
+      flash[:error] = "Couldn't create supply item"
+      render :action => 'new'
     end
   end
 
   def edit
     @supply_item = SupplyItem.find(params[:id])
+    @supplier = @supply_item.supplier
   end
 
 

@@ -16,6 +16,7 @@
       <%= link_to 'Show', admin_supplier_path(supplier) %> | 
       <%= link_to 'Edit', edit_admin_supplier_path(supplier) %> |
       <%= link_to 'Supply Items', admin_supplier_supply_items_path(supplier) %> (<%= supplier.supply_items.count %>) |
+      <%= link_to 'Create Supply Item', new_admin_supplier_supply_item_path(supplier) %> |
       <%= link_to 'Margin Ranges', admin_supplier_margin_ranges_path(supplier) %> (<%= supplier.margin_ranges.count %>)
     </td>
     <td>
