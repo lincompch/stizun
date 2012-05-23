@@ -1,7 +1,5 @@
 class SupplyItem < ActiveRecord::Base
 
-  validates_presence_of :name 
-  validates_numericality_of :stock, :purchase_price
 
   belongs_to :tax_class
   belongs_to :supplier
