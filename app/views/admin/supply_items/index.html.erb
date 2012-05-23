@@ -46,7 +46,8 @@
     <td><%= extended_status_links(item) %></td>
     <td class="price"><%= item.purchase_price %></td>
     <td>
-      <%= link_to 'Create Product', new_from_supply_item_admin_products_path(:supply_item_id => item), :class => 'fancybox' %>
+      <%= link_to 'Edit Supply Item', edit_admin_supplier_supply_item_path(item.supplier, item) %> |
+      <%= link_to 'Create Product', new_from_supply_item_admin_products_path(:supply_item_id => item), :class => 'fancybox' %> |
       <%= link_to 'Edit Product', edit_admin_product_path(item.product), :class => 'fancybox' unless item.product.nil? %>
     </td>
   </tr>

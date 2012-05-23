@@ -30,8 +30,13 @@ class Admin::SupplyItemsController < Admin::BaseController
     @updated = @supply_item.update_attributes(params[:supply_item])
 
     respond_to do |format|
+      format.html
       format.js {render :layout => false}
     end
+  end
+
+  def edit
+    @supply_item = SupplyItem.find(params[:id])
   end
 
 
