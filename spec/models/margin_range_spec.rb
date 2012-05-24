@@ -63,7 +63,7 @@ describe MarginRange do
       p3.margin_percentage.to_s.should == "5.0"
     end
     
-    it "should re-save all products affected by a product- or supplier-specific margin range creation or deletion, so that their cached prices are updated" do
+    it "should be able to re-save all products affected by a product- or supplier-specific margin range creation or deletion, so that their cached prices are updated" do
       supplier = Fabricate(:supplier)
 
 
@@ -87,6 +87,8 @@ describe MarginRange do
       mr0.margin_percentage = 10.0
       mr0.save.should == true
       MarginRange.count.should == 1
+    
+      mr0.recalculate_affected_products
 
       product1.reload
       product1.margin.to_f.should == 10.0
@@ -98,6 +100,7 @@ describe MarginRange do
       product2.gross_price.to_f.should == 220.0
       product2.taxed_price.to_f.should == 264.0 # Plus 20% taxes
 
+
       mr1 = Fabricate.build(:margin_range)
       mr1.start_price = nil
       mr1.end_price = nil
@@ -105,6 +108,8 @@ describe MarginRange do
       mr1.margin_percentage = 20.0
       mr1.save.should == true
       MarginRange.count.should == 2
+
+      mr1.recalculate_affected_products
 
       supplier.reload
       product1.reload
@@ -132,6 +137,9 @@ describe MarginRange do
       mr3.margin_percentage = 30.0
       mr3.save.should == true
       MarginRange.count.should == 4
+
+      mr2.recalculate_affected_products
+      mr3.recalculate_affected_products
 
       product1.reload
       product2.reload
