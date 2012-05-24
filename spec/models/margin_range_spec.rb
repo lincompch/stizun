@@ -88,7 +88,8 @@ describe MarginRange do
       mr0.save.should == true
       MarginRange.count.should == 1
     
-      mr0.recalculate_affected_products
+      #mr0.recalculate_affected_products
+      MarginRange.recalculate_recently_changed_products
 
       product1.reload
       product1.margin.to_f.should == 10.0
@@ -109,7 +110,9 @@ describe MarginRange do
       mr1.save.should == true
       MarginRange.count.should == 2
 
-      mr1.recalculate_affected_products
+#      mr1.recalculate_affected_products
+      MarginRange.recalculate_recently_changed_products
+
 
       supplier.reload
       product1.reload
@@ -138,8 +141,10 @@ describe MarginRange do
       mr3.save.should == true
       MarginRange.count.should == 4
 
-      mr2.recalculate_affected_products
-      mr3.recalculate_affected_products
+ #     mr2.recalculate_affected_products
+ #     mr3.recalculate_affected_products
+
+      MarginRange.recalculate_recently_changed_products
 
       product1.reload
       product2.reload
