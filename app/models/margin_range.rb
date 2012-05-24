@@ -23,6 +23,46 @@ class MarginRange < ActiveRecord::Base
     return percentage
   end
 
+  def self.recalculate_recently_changed_products
+    ranges_to_recalculate = MarginRange.where("recalculated_at IS NULL or recalculated_at < ?", DateTime.now - 30.minutes)
+    ranges_to_recalculate.each do |range|
+
+      unless range.supplier.nil?
+        Product.suspended_delta do
+          range.supplier.products.each do |p|
+            puts "saving #{p} due to supplier's margin range change"
+            p.reload.save
+          end
+        end
+        range.recalculated_at = DateTime.now
+        range.save
+      end
+
+      unless range.product.nil?
+        puts "saving #{range.product} due to product margin range change"
+        range.product.reload.save
+        range.recalculated_at = DateTime.now
+        range.save        
+      end
+      
+      if range.product.nil? and range.supplier.nil?
+        unaffected_products = []
+        unaffected_products << MarginRange.where("supplier_id IS NOT NULL").select{|mr| mr.supplier.products}
+        unaffected_products << MarginRange.where("product_id IS NOT NULL").select{|mr| mr.product}
+        affected_products = Product.all - unaffected_products
+        Product.suspended_delta do
+          affected_products.each do |p|
+            puts "saving #{p} due to global margin range change"
+            p.reload.save
+          end
+        end    
+        range.recalculated_at = DateTime.now
+        range.save
+      end     
+
+    end
+  end
+
   def recalculate_affected_products
     unless self.product.nil?
       puts "saving #{self.product} due to product margin range change"
