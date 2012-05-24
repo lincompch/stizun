@@ -36,6 +36,12 @@ class MarginRange < ActiveRecord::Base
         end
         range.recalculated_at = DateTime.now
         range.save
+        # This supplier is already taken care of now
+        range.supplier.margin_ranges.each do |mr|
+          mr.recalculated_at = DateTime.now
+          mr.save
+          ranges_to_recalculate.delete(mr)
+        end
       end
 
       unless range.product.nil?
