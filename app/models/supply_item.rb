@@ -1,13 +1,18 @@
 class SupplyItem < ActiveRecord::Base
 
+  validates_presence_of :stock, :weight, :name
+  validates_numericality_of :stock, :weight, :purchase_price
 
   belongs_to :tax_class
   belongs_to :supplier
   has_one :product
 
+  after_initialize :set_default_values
+
   before_create :set_status_to_available_if_nil
   before_save :normalize_stock, :handle_supply_item_deletion
   after_save :generate_categories
+
 
   def self.per_page
     return 100
@@ -107,11 +112,15 @@ class SupplyItem < ActiveRecord::Base
     }
   }
 
+  def set_default_values
+    self.weight ||= 0.0
+    self.stock ||= 0
+  end    
+
   def self.category_tree(supplier)
     all_categories = distinct_categories.where(:supplier_id => supplier).map(&:category_string)
     sub_categories = []
     all_categories.each do |category_string|
-      puts category_string.inspect
       categories = category_string.split(" :: ").each(&:strip)
       categories.inject([]) do |string, cat|
         string << cat
