@@ -122,5 +122,44 @@ describe IngramUtil do
       product.available?.should == false
 
     end
+
+    # *Supply Item, das einst "not available" war, erscheint wieder im CSV-File*
+    it "should re-enable products if their supply items become available again" do
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/supply_item_reappears_01.csv")
+      sup1 = SupplyItem.where(:supplier_product_code => "0180009").first
+      sup2 = SupplyItem.where(:supplier_product_code => "0180014").first
+
+      prod1 = Product.new_from_supply_item(sup1)
+      prod1.save
+      prod2 = Product.new_from_supply_item(sup2)
+      prod2.save
+
+      IngramTestHelper.update_from_file(Rails.root + "spec/data/supply_item_reappears_02.csv")
+
+      sup1.status_constant.should == SupplyItem::AVAILABLE
+      sup2.reload
+      sup2.status_constant.should == SupplyItem::DELETED
+      
+      prod1.reload.is_available.should == true
+      prod2.reload.is_available.should == false
+
+      IngramTestHelper.update_from_file(Rails.root + "spec/data/supply_item_reappears_03.csv")
+
+      sup1.status_constant.should == SupplyItem::AVAILABLE
+      sup2.reload
+      sup2.status_constant.should == SupplyItem::AVAILABLE
+      
+      prod1.reload.is_available.should == true
+      prod2.reload.is_available.should == true
+    end
+
+    # *Supply Item erhält danach wieder Stückzahl über 0*
+    it "should re-enable products if their stock count goes over 0 again" do
+
+    end
+
+    it "should check if a changed price makes a supply item cheaper than an existing one, then it should change the product to that" do
+    end
+
   end
 end

@@ -1,3 +1,4 @@
+
 class SupplyItem < ActiveRecord::Base
 
   #validates_presence_of :stock, :weight, :name
@@ -9,7 +10,7 @@ class SupplyItem < ActiveRecord::Base
 
  
   before_create :set_status_to_available_if_nil
-  before_save :normalize_stock, :handle_supply_item_deletion
+  before_save :normalize_stock, :handle_supply_item_deletion, :handle_supply_item_reactivation
   after_save :generate_categories
 
 
@@ -215,6 +216,18 @@ class SupplyItem < ActiveRecord::Base
       end
     end
   end
+
+  def handle_supply_item_reactivation
+    if self.status_constant_was == SupplyItem::DELETED and \
+       self.status_constant == SupplyItem::AVAILABLE
+
+      # Enable the product because its supply item has become available again.
+      unless self.product.blank?
+        self.product.enable_product
+      end
+    end
+  end
+
 
   def generate_categories
     categories = unless self.category01.blank? && self.category02.blank? && self.category03.blank?

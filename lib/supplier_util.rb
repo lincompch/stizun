@@ -69,7 +69,12 @@ class SupplierUtil
   def update_supply_items(filename = self.import_filename)
     available_supplier_product_codes = @supplier.supply_items.available.collect(&:supplier_product_code)
     to_delete = available_supplier_product_codes.dup
+
+    deleted_supplier_product_codes = @supplier.supply_items.deleted.collect(&:supplier_product_code)
+    to_reactivate = []
+
     item_hashes = []
+
 
     file = File.open(filename, "r")
     file.each do |line|
@@ -80,11 +85,15 @@ class SupplierUtil
         item_hashes << data
         to_delete -= [data[:supplier_product_code]] # Remove those items that were actually found, so we can delete the rest
       end
+      if deleted_supplier_product_codes.include?(data[:supplier_product_code])
+        item_hashes << data
+        to_reactivate += [data[:supplier_product_code]]
+      end
     end
     file.close
 
     SupplyItem.expire_category_tree_cache(@supplier)
-    #Update the local supply items information using the line from the CSV file
+    # Update the local supply item's information using the line from the CSV file
     SupplyItem.suspended_delta do
       # Deactivate the supply item if the line's not there anymore
       to_delete.each do |td|
@@ -95,6 +104,19 @@ class SupplierUtil
             supplier_logger.info("[#{DateTime.now.to_s}] Marked Supply Item as deleted: #{supply_item.to_s}")
           else
             supplier_logger.info("[#{DateTime.now.to_s}] Could not mark Supply Item as deleted: #{supply_item.to_s}: #{supply_item.errors.full_messages}")
+          end
+        end
+      end
+
+      # Deactivate the supply item if the line's not there anymore
+      to_reactivate.each do |td|
+        supply_item = @supplier.supply_items.where(:supplier_product_code => td).first
+        unless supply_item.nil?         
+          supply_item.status_constant = SupplyItem::AVAILABLE
+          if supply_item.save
+            supplier_logger.info("[#{DateTime.now.to_s}] Reactivated supply item because it reappared in the CSV file: #{supply_item.to_s}")
+          else
+            supplier_logger.info("[#{DateTime.now.to_s}] Could not reactivate supply item: #{supply_item.to_s}: #{supply_item.errors.full_messages}")
           end
         end
       end
