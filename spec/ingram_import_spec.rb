@@ -155,10 +155,33 @@ describe IngramUtil do
 
     # *Supply Item erhält danach wieder Stückzahl über 0*
     it "should re-enable products if their stock count goes over 0 again" do
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/supply_item_stock_comes_back_above_zero_01.csv")
+      sup = SupplyItem.where(:supplier_product_code => "0180009").first
+      prod = Product.new_from_supply_item(sup)
+      prod.save
 
+      IngramTestHelper.update_from_file(Rails.root + "spec/data/supply_item_stock_comes_back_above_zero_02.csv")
+      sup.reload
+      sup.stock.should == 0
+
+      Product.update_price_and_stock
+      prod.reload
+      prod.stock.should == 0
+      prod.is_available.should == true # It's available, but with 0 in stock
+
+      IngramTestHelper.update_from_file(Rails.root + "spec/data/supply_item_stock_comes_back_above_zero_03.csv")
+      sup.reload
+      sup.stock.should == 12
+
+      Product.update_price_and_stock
+
+      prod.reload
+      prod.stock.should == 12
+      prod.is_available.should == true
     end
 
     it "should check if a changed price makes a supply item cheaper than an existing one, then it should change the product to that" do
+      
     end
 
   end
