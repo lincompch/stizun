@@ -181,7 +181,36 @@ describe IngramUtil do
     end
 
     it "should check if a changed price makes a supply item cheaper than an existing one, then it should change the product to that" do
+
+      # The item 123XXX45 costs 5.00 at both places at the moment
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/supply_item_price_change_makes_it_the_cheaper_option_01_ingram.csv")
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/supply_item_price_change_makes_it_the_cheaper_option_01_alltron.csv")
       
+      ingram = Supplier.where(:name => 'Ingram Micro GmbH').first
+      alltron = Supplier.where(:name => 'Alltron AG').first
+      sup = ingram.supply_items.where(:manufacturer_product_code => "123XXX45").first
+      prod = Product.new_from_supply_item(sup)
+      prod.save
+      prod.purchase_price.to_f.should == 5.0
+
+      AlltronTestHelper.update_from_file(Rails.root + "spec/data/supply_item_price_change_makes_it_the_cheaper_option_02_alltron.csv")
+      sup_alltron = alltron.supply_items.where(:manufacturer_product_code => "123XXX45").first
+      sup_alltron.purchase_price.to_f.should == 2.0
+
+
+      Product.update_price_and_stock
+      # The product should have switched itself to this new option, the cheaper supply item from Alltron
+      prod.reload
+      prod.supplier.should == alltron
+      prod.supply_item.should == sup_alltron
+      prod.purchase_price.to_f.should == 2.0
+
+
+      # Product.update_price_and_stock
+      # prod.reload
+      # prod.stock.should == 0
+      # prod.is_available.should == true # It's available, but with 0 in stock
+
     end
 
   end

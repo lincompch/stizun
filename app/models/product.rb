@@ -507,7 +507,16 @@ class Product < ActiveRecord::Base
 
           # Nothing special to do to this product -- just update some fields
           else
-            changes = p.sync_from_supply_item(p.supply_item)
+
+            # Find out if there is a cheaper supply item to switch to
+            if p.cheaper_supply_item_available?
+              supply_item = p.cheaper_supply_items.first # Since it's ordered by purchase price, picking the first is safe
+              p.supply_item = supply_item
+            else
+              supply_item = p.supply_item
+            end
+
+            changes = p.sync_from_supply_item(supply_item)
             unless changes.empty?
               if p.save
                 price_update_logger.info("[#{DateTime.now.to_s}] Product update: #{p.to_s}. Changes: #{changes.inspect}")
@@ -603,7 +612,7 @@ class Product < ActiveRecord::Base
       #cheaper_supply_items = SupplyItem.available.where(:manufacturer_product_code => self.supply_item.manufacturer_product_code).where("purchase_price < ?", self.supply_item.purchase_price.to_f)
       
 
-      potentially_cheaper_supply_items = SupplyItem.available.where(:manufacturer_product_code => self.supply_item.manufacturer_product_code)
+      potentially_cheaper_supply_items = SupplyItem.available.where(:manufacturer_product_code => self.supply_item.manufacturer_product_code).order("purchase_price ASC")
       
       cheaper_supply_items = potentially_cheaper_supply_items.select{|si|
         if si.supplier and !si.supplier.margin_ranges.empty?

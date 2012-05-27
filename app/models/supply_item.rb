@@ -102,7 +102,7 @@ class SupplyItem < ActiveRecord::Base
     # has category(:ancestry), :as => :category_ids, :type => :multi
 
     set_property :delta => true
-
+stock
   end
 
   # Sphinx scopes
