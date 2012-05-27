@@ -24,54 +24,36 @@ class MarginRange < ActiveRecord::Base
   end
 
   def self.recalculate_recently_changed_products
-    ranges_to_recalculate = MarginRange.where("recalculated_at IS NULL or recalculated_at < ?", DateTime.now - 30.minutes)
-    ranges_to_recalculate = MarginRange.all.select{|mr|
-      mr if mr.recalculated_at.nil? or ((mr.updated_at - mr.recalculated_at) < 2.hours) 
 
-    }
+    time_window = 24.hours
+    recently_udpated = MarginRange.all.select{|mr| mr if mr.updated_at > DateTime.now - time_window}
 
+    Product.suspended_delta do
+      Product.available.each do |p|
 
-    ranges_to_recalculate.each do |range|
-
-      unless range.supplier.nil?
-        Product.suspended_delta do
-          range.supplier.products.each do |p|
-            puts "saving #{p} due to supplier's margin range change"
-            p.reload.save
+        unless p.margin_ranges.empty?
+          # At least one of the product's ranges is included in the range that was recently updated
+          if !(p.margin_ranges & recently_udpated).empty?
+            puts "Saving #{p.to_s} due to a product-specific margin range change."
+            p.save
           end
         end
-        range.recalculated_at = DateTime.now
-        range.save
 
-        # This supplier is already taken care of now
-        range.supplier.margin_ranges.each do |mr|
-          mr.recalculated_at = DateTime.now
-          ranges_to_recalculate.delete(mr) if mr.save
+        unless p.supplier.nil? or p.supplier.margin_ranges.empty?
+          if !(p.supplier.margin_ranges & recently_udpated).empty?
+            puts "Saving #{p.to_s} due to a supplier-specific margin range change."
+            p.save
+          end
+        end
+
+        # There are no supplier- or product-specific ranges for this product, so consider the global ones
+        if (p.supplier.nil? or p.supplier.margin_ranges.empty?) and p.margin_ranges.empty?
+          if !(MarginRange.system_wide_ranges & recently_udpated).empty?
+            puts "Saving #{p.to_s} due to a system-wide margin range change."
+            p.save
+          end
         end
       end
-
-      unless range.product.nil?
-        puts "saving #{range.product} due to product margin range change"
-        range.product.reload.save
-        range.recalculated_at = DateTime.now
-        range.save        
-      end
-      
-      if range.product.nil? and range.supplier.nil?
-        unaffected_products = []
-        unaffected_products << MarginRange.where("supplier_id IS NOT NULL").select{|mr| mr.supplier.products}
-        unaffected_products << MarginRange.where("product_id IS NOT NULL").select{|mr| mr.product}
-        affected_products = Product.all - unaffected_products
-        Product.suspended_delta do
-          affected_products.each do |p|
-            puts "saving #{p} due to global margin range change"
-            p.reload.save
-          end
-        end    
-        range.recalculated_at = DateTime.now
-        range.save
-      end     
-
     end
   end
 
