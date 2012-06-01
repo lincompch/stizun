@@ -63,11 +63,10 @@ class JetUtil < SupplierUtil
         description = self.sanitize_product_description(res.body.force_encoding("ISO-8859-1").encode("UTF-8")) # When jET change their encoding, you need to change this
 
         # Normalize all headers above level 5 to level 5 -- looks like crap otherwise when used in our pages
-        description_html = Nokogiri::HTML(description)  
-        description_html = description_html.xpath("//h1").each{|header| header.name = "h5"}
-        description_html = description_html.xpath("//h2").each{|header| header.name = "h5"}
-        description_html = description_html.xpath("//h3").each{|header| header.name = "h5"}
-        description_html = description_html.xpath("//h4").each{|header| header.name = "h5"}
+        description_html = Nokogiri::HTML(description)
+        description_html.xpath("//h1|//h2|//h3|//h4").each do |ele|
+          ele.name = "h5"
+        end
 
         return description_html.to_s
       else 
