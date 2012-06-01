@@ -511,6 +511,7 @@ class Product < ActiveRecord::Base
             if p.cheaper_supply_item_available?
               supply_item = p.cheaper_supply_items.first # Since it's ordered by purchase price, picking the first is safe
               p.supply_item = supply_item
+              price_update_logger.info("[#{DateTime.now.to_s}] Switched product #{p.to_s} to cheaper supply item #{supply_item.to_s}")
             else
               supply_item = p.supply_item
             end
