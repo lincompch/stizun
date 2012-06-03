@@ -1,0 +1,13 @@
+<h2>Delayed Jobs</h2>
+
+<h3>Create new job</h3>
+
+
+
+<%= form_tag do %>
+	
+	<%= select_tag 'job', jobs_to_options(@available_jobs) %>
+
+	<%= submit_tag 'Create job' %>
+
+<% end %>

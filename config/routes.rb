@@ -51,7 +51,7 @@ Stizun::Application.routes.draw do
         get 'switch_to_cheaper_supply_item'
       end
     end
-
+    resources :delayed_jobs
     resources :product_pictures
     resources :tax_classes
     resources :orders do

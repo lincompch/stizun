@@ -41,6 +41,10 @@ gem "feedzirra", "~> 0.0.24"
 gem "ruby-progressbar", :require => "progressbar"
 gem 'nokogiri'
 
+gem 'delayed_job'
+gem 'delayed_job_active_record'
+gem 'daemons'
+
 group :assets do
   gem 'sass-rails', " ~> 3.1.0"
   gem 'coffee-rails', " ~> 3.1.0"
