@@ -1,0 +1,35 @@
+class JobConfiguration < ActiveRecord::Base
+
+  belongs_to :job_repetition
+  belongs_to :job_configuration_template
+
+
+
+  def configuration_complete?
+    completeness = false
+    if self.job_configuration_template
+      completeness = ( !self.job_configuration_template.job_class.blank? & !self.job_configuration_template.job_method.blank? )
+    end
+    return completeness
+  end
+
+  def submit_delayed_job
+    require './lib/alltron_util'
+    require './lib/ingram_util'
+    require './lib/jet_util'
+    
+    if configuration_complete?
+      klass = job_configuration_template.job_class.constantize
+      argument_string = job_configuration_template.job_arguments
+      unless argument_string.blank?
+        arguments_array = argument_string.split(",")
+      end
+      # Use delayed_job to create a job of the form: Klass.delay.method(arguemnts)
+      klass.delay.send(job_configuration_template.job_method, *arguments_array)
+    else
+      raise "Can't submit job, its configuration is incomplete."
+    end
+  end
+
+
+end
