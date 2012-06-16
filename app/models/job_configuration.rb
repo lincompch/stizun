@@ -14,10 +14,6 @@ class JobConfiguration < ActiveRecord::Base
   end
 
   def submit_delayed_job
-    require './lib/alltron_util'
-    require './lib/ingram_util'
-    require './lib/jet_util'
-    
     if configuration_complete?
       klass = job_configuration_template.job_class.constantize
       argument_string = job_configuration_template.job_arguments
