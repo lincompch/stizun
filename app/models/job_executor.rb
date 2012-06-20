@@ -16,7 +16,7 @@ class JobExecutor
       util = supplier.utility_class_name.constantize.new
       util.import_supply_items(filename)
     else
-      raise "Supplier #{supplier_name} does not exist. Aborting import."
+      raise "Supplier '#{supplier_name}' does not exist. Aborting import."
     end
   end
 
@@ -27,7 +27,7 @@ class JobExecutor
       util = supplier.utility_class_name.constantize.new
       util.update_supply_items(filename)      
     else
-      raise "Supplier #{supplier_name} does not exist. Aborting update."
+      raise "Supplier '#{supplier_name}' does not exist. Aborting update."
     end
   end
 

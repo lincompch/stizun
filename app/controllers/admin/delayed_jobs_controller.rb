@@ -1,16 +1,24 @@
 class Admin::DelayedJobsController <  Admin::BaseController
 
   def index
-    @jobs = DelayedJob.all
+    @jobs = Delayed::Job.all
   end 
 
 
   def new
-  	@available_jobs = JSON.load(File.open(Rails.root + "config/job_configuration.sample.json"))
-  	
+    @available_job_configurations = JobConfigurationTemplate.order(:job_class, :job_method)   
   end
 
-  def compact_job_name
+  def create
+    job_configuration = JobConfiguration.new(:job_configuration_template_id => params[:job_configuration_template_id],
+                                             :job_repetition_id => params[:job_repetition_id])
+    if job_configuration.save
+      flash[:notice] = "Configuration saved"
+      redirect_to :action => :new
+    else
+      flash[:error] = "Can't save configuration"
+      redirect_to :action => :new
+    end
 
   end
 

@@ -4,9 +4,16 @@
 
 
 
-<%= form_tag do %>
+<%= form_tag :action => 'create' do %>
 	
-	<%= select_tag 'job', jobs_to_options(@available_jobs) %>
+	<h4>Configuration<h4>
+	<p><%= select_tag 'job_configuration_template_id', options_from_collection_for_select(@available_job_configurations, :id, :short_name) %></p>
+
+	<h4>Repetition</h4>
+	<p>Repetition format is same as in crontab: min, hour, dom, month, dow
+
+	<p><%= select_tag 'job_repetition_id', options_from_collection_for_select(JobRepetition.all, :id, :short_name) %></p>
+
 
 	<%= submit_tag 'Create job' %>
 
