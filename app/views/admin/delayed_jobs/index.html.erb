@@ -1,38 +1,5 @@
-<h2>Delayed Jobs</h2>
+<h2>Planned Jobs</h2>
+<%= render :partial => 'jobs' %>
 
 
-<% if @jobs.count > 0 %>
-
-	<table>
-		<tr>
-			<th>Priority</th>
-			<th>Attempts</th>
-			<th>Last error</th>
-			<th>Run at</th>
-			<th>Locked at</th>
-			<th>Failed at</th>
-			<th>Locked by</th>
-			<th>Queue</th>
-		</tr>
-	<% @jobs.each do |j| %>
-		<tr class="<%= cycle('odd','even') %>">
-			<td><%= j.priority %></td>
-			<td><%= j.attempts%></td>
-			<td><%= j.last_error%></td>
-			<td><%= j.run_at%></td>
-			<td><%= j.locked_at%></td>
-			<td><%= j.failed_at%></td>
-			<td><%= j.locked_by%></td>
-			<td><%= j.queue %></td>
-		</tr>
-
-
-	<% end %>
-
-	</table>
-
-<% else %>
-	<p>No jobs scheduled.</p>
-
-<% end %>
 <%= link_to "Create new", new_admin_delayed_job_path %>

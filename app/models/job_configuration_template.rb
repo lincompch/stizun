@@ -1,5 +1,5 @@
 class JobConfigurationTemplate < ActiveRecord::Base
-	has_one :job_configuration
+	has_many :job_configurations
 
 	def short_name
 		return "#{job_class}.#{job_method}( #{job_arguments} )"	

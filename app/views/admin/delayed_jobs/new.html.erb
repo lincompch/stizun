@@ -1,19 +1,30 @@
 <h2>Delayed Jobs</h2>
 
-<h3>Create new job</h3>
 
+<h3>Saved Configuration</h3>
+<%= render :partial => 'job_configurations' %>
+
+<h3>Planned Jobs</h3>
+<%= render :partial => 'jobs' %>
+
+
+<h3>Create new job</h3>
 
 
 <%= form_tag :action => 'create' do %>
 	
 	<h4>Configuration<h4>
-	<p><%= select_tag 'job_configuration_template_id', options_from_collection_for_select(@available_job_configurations, :id, :short_name) %></p>
+	<p><%= select_tag 'job_configuration_template_id', options_from_collection_for_select(@job_configuration_templates, :id, :short_name) %></p>
 
-	<h4>Repetition</h4>
+
+	<h4>Single run</h4>
+	<p><%= select_datetime nil, :prefix => :run_at, :include_blank => true %></p>
+
+
+	<h4>Repeating job</h4>
 	<p>Repetition format is same as in crontab: min, hour, dom, month, dow
 
-	<p><%= select_tag 'job_repetition_id', options_from_collection_for_select(JobRepetition.all, :id, :short_name) %></p>
-
+	<p><%= select_tag 'job_repetition_id', options_from_collection_for_select(JobRepetition.all, :id, :short_name), :include_blank => true %></p>
 
 	<%= submit_tag 'Create job' %>
 

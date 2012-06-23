@@ -4,6 +4,21 @@ class JobConfiguration < ActiveRecord::Base
   belongs_to :job_configuration_template
 
 
+  def self.affecting_day(date)
+    results = []
+
+    affected_repetitions = JobRepetition.where("month = ? or month IS NULL", date.month)\
+                                        .where("dom = ? or dom IS NULL", date.day)\
+                                        .where("dow = ? or dow IS NULL", date.strftime("%w").to_i)
+
+    affected_repetitions.each do |repetition|
+      results += repetition.job_configurations
+    end               
+    affected_through_run_at = self.where(:run_at => date.beginning_of_day..date.end_of_day)
+    results += affected_through_run_at
+
+    return results
+  end
 
   def configuration_complete?
     completeness = false

@@ -3,6 +3,17 @@
 # requiring external libraries, instantiating objects, running methods on them...
 class JobExecutor
 
+  # Go through all the job configurations, see if any of the repetition configurations affect today.
+  # If they affect today, schedule the job at the right time today via Delayed::Job's run_at option.
+  # If they don't affect today, ignore them.
+  def self.schedule_jobs
+    todays_configurations = JobConfiguration.affecting_day(Date.today)
+    todays_configurations.each do |jc|
+      # TODO: determine whether we have to schedule the job today, schedule it
+    end
+
+  end
+
 
   def self.require_utility_class(supplier)
     class_path = Rails.root + "lib/#{supplier.utility_class_name.underscore}"
