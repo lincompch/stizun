@@ -1,0 +1,7 @@
+language: ruby
+rvm:
+  - 1.9.2
+before_script:
+  - mysql -e 'create database stizun_test;'
+# uncomment this line if your project needs to run something other than `rake`:
+script: bundle exec rake stizun:test 

@@ -19,5 +19,18 @@ namespace :stizun do
      Category.all.each { |category| category.save!; pb.inc }
      pb.finish
    end
+
+
+  task :test do
+      Rake::Task["db:migrate:reset"].invoke
+      Rake::Task["db:seed"].invoke
+      Rake::Task["ts:conf"].invoke
+      Rake::Task["ts:reindex"].invoke
+      puts `bundle exec rspec --format d --format html --out tmp/rspec.html spec/`
+      raise "tests failed" if $?.exitstatus > 0
+      puts `bundle exec cucumber -f pretty -f html --out tmp/cucumber.html -f junit --out junit`
+      raise "tests failed" if $?.exitstatus > 0
+  end
+
 end
 
