@@ -1,0 +1,13 @@
+development:
+  adapter: mysql2
+  host: localhost
+  database: stizun_dev
+  user: root
+  password: 
+
+test:
+  adapter: mysql2
+  host: localhost
+  database: stizun_test
+  user: root
+  password: 
