@@ -1,9 +1,6 @@
 # Fixtures
 spec/fixtures/*.yml
 
-# database.yml and others found in config directory
-config/*.yml
-
 # .bundle
 *.bundle
 
