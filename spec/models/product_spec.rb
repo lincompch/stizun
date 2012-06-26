@@ -37,9 +37,9 @@ describe Product do
     it "should be able to retrieve a product picture and PDF if the respective URLs are valid" do
       download_dir = Rails.root + "tmp/downloads"
       system("mkdir -p #{download_dir}") unless Dir.exist?("tmp/downloads")
-      p = Fabricate(:product)
+      p = FactoryGirl.build(:product)
       p.supplier = @supplier
-      si = Fabricate(:supply_item)
+      si = FactoryGirl.build(:supply_item)
       si.image_url = "http://l.yimg.com/g/images/en-us/flickr-yahoo-logo.png.v3"
       si.pdf_url = "http://www.scala-lang.org/sites/default/files/linuxsoft_archives/docu/files/ScalaByExample.pdf"
       si.save.should == true
@@ -56,17 +56,17 @@ describe Product do
     end
     
     it "should use the most specific margin range available to it for price calculation" do
-      supplier = Fabricate(:supplier)
+      supplier = FactoryGirl.create(:supplier)
 
-      product = Fabricate.build(:product)
+      product = FactoryGirl.build(:product)
       product.purchase_price = 100.0
       product.supplier = supplier
       product.save.should == true
 
-      MarginRange.destroy_all # Sometimes Fabricate goes a little overboard creating associated records
+      MarginRange.destroy_all # Sometimes FactoryGirl.build goes a little overboard creating associated records
 
       # default system-wide margin range
-      mr0 = Fabricate.build(:margin_range)
+      mr0 = FactoryGirl.build(:margin_range)
       mr0.start_price = nil
       mr0.end_price = nil
       mr0.margin_percentage = 10.0
@@ -74,7 +74,7 @@ describe Product do
 
       product.margin_percentage.should == 10.0
       
-      mr1 = Fabricate.build(:margin_range)
+      mr1 = FactoryGirl.build(:margin_range)
       mr1.start_price = nil
       mr1.end_price = nil
       mr1.supplier = supplier
@@ -83,7 +83,7 @@ describe Product do
       supplier.reload
       product.margin_percentage.should == 20.0
 
-      mr2 = Fabricate.build(:margin_range)
+      mr2 = FactoryGirl.build(:margin_range)
       mr2.start_price = nil
       mr2.end_price = nil
       mr2.product = product
@@ -176,10 +176,10 @@ describe Product do
 
     it "should, when switching supply items, change its name to match the naming style of the supply item it is being switched to" do
 
-      product = Fabricate(:product, :name => 'Product One')
+      product = FactoryGirl.build(:product, :name => 'Product One')
       product.name.should == "Product One"
-      supply_item1 = Fabricate(:supply_item, :name => 'Style of Supply Item One')
-      supply_item2 = Fabricate(:supply_item, :name => 'Style of Supply Item Two')
+      supply_item1 = FactoryGirl.build(:supply_item, :name => 'Style of Supply Item One')
+      supply_item2 = FactoryGirl.build(:supply_item, :name => 'Style of Supply Item Two')
       
       product.supply_item = supply_item1
       product.save
@@ -194,8 +194,8 @@ describe Product do
   
   describe "a componentized product" do
       before(:all) do
-        @tax_class = Fabricate(:tax_class, :name => 'Test Tax Class', :percentage => 8.0) 
-        @supplier = Fabricate(:alltron)
+        @tax_class = FactoryGirl.build(:tax_class, :name => 'Test Tax Class', :percentage => 8.0) 
+        @supplier = FactoryGirl.build(:alltron)
         array = [
           { 'name' => 'Some fast CPU', 'purchase_price' => 115.0,
             'weight' => 4.5 },
@@ -211,7 +211,7 @@ describe Product do
         
         array.each do |si|
           options = {:supplier => @supplier, :tax_class => @tax_class }
-          Fabricate(:supply_item, si.merge!(:supplier => @supplier, :tax_class => @tax_class))
+          FactoryGirl.create(:supply_item, si.merge!(:supplier => @supplier, :tax_class => @tax_class))
         end
         
         SupplyItem.all.count.should == 5
@@ -222,7 +222,7 @@ describe Product do
     end
     
     it "should consist of supply items as components" do
-      p = Fabricate.build(:product)
+      p = FactoryGirl.build(:product)
       p.name = "Ye Olde Wooden PC"
       p.description = "A PC made of wood, with crappy components."
       p.supplier = @supplier
@@ -238,8 +238,8 @@ describe Product do
 
     it "should have a correct price, a total of constituent supply items" do
       MarginRange.destroy_all
-      mr = Fabricate(:margin_range, :start_price => nil, :end_price => nil, :margin_percentage => 0.0)
-      p = Fabricate.build(:product)
+      mr = FactoryGirl.create(:margin_range, :start_price => nil, :end_price => nil, :margin_percentage => 0.0)
+      p = FactoryGirl.build(:product)
       
       p.name = "Ye Olde Wooden PC"
       p.description = "A PC made of wood, with crappy components."
@@ -257,8 +257,8 @@ describe Product do
 
     it "should have correct taxes and sales price, based on the totals of all the constituent supply items' purchase prices plus a total margin" do
       MarginRange.destroy_all
-      mr = Fabricate(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
-      p = Fabricate.build(:product)
+      mr = FactoryGirl.create(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
+      p = FactoryGirl.build(:product)
       p.name = "Ye Olde Wooden PC"
       p.description = "A PC made of wood, with crappy components."
       p.supplier = @supplier
@@ -276,8 +276,8 @@ describe Product do
     
     it "should be affected by MarginRanges just like normal products" do
       MarginRange.destroy_all
-      mr = Fabricate(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
-      p = Fabricate.build(:product)
+      mr = FactoryGirl.create(:margin_range, :start_price => 0, :end_price => 700, :margin_percentage => 10.0)
+      p = FactoryGirl.build(:product)
       p.name = "Ye Olde Wooden PC"
       p.description = "A PC made of wood, with crappy components."
       p.supplier = @supplier

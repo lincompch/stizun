@@ -9,13 +9,13 @@ describe ProductRoundingCalculator do
 
       ConfigurationItem.create(:key => 'rounding_component_rules', :value => 'swiss')
 
-      tc = Fabricate(:tax_class, :percentage => 8.0)
-      mr = Fabricate.build(:margin_range)
+      tc = FactoryGirl.create(:tax_class, :percentage => 8.0)
+      mr = FactoryGirl.build(:margin_range)
       mr.start_price = nil
       mr.end_price = nil
       mr.margin_percentage = 5.0
       mr.save.should == true      
-      p = Fabricate.build(:product)
+      p = FactoryGirl.build(:product)
       p.tax_class = tc
       p.purchase_price = BigDecimal.new("123.45")
       p.save.should == true
@@ -29,13 +29,13 @@ describe ProductRoundingCalculator do
 
       ConfigurationItem.create(:key => 'rounding_component_rules', :value => 'swiss')
 
-      tc = Fabricate(:tax_class, :percentage => 8.0)
-      mr = Fabricate.build(:margin_range)
+      tc = FactoryGirl.create(:tax_class, :percentage => 8.0)
+      mr = FactoryGirl.build(:margin_range)
       mr.start_price = nil
       mr.end_price = nil
       mr.margin_percentage = 5.0
       mr.save.should == true      
-      p = Fabricate.build(:product)
+      p = FactoryGirl.build(:product)
       p.tax_class = tc
       p.purchase_price = BigDecimal.new("123.45")
       p.rebate_until = DateTime.now + 1.year
@@ -49,13 +49,13 @@ describe ProductRoundingCalculator do
 
       ConfigurationItem.create(:key => 'rounding_component_rules', :value => 'swiss')
 
-      tc = Fabricate(:tax_class, :percentage => 8.0)
-      mr = Fabricate.build(:margin_range)
+      tc = FactoryGirl.create(:tax_class, :percentage => 8.0)
+      mr = FactoryGirl.build(:margin_range)
       mr.start_price = nil
       mr.end_price = nil
       mr.margin_percentage = 5.0
       mr.save.should == true      
-      p = Fabricate.build(:product)
+      p = FactoryGirl.build(:product)
       p.tax_class = tc
       p.purchase_price = BigDecimal.new("123.45")
       p.rebate_until = DateTime.now + 1.year

@@ -1,7 +1,7 @@
 class Product < ActiveRecord::Base
   
   validates_uniqueness_of :manufacturer_product_code
-  validates_presence_of :name, :description, :weight, :tax_class_id, :supplier_id
+  validates_presence_of :name, :description, :weight, :tax_class, :supplier
   validates_numericality_of :purchase_price, :weight
   
   # Something's not right here when creating independent products

@@ -4,7 +4,7 @@ describe StaticDocument do
   
   before(:all) do
     MarginRange.destroy_all
-    mr0 = Fabricate.build(:margin_range)
+    mr0 = FactoryGirl.build(:margin_range)
     mr0.start_price = nil
     mr0.end_price = nil
     mr0.margin_percentage = 5.0
@@ -12,7 +12,7 @@ describe StaticDocument do
   
     # Why doesn't DatabaseCleaner do its job properly?
     TaxClass.destroy_all
-    tax_class = Fabricate(:tax_class, {:percentage => 8.2})
+    tax_class = FactoryGirl.create(:tax_class, {:percentage => 8.2})
     
     @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing Rounding')
     @sc.configuration.shipping_costs = []
@@ -34,7 +34,7 @@ describe StaticDocument do
     sc.tax_class.percentage.to_f.should == 8.2
     sc.name.should == 'For Testing Rounding'
 
-    @supplier = Fabricate(:supplier)
+    @supplier = FactoryGirl.create(:supplier)
     
     Country.create(:name => "Somewhereland")
     @address = Address.new(:street => 'Foo',

@@ -13,15 +13,15 @@ describe ShippingCalculatorBasedOnWeight do
     @sc.configuration.shipping_costs << {:weight_min => 0, :weight_max => 2000, :price => 8.35}
     @sc.configuration.shipping_costs << {:weight_min => 2001, :weight_max => 5000, :price => 10.20}
     @sc.configuration.shipping_costs << {:weight_min => 5001, :weight_max => 31000, :price => 15.20}
-    @sc.tax_class = Fabricate(:tax_class)
+    @sc.tax_class = FactoryGirl.create(:tax_class)
     @sc.save
     ConfigurationItem.create(:key => 'default_shipping_calculator_id', :value => @sc.id)
   end
   
   before(:each) do
     @cart = Cart.new
-    @cart.add_product(Fabricate(:product, :weight => 10.0))
-    @cart.add_product(Fabricate(:product, :weight => 10.0), 2)
+    @cart.add_product(FactoryGirl.create(:product, :weight => 10.0))
+    @cart.add_product(FactoryGirl.create(:product, :weight => 10.0), 2)
     @cart.weight.should == 30.0
   end
   
@@ -42,21 +42,21 @@ describe ShippingCalculatorBasedOnWeight do
   end
   
   it "splits large shipments into multiple packages" do
-    @cart.add_product(Fabricate(:product, :weight => 30.0))
+    @cart.add_product(FactoryGirl.create(:product, :weight => 30.0))
     @cart.weight.should == 60.0
     @sc.calculate_for(@cart)
     @sc.package_count.should == 2
   end
 
   it "adds up the cost correctly, even for multiple packages" do
-    @cart.add_product(Fabricate(:product, :weight => 30.0))
+    @cart.add_product(FactoryGirl.create(:product, :weight => 30.0))
     @cart.weight.should == 60.0
     @sc.calculate_for(@cart)
     @sc.package_count.should == 2
 
     @sc.cost.should == BigDecimal.new("30.40") # 2 packages, total weight 60.0
     
-    @cart.add_product(Fabricate(:product, :weight => 30.0), 2)
+    @cart.add_product(FactoryGirl.create(:product, :weight => 30.0), 2)
     @cart.weight.should == 120.0
     @sc.calculate_for(@cart)
     @sc.package_count.should == 4
@@ -66,7 +66,7 @@ describe ShippingCalculatorBasedOnWeight do
 
   it "uses the shipping fee for the lightest possible package if the weight of the item is exactly 0.0" do
     light_cart = Cart.new
-    light_cart.add_product(Fabricate(:product, :weight => 0.0))
+    light_cart.add_product(FactoryGirl.create(:product, :weight => 0.0))
     light_cart.weight.should == 0.0
     @sc.calculate_for(light_cart)
     @sc.cost.should == BigDecimal.new("8.35")

@@ -8,11 +8,6 @@ gem 'jquery-rails'
 # Offers Rails 2 f.error_messages etc. helpers on forms
 gem 'dynamic_form'
 
-gem 'haml'
-
-# Hacked to work with Rails 3 thanks to rails3-generators
-# But need to consider Devise instead
-
 gem 'devise', '<2.0.0' 
 gem 'rails3-generators'
 gem 'rack-ssl-enforcer'
@@ -53,19 +48,19 @@ end
 
 group :test, :development do
   gem 'simplecov'
-  #gem 'factory_girl_rails'
-  gem 'fabrication'
-  gem 'capybara', ' ~> 1.1'
+  gem 'factory_girl'
+  gem 'factory_girl_rails'
+  gem 'capybara'
   gem 'pickle'
   gem 'database_cleaner'
   gem 'cucumber'
+#  gem 'selenium-webdriver', '~> 2.13.0'
   gem 'rspec-rails'
   gem 'spork'
   gem 'launchy'
   gem 'ruby-debug19'
   gem 'ZenTest'
   gem 'pry'
-  # gem 'pry-doc'
   gem 'therubyracer', '>= 0.8.2'
 end
 

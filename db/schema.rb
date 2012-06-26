@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111212200018) do
+ActiveRecord::Schema.define(:version => 20120623081316) do
 
   create_table "addresses", :force => true do |t|
     t.string   "company"
@@ -113,9 +113,24 @@ ActiveRecord::Schema.define(:version => 20111212200018) do
     t.datetime "updated_at"
   end
 
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
   create_table "document_lines", :force => true do |t|
     t.integer  "quantity"
-    t.decimal  "price",        :precision => 10, :scale => 0
     t.integer  "product_id"
     t.string   "note"
     t.string   "type"
@@ -169,17 +184,51 @@ ActiveRecord::Schema.define(:version => 20111212200018) do
     t.integer  "order_id"
     t.decimal  "rebate",                :precision => 63, :scale => 30, :default => 0.0
     t.integer  "replacement_id"
+    t.integer  "reminder_count",                                        :default => 0
+    t.datetime "last_reminded_at"
   end
 
   add_index "invoices", ["old_order_id"], :name => "index_invoices_on_order_id"
   add_index "invoices", ["user_id"], :name => "index_invoices_on_user_id"
   add_index "invoices", ["uuid"], :name => "index_invoices_on_uuid"
 
-  create_table "margin_ranges", :force => true do |t|
-    t.float "start_price"
-    t.float "end_price"
-    t.float "margin_percentage"
+  create_table "job_configuration_templates", :force => true do |t|
+    t.string   "job_class"
+    t.string   "job_method"
+    t.text     "job_arguments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
+
+  create_table "job_configurations", :force => true do |t|
+    t.integer  "job_configuration_template_id"
+    t.integer  "job_repetition_id"
+    t.datetime "run_at"
+  end
+
+  create_table "job_repetitions", :force => true do |t|
+    t.integer  "dow"
+    t.integer  "dom"
+    t.integer  "month"
+    t.integer  "hour"
+    t.integer  "minute"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "margin_ranges", :force => true do |t|
+    t.float    "start_price"
+    t.float    "end_price"
+    t.float    "margin_percentage"
+    t.integer  "product_id"
+    t.integer  "supplier_id"
+    t.datetime "updated_at"
+    t.datetime "created_at"
+    t.datetime "recalculated_at"
+  end
+
+  add_index "margin_ranges", ["product_id"], :name => "index_margin_ranges_on_product_id"
+  add_index "margin_ranges", ["supplier_id"], :name => "index_margin_ranges_on_supplier_id"
 
   create_table "notifications", :force => true do |t|
     t.string   "email"
@@ -222,16 +271,17 @@ ActiveRecord::Schema.define(:version => 20111212200018) do
     t.integer  "billing_address_id"
     t.string   "billing_address_type"
     t.integer  "user_id"
-    t.integer  "status_constant",                                       :default => 1
+    t.integer  "status_constant",                                         :default => 1
     t.string   "uuid"
-    t.decimal  "shipping_cost",         :precision => 63, :scale => 30
+    t.decimal  "shipping_cost",           :precision => 63, :scale => 30
     t.integer  "payment_method_id"
     t.integer  "document_number"
-    t.decimal  "shipping_taxes",        :precision => 63, :scale => 30
+    t.decimal  "shipping_taxes",          :precision => 63, :scale => 30
     t.integer  "shipping_carrier_id"
     t.string   "tracking_number"
-    t.boolean  "direct_shipping",                                       :default => false
-    t.decimal  "rebate",                :precision => 63, :scale => 30, :default => 0.0
+    t.boolean  "direct_shipping",                                         :default => false
+    t.decimal  "rebate",                  :precision => 63, :scale => 30, :default => 0.0
+    t.date     "estimated_delivery_date"
   end
 
   create_table "pages", :force => true do |t|
@@ -266,11 +316,16 @@ ActiveRecord::Schema.define(:version => 20111212200018) do
     t.boolean  "is_main_picture"
   end
 
+  add_index "product_pictures", ["product_id"], :name => "index_product_pictures_on_product_id"
+
   create_table "product_sets", :force => true do |t|
     t.integer "quantity"
     t.integer "product_id"
     t.integer "component_id"
   end
+
+  add_index "product_sets", ["component_id"], :name => "index_product_sets_on_component_id"
+  add_index "product_sets", ["product_id"], :name => "index_product_sets_on_product_id"
 
   create_table "products", :force => true do |t|
     t.string   "name"
@@ -300,10 +355,25 @@ ActiveRecord::Schema.define(:version => 20111212200018) do
     t.decimal  "cached_price",              :precision => 63, :scale => 30
     t.decimal  "cached_taxed_price",        :precision => 63, :scale => 30
     t.datetime "auto_updated_at"
+    t.decimal  "rounding_component",        :precision => 63, :scale => 30
+    t.boolean  "is_featured"
   end
 
+  add_index "products", ["is_available"], :name => "index_products_on_is_available"
+  add_index "products", ["is_featured"], :name => "index_products_on_is_featured"
+  add_index "products", ["manufacturer_product_code"], :name => "index_products_on_manufacturer_product_code"
+  add_index "products", ["sale_state"], :name => "index_products_on_sale_state"
   add_index "products", ["supplier_id"], :name => "index_products_on_supplier_id"
+  add_index "products", ["supplier_product_code"], :name => "index_products_on_supplier_product_code"
   add_index "products", ["supply_item_id"], :name => "index_products_on_supply_item_id"
+  add_index "products", ["tax_class_id"], :name => "index_products_on_tax_class_id"
+
+  create_table "shipping_calculators", :force => true do |t|
+    t.string  "name"
+    t.text    "configuration"
+    t.string  "type"
+    t.integer "tax_class_id"
+  end
 
   create_table "shipping_carriers", :force => true do |t|
     t.string "name"
@@ -334,7 +404,6 @@ ActiveRecord::Schema.define(:version => 20111212200018) do
   create_table "static_document_lines", :force => true do |t|
     t.integer  "quantity"
     t.string   "text"
-    t.decimal  "single_rounded_price",      :precision => 63, :scale => 30
     t.decimal  "taxes",                     :precision => 63, :scale => 30
     t.decimal  "tax_percentage",            :precision => 8,  :scale => 2
     t.integer  "invoice_id"
@@ -389,15 +458,27 @@ ActiveRecord::Schema.define(:version => 20111212200018) do
     t.integer  "workflow_status_constant",                                 :default => 1
     t.string   "notes"
     t.string   "category_string"
+    t.text     "description_url"
   end
 
+  add_index "supply_items", ["manufacturer_product_code"], :name => "index_supply_items_on_manufacturer_product_code"
+  add_index "supply_items", ["status_constant"], :name => "index_supply_items_on_status_constant"
   add_index "supply_items", ["supplier_id"], :name => "index_supply_items_on_supplier_id"
+  add_index "supply_items", ["supplier_product_code"], :name => "index_supply_items_on_supplier_product_code"
 
   create_table "tax_classes", :force => true do |t|
     t.string   "name"
     t.decimal  "percentage", :precision => 8, :scale => 2
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "tracking_codes", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "shipping_carrier_id"
+    t.integer  "order_id"
+    t.string   "tracking_code"
   end
 
   create_table "usergroups", :force => true do |t|

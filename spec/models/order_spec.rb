@@ -3,14 +3,14 @@ require 'spec_helper'
 describe Order do
   
   before(:all) do
-    mr0 = Fabricate.build(:margin_range)
+    mr0 = FactoryGirl.build(:margin_range)
     mr0.start_price = nil
     mr0.end_price = nil
     mr0.margin_percentage = 5.0
     mr0.save
   
     tax_class2 = TaxClass.where(:percentage => 10.0).first
-    tax_class2 = Fabricate(:tax_class, {:percentage => 10.0}) if tax_class2.nil?
+    tax_class2 = FactoryGirl.create(:tax_class, {:percentage => 10.0}) if tax_class2.nil?
 
     
     @sc = ShippingCalculatorBasedOnWeight.where(:name => 'For Testing Orders').first
@@ -30,7 +30,7 @@ describe Order do
       ci.save
     end
 
-    supplier = Fabricate(:supplier)
+    supplier = FactoryGirl.create(:supplier)
     supplier.save
     
     Country.create(:name => "Somewhereland")
@@ -62,9 +62,9 @@ describe Order do
 
     it "should report the same totals as the dynamic order it came from" do
       c = Cart.new
-      tc = Fabricate(:tax_class, {:percentage => 8.0})
-      product = Fabricate(:product, {:purchase_price => 100.0, :tax_class => tc})
-      product2 = Fabricate(:product, {:purchase_price => 250.0, :tax_class => tc})
+      tc = FactoryGirl.create(:tax_class, {:percentage => 8.0})
+      product = FactoryGirl.create(:product, {:purchase_price => 100.0, :tax_class => tc})
+      product2 = FactoryGirl.create(:product, {:purchase_price => 250.0, :tax_class => tc})
 
       c.add_product(product)
       c.add_product(product2)

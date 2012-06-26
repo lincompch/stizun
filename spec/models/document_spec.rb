@@ -3,13 +3,13 @@ require 'spec_helper'
 describe Document do
   
   before(:all) do
-    mr0 = Fabricate.build(:margin_range)
+    mr0 = FactoryGirl.build(:margin_range)
     mr0.start_price = nil
     mr0.end_price = nil
     mr0.margin_percentage = 5.0
     mr0.save
   
-    @tax_class = Fabricate(:tax_class, {:percentage => 50.0})
+    @tax_class = FactoryGirl.create(:tax_class, {:percentage => 50.0})
     
     @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing')
     @sc.configuration.shipping_costs = []
@@ -18,7 +18,7 @@ describe Document do
     @sc.save
     ConfigurationItem.create(:key => 'default_shipping_calculator_id', :value => @sc.id)
 
-    @supplier = Fabricate(:supplier)
+    @supplier = FactoryGirl.create(:supplier)
     
     Country.create(:name => "Somewhereland")
     @address = Address.new(:street => 'Foo',

@@ -12,7 +12,7 @@ Given /^an order with a few items$/ do
   c.add_product(p)
 
   @order = Order.new_from_cart(c)
-  @order.billing_address = Fabricate(:address, :firstname => 'Minimal First', :lastname => 'Minimal Last', :city => 'Minimal City', :country => Country.first)
+  @order.billing_address = FactoryGirl.create(:address, :firstname => 'Minimal First', :lastname => 'Minimal Last', :city => 'Minimal City', :country => Country.first)
   @order.save.should == true
 
 end

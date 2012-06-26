@@ -47,7 +47,7 @@ Feature: Price calculation on products, orders, invoices
       And I set the absolute sales price to 120.58
       And I set the tax class to "MwSt 8.0%"
       Then the taxed product price should be 130.2264
-      And the taxed rounded price should be 130.20
+      And the taxed rounded price should be 130.25
       And the absolute margin should be 20.58
       And the taxes should be roughly 9.6464
 
