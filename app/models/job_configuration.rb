@@ -1,3 +1,7 @@
+require Rails.root + 'lib/alltron_util'
+require Rails.root + 'lib/ingram_util'
+require Rails.root + 'lib/jet_util'
+
 class JobConfiguration < ActiveRecord::Base
 
   belongs_to :job_repetition
@@ -30,10 +34,6 @@ class JobConfiguration < ActiveRecord::Base
   end
 
   def submit_delayed_job(run_at = nil)
-    require Rails.root + 'lib/alltron_util'
-    require Rails.root + 'lib/ingram_util'
-    require Rails.root + 'lib/jet_util'
-
     if configuration_complete?
       klass = job_configuration_template.job_class.constantize
       argument_string = job_configuration_template.job_arguments
@@ -55,9 +55,9 @@ class JobConfiguration < ActiveRecord::Base
 
   def equal_to_job?(job)
     job_object = YAML::load(job.handler)
-    if (job_object.method_name.to_s == job_configuration_template.job_method and\
-        job_object.object.to_s ==  job_configuration_template.job_class and\
-        job_object.arg == job_configuration_template.job_arguments)
+    if (job_object.args[0].to_s == job_configuration_template.job_method and\
+        job_object.args[1].to_s ==  job_configuration_template.job_arguments and\
+        job_object.object.to_s == job_configuration_template.job_class)
       return true
     else
       return false
