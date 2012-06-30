@@ -41,6 +41,9 @@ class JobConfiguration < ActiveRecord::Base
         arguments_array = argument_string.split(",")
       end
 
+
+      # TODO: get the job ID after submission and attach it to the job configuration table to reflect its state etc.
+
       if run_at
         # Use delayed_job to create a job of the form: Klass.delay.method(arguments)
         klass.delay(:run_at => run_at).send(job_configuration_template.job_method, *arguments_array)        
