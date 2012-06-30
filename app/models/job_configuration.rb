@@ -3,6 +3,7 @@ class JobConfiguration < ActiveRecord::Base
   belongs_to :job_repetition
   belongs_to :job_configuration_template
 
+  validates_presence_of :job_configuration_template
 
   def self.affecting_day(date)
     results = []
@@ -28,19 +29,39 @@ class JobConfiguration < ActiveRecord::Base
     return completeness
   end
 
-  def submit_delayed_job
+  def submit_delayed_job(run_at = nil)
+    require Rails.root + 'lib/alltron_util'
+    require Rails.root + 'lib/ingram_util'
+    require Rails.root + 'lib/jet_util'
+
     if configuration_complete?
       klass = job_configuration_template.job_class.constantize
       argument_string = job_configuration_template.job_arguments
       unless argument_string.blank?
         arguments_array = argument_string.split(",")
       end
-      # Use delayed_job to create a job of the form: Klass.delay.method(arguemnts)
-      klass.delay.send(job_configuration_template.job_method, *arguments_array)
+
+      if run_at
+        # Use delayed_job to create a job of the form: Klass.delay.method(arguments)
+        klass.delay(:run_at => run_at).send(job_configuration_template.job_method, *arguments_array)        
+      else
+        # Use delayed_job to create a job of the form: Klass.delay.method(arguments)
+        klass.delay.send(job_configuration_template.job_method, *arguments_array)
+      end
     else
       raise "Can't submit job, its configuration is incomplete."
     end
   end
 
+  def equal_to_job?(job)
+    job_object = YAML::load(job.handler)
+    if (job_object.method_name.to_s == job_configuration_template.job_method and\
+        job_object.object.to_s ==  job_configuration_template.job_class and\
+        job_object.arg == job_configuration_template.job_arguments)
+      return true
+    else
+      return false
+    end
+  end
 
 end
