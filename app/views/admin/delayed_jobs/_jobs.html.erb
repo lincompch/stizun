@@ -3,6 +3,7 @@
 
 	<table>
 		<tr>
+			<th>Handler</th>
 			<th>Priority</th>
 			<th>Attempts</th>
 			<th>Last error</th>
@@ -14,6 +15,7 @@
 		</tr>
 	<% @jobs.each do |j| %>
 		<tr class="<%= cycle('odd','even') %>">
+			<td><%= print_handler_object(j.handler) %>
 			<td><%= j.priority %></td>
 			<td><%= j.attempts%></td>
 			<td><%= j.last_error%></td>
@@ -23,7 +25,6 @@
 			<td><%= j.locked_by%></td>
 			<td><%= j.queue %></td>
 		</tr>
-
 
 	<% end %>
 

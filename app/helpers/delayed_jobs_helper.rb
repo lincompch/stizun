@@ -13,5 +13,13 @@ module DelayedJobsHelper
 		return options_for_select(options)
 	end
 
+	def print_handler_object(handler)
+		h = YAML::load(handler)
+		output =  h.object.to_s
+		output += ".#{h.args[0]}"
+		output += "(#{h.args[1]})"
+		return output
+	end
+
 
 end
