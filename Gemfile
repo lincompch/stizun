@@ -54,14 +54,12 @@ group :test, :development do
   gem 'pickle'
   gem 'database_cleaner'
   gem 'cucumber'
-#  gem 'selenium-webdriver', '~> 2.13.0'
   gem 'rspec-rails'
   gem 'spork'
   gem 'launchy'
-  gem 'ruby-debug19'
   gem 'ZenTest'
   gem 'pry'
-  gem 'therubyracer', '>= 0.8.2'
+  #gem 'therubyracer', '>= 0.8.2'
 end
 
 group :test do 
