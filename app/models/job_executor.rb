@@ -66,10 +66,4 @@ class JobExecutor
     Product.export_available_to_csv(path)
   end
 
-  def self.update_price_and_stock
-    Product.update_price_and_stock
-  end
-
-
-
 end

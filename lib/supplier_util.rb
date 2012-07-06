@@ -145,6 +145,7 @@ class SupplierUtil
         end
       end
     end
+    Product.update_price_and_stock # Sync available products to the now changed supply items
   end
 
 
@@ -178,6 +179,7 @@ class SupplierUtil
         end
       end
     end
+    Product.update_price_and_stock # Sync available products to the now changed supply items
   end
 
   def new_supply_item(data)

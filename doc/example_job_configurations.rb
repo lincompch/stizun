@@ -26,7 +26,3 @@ JobConfigurationTemplate.create(:job_class => 'JobExecutor',
 
 JobConfigurationTemplate.create(:job_class => 'JobExecutor',
                                 :job_method => 'export_product_to_csv')
-
-JobConfigurationTemplate.create(:job_class => 'JobExecutor',
-                                :job_method => 'update_price_and_stock')
-

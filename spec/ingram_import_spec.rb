@@ -164,7 +164,6 @@ describe IngramUtil do
       sup.reload
       sup.stock.should == 0
 
-      Product.update_price_and_stock
       prod.reload
       prod.stock.should == 0
       prod.is_available.should == true # It's available, but with 0 in stock
@@ -173,7 +172,6 @@ describe IngramUtil do
       sup.reload
       sup.stock.should == 12
 
-      Product.update_price_and_stock
 
       prod.reload
       prod.stock.should == 12
@@ -198,7 +196,6 @@ describe IngramUtil do
       sup_alltron.purchase_price.to_f.should == 2.0
 
 
-      Product.update_price_and_stock
       # The product should have switched itself to this new option, the cheaper supply item from Alltron
       prod.reload
       prod.supplier.should == alltron
