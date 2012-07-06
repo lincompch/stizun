@@ -126,6 +126,7 @@ class SupplierUtil
         update_supply_item(supply_item, data)
       end
     end
+    Product.update_price_and_stock # Sync available products to the now changed supply items
   end
 
   # The updates array needs to be in the form [ [supplier_product_code1, stock_level],
