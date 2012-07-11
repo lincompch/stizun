@@ -52,6 +52,7 @@ Stizun::Application.routes.draw do
       end
     end
     resources :delayed_jobs
+    resources :job_configurations
     resources :product_pictures
     resources :tax_classes
     resources :orders do

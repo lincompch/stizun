@@ -3,12 +3,14 @@
 		<th>Configuration Template</th>
 		<th>Repetition Sequence</th>
 		<th>Run At</th>
+		<th>Actions</th>
 	</tr>
 	<% @job_configurations.each do |jc| %>
 		<tr>
 			<td><%= jc.job_configuration_template.short_name if jc.job_configuration_template %></td>
 			<td><%= jc.job_repetition.short_name if jc.job_repetition %></td>
 			<td><%= jc.run_at.to_s if jc.run_at %></td>
+			<td><%= link_to("Delete", admin_job_configuration_path(jc), :method => 'delete')%></td>
 		</tr>
 
 	<% end %>
