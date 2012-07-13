@@ -26,7 +26,7 @@ gem 'sanitize'
 gem 'thinking-sphinx'
 gem 'carrierwave'
 gem 'mini_magick'
-gem 'paperclip', ">= 3.0.2", :require => false
+gem 'paperclip', ">= 3.0.2"
 
 
 platforms :ruby do
