@@ -26,9 +26,21 @@ gem 'sanitize'
 gem 'thinking-sphinx'
 gem 'carrierwave'
 gem 'mini_magick'
-gem 'paperclip', ">= 3.0.2"
-gem 'mysql2'
+gem 'paperclip', ">= 3.0.2", :require => false
+
+
+platforms :ruby do
+  gem 'mysql2'
+end
+
+platforms :jruby do
+  gem 'jdbc-mysql'
+  gem 'activerecord-jdbcmysql-adapter'
+  gem 'trinidad'
+end
+
 gem 'erubis'
+
 gem 'will_paginate', "3.0.0"
 gem 'uuidtools'
 gem 'later_dude', '>= 0.3.1'
@@ -47,7 +59,6 @@ group :assets do
 end
 
 group :test, :development do
-  gem 'simplecov'
   gem 'factory_girl'
   gem 'factory_girl_rails'
   gem 'capybara'

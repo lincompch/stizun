@@ -1,3 +1,22 @@
+
+<% jruby = defined?(JRUBY_VERSION)  %>
+
+<% if jruby == true %>
+development:
+  adapter: jdbcmysql
+  host: localhost
+  database: stizun_dev
+  username: root
+  password: 
+
+test:
+  adapter: jdbcmysql
+  host: localhost
+  database: stizun_test
+  username: root
+  password: 
+
+<% else %>
 development:
   adapter: mysql2
   host: localhost
@@ -11,3 +30,4 @@ test:
   database: stizun_test
   user: root
   password: 
+<% end %>

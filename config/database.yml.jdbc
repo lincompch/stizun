@@ -1,0 +1,13 @@
+development:
+  adapter: jdbcmysql
+  host: localhost
+  database: stizun_dev
+  username: root
+  password: 
+  
+test:
+  adapter: jdbcmysql
+  host: localhost
+  database: stizun_test
+  username: root
+  password: 
