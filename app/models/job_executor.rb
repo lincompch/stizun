@@ -3,6 +3,7 @@
 # requiring external libraries, instantiating objects, running methods on them...
 class JobExecutor
 
+
   # Go through all the job configurations, see if any of the repetition configurations affect today.
   # If they affect today, schedule the job at the right time today via Delayed::Job's run_at option.
   # If they don't affect today, ignore them.
@@ -43,6 +44,7 @@ class JobExecutor
   def self.import_supply_items(supplier_name, filename)
     supplier = Supplier.where(:name => supplier_name).first
     if supplier
+      self.get_price_files(supplier_name)
       require_utility_class(supplier)
       util = supplier.utility_class_name.constantize.new
       util.import_supply_items(filename)
@@ -54,6 +56,7 @@ class JobExecutor
   def self.update_supply_items(supplier_name, filename)
     supplier = Supplier.where(:name => supplier_name).first
     if supplier
+      self.get_price_files(supplier_name)
       require_utility_class(supplier)
       util = supplier.utility_class_name.constantize.new
       util.update_supply_items(filename)      
@@ -64,6 +67,21 @@ class JobExecutor
 
   def self.export_product_csv(path)
     Product.export_available_to_csv(path)
+  end
+
+  def self.get_price_files(supplier_name)
+    csv_retrieval_script_path = "/home/lincomp/get_price_files.sh"
+    if File.exists?(csv_retrieval_script_path)
+        system("#{csv_retrieval_script_path} '#{supplier_name}'")
+        if $?.exitstatus == 0
+          return true
+        else
+          return false
+        end
+      else
+        raise "No CSV file retrieval script present at #{csv_retrieval_script_path}. Aborting import."
+      end
+    end
   end
 
 end
