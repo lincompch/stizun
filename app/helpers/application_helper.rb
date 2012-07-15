@@ -61,16 +61,16 @@ module ApplicationHelper
     return output
    end
    
-   # RSS feed fetch helper   
-   def display_rss_feed(limit = 10)
+  # RSS feed fetch helper   
+  def display_rss_feed(limit = 10)
 
-      output = "<div class='rss-entries'>"   
-      FeedEntry.all(:limit => limit).each do |entry|
-         output += "<h4><a href='#{entry.url}'>#{entry.title}</a></h4>"
-         output += "<p>#{entry.content}</p>"
-      end
-      output += "</div>"
-      output.html_safe
-    end
-   
+  #   output = "<div class='rss-entries'>"   
+  #   FeedEntry.all(:limit => limit).each do |entry|
+  #      output += "<h4><a href='#{entry.url}'>#{entry.title}</a></h4>"
+  #      output += "<p>#{entry.content}</p>"
+  #   end
+  #   output += "</div>"
+  #   output.html_safe
+  end
+
 end
