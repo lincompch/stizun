@@ -1,8 +1,7 @@
-class FeedEntry < ActiveRecord::Base
-  jruby = defined?(JRUBY_VERSION)
+require 'feedzirra'
 
-  if jruby == false
-    require 'feedzirra'
+class FeedEntry < ActiveRecord::Base
+
     default_scope order('published_at DESC')
     
     def self.update_from_feed(feed_url = "http://lincomp.wordpress.com/feed/")  
@@ -24,6 +23,5 @@ class FeedEntry < ActiveRecord::Base
         end  
       end  
     end
-  end
   
 end
