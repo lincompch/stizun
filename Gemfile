@@ -22,7 +22,6 @@ gem 'ckeditor', '3.6.2'
 
 # We better sanitize that HTML!
 gem 'sanitize'
-gem 'simplecov'
 gem 'thinking-sphinx'
 gem 'carrierwave'
 gem 'mini_magick'
