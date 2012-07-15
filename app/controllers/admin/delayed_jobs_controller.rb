@@ -15,8 +15,10 @@ class Admin::DelayedJobsController <  Admin::BaseController
 
   def create
     run_at = nil
-    unless params[:run_at].blank?
+    unless params[:run_at].blank? or (params[:run_at][:year].blank? and params[:run_at][:month].blank?)
       run_at = DateTime.civil(params[:run_at][:year].to_i, params[:run_at][:month].to_i, params[:run_at][:day].to_i, params[:run_at][:hour].to_i, params[:run_at][:minute].to_i)
+    else
+      run_at = params[:run_at]
     end
 
     job_configuration = JobConfiguration.new(:job_configuration_template_id => params[:job_configuration_template_id],
