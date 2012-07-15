@@ -157,7 +157,7 @@ class SupplierUtil
     SupplyItem.expire_category_tree_cache(@supplier)
 
     SupplyItem.suspended_delta do
-      File.open(filename, "r").each_with_index do |line, i|
+      File.open(filename, "r:utf-8").each_with_index do |line, i|
         next if i == 0 # We skip the first line, it only contains header information
         data = parse_line(line)
         next if data == false
