@@ -5,16 +5,9 @@ require_relative '../lib/ingram_util'
 
 describe IngramUtil do
   before(:each) do
-    describe "at the start of the tests, the system" do
-      it "should have no supply items" do
-        SupplyItem.count.should == 0
-      end
-
-      it "should have a supplier called 'Ingram Micro GmbH'" do
-        supplier = Supplier.find_or_create_by_name(:name => "Ingram Micro GmbH")
-        supplier.name.should == "Ingram Micro GmbH"
-      end
-    end
+    SupplyItem.count.should == 0
+    supplier = Supplier.find_or_create_by_name(:name => "Ingram Micro GmbH")
+    supplier.name.should == "Ingram Micro GmbH"
   end
 
   describe "importing supply items from CSV" do
