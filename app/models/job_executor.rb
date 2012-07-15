@@ -25,7 +25,7 @@ class JobExecutor
     # Don't submit jobs for run_at times that are in the past anyhow
     if run_at > DateTime.now
       matches = []
-      jobs = Delayed::Job.where(:run_at => job_configuration.run_at)
+      jobs = Delayed::Job.where(:run_at => run_at)
       jobs.each do |job|
         if job_configuration.equal_to_job?(job) == true
           matches << true
