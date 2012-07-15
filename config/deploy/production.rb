@@ -30,11 +30,11 @@ task :link_config do
   if File.exist?("rm #{release_path}/config/database.yml")
     run "rm #{release_path}/config/database.yml"
   end
-  run "ln -s #{db_config} #{release_path}/config/database.yml"
+  run "ln -sf #{db_config} #{release_path}/config/database.yml"
   run "rm #{release_path}/config/stizun.yml"
-  run "ln -s #{stizun_config} #{release_path}/config/stizun.yml"
+  run "ln -sf #{stizun_config} #{release_path}/config/stizun.yml"
   run "rm #{release_path}/config/email.yml"
-  run "ln -s #{email_config} #{release_path}/config/email.yml"
+  run "ln -sf #{email_config} #{release_path}/config/email.yml"
 
   run "sed -i 's,config.action_mailer.perform_deliveries = false,config.action_mailer.perform_deliveries = true,' #{release_path}/config/environments/production.rb"
 end
