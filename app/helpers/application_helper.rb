@@ -63,13 +63,20 @@ module ApplicationHelper
    
    # RSS feed fetch helper   
    def display_rss_feed(limit = 10)
-      output = "<div class='rss-entries'>"   
-      FeedEntry.all(:limit => limit).each do |entry|
-         output += "<h4><a href='#{entry.url}'>#{entry.title}</a></h4>"
-         output += "<p>#{entry.content}</p>"
+      jruby = defined?(JRUBY_VERSION)
+
+      if jruby == false
+
+        output = "<div class='rss-entries'>"   
+        FeedEntry.all(:limit => limit).each do |entry|
+           output += "<h4><a href='#{entry.url}'>#{entry.title}</a></h4>"
+           output += "<p>#{entry.content}</p>"
+        end
+        output += "</div>"
+        output.html_safe
+      else
+        return ""
       end
-      output += "</div>"
-      output.html_safe
    end
    
 end

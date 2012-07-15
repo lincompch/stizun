@@ -30,6 +30,7 @@ gem 'paperclip', ">= 3.0.2"
 
 platforms :ruby do
   gem 'mysql2'
+  gem "feedzirra", "~> 0.0.24"
 end
 
 platforms :jruby do
@@ -43,7 +44,6 @@ gem 'erubis'
 gem 'will_paginate', "3.0.0"
 gem 'uuidtools'
 gem 'later_dude', '>= 0.3.1'
-gem "feedzirra", "~> 0.0.24"
 gem "ruby-progressbar", :require => "progressbar"
 gem 'nokogiri'
 
