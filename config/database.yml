@@ -1,7 +1,7 @@
 
 <% jruby = defined?(JRUBY_VERSION)  %>
 
-<% if jruby == true %>
+<% if jruby == "constant" %>
 development:
   adapter: jdbcmysql
   host: localhost
