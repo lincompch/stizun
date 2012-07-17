@@ -18,22 +18,22 @@ describe IngramUtil do
 
       supply_item_should_be(supplier, "0180631", { :manufacturer => 'Dymo',
                                                 :weight => 0.05,
-                                                :purchase_price => 15.30,
+                                                :purchase_price => BigDecimal.new("15.30"),
                                                 :stock => 41} )
 
       supply_item_should_be(supplier, "0180538", { :manufacturer => 'Dymo',
                                                 :weight => 0.23,
-                                                :purchase_price => 18.70,
+                                                :purchase_price => BigDecimal.new("18.70"),
                                                 :stock => 110} )
 
       supply_item_should_be(supplier, "018Z055", { :manufacturer => 'Dymo',
                                                 :weight => 0.06,
-                                                :purchase_price => 16.70,
+                                                :purchase_price => BigDecimal.new("16.70"),
                                                 :stock => 33} )
 
       supply_item_should_be(supplier, "0711186", { :manufacturer => 'Netgear',
                                                 :weight => 8.21,
-                                                :purchase_price => 863.80,
+                                                :purchase_price => BigDecimal.new("863.80"),
                                                 :stock => 0} )
 
     end
@@ -56,22 +56,22 @@ describe IngramUtil do
 
       supply_item_should_be(supplier, "0180631", { :manufacturer => 'Dymo',
                                                 :weight => 0.10,
-                                                :purchase_price => 15.30,
+                                                :purchase_price => BigDecimal.new("15.30"),
                                                 :stock => 41} )
 
       supply_item_should_be(supplier, "0180538", { :manufacturer => 'Dymo',
                                                 :weight => 0.23,
-                                                :purchase_price => 19.70,
+                                                :purchase_price => BigDecimal.new("19.70"),
                                                 :stock => 110} )
 
       supply_item_should_be(supplier, "018Z055", { :manufacturer => 'Dymo',
                                                 :weight => 0.06,
-                                                :purchase_price => 16.70,
+                                                :purchase_price => BigDecimal.new("16.70"),
                                                 :stock => 100} )
 
       supply_item_should_be(supplier, "0711186", { :manufacturer => 'Netgear',
                                                 :weight => 12.4,
-                                                :purchase_price => 1233.40,
+                                                :purchase_price => BigDecimal.new("1233.40"),
                                                 :stock => 15} )
 
     end

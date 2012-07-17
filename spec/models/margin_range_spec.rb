@@ -50,16 +50,16 @@ describe MarginRange do
       mr2.save
       
       p = FactoryGirl.build(:product)
-      p.purchase_price = 45
+      p.purchase_price = BigDecimal.new("45")
       p.margin_percentage.to_s.should == "8.0" # Comes as a BigDecimal, that's why .to_s
       
       p2 = FactoryGirl.build(:product)
-      p2.purchase_price = 80
+      p2.purchase_price = BigDecimal.new("80")
       p2.margin_percentage.to_s.should == "10.0"
       
       # Checking for the default margin percentage as defined in the database
       p3 = FactoryGirl.build(:product)
-      p3.purchase_price = 290
+      p3.purchase_price = BigDecimal.new("290")
       p3.margin_percentage.to_s.should == "5.0"
     end
     
@@ -67,11 +67,11 @@ describe MarginRange do
       supplier = FactoryGirl.create(:supplier)
 
 
-      product1 = FactoryGirl.build(:product, :purchase_price => 100.0)
+      product1 = FactoryGirl.build(:product, :purchase_price => BigDecimal.new("100.0"))
       product1.supplier = supplier
       product1.save.should == true
 
-      product2 = FactoryGirl.build(:product, :purchase_price => 200.0)
+      product2 = FactoryGirl.build(:product, :purchase_price => BigDecimal.new("200.0"))
       product2.supplier = supplier
       product2.save.should == true
 

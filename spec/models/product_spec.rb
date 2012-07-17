@@ -12,14 +12,14 @@ describe Product do
     end
     
     it "should have a tax class" do
-      @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
-      TaxClass.where(:name => 'Test Tax Class', :percentage => 8.0).first.should_not == nil
+      @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => "8.0")
+      TaxClass.where(:name => 'Test Tax Class', :percentage => "8.0").first.should_not == nil
     end
   end
   
   describe "a product" do
     before(:each) do
-      @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
+      @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => "8.0")
       @supplier = create_supplier("Alltron AG")
       supply_items = create_supply_items(@supplier)
       supply_items.count.should > 0 
@@ -59,7 +59,7 @@ describe Product do
       supplier = FactoryGirl.create(:supplier)
 
       product = FactoryGirl.build(:product)
-      product.purchase_price = 100.0
+      product.purchase_price = "100.0"
       product.supplier = supplier
       product.save.should == true
 
@@ -102,7 +102,7 @@ describe Product do
       supplier = create_supplier("Some Company 1")
       supplier.supply_items.create(:name => "Switchable Supply Item",
                                    :description => "It's switchable",
-                                  :purchase_price => 50.0, 
+                                  :purchase_price => "50.0", 
                                   :weight => 20.0, 
                                   :manufacturer_product_code => 'ABC',
                                   :supplier_product_code => '123')
@@ -110,7 +110,7 @@ describe Product do
       supplier2 = create_supplier("Some Company 2")
       supplier2.supply_items.create(:name => "Switchable Supply Item From Company 2", 
                                     :description => "It's switchable, too!",
-                                   :purchase_price => 10.0, 
+                                   :purchase_price => "10.0", 
                                    :weight => 20.0, 
                                    :manufacturer_product_code => 'ABC',
                                    :supplier_product_code => '12345')
@@ -133,18 +133,18 @@ describe Product do
     end
     
     it "should have its core data updated when its supply item has received an update to its core data (price or stock level)" do
-      tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => 8.0)
+      tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => "8.0")
       supplier = create_supplier("Some Company 1")
       items = [ {:name => "Some Supply Item",
                  :description => "Some stuff goes here.",
-                 :purchase_price => 50.0, 
+                 :purchase_price => "50.0", 
                  :weight => 20.0, 
                  :stock => 200,
                  :manufacturer_product_code => 'ABC',
                  :supplier_product_code => '123'},
                 {:name => "Another Supply Item",
                  :description => "Some other stuff goes here.",
-                 :purchase_price => 20.0, 
+                 :purchase_price => "20.0", 
                  :weight => 10.0, 
                  :stock => 50,
                  :manufacturer_product_code => 'ABCDEF',
@@ -194,18 +194,18 @@ describe Product do
   
   describe "a componentized product" do
       before(:all) do
-        @tax_class = FactoryGirl.build(:tax_class, :name => 'Test Tax Class', :percentage => 8.0) 
+        @tax_class = FactoryGirl.build(:tax_class, :name => 'Test Tax Class', :percentage => "8.0") 
         @supplier = FactoryGirl.build(:alltron)
         array = [
-          { 'name' => 'Some fast CPU', 'purchase_price' => 115.0,
+          { 'name' => 'Some fast CPU', 'purchase_price' => "115.0",
             'weight' => 4.5 },
-          { 'name' => 'Cool RAM', 'purchase_price' => 220.0,
+          { 'name' => 'Cool RAM', 'purchase_price' => "220.0",
             'weight' => 0.3 },
-          { 'name' => 'An old Mainboard', 'purchase_price' => 80.0,
+          { 'name' => 'An old Mainboard', 'purchase_price' => "80.0",
             'weight' => 1.2 },
-          { 'name' => 'Semi-broken case with PSU', 'purchase_price' => 20.0,
+          { 'name' => 'Semi-broken case with PSU', 'purchase_price' => "20.0",
             'weight' => 10.2 },
-          { 'name' => 'Defective screen', 'purchase_price' => 200.0,
+          { 'name' => 'Defective screen', 'purchase_price' => "200.0",
             'weight' => 2.8 }
         ]
         

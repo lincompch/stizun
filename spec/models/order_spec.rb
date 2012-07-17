@@ -9,8 +9,8 @@ describe Order do
     mr0.margin_percentage = 5.0
     mr0.save
   
-    tax_class2 = TaxClass.where(:percentage => 10.0).first
-    tax_class2 = FactoryGirl.create(:tax_class, {:percentage => 10.0}) if tax_class2.nil?
+    tax_class2 = TaxClass.where(:percentage => "10.0").first
+    tax_class2 = FactoryGirl.create(:tax_class, {:percentage => "10.0"}) if tax_class2.nil?
 
     
     @sc = ShippingCalculatorBasedOnWeight.where(:name => 'For Testing Orders').first
@@ -44,7 +44,7 @@ describe Order do
     address.save.should == true
     
     
-    p = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => supplier, :tax_class => tax_class2, :purchase_price => 120.0, :direct_shipping => true, :is_available => true)
+    p = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => supplier, :tax_class => tax_class2, :purchase_price => BigDecimal.new("120.0"), :direct_shipping => true, :is_available => true)
     p.save.should == true
     
   end
@@ -62,9 +62,9 @@ describe Order do
 
     it "should report the same totals as the dynamic order it came from" do
       c = Cart.new
-      tc = FactoryGirl.create(:tax_class, {:percentage => 8.0})
-      product = FactoryGirl.create(:product, {:purchase_price => 100.0, :tax_class => tc})
-      product2 = FactoryGirl.create(:product, {:purchase_price => 250.0, :tax_class => tc})
+      tc = FactoryGirl.create(:tax_class, {:percentage => "8.0"})
+      product = FactoryGirl.create(:product, {:purchase_price => BigDecimal.new("100.0"), :tax_class => tc})
+      product2 = FactoryGirl.create(:product, {:purchase_price => BigDecimal.new("250.0"), :tax_class => tc})
 
       c.add_product(product)
       c.add_product(product2)

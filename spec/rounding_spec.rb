@@ -12,7 +12,7 @@ describe StaticDocument do
   
     # Why doesn't DatabaseCleaner do its job properly?
     TaxClass.destroy_all
-    tax_class = FactoryGirl.create(:tax_class, {:percentage => 8.2})
+    tax_class = FactoryGirl.create(:tax_class, {:percentage => "8.2"})
     
     @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing Rounding')
     @sc.configuration.shipping_costs = []
@@ -48,9 +48,9 @@ describe StaticDocument do
     
     # Again, DatabaseCleaner does not seem to be able to clean up after itself properly
     Product.destroy_all
-    p1 = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => @supplier, :tax_class => tax_class, :purchase_price => 118.27, :direct_shipping => true, :is_available => true)
+    p1 = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => @supplier, :tax_class => tax_class, :purchase_price => "118.27", :direct_shipping => true, :is_available => true)
     p1.save.should == true
-    p2 = Product.new(:name => "foo 2", :description => "bar 2", :weight => 10.0, :supplier => @supplier, :tax_class => tax_class, :purchase_price => 236.22, :direct_shipping => true, :is_available => true)
+    p2 = Product.new(:name => "foo 2", :description => "bar 2", :weight => 10.0, :supplier => @supplier, :tax_class => tax_class, :purchase_price => "236.22", :direct_shipping => true, :is_available => true)
     p2.save.should == true
 
   end

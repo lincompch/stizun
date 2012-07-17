@@ -43,13 +43,13 @@ describe SupplyItem do
       expensive_supplier = FactoryGirl.create(:supplier, :name => 'Expensive Supplier')
       cheap_supplier = FactoryGirl.create(:supplier, :name => 'Cheap Supplier')
 
-      expensive_supply_item = FactoryGirl.create(:supply_item, :purchase_price => 2000.00, 
+      expensive_supply_item = FactoryGirl.create(:supply_item, :purchase_price => "2000.00", 
                                         :supplier => expensive_supplier, :supplier_product_code => '1234', 
                                         :manufacturer_product_code => 'ABC123',
                                         :description => 'This is expensive',
                                         :weight => 1.5)
 
-      cheap_supply_item = FactoryGirl.create(:supply_item, :purchase_price => 1000.00, 
+      cheap_supply_item = FactoryGirl.create(:supply_item, :purchase_price => "1000.00", 
                                     :supplier => cheap_supplier, :supplier_product_code => '8379', 
                                     :manufacturer_product_code => 'ABC123',
                                     :description => 'This is cheaper',
@@ -71,13 +71,13 @@ describe SupplyItem do
       expensive_supplier = FactoryGirl.create(:supplier, :name => 'Expensive Supplier')
       cheap_supplier = FactoryGirl.create(:supplier, :name => 'Cheap Supplier')
 
-      expensive_supply_item = FactoryGirl.create(:supply_item, :purchase_price => 2000.00, 
+      expensive_supply_item = FactoryGirl.create(:supply_item, :purchase_price => "2000.00", 
                                         :supplier => expensive_supplier, :supplier_product_code => '1234', 
                                         :manufacturer_product_code => 'ABC123',
                                         :description => 'This is expensive',
                                         :weight => 1.5)
 
-      cheap_supply_item = FactoryGirl.create(:supply_item, :purchase_price => 2000.00, 
+      cheap_supply_item = FactoryGirl.create(:supply_item, :purchase_price => "2000.00", 
                                     :supplier => cheap_supplier, :supplier_product_code => '8379', 
                                     :manufacturer_product_code => 'ABC123',
                                     :description => 'This is cheaper',
@@ -106,13 +106,13 @@ describe SupplyItem do
       margin_range.supplier = cheap_supplier
       margin_range.save
 
-      expensive_supply_item = FactoryGirl.create(:supply_item, :purchase_price => 2000.00, 
+      expensive_supply_item = FactoryGirl.create(:supply_item, :purchase_price => "2000.00", 
                                         :supplier => expensive_supplier, :supplier_product_code => '1234', 
                                         :manufacturer_product_code => 'ABC123',
                                         :description => 'This is expensive',
                                         :weight => 1.5)
 
-      cheap_supply_item = FactoryGirl.create(:supply_item, :purchase_price => 1700.00, 
+      cheap_supply_item = FactoryGirl.create(:supply_item, :purchase_price => "1700.00", 
                                     :supplier => cheap_supplier, :supplier_product_code => '8379', 
                                     :manufacturer_product_code => 'ABC123',
                                     :description => 'This looks cheaper on the surface, but is more expensive with margin',

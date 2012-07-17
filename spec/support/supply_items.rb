@@ -1,11 +1,11 @@
 def create_supply_items(supplier, array = [])
   
   items = []  
-  tc = TaxClass.find_or_create_by_percentage(:percentage => 8.0, :name => 8.0)
+  tc = TaxClass.find_or_create_by_percentage(:percentage => "8.0", :name => "8.0")
   
   if array.empty?
-    items << SupplyItem.create(:supplier => supplier, :name => 'BD-Drive', :purchase_price => 250.0, :weight => 2.0, :tax_class => tc)
-    items << SupplyItem.create(:supplier => supplier, :name => 'CPU', :purchase_price => 50.0, :weight => 4.0, :tax_class => tc)
+    items << SupplyItem.create(:supplier => supplier, :name => 'BD-Drive', :purchase_price => "250.0", :weight => 2.0, :tax_class => tc)
+    items << SupplyItem.create(:supplier => supplier, :name => 'CPU', :purchase_price => "50.0", :weight => 4.0, :tax_class => tc)
   else
     array.each do |si|
       items << SupplyItem.create(:supplier => supplier,

@@ -93,7 +93,7 @@ FactoryGirl.define do
 
 	factory :tax_class do
 	  sequence(:name) {|i| "Tax class #{i}" }
-	  percentage 20
+	  percentage "20"
 	end
 
 	factory :supply_item do
@@ -110,7 +110,7 @@ FactoryGirl.define do
 	  sequence(:name) {|i| "Product #{i}"}
 	  description "Some example description"
 	  weight 1.0
-	  purchase_price 100.0
+	  purchase_price "100.0"
 	  association :supplier
 	  association :tax_class
 	end

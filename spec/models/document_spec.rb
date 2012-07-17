@@ -6,10 +6,10 @@ describe Document do
     mr0 = FactoryGirl.build(:margin_range)
     mr0.start_price = nil
     mr0.end_price = nil
-    mr0.margin_percentage = 5.0
+    mr0.margin_percentage = "5.0"
     mr0.save
   
-    @tax_class = FactoryGirl.create(:tax_class, {:percentage => 50.0})
+    @tax_class = FactoryGirl.create(:tax_class, {:percentage => "50.0"})
     
     @sc = ShippingCalculatorBasedOnWeight.create(:name => 'For Testing')
     @sc.configuration.shipping_costs = []
@@ -31,7 +31,7 @@ describe Document do
     @address.save.should == true
     
     
-    p = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => @supplier, :tax_class => @tax_class, :purchase_price => 100.0, :direct_shipping => true, :is_available => true)
+    p = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => @supplier, :tax_class => @tax_class, :purchase_price => BigDecimal.new("100.0"), :direct_shipping => true, :is_available => true)
     p.save.should == true
     
   end
