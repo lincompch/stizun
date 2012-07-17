@@ -7,7 +7,7 @@
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
 
-TaxClass.find_or_create_by_percentage_and_name(:percentage => 8.0, :name => 'Schweizer Mehrwertsteuer (Normalsatz)')
+TaxClass.find_or_create_by_percentage_and_name(:percentage => "8.0", :name => 'Schweizer Mehrwertsteuer (Normalsatz)')
 Category.create(:name => 'Main category')
 Usergroup.create(:name => 'Admins', :is_admin => true)
 
