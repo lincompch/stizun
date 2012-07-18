@@ -48,7 +48,7 @@ describe JobConfiguration do
 
     it "should affect today based on its absolute run_at time" do
       today_configuration = JobConfiguration.create(:job_configuration_template => JobConfigurationTemplate.first, 
-                                                    :run_at => DateTime.now + 5.hours)
+                                                    :run_at => DateTime.now)
 
       JobConfiguration.affecting_day(Date.today + 1.day).include?(today_configuration).should == false
       JobConfiguration.affecting_day(Date.today - 1.day).include?(today_configuration).should == false
