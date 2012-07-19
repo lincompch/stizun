@@ -17,9 +17,9 @@ class JobExecutor
     # Since this was called from a list of jobs affecting today, we know the correct run_at time must be sometime today
     # We set run_at to this, as our basic date and time, then configure more the minute and hour later
     if job_configuration.job_repetition
-      run_at = DateTime.parse("#{job_configuration.job_repetition.hour}:#{job_configuration.job_repetition.minute}")
+      run_at = DateTime.parse("#{job_configuration.job_repetition.hour}:#{job_configuration.job_repetition.minute}").in_time_zone("UTC")
     elsif job_configuration.run_at
-      run_at = job_configuration.run_at
+      run_at = job_configuration.run_at.in_time_zone("UTC")
     end
 
     # Don't submit jobs for run_at times that are in the past anyhow
