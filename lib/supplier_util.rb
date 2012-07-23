@@ -2,7 +2,8 @@
 class SupplierUtil
 
   def supplier_logger
-    @supplier_logger ||= Logger.new("#{Rails.root}/log/supplier_import_#{DateTime.now.to_s.gsub(":","-")}.log")
+    #@supplier_logger ||= Logger.new("#{Rails.root}/log/supplier_import_#{DateTime.now.to_s.gsub(":","-")}.log")
+    @supplier_logger ||= Logger.new("#{Rails.root}/log/supplier_import.log")
   end
 
   def parse_line(line)
