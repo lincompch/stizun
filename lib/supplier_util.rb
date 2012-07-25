@@ -3,7 +3,12 @@ class SupplierUtil
 
   def supplier_logger
     #@supplier_logger ||= Logger.new("#{Rails.root}/log/supplier_import_#{DateTime.now.to_s.gsub(":","-")}.log")
-    @supplier_logger ||= Logger.new("#{Rails.root}/log/supplier_import.log")
+    # The above appears to break in production when using Delayed::Job because it can't get to the directory. So hardcoding here.
+    if File.exists?("/home/lincomp/production/current/log")
+      @supplier_logger ||= Logger.new("/home/lincomp/production/current/log/supplier_import_#{DateTime.now.to_s.gsub(":","-")}.log")
+    else
+      @supplier_logger ||= Logger.new("/tmp/supplier_import_#{DateTime.now.to_s.gsub(":","-")}.log")
+    end
   end
 
   def parse_line(line)
