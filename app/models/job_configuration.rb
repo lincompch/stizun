@@ -58,8 +58,9 @@ class JobConfiguration < ActiveRecord::Base
 
   def equal_to_job?(job)
     job_object = YAML::load(job.handler)
+    arguments_array = job_configuration_template.job_arguments.split(",")
     if (job_object.args[0].to_s == job_configuration_template.job_method and\
-        job_object.args[1].to_s ==  job_configuration_template.job_arguments and\
+        job_object.args[1..job_object.args.size] == arguments_array and\
         job_object.object.to_s == job_configuration_template.job_class)
       return true
     else
