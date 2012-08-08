@@ -586,7 +586,7 @@ class Product < ActiveRecord::Base
         csv << p.to_csv_array
       end
     end
-    result = `zip -r "#{File.dirname(filename)}/#{File.basename(filename, '.*')}.zip" "#{filename}"`
+    result = `zip -rj "#{File.dirname(filename)}/#{File.basename(filename, '.*')}.zip" "#{filename}"`
     result_code = $?
     if result_code.exitstatus == 0
       return true 
