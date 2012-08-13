@@ -1,4 +1,4 @@
-# Language: de
+# language: de
 
 Funktionalität: Switch to available automatisieren
 
