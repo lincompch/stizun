@@ -4,7 +4,7 @@ Funktionalität: Switch to available automatisieren
 
   Grundlage: Supplier und deren Supply Items existieren 
 	Angenommen es gibt folgende Supply Items:
-	|name                |manufacturer_product_code|supplier_product_code|supplier  |purchase_price|
+	|name                |manufacturer_product_code|supplier_product_code|supplier  |price|
 	|Disktation DS110j_1w|123                      |1                    |Alltron AG|100.0|
 	|Disktation DS110j_1w|123                      |1                    |Ingram Micro GmbH|200.0|
 	|Disktation DS110j_1w|123                      |1                    |jET Schweiz IT AG|300.0|

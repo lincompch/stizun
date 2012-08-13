@@ -17,17 +17,19 @@ Then /^the following supply items should not exist:$/ do |table|
  end
 end
 
-Given /^there are the following supply items:$/ do |table|
-  
+Given /^there are the following supply items:|es gibt folgende Supply Items:$/ do |table|
   table.hashes.each do |s|
+    supplier = Supplier.where(:name => s['supplier']).first
+    supplier = FactoryGirl.create(:supplier, :name => s['supplier'])
     si = SupplyItem.new
-    si.supplier = Supplier.where(:name => s['supplier']).first
-    si.supplier_product_code = s['product_code']
+    si.supplier = supplier
     si.name = s['name']
     si.stock = s['stock']
     si.supplier_product_code = s['product_code']
+    si.manufacturer_product_code = s['manufacturer_product_code']
     si.purchase_price = BigDecimal.new(s['price'].to_s)
     si.weight = s['weight'].to_f
-    si.save
+    binding.pry
+    si.save.should == true 
   end
 end
