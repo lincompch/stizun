@@ -25,11 +25,10 @@ Given /^there are the following supply items:|es gibt folgende Supply Items:$/ d
     si.supplier = supplier
     si.name = s['name']
     si.stock = s['stock']
-    si.supplier_product_code = s['product_code']
+    si.supplier_product_code = s['supplier_product_code']
     si.manufacturer_product_code = s['manufacturer_product_code']
     si.purchase_price = BigDecimal.new(s['price'].to_s)
     si.weight = s['weight'].to_f
-    binding.pry
     si.save.should == true 
   end
 end
