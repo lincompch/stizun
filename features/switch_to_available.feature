@@ -20,7 +20,7 @@ Funktionalität: Switch to available automatisieren
     Dann ist das Produkt verbunden mit dem Supply Item "3" von "jET Schweiz IT AG"
     Wenn das Supply Item "3" vom Supplier "jET Schweiz IT AG" nicht mehr verfügbar ist
     Dann ist das Produkt nicht verfügbar 
-
+    
   Szenario: Supply Items, die Stückzahl 0 oder weniger beim Supplier haben, werden nicht berücksichtigt 
     Angenommen alle Supply Items sind verfügbar
     Dann ist das Produkt verbunden mit dem Supply Item "1" von "Alltron AG"
@@ -30,7 +30,16 @@ Funktionalität: Switch to available automatisieren
     Wenn das Supply Item "3" vom Supplier "jET Schweiz IT AG" nicht mehr verfügbar ist
     Dann ist das Produkt nicht verfügbar 
 
+  Szenario: Geht ein aktuell dem Produkt zugewiesenes Supply Item auf 0, sucht das System die nächstgünstigste Alternative bei anderen Suppliern
+    Angenommen alle Supply Items sind verfügbar
+    Dann ist das Produkt verbunden mit dem Supply Item "1" von "Alltron AG"
+    Wenn der Supplier "Alltron AG" 0 Stück vom Supply Item "1" an Lager hat
+    Dann ist das Produkt verbunden mit dem Supply Item "2" von "Ingram Micro GmbH"
+
   Szenario: Entscheiden, zu welchem Supply Item gewechselt wird, wenn mehrere verfügbar sind
-    # TODO: Beschreiben, dass nach Preis sortiert und immer das günstigste genommen wird.
-    # TODO: Beschreiben, wie bei einem unentschieden zwischen zwei Preisen umgegangen wird.
-    #
+    Angenommen das Produkt ist verbunden mit dem Supply Item mit Supplier Product Code "3"
+    Und es günstigere Supply Items für das Produkt gibt 
+    Und dessen Supplier 2 Stück des günstigsten Supply Items an Lager hat
+    Dann ist dieses Supply Item der beste Kandidat für einen automatischen Wechsel
+    Wenn der Supplier 0 Stück dieses Supply Items an Lager hat
+    Dann ist dieses Supply Item nicht der beste Kandidat für einen automatischen Wechsel

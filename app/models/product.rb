@@ -389,7 +389,6 @@ class Product < ActiveRecord::Base
     price > purchase_price
   end
  
- 
   def available?
     is_available == true
   end
@@ -504,14 +503,17 @@ class Product < ActiveRecord::Base
             p.save
             price_update_logger.info("[#{DateTime.now.to_s}] Disabled product #{p.to_s} because purchase price is higher than absolute sales price.")
 
-          # Nothing special to do to this product -- just update some fields
           else
 
             # Find out if there is a cheaper supply item to switch to
             if p.cheaper_supply_item_available?
-              supply_item = p.cheaper_supply_items.first # Since it's ordered by purchase price, picking the first is safe
-              p.supply_item = supply_item
+              supply_item = p.assign_cheapest_supply_item
               price_update_logger.info("[#{DateTime.now.to_s}] Switched product #{p.to_s} to cheaper supply item #{supply_item.to_s}")
+            elsif (p.supply_item.stock <= 0 or p.supply_item.status_constant == SupplyItem::DELETED) and p.alternative_available_supply_items.count > 0
+              p.supply_item = p.alternative_available_supply_items.first
+              supply_item = p.supply_item 
+              p.is_available = true
+              price_update_logger.info("[#{DateTime.now.to_s}] Switched product #{p.to_s} to alternative supply item #{supply_item.to_s}")
             else
               supply_item = p.supply_item
             end
@@ -569,7 +571,7 @@ class Product < ActiveRecord::Base
   end
   
   def alternative_supply_items
-    SupplyItem.where(:manufacturer_product_code => supply_item.manufacturer_product_code) - [supply_item]
+    SupplyItem.where(:manufacturer_product_code => supply_item.manufacturer_product_code).where("id <> #{supply_item.id}").order("purchase_price ASC")
   end
 
   def sync_supply_item_information
@@ -615,11 +617,7 @@ class Product < ActiveRecord::Base
   def cheaper_supply_items
     cheaper_supply_items = []
     unless self.supply_item.nil?
-      #cheaper_supply_items = SupplyItem.available.where(:manufacturer_product_code => self.supply_item.manufacturer_product_code).where("purchase_price < ?", self.supply_item.purchase_price.to_f)
-      
-
-      potentially_cheaper_supply_items = SupplyItem.available.where(:manufacturer_product_code => self.supply_item.manufacturer_product_code).order("purchase_price ASC")
-      
+      potentially_cheaper_supply_items = SupplyItem.in_stock.available.where(:manufacturer_product_code => self.supply_item.manufacturer_product_code).order("purchase_price ASC")
       cheaper_supply_items = potentially_cheaper_supply_items.select{|si|
         if si.supplier and !si.supplier.margin_ranges.empty?
           margin_ranges = si.supplier.margin_ranges
@@ -635,8 +633,22 @@ class Product < ActiveRecord::Base
     return cheaper_supply_items
   end
 
+  def assign_cheapest_supply_item
+    self.supply_item = self.cheaper_supply_items.first unless self.cheaper_supply_items.empty? # Since it's ordered by purchase price, picking the first is safe
+    return self.supply_item
+  end
+
+  def switch_to_cheapest_supply_item
+    self.assign_cheapest_supply_item
+    return self.save
+  end
+
   def cheaper_supply_item_available?
     self.cheaper_supply_items.count >= 1
+  end
+
+  def alternative_available_supply_items
+    self.alternative_supply_items.in_stock.available
   end
 
   private

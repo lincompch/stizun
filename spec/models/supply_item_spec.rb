@@ -61,10 +61,6 @@ describe SupplyItem do
       expensive_product.cheaper_supply_items.count.should == 1
       expensive_product.cheaper_supply_items.include?(cheap_supply_item).should == true
       expensive_product.cheaper_supply_items.include?(expensive_supply_item).should == false
-      
-      expensive_supply_item.product.should_not == nil
-      expensive_supply_item.product.cheaper_supply_item_available?.should == true
-      
     end
 
     it "should not offer any cheaper supply items if their prices match exactly" do
@@ -89,9 +85,6 @@ describe SupplyItem do
       expensive_product.cheaper_supply_items.count.should == 0
       expensive_product.cheaper_supply_items.include?(cheap_supply_item).should == false
       expensive_product.cheaper_supply_items.include?(expensive_supply_item).should == false
-      
-      expensive_supply_item.product.should_not == nil
-      expensive_supply_item.product.cheaper_supply_item_available?.should == false      
     end
 
     it "should not offer a supply item as cheaper if the margin makes it more expensive" do
@@ -123,9 +116,6 @@ describe SupplyItem do
       expensive_product.save.should == true
       expensive_product.cheaper_supply_items.count.should == 0
       expensive_product.cheaper_supply_items.include?(cheap_supply_item).should == false
-      
-      expensive_supply_item.product.should_not == nil
-      expensive_supply_item.product.cheaper_supply_item_available?.should == false      
     end
 
 

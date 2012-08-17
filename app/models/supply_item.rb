@@ -81,6 +81,8 @@ class SupplyItem < ActiveRecord::Base
   scope :rejected, :conditions => { :workflow_status_constant => SupplyItem::REJECTED }
   scope :checked, :conditions => { :workflow_status_constant => SupplyItem::CHECKED }
 
+  scope :in_stock, :conditions => 'stock > 0'
+
   scope :distinct_categories, select("DISTINCT(category_string)").order("category_string DESC")
   # Thinking Sphinx configuration
   # Must come AFTER associations
@@ -102,7 +104,6 @@ class SupplyItem < ActiveRecord::Base
     # has category(:ancestry), :as => :category_ids, :type => :multi
 
     set_property :delta => true
-stock
   end
 
   # Sphinx scopes
@@ -208,7 +209,7 @@ stock
         ap.disable_product
       end
 
-      # Disable the product because its supply item has become deleted.
+      # Disable the product because its supply item has become deleted
       # This is different from the above, above we handle situations involving
       # _components_ and componentized products
       unless self.product.blank?
