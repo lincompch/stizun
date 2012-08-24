@@ -582,16 +582,20 @@ class Product < ActiveRecord::Base
 
   def self.export_available_to_csv(filename)
     require 'csv'
-    CSV.open(filename, "w", :col_sep => ",", :quote_char => '"') do |csv|
+    CSV.open("#{filename}.tmp", "w", :col_sep => ",", :quote_char => '"') do |csv|
       csv << Product.csv_header
       Product.available.each do |p|
         csv << p.to_csv_array
       end
     end
-    result = `zip -rj "#{File.dirname(filename)}/#{File.basename(filename, '.*')}.zip" "#{filename}"`
-    result_code = $?
-    if result_code.exitstatus == 0
-      return true 
+    if FileUtils.mv("#{filename}.tmp", filename) == 0
+      result = `zip -rj "#{File.dirname(filename)}/#{File.basename(filename, '.*')}.zip" "#{filename}"`
+      result_code = $?
+      if result_code.exitstatus == 0
+        return true 
+      else
+        return false
+      end
     else
       return false
     end
