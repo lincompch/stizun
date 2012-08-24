@@ -14,6 +14,8 @@
     <th>Price from</th>
     <th>Price to</th>
     <th>Percentage</th>
+    <th>Band minimum</th>
+    <th>Band maximum</th>
     <th></th><th></th>
   </tr>
 
@@ -22,6 +24,8 @@
     <td><%= margin_range.start_price %></td>
     <td><%= margin_range.end_price %></td>
     <td><%= margin_range.margin_percentage %></td>
+    <td><%= margin_range.band_minimum %></td>
+    <td><%= margin_range.band_maximum %></td>
     <td><%= link_to 'Edit', edit_admin_margin_range_path(margin_range) %></td>
     <td><%= link_to 'Destroy', admin_margin_range_path(margin_range), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>

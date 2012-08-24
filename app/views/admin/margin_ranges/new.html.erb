@@ -23,9 +23,21 @@
     </tr>
     <tr>
       <td><%= f.label :margin_percentage, "Percentage" %> </td>
-      <td><%= f.text_field :margin_percentage %></td>
+      <td><%= f.text_field :margin_percentage %> (leave empty if you want to use margin bands below)</td>
     </tr>
+
+    <tr>
+      <td><%= f.label :band_minimum, "Band minimum percentage" %> </td>
+      <td><%= f.text_field :band_minimum %></td>
+    </tr>
+
+    <tr>
+      <td><%= f.label :band_maximum, "Band maximum percentage" %> </td>
+      <td><%= f.text_field :band_maximum %></td>
+    </tr>
+
   </table>  
+
 
   <%= f.hidden_field :supplier_id %>
   <%= f.hidden_field :product_id %>
