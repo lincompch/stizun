@@ -2,7 +2,7 @@ language: ruby
 rvm:
   - 1.9.2
   - 1.9.3
-  - jruby-head
+#  - jruby-head
 env: DISPLAY=:99.0
 before_script:
   - mysql -e 'create database stizun_test;'
