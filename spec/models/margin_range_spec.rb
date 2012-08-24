@@ -27,6 +27,23 @@ describe MarginRange do
       MarginRange.percentage_for_price(390).should == 5.0
 
     end
+
+   it "should use a linear transform to map the number of one range to a range of percentages, if given" do
+
+     # When the purchase price falls between 20 and 80, map that to a percentage that falls linearly between 10 and 30
+     mr0 = FactoryGirl.build(:margin_range)
+     mr0.start_price = 20.0
+     mr0.end_price = 80.0
+     mr0.band_minimum = 10.0
+     mr0.band_maximum = 30.0  
+     mr0.save
+
+     MarginRange.percentage_for_price(20.3).should == 10.1
+     MarginRange.percentage_for_price(79.7).should == 29.9 
+     MarginRange.percentage_for_price(41.0).should == 17.0
+     MarginRange.percentage_for_price(23.0).should == 11.0
+
+   end
     
     
    it "should be used during product margin calculation" do

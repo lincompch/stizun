@@ -19,7 +19,16 @@ class MarginRange < ActiveRecord::Base
     if range.nil?
       range = ranges.where("start_price IS ? AND end_price IS ?", nil, nil).first 
     end
-    percentage = range.margin_percentage unless range.nil?
+
+    unless range.nil?
+      if range.margin_percentage.nil?
+        if (!range.band_minimum.nil? and !range.band_maximum.nil?)
+          percentage = (price - range.start_price) / (range.end_price - range.start_price) * (range.band_maximum - range.band_minimum) + range.band_minimum
+        end
+      else
+        percentage = range.margin_percentage
+      end
+    end
     return percentage
   end
 
