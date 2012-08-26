@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Address < ActiveRecord::Base
   has_many :orders, :as => :shipping_address
   has_many :orders, :as => :billing_address
@@ -12,6 +13,8 @@ class Address < ActiveRecord::Base
   validates_presence_of :country
   validates_presence_of :firstname, :lastname, :city, :postalcode, :email
   
+  validate :disallow_poboxes
+
   scope :active, :conditions => {:status => 'active'}
   scope :deleted, :conditions => {:status => 'deleted'}
 
@@ -40,6 +43,26 @@ class Address < ActiveRecord::Base
     return filled_in
   end
   
+  def disallow_poboxes
+    begin
+      disallow = true if ConfigurationItem.get("disallow_pobox_in_addresses").value == "1"
+    rescue
+      disallow = false
+    end
+
+    if disallow == true
+      # Simplify the string for easier matching: P.O. Box -> pobox, P.O.Box -> pobox, PO Box -> pobox etc.
+      simplified_street = self.street.downcase.gsub(".", "").gsub(" ", "").gsub("î", "i")
+      if simplified_street.match("(pobox|casepostale|boitepostale|casellapostale|poinscatoli|postfach)").nil?
+        return true
+      else
+        errors.add("Address","Wir können leider nicht an Postfächer liefern. Bitte geben Sie eine richtige Domiziladresse an.")
+        return false
+      end
+    end
+  end
+
+
   def self.option_hash_for_select(user)
     unless user.addresses.active.nil? or user.addresses.active.count == 0
       options = [[I18n.t("stizun.address.select_an_address") , nil]]
@@ -49,5 +72,5 @@ class Address < ActiveRecord::Base
     end
     return options
   end
-  
+
 end
