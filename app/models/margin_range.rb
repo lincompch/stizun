@@ -4,9 +4,6 @@ class MarginRange < ActiveRecord::Base
   belongs_to :product
   #after_save :recalculate_affected_products
 
-  validates_numericality_of :start_price, :end_price
-
-
   validate :cannot_be_for_supplier_and_product_simultaneously
 
   def self.system_wide_ranges
