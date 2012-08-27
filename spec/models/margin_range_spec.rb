@@ -40,7 +40,7 @@ describe MarginRange do
      mr0.save.should == true
      MarginRange.percentage_for_price(20.0).should == 50.0
      MarginRange.percentage_for_price(24.0).should == 41.111111111111114
-     MarginRange.percentage_for_price(79.7).should == 10.016687526074259 
+     MarginRange.percentage_for_price(79.7).should == 10.050188205771644
      MarginRange.percentage_for_price(80.0).should == 10.0
      MarginRange.percentage_for_price(41.0).should == 22.682926829268293
      MarginRange.percentage_for_price(23.0).should == 43.04347826086957
