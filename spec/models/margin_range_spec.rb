@@ -35,16 +35,15 @@ describe MarginRange do
      mr0.start_price = 20.0
      mr0.end_price = 80.0
      mr0.margin_percentage = nil
-     mr0.band_minimum = 10.0
-     mr0.band_maximum = 30.0  
+     mr0.band_minimum = 50.0
+     mr0.band_maximum = 10.0  
      mr0.save.should == true
-
-     MarginRange.percentage_for_price(20.0).should == 10.0
-     MarginRange.percentage_for_price(20.3).should == 10.1
-     MarginRange.percentage_for_price(79.7).should == 29.9 
-     MarginRange.percentage_for_price(80.0).should == 30.0 
-     MarginRange.percentage_for_price(41.0).should == 17.0
-     MarginRange.percentage_for_price(23.0).should == 11.0
+     MarginRange.percentage_for_price(20.0).should == 50.0
+     MarginRange.percentage_for_price(24.0).should == 41.111111111111114
+     MarginRange.percentage_for_price(79.7).should == 10.016687526074259 
+     MarginRange.percentage_for_price(80.0).should == 10.0
+     MarginRange.percentage_for_price(41.0).should == 22.682926829268293
+     MarginRange.percentage_for_price(23.0).should == 43.04347826086957
 
    end
     
