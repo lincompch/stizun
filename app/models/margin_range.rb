@@ -22,7 +22,21 @@ class MarginRange < ActiveRecord::Base
     unless range.nil?
       if range.margin_percentage.nil?
         if (!range.band_minimum.nil? and !range.band_maximum.nil?)
-          percentage = (price - range.start_price) / (range.end_price - range.start_price) * (range.band_maximum - range.band_minimum) + range.band_minimum
+          #percentage = (price - range.start_price) / (range.end_price - range.start_price) * (range.band_maximum - range.band_minimum) + range.band_minimum
+
+          a = range.start_price
+          b = range.end_price
+          c = range.band_minimum
+          d = range.band_maximum
+          e = price
+
+          w = (a*c)/100.0
+          x = (b*d)/100.0
+          y = (e-a)/(b-a)*(w-x)+w
+          z = (y/e)*100.0
+
+          percentage = z
+
         end
       else
         percentage = range.margin_percentage
