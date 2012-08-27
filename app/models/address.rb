@@ -56,7 +56,7 @@ class Address < ActiveRecord::Base
       if simplified_street.match("(pobox|casepostale|boitepostale|casellapostale|poinscatoli|postfach)").nil?
         return true
       else
-        errors.add("Address","Wir können leider nicht an Postfächer liefern. Bitte geben Sie eine richtige Domiziladresse an.")
+        errors.add(:street,"Wir können leider nicht an Postfächer liefern. Bitte geben Sie eine richtige Domiziladresse an.")
         return false
       end
     end
