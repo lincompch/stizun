@@ -32,7 +32,7 @@ class MarginRange < ActiveRecord::Base
 
           w = (a*c)/100.0
           x = (b*d)/100.0
-          y = (e-a)/(b-a)*(w-x)+w
+          y = (e-a)/(b-a)*(x-w)+w
           z = (y/e)*100.0
 
           percentage = z
