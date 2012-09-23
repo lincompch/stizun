@@ -2,7 +2,7 @@ class Category < ActiveRecord::Base
   has_and_belongs_to_many :products
   has_many :supply_items
 
-  #acts_as_tree :order => "name"
+  has_many :category_dispatchers
 
   acts_as_nested_set :order => "name"
 
