@@ -35,7 +35,7 @@ describe CategoryDispatcher do
     category_dispatcher.target_category = category3
     category_dispatcher.save
 
-    CategoryDispatcher.dispatch(["Root Category", "Second-level Category", "Third-level Category"]).should == category3
+    CategoryDispatcher.dispatch(["Root Category", "Second-level Category", "Third-level Category"]).should == [category3]
   end
 
   it "should not slot things anyhwere if the target does not exist" do

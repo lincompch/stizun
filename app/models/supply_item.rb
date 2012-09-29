@@ -11,7 +11,7 @@ class SupplyItem < ActiveRecord::Base
  
   before_create :set_status_to_available_if_nil
   before_save :normalize_stock, :handle_supply_item_deletion, :handle_supply_item_reactivation
-  after_save :generate_categories
+  after_save :generate_categories, :auto_create_products
 
 
   def self.per_page
@@ -255,5 +255,17 @@ class SupplyItem < ActiveRecord::Base
     return description
   end
 
+  def auto_create_products
+    unless (self.product or self.category01.blank? or self.category02.blank? or self.category03.blank?)
+      target_categories = CategoryDispatcher.dispatch([category01, category02, category03])
+      if target_categories
+        p = Product.new_from_supply_item(self)
+        p.categories = p.categories | target_categories
+        p.save
+      end
+    else
+      logger.info("Not auto-creating products for #{self.to_s} because one of its category strings is blank or because it already has a product.")
+    end
+  end
 end
 
