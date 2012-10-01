@@ -32,18 +32,18 @@ describe CategoryDispatcher do
     category2.save
     category3.save
 
-    category_dispatcher.target_category = category3
+    category_dispatcher.categories = [category3]
     category_dispatcher.save
 
     CategoryDispatcher.dispatch(["Root Category", "Second-level Category", "Third-level Category"]).should == [category3]
   end
 
-  it "should not slot things anyhwere if the target does not exist" do
+  it "should not slot things anyhwere if the target is not set" do
     category_dispatcher = FactoryGirl.create(:category_dispatcher)
     category_dispatcher.level_01 = "Root Category"
     category_dispatcher.level_02 = "Second-level Category"
     category_dispatcher.level_03 = "Third-level Category"
-    category_dispatcher.target_category = nil
+    category_dispatcher.categories = []
     category_dispatcher.save
 
     category1 = FactoryGirl.create(:category, {:name => "Root Category"})
@@ -69,7 +69,7 @@ describe CategoryDispatcher do
     category3.parent = category2
     category2.save
     category3.save
-    category_dispatcher.target_category = category3
+    category_dispatcher.categories = [category3]
     category_dispatcher.save
 
     CategoryDispatcher.dispatch(["Root Category", "Second-level Category", "Third-level Category"]).should == false
