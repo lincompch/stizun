@@ -210,7 +210,7 @@ describe IngramUtil do
       cd = FactoryGirl.create(:category_dispatcher, {:level_01 => 'Verbrauchsmaterial',
                                                      :level_02 => 'Etiketten',
                                                      :level_03 => 'Labeldrucker',
-                                                     :target_category => target_category})
+                                                     :categories => [target_category]})
       IngramTestHelper.import_from_file(Rails.root + "spec/data/4_im.csv")
       # Only 3 out of 4 of the products in the file have a matching combination of categories to be automatically assigned
       target_category.products.count.should == 3
