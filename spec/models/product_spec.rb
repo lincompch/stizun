@@ -40,7 +40,7 @@ describe Product do
       p = FactoryGirl.build(:product)
       p.supplier = @supplier
       si = FactoryGirl.build(:supply_item)
-      si.image_url = "http://l.yimg.com/g/images/en-us/flickr-yahoo-logo.png.v3"
+      si.image_url = "https://www.google.ch/images/srpr/logo3w.png"
       si.pdf_url = "http://www.scala-lang.org/sites/default/files/linuxsoft_archives/docu/files/ScalaByExample.pdf"
       si.save.should == true
       
