@@ -22,4 +22,20 @@ class CategoryDispatcher < ActiveRecord::Base
       raise ArgumentError "CategoryDispatcher only works with 3 levels of category_array. #{category_array.count} where given instead."
     end
   end
+
+  def self.create_unique_combinations_for(supplier)
+
+    supplier.supply_items.group(:category01, :category02, :category03).each do |si|
+
+      cd = supplier.category_dispatchers.where(:level_01 => si.category01,
+                                              :level_02 => si.category02,
+                                              :level_03 => si.category03).first
+
+      unless cd
+        cd = supplier.category_dispatchers.create(:level_01 => si.category01,
+                                                 :level_02 => si.category02,
+                                                 :level_03 => si.category03)
+      end
+    end
+  end
 end
