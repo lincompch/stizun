@@ -547,7 +547,7 @@ class Product < ActiveRecord::Base
 
   def try_to_get_product_files
     unless self.supply_item.nil?
-      if self.supply_item.retrieve_product_picture
+      if self.supply_item.reload.retrieve_product_picture
         if self.product_pictures.count == 1
           self.product_pictures.first.set_main_picture
         end
