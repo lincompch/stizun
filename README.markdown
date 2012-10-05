@@ -15,28 +15,25 @@ Main features:
  * UUID-based invoice generator: Users don't need to remember their
    login details just to follow a link from an e-mail to their
    invoice.
+ * Automatic assignment of any supplier's products to your own product
+   category tree after every import. This way, a single employee
+   can manage hundreds of thousands of products and tens of thousands
+   of product updates per day.
 
-It's not quite ready for production yet, but we're getting there!
+
+It's not ready for production yet, but we're getting there!
 
 
 Copryight and licensing statement
 =================================
 
-Stizun, (C) 2010 - 2011 Ramón Cahenzli
+Stizun, (C) 2010 - 2012 Ramón Cahenzli
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+This is Free Software distributed under the terms of the Apache 2.0 license.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
+See the file LICENSE for the full text of the license.
 
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+It is also available on the Web: http://www.apache.org/licenses/LICENSE-2.0.txt
 
 Licenses of included works
 ==========================
@@ -44,4 +41,4 @@ Licenses of included works
 It is possible that this source code distribution includes code (libraries,
 plugins, extensions, samples, etc.) that belong to other owners than the one
 stated above. In such a case, the license included with the code in question
-has precedence over the GNU Affero General Public License.
+has precedence over the Apache license.
