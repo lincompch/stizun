@@ -1,6 +1,8 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.1'
+gem 'jruby-openssl', :platform => :jruby
+
 
 # Allows UJS with jQuery
 gem 'jquery-rails'
@@ -69,6 +71,7 @@ group :test, :development do
   gem 'launchy'
   gem 'ZenTest'
   gem 'pry'
+  gem 'warbler', :platform => :jruby
   #gem 'therubyracer', '>= 0.8.2'
 end
 
