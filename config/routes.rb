@@ -89,6 +89,7 @@ Stizun::Application.routes.draw do
       resources :shipping_rates
       resources :products
       resources :margin_ranges
+      resources :category_dispatchers
       resources :categories do
         resources :products
         resources :supply_items

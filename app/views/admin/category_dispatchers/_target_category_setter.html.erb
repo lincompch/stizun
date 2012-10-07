@@ -1,0 +1,11 @@
+<%= form_for [:admin, @supplier, category_dispatcher] do |f| %>
+
+  <%= f.collection_select :category_ids,
+        Category.sorted_fully_qualified_categories, 
+        :id, :fully_qualified_name, 
+        { :selected => category_dispatcher.category_ids, :disabled => lambda{|category| !category.leaf? } }, 
+        { :style => 'min-height: 10em', :multiple => true, :name => 'category_dispatcher[category_ids][]' } 
+  %>
+
+  <%= f.submit "Save" %>
+<% end %>

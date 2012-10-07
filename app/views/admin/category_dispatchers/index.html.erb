@@ -1,0 +1,26 @@
+<h1>Category Dispatchers</h1>
+<h2>For <%= @supplier.name %></h2>
+
+<table>
+
+  <thead>
+    <tr>
+      <th>Category 01</th>
+      <th>Category 02</th>
+      <th>Category 02</th>
+      <th>Target categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @supplier.category_dispatchers.each do |cd| %>
+
+      <tr>
+        <td><%= cd.level_01 %></td>
+        <td><%= cd.level_02 %></td>
+        <td><%= cd.level_03 %></td>
+        <td><%= render :partial => 'target_category_setter', :locals => {:category_dispatcher => cd} %></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>
