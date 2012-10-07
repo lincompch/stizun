@@ -494,7 +494,7 @@ class Product < ActiveRecord::Base
 
         # The product has a supplier, but its supply item is gone
         if p.supply_item.nil? and !p.supplier_id.blank?
-          self.disable_product(p)
+          p.disable_product
           price_update_logger.info("[#{DateTime.now.to_s}] Disabled product #{p.to_s} because its supply item is gone.")
         else
           # Disabling product because we would be incurring a loss otherwise
