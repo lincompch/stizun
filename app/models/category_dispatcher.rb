@@ -3,6 +3,9 @@ class CategoryDispatcher < ActiveRecord::Base
   validates_presence_of :level_01
   has_and_belongs_to_many :categories
 
+  def to_s
+    return "#{level_01} :: #{level_02} :: #{level_03}"
+  end
 
   def self.dispatch(category_array, options = {})
     self.validate_arguments(category_array)
@@ -38,4 +41,6 @@ class CategoryDispatcher < ActiveRecord::Base
       end
     end
   end
+
+
 end
