@@ -1,4 +1,4 @@
-
+# encoding: utf-8
 class AlltronTestHelper
 
   def self.import_from_file(filename)

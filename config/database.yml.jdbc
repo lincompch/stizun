@@ -4,6 +4,7 @@ development:
   database: stizun_dev
   username: root
   password: 
+  encoding: UTF-8
   
 test:
   adapter: jdbcmysql
@@ -11,3 +12,4 @@ test:
   database: stizun_test
   username: root
   password: 
+  encoding: UTF-8

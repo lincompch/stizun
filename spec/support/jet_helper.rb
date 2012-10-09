@@ -1,4 +1,4 @@
-
+# encoding: utf-8
 class JetTestHelper
 
   def self.import_from_file(filename)

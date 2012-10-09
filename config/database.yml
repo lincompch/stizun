@@ -6,14 +6,14 @@ development:
   adapter: jdbcmysql
   host: localhost
   database: stizun_dev
-  encoding: utf8
+  encoding: UTF-8
   username: root
   password: 
 
 test:
   adapter: jdbcmysql
   host: localhost
-  encoding: utf8
+  encoding: UTF-8
   database: stizun_test
   username: root
   password: 

@@ -1,4 +1,4 @@
-
+# encoding: utf-8
 class IngramTestHelper
 
   def self.import_from_file(filename)
