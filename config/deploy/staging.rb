@@ -73,6 +73,10 @@ task :migrate_database do
 end
 
 
+task :precompile_assets do
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rake assets:precompile"
+end
+
 
 task :configure_sphinx do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:conf && RAILS_ENV=production bundle exec rake ts:reindex"
@@ -93,7 +97,8 @@ namespace :deploy do
 
 end
 
-before "deploy:assets:precompile", :link_config
+after "deploy:create_symlink", :link_config
+after "link_config", :precompile_assets
 after "deploy:restart", "stop_sphinx"
 after "link_config", "link_files"
 before "migrate_database", "retrieve_db_config"
