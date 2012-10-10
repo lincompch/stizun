@@ -256,7 +256,7 @@ class SupplyItem < ActiveRecord::Base
   end
 
   def auto_create_products
-    unless (self.product or self.category01.blank? or self.category02.blank? or self.category03.blank?)
+    unless self.product
       target_categories = CategoryDispatcher.dispatch([category01, category02, category03])
       if target_categories
         p = Product.new_from_supply_item(self)
@@ -266,7 +266,7 @@ class SupplyItem < ActiveRecord::Base
         end
       end
     else
-      logger.info("Not auto-creating products for #{self.to_s} because one of its category strings is blank or because it already has a product.")
+      logger.info("Not auto-creating products for #{self.to_s} because it already has a product.")
     end
   end
 end
