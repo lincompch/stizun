@@ -1,6 +1,8 @@
 <h1>Category Dispatchers</h1>
 <h2>For <%= @supplier.name %></h2>
 
+<p><%= link_to 'Autocreate products', :controller => :suppliers, :action => 'autocreate_products', :id => @supplier.id %> from supply items according to these settings. <strong>WARNING: Takes a very, very long time. Click only once!</strong></p>
+
 <table>
 
   <thead>

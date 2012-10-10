@@ -15,4 +15,5 @@ class Admin::CategoryDispatchersController < Admin::BaseController
     end
    
   end
+
 end

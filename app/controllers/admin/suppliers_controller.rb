@@ -82,4 +82,16 @@ class Admin::SuppliersController < Admin::BaseController
       format.xml  { head :ok }
     end
   end
+
+
+  def autocreate_products
+    @supplier = Supplier.find(params[:id])
+    @supplier.supply_items.each do |si|
+      si.autocreate_products
+    end
+    flash[:notice] = "Autocreation has run for #{@supplier.name}."
+    redirect_to :action => 'index'
+  end
+
+
 end
