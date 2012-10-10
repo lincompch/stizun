@@ -261,7 +261,9 @@ class SupplyItem < ActiveRecord::Base
       if target_categories
         p = Product.new_from_supply_item(self)
         p.categories = p.categories | target_categories
-        p.save
+        if p.save
+          logger.info("Auto-created product #{p.to_s} from #{self.to_s} due to category dispatcher.")
+        end
       end
     else
       logger.info("Not auto-creating products for #{self.to_s} because one of its category strings is blank or because it already has a product.")
