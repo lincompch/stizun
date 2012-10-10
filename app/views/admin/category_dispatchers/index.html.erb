@@ -3,6 +3,9 @@
 
 <p><%= link_to 'Autocreate products', :controller => :suppliers, :action => 'autocreate_products', :id => @supplier.id %> from supply items according to these settings. <strong>WARNING: Takes a very, very long time. Click only once!</strong></p>
 
+
+
+<%= will_paginate @dispatchers %>
 <table>
 
   <thead>
@@ -14,7 +17,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @supplier.category_dispatchers.each do |cd| %>
+    <% @dispatchers.each do |cd| %>
 
       <tr>
         <td><%= cd.level_01 %></td>
@@ -26,3 +29,5 @@
   </tbody>
 
 </table>
+
+<%= will_paginate @dispatchers %>

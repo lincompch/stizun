@@ -2,6 +2,7 @@ class Admin::CategoryDispatchersController < Admin::BaseController
 
   def index
     @supplier = Supplier.find(params[:supplier_id])
+    @dispatchers = @supplier.category_dispatchers.paginate(:page => params[:page], :per_page => 30)
   end 
 
   def update
