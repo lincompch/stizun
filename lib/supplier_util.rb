@@ -186,6 +186,7 @@ class SupplierUtil
       end
     end
     Product.update_price_and_stock # Sync available products to the now changed supply items
+    CategoryDispatcher.create_unique_combinations_for(@supplier)
   end
 
   def new_supply_item(data)
