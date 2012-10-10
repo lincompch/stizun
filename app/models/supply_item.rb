@@ -12,7 +12,7 @@ class SupplyItem < ActiveRecord::Base
   before_create :set_status_to_available_if_nil
   before_save :normalize_stock, :handle_supply_item_deletion, :handle_supply_item_reactivation
   after_save :generate_categories, :auto_create_products
-
+  after_create :auto_create_products
 
   def self.per_page
     return 100
