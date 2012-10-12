@@ -1,10 +1,20 @@
 <h1>Category Dispatchers</h1>
 <h2>For <%= @supplier.name %></h2>
 
+<% if params[:filter] %>
+  <p>Showing those 
+  <% if params[:filter][:with_categories].to_i == 1 %>
+    with categories
+  <% elsif params[:filter][:without_categories].to_i == 1 %>
+    without categories
+  <% end %>
+  </p>
+<% end %>
+
 <p><%= link_to 'Autocreate products', :controller => :suppliers, :action => 'autocreate_products', :id => @supplier.id %> from supply items according to these settings. <strong>WARNING: Takes a very, very long time. Click only once!</strong></p>
 
 
-
+<p>[ Filter: <%= link_to "Show all", :action => 'index' %> | <%= link_to "With assigned categories", :action => 'index', :filter => {:with_categories => 1}%> | <%= link_to "Without any assigned categories", :action => 'index', :filter => {:without_categories => 1} %> ]</p>
 <%= will_paginate @dispatchers %>
 <table>
 

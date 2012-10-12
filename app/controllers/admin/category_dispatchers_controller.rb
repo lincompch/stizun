@@ -2,7 +2,16 @@ class Admin::CategoryDispatchersController < Admin::BaseController
 
   def index
     @supplier = Supplier.find(params[:supplier_id])
-    @dispatchers = @supplier.category_dispatchers.paginate(:page => params[:page], :per_page => 30)
+    if params[:filter]
+      if params[:filter][:without_categories].to_i == 1
+        @dispatchers = @supplier.category_dispatchers.without_categories.paginate(:page => params[:page], :per_page => 30)
+      elsif params[:filter][:with_categories].to_i == 1
+        @dispatchers = @supplier.category_dispatchers.with_categories.paginate(:page => params[:page], :per_page => 30)
+      end
+    else
+      @dispatchers = @supplier.category_dispatchers.paginate(:page => params[:page], :per_page => 30)
+    end
+
   end 
 
   def update

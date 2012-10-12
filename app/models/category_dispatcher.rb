@@ -3,6 +3,15 @@ class CategoryDispatcher < ActiveRecord::Base
   validates_presence_of :level_01
   has_and_belongs_to_many :categories
 
+  scope :without_categories, lambda {
+    includes(:categories).where("categories.id IS NULL")
+  }
+
+  scope :with_categories, lambda {
+    includes(:categories).where("categories.id IS NOT NULL")
+  }
+
+
   def to_s
     return "#{level_01} :: #{level_02} :: #{level_03}"
   end
