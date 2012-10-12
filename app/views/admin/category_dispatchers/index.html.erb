@@ -27,8 +27,17 @@
     </tr>
   </thead>
   <tbody>
+    <%= form_tag({:action => 'index'}, { :method => "get" }) do -%>
+      <tr>
+        <td><%= text_field_tag "filter[level_01]", @level_01 %></td>
+        <td><%= text_field_tag "filter[level_02]", @level_02 %></td>
+        <td><%= text_field_tag "filter[level_03]", @level_03 %></td>
+        <td><%= submit_tag "<-- Use filters" %></td>
+      </tr>
+      <%= hidden_field_tag "filter[with_categories]", "1" if params[:filter] and params[:filter][:with_categories] %>
+      <%= hidden_field_tag "filter[without_categories]", "1" if params[:filter] and params[:filter][:without_categories] %>
+    <% end -%>
     <% @dispatchers.each do |cd| %>
-
       <tr>
         <td><%= cd.level_01 %></td>
         <td><%= cd.level_02 %></td>

@@ -2,17 +2,33 @@ class Admin::CategoryDispatchersController < Admin::BaseController
 
   def index
     @supplier = Supplier.find(params[:supplier_id])
-    if params[:filter]
-      if params[:filter][:without_categories].to_i == 1
-        @dispatchers = @supplier.category_dispatchers.without_categories.paginate(:page => params[:page], :per_page => 30)
-      elsif params[:filter][:with_categories].to_i == 1
-        @dispatchers = @supplier.category_dispatchers.with_categories.paginate(:page => params[:page], :per_page => 30)
-      end
-    else
-      @dispatchers = @supplier.category_dispatchers.paginate(:page => params[:page], :per_page => 30)
-    end
 
-  end 
+    @level_01 = ""
+    @level_02 = ""
+    @level_03 = ""
+
+    pagination_options = {:page => params[:page], :per_page => 30}
+    if params[:filter]
+
+      @level_01 = params[:filter][:level_01] or ""
+      @level_02 = params[:filter][:level_02] or ""
+      @level_03 = params[:filter][:level_03] or ""
+
+      if params[:filter][:without_categories].to_i == 1
+        @dispatchers = @supplier.category_dispatchers.without_categories
+      elsif params[:filter][:with_categories].to_i == 1
+        @dispatchers = @supplier.category_dispatchers.with_categories
+      else
+        @dispatchers = @supplier.category_dispatchers
+      end
+
+      #binding.pry
+      @dispatchers = @dispatchers.where("level_01 LIKE ? AND level_02 LIKE ? AND level_03 LIKE ?", "%#{@level_01}%","%#{@level_02}%", "%#{@level_03}%").paginate(pagination_options)
+
+    else
+      @dispatchers = @supplier.category_dispatchers.paginate(pagination_options)
+    end
+  end
 
   def update
     @category_dispatcher = CategoryDispatcher.find(params[:id])
