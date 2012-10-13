@@ -1,6 +1,8 @@
 <h1>Category Dispatchers</h1>
 <h2>For <%= @supplier.name %></h2>
 
+<p><%= link_to "Back to suppliers", :controller => 'admin/suppliers', :action => 'index' %></p>
+
 <% if params[:filter] %>
   <p>Showing those 
   <% if params[:filter][:with_categories].to_i == 1 %>
@@ -24,6 +26,7 @@
       <th>Category 02</th>
       <th>Category 03</th>
       <th>Target categories</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -32,6 +35,7 @@
         <td><%= text_field_tag "filter[level_01]", @level_01 %></td>
         <td><%= text_field_tag "filter[level_02]", @level_02 %></td>
         <td><%= text_field_tag "filter[level_03]", @level_03 %></td>
+        <td></td>
         <td><%= submit_tag "<-- Use filters" %></td>
       </tr>
       <%= hidden_field_tag "filter[with_categories]", "1" if params[:filter] and params[:filter][:with_categories] %>
@@ -43,6 +47,7 @@
         <td><%= cd.level_02 %></td>
         <td><%= cd.level_03 %></td>
         <td><%= render :partial => 'target_category_setter', :locals => {:category_dispatcher => cd} %></td>
+        <td><%= link_to "Delete", {:action => 'destroy', :id => cd.id, :filter => params[:filter]}, { :method => :delete } %></td>
       </tr>
     <% end %>
   </tbody>
