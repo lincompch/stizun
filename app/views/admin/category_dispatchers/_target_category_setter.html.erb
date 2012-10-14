@@ -7,11 +7,13 @@
         { :style => 'min-height: 10em', :multiple => true, :name => 'category_dispatcher[category_ids][]' } 
   %>
 
-  <%= hidden_field_tag "filter[level_01]", params[:filter][:level_01] %>
-  <%= hidden_field_tag "filter[level_02]", params[:filter][:level_02] %>
-  <%= hidden_field_tag "filter[level_03]", params[:filter][:level_03] %>
-  <%= hidden_field_tag "filter[with_categories]", params[:filter][:with_categories] %>
-  <%= hidden_field_tag "filter[without_categories]", params[:filter][:without_categories] %>
+  <% if params[:filter] %>
+    <%= hidden_field_tag "filter[level_01]", params[:filter][:level_01] %>
+    <%= hidden_field_tag "filter[level_02]", params[:filter][:level_02] %>
+    <%= hidden_field_tag "filter[level_03]", params[:filter][:level_03] %>
+    <%= hidden_field_tag "filter[with_categories]", params[:filter][:with_categories] %>
+    <%= hidden_field_tag "filter[without_categories]", params[:filter][:without_categories] %>
+  <% end %>
 
   <%= f.submit "Save" %>
 <% end %>
