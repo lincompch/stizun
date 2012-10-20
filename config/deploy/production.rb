@@ -1,6 +1,6 @@
-require "rvm/capistrano"                  # Load RVM's capistrano plugin.
-set :rvm_type, :system
-set :rvm_ruby_string, '1.9.2-p320'        # Or whatever env you want it to run in.
+#require "rvm/capistrano"                  # Load RVM's capistrano plugin.
+#set :rvm_type, :system
+#set :rvm_ruby_string, '1.9.2-p320'        # Or whatever env you want it to run in.
 
 require "bundler/capistrano"
 
