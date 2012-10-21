@@ -27,6 +27,7 @@ Given /^there are the following supply items:|es gibt folgende Supply Items:$/ d
     si.stock = s['stock']
     si.supplier_product_code = s['supplier_product_code']
     si.manufacturer_product_code = s['manufacturer_product_code']
+    si.ean_code = s['ean_code']
     si.purchase_price = BigDecimal.new(s['price'].to_s)
     si.weight = s['weight'].to_f
     si.save.should == true 

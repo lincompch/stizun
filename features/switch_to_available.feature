@@ -4,10 +4,10 @@ Funktionalität: Switch to available automatisieren
 
   Grundlage: Supplier und deren Supply Items existieren 
     Angenommen es gibt folgende Supply Items:
-    |name                |manufacturer_product_code|supplier_product_code|supplier         |price|stock|
-    |Disktation DS110j_1w|123                      |1                    |Alltron AG       |100.0|10|
-    |Disktation DS110j_1w|123                      |2                    |Ingram Micro GmbH|200.0|10|
-    |Disktation DS110j_1w|123                      |3                    |jET Schweiz IT AG|300.0|10|
+    |name                |manufacturer_product_code|ean_code|supplier_product_code|supplier         |price|stock|
+    |Disktation DS110j_1w|123                      |XYZ12   |1                    |Alltron AG       |100.0|10|
+    |Disktation DS110j_1w|123                      |XYZ12   |2                    |Ingram Micro GmbH|200.0|10|
+    |Disktation DS110j_1w|123                      |XYZ12   |3                    |jET Schweiz IT AG|300.0|10|
     Und ein Produkt "Disktation DS110j_1w" mit Manufacturer Product Code "123" und Supplier Product Code "1"
     Und das Produkt ist verbunden mit dem Supply Item mit Supplier Product Code "1"
     
