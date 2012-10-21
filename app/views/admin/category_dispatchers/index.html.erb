@@ -55,16 +55,3 @@
 </table>
 
 <%= will_paginate @dispatchers %>
-
-
-
-<h2>Relevant log entries</h2>
-<p>Last log entries containing 'CategoryDispatcher':</p>
-
-<p><% last_file = `ls -1 #{Rails.root}/log/supplier*`.split("\n").last %>
-<% lines = File.readlines(last_file).each do |line| %>
-  <% unless line.match(/.*CategoryDispatcher.*/).nil? %>
-    <%= line.gsub("\n","<br>").html_safe  %>
-  <% end %>
-<% end %>
-</p>
