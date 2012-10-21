@@ -4,6 +4,8 @@ class SupplyItem < ActiveRecord::Base
   #validates_presence_of :stock, :weight, :name
   #validates_numericality_of :stock, :weight, :purchase_price
 
+  #validates_presence_of :ean_code, :if => lambda { self.manufacturer_product_code.blank? }
+
   belongs_to :tax_class
   belongs_to :supplier
   has_one :product

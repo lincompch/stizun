@@ -30,6 +30,7 @@ class JetUtil < SupplierUtil
                       :category01 => 5, 
                       :category02 => 6, 
                       :category03 => nil, 
+                      :ean_code => 7 
                       }
 
     # Possible options:

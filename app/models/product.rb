@@ -306,6 +306,7 @@ class Product < ActiveRecord::Base
     p.weight = si.weight
     p.supplier_product_code = si.supplier_product_code
     p.manufacturer_product_code = si.manufacturer_product_code
+    p.ean_code = si.ean_code
     p.stock = si.stock
     return p
   end
@@ -539,6 +540,7 @@ class Product < ActiveRecord::Base
     self.purchase_price = supply_item.purchase_price
     self.manufacturer = supply_item.manufacturer
     self.manufacturer_product_code = supply_item.manufacturer_product_code
+    self.ean_code = supply_item.ean_code
     self.supplier_product_code = supply_item.supplier_product_code
     self.supplier = supply_item.supplier
     changes = self.changes

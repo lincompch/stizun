@@ -1,11 +1,10 @@
 # encoding: utf-8
 class SupplierUtil
 
-  def supplier_logger
-    #@supplier_logger ||= Logger.new("#{Rails.root}/log/supplier_import_#{DateTime.now.to_s.gsub(":","-")}.log")
+  def supplier_logger #@supplier_logger ||= Logger.new("#{Rails.root}/log/supplier_import_#{DateTime.now.to_s.gsub(":","-")}.log")
     # The above appears to break in production when using Delayed::Job because it can't get to the directory. So hardcoding here.
     #if File.exists?("/home/lincomp/production/current/log")
-    @supplier_logger ||= Logger.new("/home/lincomp/production/current/log/supplier_import_#{DateTime.now.to_s.gsub(":","-")}.log")
+    @supplier_logger ||= Logger.new(Rails.root + "log/supplier_import_#{DateTime.now.to_s.gsub(":","-")}.log")
     #else
     #  @supplier_logger ||= Logger.new("/tmp/supplier_import_#{DateTime.now.to_s.gsub(":","-")}.log")
     #end
@@ -54,6 +53,7 @@ class SupplierUtil
     overwrite_field(supply_item, "category01", "#{data[:category01]}")
     overwrite_field(supply_item, "category02", "#{data[:category02]}")
     overwrite_field(supply_item, "category03", "#{data[:category03]}")
+    overwrite_field(supply_item, "ean_code", "#{data[:ean_code]}")
 
     unless supply_item.changes.empty?
       changes = supply_item.changes
@@ -192,6 +192,7 @@ class SupplierUtil
   def new_supply_item(data)
     si = @supplier.supply_items.new
     si.supplier_product_code = data[:supplier_product_code]
+    si.ean_code = data[:ean_code]
     si.name = "#{data[:name01]}"
     si.name += " #{data[:name02]}" unless data[:name02].blank?
     si.name += " (#{data[:name03]})" unless data[:name03].blank?

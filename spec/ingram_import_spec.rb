@@ -221,5 +221,14 @@ describe IngramUtil do
       #end
     end
 
+    it "should import EAN codes for supply items" do
+      IngramTestHelper.import_from_file(Rails.root + "spec/data/4_im.csv")
+      SupplyItem.count.should == 4
+      SupplyItem.all.each do |si|
+        si.ean_code.should_not == ""
+        si.ean_code.should_not == nil
+      end
+    end
+
   end
 end

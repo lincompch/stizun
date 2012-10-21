@@ -159,6 +159,15 @@ describe AlltronUtil do
       product.available?.should == false
 
     end
+
+    it "should import some EAN codes for supply items" do
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron.csv")
+      SupplyItem.count.should == 4
+      valid_codes = ["","4015867568453","4902580320744"]
+      SupplyItem.all.each do |si|
+        valid_codes.include?(si.ean_code).should == true
+      end
+    end
   end
 
   describe 'quick import of stock levels' do

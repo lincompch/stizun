@@ -30,6 +30,11 @@
 </tr>
 
 <tr>
+  <td><%= f.label :ean_code, "EAN Code" %></td>
+  <td><%= f.text_field :ean_code, :size => 40 %></td>
+</tr>
+
+<tr>
   <td>Categories (level 1, 2, 3)</td>
   <td>
     <%= f.text_field :category01, :size => 30 %>

@@ -31,7 +31,8 @@ class IngramUtil < SupplierUtil
                       :image_url => 25, #'BILD1',
                       :category01 => 0, #'GRUPPE1',
                       :category02 => 1, #'GRUPPE2',
-                      :category03 => 2 #'GRUPPE3'}   
+                      :category03 => 2, #'GRUPPE3'}   
+                      :ean_code => 27
                       }
     
     # Possible options:

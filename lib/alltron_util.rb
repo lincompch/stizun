@@ -29,6 +29,7 @@ class AlltronUtil < SupplierUtil
                       :category01 => 17, #'Kategorie 1',
                       :category02 => 18, #'Kategorie 2',
                       :category03 => 19, #'Kategorie 3'}
+                      :ean_code => 21
                       }
 
     # Possible options:
