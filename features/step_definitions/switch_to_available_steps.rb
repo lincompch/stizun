@@ -8,7 +8,7 @@ end
 
 Angenommen /^das Produkt ist verbunden mit dem Supply Item mit Supplier Product Code "(.*?)"$/ do |supplier_product_code|
   @product.supply_item = SupplyItem.where(:supplier_product_code => supplier_product_code).first
-  @product.save  
+  @product.save
   @product.reload.supply_item.should_not == nil
 end
 
@@ -20,6 +20,14 @@ Wenn /^das Supply Item "(.*?)" vom Supplier "(.*?)" nicht mehr verfügbar ist$/ 
   si.save.should == true
   si.reload.status_constant.should == SupplyItem::DELETED
   Product.update_price_and_stock
+end
+
+Dann /^erscheint das Supply Item "(.*?)" vom Supplier "(.*?)" nicht als mögliche Alternative für automatisches Switch\-To$/ do |supplier_product_code, supplier|
+  supplier = Supplier.where(:name => supplier).first
+  si = supplier.supply_items.where(:supplier_product_code => supplier_product_code).first
+  si.should_not == nil
+  @product.alternative_supply_items.include?(si).should == false
+  @product.cheaper_supply_items.include?(si).should == false
 end
 
 Dann /^ist das Produkt verbunden mit dem Supply Item "(.*?)" von "(.*?)"$/ do |supplier_product_code, supplier_name|
@@ -68,4 +76,6 @@ end
 Dann /^ist dieses Supply Item nicht der beste Kandidat für einen automatischen Wechsel$/ do
   @product.cheaper_supply_items.first.should_not == @supply_item
 end
+
+
 

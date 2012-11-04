@@ -573,7 +573,9 @@ class Product < ActiveRecord::Base
   end
   
   def alternative_supply_items
-    SupplyItem.where(:manufacturer_product_code => supply_item.manufacturer_product_code).where("id <> #{supply_item.id}").order("purchase_price ASC")
+    SupplyItem.where("manufacturer_product_code != ''")\
+              .where(:manufacturer_product_code => supply_item.manufacturer_product_code)\
+              .where("id <> #{supply_item.id}").order("purchase_price ASC")
   end
 
   def sync_supply_item_information
@@ -623,7 +625,9 @@ class Product < ActiveRecord::Base
   def cheaper_supply_items
     cheaper_supply_items = []
     unless self.supply_item.nil?
-      potentially_cheaper_supply_items = SupplyItem.in_stock.available.where(:manufacturer_product_code => self.supply_item.manufacturer_product_code).order("purchase_price ASC")
+      potentially_cheaper_supply_items = SupplyItem.in_stock.available.where("manufacturer_product_code != ''")\
+                                                                      .where(:manufacturer_product_code => self.supply_item.manufacturer_product_code)\
+                                                                      .order("purchase_price ASC")
       cheaper_supply_items = potentially_cheaper_supply_items.select{|si|
         if si.supplier and !si.supplier.margin_ranges.empty?
           margin_ranges = si.supplier.margin_ranges

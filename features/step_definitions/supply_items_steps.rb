@@ -20,7 +20,7 @@ end
 Given /^there are the following supply items:|es gibt folgende Supply Items:$/ do |table|
   table.hashes.each do |s|
     supplier = Supplier.where(:name => s['supplier']).first
-    supplier = FactoryGirl.create(:supplier, :name => s['supplier'])
+    supplier = FactoryGirl.create(:supplier, :name => s['supplier']) if supplier.nil?
     si = SupplyItem.new
     si.supplier = supplier
     si.name = s['name']

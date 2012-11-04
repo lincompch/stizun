@@ -13,6 +13,7 @@ class SupplierUtil
   def parse_line(line)
     data = {}
     line_array = line.split(@csv_parse_options[:col_sep])
+
     unless @expected_csv_field_count.nil?
       broken_line = true if line_array.count < @expected_csv_field_count # This line is invalid, we don't want it
     end
@@ -86,7 +87,7 @@ class SupplierUtil
     file = File.open(filename, "r")
     file.each do |line|
       data = parse_line(line)
-      next if data == false
+      next if data == false # The array isn't there, skip this line
       next if data[:supplier_product_code].blank? # The line is incomplete, skip it
       if available_supplier_product_codes.include?(data[:supplier_product_code])
         item_hashes << data
