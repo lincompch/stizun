@@ -60,7 +60,7 @@ class OrdersController < ApplicationController
     
     if @order.save
       @cart.destroy
-      invoice_order(@order)
+      @order.invoice_order
       @order.send_order_confirmation(current_user)
         
       flash[:notice] = I18n.t("stizun.order.thanks_for_your_order")
@@ -80,15 +80,6 @@ class OrdersController < ApplicationController
   def load_order
     @order ||= Order.new
     return @order
-  end
-  
-  def invoice_order(order)
-    invoice = Invoice.new_from_order(@order)      
-    if invoice.save
-      @order.update_attributes(:status_constant => Order::AWAITING_PAYMENT)
-    else
-      History.add("Could not create invoice for order #{@order.document_id} during checkout, must manually invoice this.", History::ACCOUNTING, @order)
-    end
   end
   
   # Picks either an ID-based address (existing in the database) or returns

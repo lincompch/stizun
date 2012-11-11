@@ -79,4 +79,19 @@ class StoreMailer < ActionMailer::Base
       format.text { render StoreMailer.template_path("product_notification") }
     end
   end
+
+  def auto_cancellation(order)
+    @from = APP_CONFIG['default_from_email'] || 'stizun@localhost'
+    #subject = "#{APP_CONFIG['email_subject_prefix']} #{t("stizun.store_mailer.shipping_notification_subject")}"
+    subject = "#{APP_CONFIG['email_subject_prefix']} Stornierung: Ihre Bestellung wurde wegen ausstehender Zahlung storniert"
+    @order = order
+    @invoice = order.invoice if order.invoice
+    mail(:to => order.notification_email_addresses,
+         :bcc => @from,
+         :subject => subject) do |format|
+      format.text { render StoreMailer.template_path("auto_cancellation") }
+    end
+  end
+
+
 end

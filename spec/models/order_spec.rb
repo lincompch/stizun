@@ -42,15 +42,15 @@ describe Order do
                   :email => 'lala@lala.com',
                   :country => Country.first)    
     address.save.should == true
-    
-    
+
+
     p = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => supplier, :tax_class => tax_class2, :purchase_price => BigDecimal.new("120.0"), :direct_shipping => true, :is_available => true)
     p.save.should == true
-    
+
   end
-  
+
   describe "a normal order" do
-    
+
     it "should be created from a cart or other dynamic document" do
       c = Cart.new
       c.add_product(Product.first)
@@ -145,7 +145,7 @@ describe Order do
 		
     it "should have no shipping cost starting at a certain order value, according to the shop's configuration" do
       ConfigurationItem.create(:key => "free_shipping_minimum_amount", :value => 300)
-      
+
       product = Product.where(:name => 'foo').first      
       c = Cart.new
       c.add_product(product)
@@ -154,14 +154,14 @@ describe Order do
       # Right now it still has the default shipping cost
       c.shipping_cost.should == BigDecimal.new("10.0")
       c.shipping_taxes.should == BigDecimal.new("1.0")
-            
+
       # Now the value goes over 300, thus triggering free shipping
       c.add_product(product)
       c.add_product(product)
       c.shipping_cost.should == BigDecimal.new("0.0")
       c.shipping_taxes.should == BigDecimal.new("0.0")
     end
-    
+
     it "should get its shipping cost passed on correctly from a shopping cart" do
       ConfigurationItem.create(:key => "free_shipping_minimum_amount", :value => 300)
       c = Cart.new
@@ -169,12 +169,69 @@ describe Order do
       c.add_product(Product.first)
       c.add_product(Product.first)
       c.save
-      
+
       o = Order.new_from_cart(c)
       o.shipping_cost.should == BigDecimal.new("0.0")
       o.shipping_taxes.should == BigDecimal.new("0.0")
     end
-    
+ 
+
+    it "should auto-cancel itself if no payment has arrived 10 days after ordering" do
+      product = Product.where(:name => 'foo').first
+      c = Cart.new
+      c.add_product(product)
+      c.save
+
+      o = Order.new_from_cart(c)
+      o.billing_address = Address.first
+      o.save.should == true
+      o.invoice_order
+
+      c2 = Cart.new
+      c2.add_product(product)
+      c2.save
+
+      o2 = Order.new_from_cart(c2)
+      o2.billing_address = Address.first
+      o2.save.should == true
+      o2.invoice_order
+
+      o.update_attributes({:created_at => (DateTime.now - 15.days)})
+      o.save
+
+      Order.process_automatic_cancellations
+      o.reload
+      o.status_constant.should == Order::CANCELED
+      o2.reload.status_constant.should == Order::AWAITING_PAYMENT
+
+    end
+
+    it "should e-mail customers when it auto-cancels itself" do
+      product = Product.where(:name => 'foo').first
+      c = Cart.new
+      c.add_product(product)
+      c.save
+
+      o = Order.new_from_cart(c)
+      o.billing_address = Address.first
+      o.save.should == true
+      o.invoice_order
+
+      o.update_attributes({:created_at => (DateTime.now - 15.days)})
+      o.save
+
+      ActionMailer::Base.deliveries.clear
+      Order.process_automatic_cancellations
+
+      emails = ActionMailer::Base.deliveries
+      emails.count.should == 1 # The invoice counts as well!
+      emails[0].subject.should == "[Local Shop] Stornierung: Ihre Bestellung wurde wegen ausstehender Zahlung storniert"
+      emails[0].body.should =~ /.*storniert worden.*/
+    end
+
+    it "should remind customers to pay 5 days before the order is auto-cancelled" do
+
+    end
   end
 
 end

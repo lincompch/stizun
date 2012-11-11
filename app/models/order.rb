@@ -9,7 +9,7 @@ class Order < StaticDocument
   accepts_nested_attributes_for :tracking_codes, :allow_destroy => true, :reject_if =>  proc { |attributes| attributes['shipping_carrier_id'].blank? }
 
   # === Validations
-  
+
   #validates_presence_of :billing_address
   
   validates_associated :billing_address, :message => I18n.t('stizun.address.is_incomplete')
@@ -113,6 +113,7 @@ class Order < StaticDocument
   end
   
   def clone_from_cart(cart)
+    raise ArgumentError, "clone_from_cart can only work with objects of type Cart" unless cart.class.name == "Cart"
     self.shipping_cost = cart.shipping_cost
     self.shipping_taxes = cart.shipping_taxes
     self.rebate = BigDecimal.new("0.0") # Shouldn't be necessary because the DB default is 0.0, but better safe than sorry
@@ -254,6 +255,28 @@ class Order < StaticDocument
         StoreMailer.shipping_notification(self).deliver
       rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
         History.add("Could not send shipping notification for order  #{self.document_id}: #{e.to_s}", History::GENERAL, self)
+      end
+    end
+  end
+
+  def invoice_order
+    unless self.new_record?
+      invoice = Invoice.new_from_order(self)
+      if invoice.save
+        self.update_attributes({:status_constant => Order::AWAITING_PAYMENT})
+      else
+        History.add("Could not create invoice for order #{self.document_id} during checkout, must manually invoice this.", History::ACCOUNTING, self)
+      end
+    else
+      raise ArgumentError, "Can't create an associated invoice unless this order is saved first."
+    end
+  end
+
+  def self.process_automatic_cancellations
+    Order.awaiting_payment.each do |o|
+      if o.created_at < (DateTime.now - 10.days)
+        o.cancel
+        StoreMailer.auto_cancellation(o).deliver
       end
     end
   end
