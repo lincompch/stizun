@@ -43,6 +43,11 @@
   </tr>
 
   <tr>
+    <td>Auto-cancel</td>
+    <td><%= f.check_box :auto_cancel %> Auto-cancel order and invoice if not paid within 10 days</td>
+  </tr>
+
+  <tr>
     <td>Estimated delivery date</td>
     <td><%= f.date_select(:estimated_delivery_date, :include_blank => true) %></td>
   </tr>

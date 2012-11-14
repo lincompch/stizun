@@ -274,7 +274,7 @@ class Order < StaticDocument
 
   def self.process_automatic_cancellations
     Order.awaiting_payment.each do |o|
-      if o.created_at < (DateTime.now - 10.days)
+      if o.auto_cancel == true and o.created_at < (DateTime.now - 10.days)
         o.cancel
         StoreMailer.auto_cancellation(o).deliver
       end

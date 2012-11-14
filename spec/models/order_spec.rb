@@ -176,7 +176,7 @@ describe Order do
     end
  
 
-    it "should auto-cancel itself if no payment has arrived 10 days after ordering" do
+    it "should auto-cancel itself if no payment has arrived 10 days after ordering, and if it's set to auto-cancel itself" do
       product = Product.where(:name => 'foo').first
       c = Cart.new
       c.add_product(product)
@@ -184,6 +184,7 @@ describe Order do
 
       o = Order.new_from_cart(c)
       o.billing_address = Address.first
+      o.auto_cancel = true
       o.save.should == true
       o.invoice_order
 
@@ -206,6 +207,31 @@ describe Order do
 
     end
 
+    it "should not auto-cancel itself it's not set to auto-cancel" do
+      product = Product.where(:name => 'foo').first
+      c = Cart.new
+      c.add_product(product)
+      c.save
+
+      o = Order.new_from_cart(c)
+      o.billing_address = Address.first
+      o.auto_cancel = false
+      o.save.should == true
+      o.invoice_order
+
+      c2 = Cart.new
+      c2.add_product(product)
+      c2.save
+
+      o.update_attributes({:created_at => (DateTime.now - 15.days)})
+      o.save
+
+      Order.process_automatic_cancellations
+      o.reload
+      o.status_constant.should == Order::AWAITING_PAYMENT # Same as when it was submitted
+    end
+
+
     it "should e-mail customers when it auto-cancels itself" do
       product = Product.where(:name => 'foo').first
       c = Cart.new
@@ -214,6 +240,7 @@ describe Order do
 
       o = Order.new_from_cart(c)
       o.billing_address = Address.first
+      o.auto_cancel = true
       o.save.should == true
       o.invoice_order
 
