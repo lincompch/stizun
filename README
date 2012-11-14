@@ -60,7 +60,7 @@ step by step:
  * Go to http://localhost:3000
  * Register a new user
  * `bundle exec rails c`
- * u = User.first
+ * `u = User.first`
  * `u.groups << Usergroup.where(:name => 'Admin').first`
  * `u.save`
 
