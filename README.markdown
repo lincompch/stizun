@@ -49,20 +49,20 @@ step by step:
 
  * Grab source code
  * Go to the directory you have the source in
- * bundle install
+ * `bundle install`
  * Edit config/database.yml to suit your database config
  * Edit config/stizun.yml to your liking
- * bundle exec rake db:migrate
+ * `bundle exec rake db:migrate`
  * Edit db/seeds.rb to your liking (change the values to something reasonable)
- * bundle exec rake db:seed
- * bundle exec rake ts:conf ts:reindex ts:start
- * bundle exec rails s
+ * `bundle exec rake db:seed`
+ * `bundle exec rake ts:conf ts:reindex ts:start`
+ * `bundle exec rails s`
  * Go to http://localhost:3000
  * Register a new user
- * bundle exec rails c
+ * `bundle exec rails c`
  * u = User.first
- * u.groups << Usergroup.where(:name => 'Admin').first
- * u.save
+ * `u.groups << Usergroup.where(:name => 'Admin').first`
+ * `u.save`
 
 Repeat this in your production environment (`RAILS_ENV=production`) when you're
 ready to go into production mode.
