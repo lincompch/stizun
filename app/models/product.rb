@@ -320,7 +320,10 @@ class Product < ActiveRecord::Base
   # Generate a header matching the kind of columns that are actually available for
   # our Product objects.
   def self.csv_header
-    ["id","manufacturer","manufacturer_product_code","name","description", "price_excluding_vat", "price_including_vat", "price_including_shipping", "vat", "shipping_cost", "stock", "availability", "weight_in_kg", "link"]
+    ["id","manufacturer","manufacturer_product_code","name","description",\
+     "price_excluding_vat", "price_including_vat", "price_including_shipping",\
+     "vat", "shipping_cost", "stock", "availability", "weight_in_kg", "link",\
+     "image_link","factsheet_link","ean"]
   end
   
   # Convert this particular product instance into a CSV-compatible representation
@@ -333,9 +336,18 @@ class Product < ActiveRecord::Base
     if stock < 1
       availability = "ask"
     end
+    unless product_pictures.main.empty?
+      image_link = product_pictures.main.first.file.url
+    end
+    unless attachments.empty?
+      factsheet_link = attachments.first.file.url
+    end
     # We use string interpolation notation (#{foo}) so that nil errors are already
     # handled gracefully without any extra work.
-    ["#{id}", "#{manufacturer}" ,"#{manufacturer_product_code}", "#{name}", "#{description}", "#{price.rounded}", "#{taxed_price.rounded}", "#{shipped_price}", "#{taxes}", "#{c.shipping_cost.rounded}", "#{stock}", "#{availability}", "#{weight}", "http://www.lincomp.ch/products/#{self.id}"]
+    ["#{id}", "#{manufacturer}" ,"#{manufacturer_product_code}", "#{name}",\
+     "#{description}", "#{price.rounded}", "#{taxed_price.rounded}", "#{shipped_price}",\
+     "#{taxes}", "#{c.shipping_cost.rounded}", "#{stock}", "#{availability}", "#{weight}",\
+     "http://www.lincomp.ch/products/#{self.id}","#{image_link}","#{factsheet_link}","#{ean}"]
   end
   
   def calculated_margin_percentage
