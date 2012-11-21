@@ -323,7 +323,7 @@ class Product < ActiveRecord::Base
     ["id","manufacturer","manufacturer_product_code","name","description",\
      "price_excluding_vat", "price_including_vat", "price_including_shipping",\
      "vat", "shipping_cost", "stock", "availability", "weight_in_kg", "link",\
-     "image_link","factsheet_link","ean"]
+     "image_link","factsheet_link","ean","categories"]
   end
   
   # Convert this particular product instance into a CSV-compatible representation
@@ -342,12 +342,20 @@ class Product < ActiveRecord::Base
     unless attachments.empty?
       factsheet_link = attachments.first.file.url
     end
+    unless categories.empty?
+      categories_arr = [] 
+      categories.each do |c|
+        categories_arr << c.fully_qualified_name
+      end
+      categories_string = categories_arr.join("|")
+    end
     # We use string interpolation notation (#{foo}) so that nil errors are already
     # handled gracefully without any extra work.
     ["#{id}", "#{manufacturer}" ,"#{manufacturer_product_code}", "#{name}",\
      "#{description}", "#{price.rounded}", "#{taxed_price.rounded}", "#{shipped_price}",\
      "#{taxes}", "#{c.shipping_cost.rounded}", "#{stock}", "#{availability}", "#{weight}",\
-     "http://www.lincomp.ch/products/#{self.id}","#{image_link}","#{factsheet_link}","#{ean}"]
+     "http://www.lincomp.ch/products/#{self.id}","#{image_link}","#{factsheet_link}","#{ean}",\
+     "#{categories_string}"]
   end
   
   def calculated_margin_percentage
