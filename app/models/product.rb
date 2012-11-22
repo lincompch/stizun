@@ -323,7 +323,7 @@ class Product < ActiveRecord::Base
     ["id","manufacturer","manufacturer_product_code","name","description",\
      "price_excluding_vat", "price_including_vat", "price_including_shipping",\
      "vat", "shipping_cost", "stock", "availability", "weight_in_kg", "link",\
-     "image_link","factsheet_link","ean","categories"]
+     "image_link","factsheet_link","ean_code","categories"]
   end
   
   # Convert this particular product instance into a CSV-compatible representation
@@ -354,7 +354,7 @@ class Product < ActiveRecord::Base
     ["#{id}", "#{manufacturer}" ,"#{manufacturer_product_code}", "#{name}",\
      "#{description}", "#{price.rounded}", "#{taxed_price.rounded}", "#{shipped_price}",\
      "#{taxes}", "#{c.shipping_cost.rounded}", "#{stock}", "#{availability}", "#{weight}",\
-     "http://www.lincomp.ch/products/#{self.id}","#{image_link}","#{factsheet_link}","#{ean}",\
+     "http://www.lincomp.ch/products/#{self.id}","#{image_link}","#{factsheet_link}","#{ean_code}",\
      "#{categories_string}"]
   end
   
