@@ -28,6 +28,7 @@ describe Product do
       p.tax_class = @tax_class
       p.name = "Something"
       p.description = "Some stuff"
+      p.manufacturer_product_code = "bar"
       p.weight = 1.0
       p.supplier = @supplier
       p.save.should == true
@@ -45,6 +46,7 @@ describe Product do
       si.save.should == true
       
       p.supply_item = si
+      p.manufacturer_product_code = "baz"
       p.save.should == true      
       p.try_to_get_product_files
       

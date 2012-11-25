@@ -35,6 +35,7 @@ FactoryGirl.define do
     description "Some example description"
     weight 1.0
     purchase_price "100.0"
+    sequence(:manufacturer_product_code) {|i| "MFG#{i}"}
     association :supplier
     association :tax_class
   end

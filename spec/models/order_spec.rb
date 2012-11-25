@@ -44,7 +44,7 @@ describe Order do
     address.save.should == true
 
 
-    p = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => supplier, :tax_class => tax_class2, :purchase_price => BigDecimal.new("120.0"), :direct_shipping => true, :is_available => true)
+    p = Product.new(:name => "foo", :description => "bar", :manufacturer_product_code => "bar", :weight => 5.5, :supplier => supplier, :tax_class => tax_class2, :purchase_price => BigDecimal.new("120.0"), :direct_shipping => true, :is_available => true)
     p.save.should == true
 
   end

@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.1'
+gem 'rails', '3.2.9'
 gem 'jruby-openssl', :platform => :jruby
 gem 'torquebox', :platform => :jruby
 gem 'torquebox-server', :platform => :jruby
@@ -43,10 +43,12 @@ end
 
 gem 'erubis'
 
+gem 'acts_as_tree'
+gem 'awesome_nested_set'
 gem 'will_paginate', "3.0.0"
 gem 'uuidtools'
 gem 'later_dude', '>= 0.3.1'
-gem "ruby-progressbar", :require => "progressbar"
+gem "ruby-progressbar"
 gem 'nokogiri'
 
 gem 'delayed_job'
@@ -54,8 +56,8 @@ gem 'delayed_job_active_record'
 gem 'daemons'
 
 group :assets do
-  gem 'sass-rails', " ~> 3.1.0"
-  gem 'coffee-rails', " ~> 3.1.0"
+  gem 'sass-rails'
+  gem 'coffee-rails'
   gem 'uglifier'
 end
 
@@ -63,6 +65,7 @@ group :test, :development do
   gem 'factory_girl'
   gem 'factory_girl_rails'
   gem 'capybara'
+  gem 'xpath' # Capybara should resolve this...
   gem 'pickle'
   gem 'database_cleaner'
   gem 'cucumber'

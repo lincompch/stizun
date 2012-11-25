@@ -10,7 +10,7 @@ class SupplyItem < ActiveRecord::Base
   belongs_to :supplier
   has_one :product
 
- 
+
   before_create :set_status_to_available_if_nil
   before_save :normalize_stock, :handle_supply_item_deletion, :handle_supply_item_reactivation
   after_save :generate_categories, :auto_create_products

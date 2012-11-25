@@ -609,7 +609,9 @@ class Product < ActiveRecord::Base
     CSV.open("#{filename}.tmp", "w", :col_sep => ",", :quote_char => '"') do |csv|
       csv << Product.csv_header
       Product.available.each do |p|
-        csv << p.to_csv_array
+        product = p.clone # Prevent memory leak
+        csv << product.to_csv_array
+        product = nil
       end
     end
     if FileUtils.mv("#{filename}.tmp", filename) == 0
