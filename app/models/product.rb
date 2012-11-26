@@ -1,6 +1,6 @@
 class Product < ActiveRecord::Base
   
-  validates_uniqueness_of :manufacturer_product_code
+  validates_uniqueness_of :manufacturer_product_code, :allow_nil => true, :allow_blank => true
   validates_presence_of :name, :description, :weight, :tax_class, :supplier
   validates_numericality_of :purchase_price, :weight
   

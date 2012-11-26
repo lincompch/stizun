@@ -23,15 +23,27 @@ def create_product(prod)
     is_featured = true if prod['featured'] == "yes"
     
     supplier = Supplier.find_by_name(prod['supplier'])
-    product = Product.create(:name => prod['name'],
+
+    product = Product.where(:name => prod['name'],
                              :description => description,
                              :weight => weight,
                              :sales_price => sales_price,
-                             :supplier => supplier,
-                             :tax_class => tax_class,
+                             :supplier_id => supplier,
+                             :tax_class_id => tax_class,
                              :purchase_price => purchase_price,
                              :manufacturer_product_code => manufacturer_product_code,
-                             :is_featured => is_featured)
+                             :is_featured => is_featured).first
+    if product.nil?
+      product = Product.create(:name => prod['name'],
+                               :description => description,
+                               :weight => weight,
+                               :sales_price => sales_price,
+                               :supplier => supplier,
+                               :tax_class => tax_class,
+                               :purchase_price => purchase_price,
+                               :manufacturer_product_code => manufacturer_product_code,
+                               :is_featured => is_featured)
+    end
   if prod['category']
     category = Category.where(:name => prod['category']).first
     category = Category.create(:name => prod['category']) if category.nil?

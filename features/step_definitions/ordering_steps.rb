@@ -11,7 +11,7 @@ end
 
 When /^I view my personal order list$/ do
   visit "/users/me"
-  click_link "Bestellungen"
+  first("a", :text => "Bestellungen").click
 end
 
 Then /^I should see (\d+) order(s)?$/ do |count, foo|
@@ -92,19 +92,14 @@ end
 
 When /^I add the product "([^\"]*)" to my cart (\d+) times$/ do |name, num|
   # TODO: Optimize and clean up this horrible mess
-  all("table.productlist tr").each do |tr|
-    unless tr.text.match(name).nil?
-      tr.all("input").each do |input|
-        field_id = input['id'] if (!input['id'].nil? and !input['id'].match("^quantity").nil?)
-        if field_id
-          box_id = tr.find(".compact_add_to_cart_box")['id']
-          fill_in field_id, :with => num
-          within "##{box_id}" do
-            click_button 'Kaufen'
-          end
-        end
-      end
+  row = find("table.productlist tr", :text => 'Fish')
+  if row
+    within row do
+      fill_in "quantity", :with => num
+      click_button "Kaufen"
     end
+  else
+    raise "No row found for product #{name}"
   end
 
 end

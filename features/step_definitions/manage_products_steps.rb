@@ -13,12 +13,11 @@ end
 
 When /^I create a product called "([^\"]*)"$/ do |arg1|
  visit admin_products_path
- click_link "Create new product"
-
+ create_link = all("a", :text => 'Create new product').first
+ create_link.click
  within_frame "fancybox-frame" do
    fill_in "Name", :with => arg1
- end
-
+ end 
 end
 
 When /^I fill in "([^"]*)" in the CKEditor instance "([^"]*)"$/ do |value, input_id|
@@ -67,7 +66,8 @@ end
 
 When /^I click the create button$/ do
   within_frame "fancybox-frame" do
-    click_button "Create new product"
+    candidate = all(".buttonbar input").first
+    candidate.click if candidate.value == "Create new product"
   end
 end
 
