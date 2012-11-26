@@ -28,7 +28,12 @@ describe Product do
       p.tax_class = @tax_class
       p.name = "Something"
       p.description = "Some stuff"
-      p.manufacturer_product_code = "bar"
+      if Product.last
+        mfg_code = "mfg #{Product.last.id + 1}"
+      else
+        mfg_code = "mfg 0"
+      end
+      p.manufacturer_product_code = mfg_code
       p.weight = 1.0
       p.supplier = @supplier
       p.save.should == true
@@ -46,8 +51,13 @@ describe Product do
       si.save.should == true
       
       p.supply_item = si
-      p.manufacturer_product_code = "baz"
-      p.save.should == true      
+      if Product.last
+        mfg_code = "mfg baz #{Product.last.id + 1}"
+      else
+        mfg_code = "mfg baz 0"
+      end
+      p.manufacturer_product_code = mfg_code
+      p.save.should == true
       p.try_to_get_product_files
       
       image_path = "#{download_dir}/#{p.supply_item.id}_#{File.basename(si.image_url)}"
@@ -180,16 +190,19 @@ describe Product do
 
       product = FactoryGirl.build(:product, :name => 'Product One')
       product.name.should == "Product One"
-      supply_item1 = FactoryGirl.build(:supply_item, :name => 'Style of Supply Item One')
-      supply_item2 = FactoryGirl.build(:supply_item, :name => 'Style of Supply Item Two')
+      supply_item1 = FactoryGirl.build(:supply_item, :name => 'Style of Supply Item One', :manufacturer_product_code => 'ABC123')
+      supply_item2 = FactoryGirl.build(:supply_item, :name => 'Style of Supply Item Two', :manufacturer_product_code => 'ABC123')
       
       product.supply_item = supply_item1
       product.save
       product.name.should == "Style of Supply Item One"
 
       product.supply_item = supply_item2
-      product.save
-      product.name.should == "Style of Supply Item Two"
+      if product.save == false
+        binding.pry
+      end
+      product.save.should == true
+      product.reload.name.should == "Style of Supply Item Two"
     end
 
   end
@@ -213,7 +226,7 @@ describe Product do
         
         array.each do |si|
           options = {:supplier => @supplier, :tax_class => @tax_class }
-          FactoryGirl.create(:supply_item, si.merge!(:supplier => @supplier, :tax_class => @tax_class))
+          FactoryGirl.create(:supply_item, si.merge!(:supplier => @supplier))
         end
         
         SupplyItem.all.count.should == 5

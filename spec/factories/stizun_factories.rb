@@ -27,7 +27,6 @@ FactoryGirl.define do
     category03 "category3"
     stock 1
     association :supplier
-    association :tax_class
   end
 
   factory :product do

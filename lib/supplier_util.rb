@@ -210,7 +210,7 @@ class SupplierUtil
     si.description = si.description.strip
     si.purchase_price = BigDecimal.new(data[:price_excluding_vat].to_s.gsub(",",".").gsub("'",""))
     # TODO: Read actual tax percentage from import file and create class as needed
-    si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
+    #si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
     si.stock = data[:stock_level].gsub("'","").to_i
     si.image_url = "#{data[:image_url].strip}" unless data[:image_url].blank?
     si.description_url = "#{data[:description_url].strip}" unless data[:description_url].blank?
