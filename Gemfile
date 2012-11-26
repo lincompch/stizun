@@ -75,6 +75,7 @@ group :test, :development do
   gem 'ZenTest'
   gem 'pry'
   gem 'warbler', :platform => :jruby
+  gem 'selenium-webdriver'
   #gem 'therubyracer', '>= 0.8.2'
 end
 
