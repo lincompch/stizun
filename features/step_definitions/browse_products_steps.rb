@@ -6,9 +6,9 @@ When /^I view the product list$/ do
   visit products_path
 end
 
-When /^I view the category "([^\"]*)"$/ do |arg1|
+When /^I view the category "([^\"]*)"$/ do |category_name|
   visit products_path
-  click_link arg1
+  click_link category_name
 end
 
 Then /^I should not see a product named "([^\"]*)"$/ do |arg1|

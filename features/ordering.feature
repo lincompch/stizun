@@ -90,9 +90,9 @@ Feature: Ordering
 
     Scenario: View checkout
       Given the following products exist(table):
-      | name              | category | supplier   | purchase_price | weight | manufacturer_product_code |
-      | Fish              | Animals  | Alltron AG |          100.0 |   10.0 | fishy |
-      | Terminator T-1000 | Cyborgs  | Alltron AG |          100.0 |   10.0 | arnold |
+      | name              | category | supplier   | purchase_price | weight |
+      | Fish              | Animals  | Alltron AG |          100.0 |   10.0 |
+      | Terminator T-1000 | Cyborgs  | Alltron AG |          100.0 |   10.0 |
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       And I view the category "Cyborgs"
@@ -102,9 +102,9 @@ Feature: Ordering
 
     Scenario: Complete checkout
       Given the following products exist(table):
-      | name              | category | supplier   | purchase_price | weight | manufacturer_product_code |
-      | Fish              | Animals  | Alltron AG |          100.0 |   10.0 | fishy |
-      | Terminator T-1000 | Cyborgs  | Alltron AG |          100.0 |   10.0 | arnold |
+      | name              | category | supplier   | purchase_price | weight |
+      | Fish              | Animals  | Alltron AG |          100.0 |   10.0 |
+      | Terminator T-1000 | Cyborgs  | Alltron AG |          100.0 |   10.0 |
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       And I view the category "Cyborgs"
@@ -129,9 +129,9 @@ Feature: Ordering
 
     Scenario: Complete checkout with different shipping address
       Given the following products exist(table):
-      | name              | category | supplier   | purchase_price | weight | manufacturer_product_code |
-      | Fish              | Animals  | Alltron AG |          100.0 |   10.0 | fishy |
-      | Terminator T-1000 | Cyborgs  | Alltron AG |          100.0 |   10.0 | arnold |
+      | name              | category | supplier   | purchase_price | weight |
+      | Fish              | Animals  | Alltron AG |          100.0 |   10.0 |
+      | Terminator T-1000 | Cyborgs  | Alltron AG |          100.0 |   10.0 |
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       And I view the category "Cyborgs"
@@ -165,8 +165,8 @@ Feature: Ordering
    Scenario: Complete checkout and see an estimated delivery date on my order
       Given I am logged in as "foo@bar.com"
       When the following products exist(table):
-      | name              | category | supplier   | purchase_price | weight | manufacturer_product_code |
-      | Fish              | Animals  | Alltron AG |          100.0 |   10.0 | fishy |
+      | name              | category | supplier   | purchase_price | weight |
+      | Fish              | Animals  | Alltron AG |          100.0 |   10.0 |
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       When I visit the checkout
@@ -190,8 +190,8 @@ Feature: Ordering
    Scenario: See that an order is processing
       Given I am logged in as "foo@bar.com"
       When the following products exist(table):
-      | name              | category | supplier   | purchase_price | weight | manufacturer_product_code |
-      | Fish              | Animals  | Alltron AG |          100.0 |   10.0 | fishy |
+      | name              | category | supplier   | purchase_price | weight |
+      | Fish              | Animals  | Alltron AG |          100.0 |   10.0 |
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       When I visit the checkout

@@ -92,7 +92,7 @@ end
 
 When /^I add the product "([^\"]*)" to my cart (\d+) times$/ do |name, num|
   # TODO: Optimize and clean up this horrible mess
-  row = find("table.productlist tr", :text => 'Fish')
+  row = find("table.productlist tr", :text => name)
   if row
     within row do
       fill_in "quantity", :with => num
