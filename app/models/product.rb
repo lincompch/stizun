@@ -355,7 +355,7 @@ class Product < ActiveRecord::Base
      "#{description}", "#{price.rounded}", "#{taxed_price.rounded}", "#{shipped_price}",\
      "#{taxes}", "#{c.shipping_cost.rounded}", "#{stock}", "#{availability}", "#{weight}",\
      "http://www.lincomp.ch/products/#{self.id}","#{image_link}","#{factsheet_link}","#{ean_code}",\
-     "#{categories_string}","#{c.total_taxed_shipping_price}"]
+     "#{categories_string}","#{c.total_taxed_shipping_price.rounded}"]
   end
   
   def calculated_margin_percentage
