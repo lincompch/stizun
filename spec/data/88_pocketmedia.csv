@@ -55,12 +55,12 @@ ArtikelNr;HerstellerNr;Bezeichnung;Einkaufspreis;Lagerbestand;Lieferdatum;Liefer
 40 10 0069;Xmini Kai;X-mini Capsule Speaker, 95g, 2.5W, bluetooth;0;10;40962;ab Lager;0.3;8.89E+12;99;XMI;Lautsprecher;Capsule;
 40 10 0049;Adosa;Stereo Speaker 2x2.5W, USB Power;0;10;40962;ab Lager;0.1;7.64E+12;29;Sayva;Lautsprecher;PC Loudspeaker;
 10 50 0083;Cosmo;DAB+ Adaptor, DAB/DAB+/DMB-R/FM Radio, Alarm, 3.5mm line out, Remote;0;10;40962;ab Lager;0.3;7.64E+12;69;Sayva;Digitalradio;DAB+;
-30 10 0001;SA850 black;40mm titanium-coated Mylar Drivers, 1.2m Cable, 105g, 16-22000Hz;0;5;40962;ab Lager;0.1;5.06E+12;59;RHA;Kopfhîrer;;
-30 10 0002;SA500 black;40mm Mylar Drivers, 1.2m Cable, 105g, 20-20000Hz;0;5;40962;ab Lager;0.1;5.06E+12;39;RHA;Kopfhîrer;;
-30 10 0006;SA500 white;40mm Mylar Drivers, 1.2m Cable, 105g, 20-20000Hz;0;5;40962;ab Lager;0.1;5.06E+11;39;RHA;Kopfhîrer;;
-30 10 0004;SA700 Couture Vintage;40mm Mylar Drivers, 1.2m Cable, 105g, 20-20000Hz;0;5;40962;ab Lager;0.1;5.06E+12;59;RHA;Kopfhîrer;;
-30 10 0005;MA350 ;Noise isolating alu, 16-22000Hz, 103dB, 16 Ohms;0;5;40962;ab Lager;0.1;5.06E+12;39;RHA;In Ear Kopfhîrer;;
-40 00 0002;Integraged Ampifier;Metal Housing, 2 RCA in, 3.5mm in Front, 20W, 20 - 20KHz, 140x48x160mm;0;10;40962;ab Lager;1.2;4.71E+12;179;Brik;Mini HiFi System;VerstÑrker;
+30 10 0001;SA850 black;40mm titanium-coated Mylar Drivers, 1.2m Cable, 105g, 16-22000Hz;0;5;40962;ab Lager;0.1;5.06E+12;59;RHA;Kopfh√∂rer;;
+30 10 0002;SA500 black;40mm Mylar Drivers, 1.2m Cable, 105g, 20-20000Hz;0;5;40962;ab Lager;0.1;5.06E+12;39;RHA;Kopfh√∂rer;;
+30 10 0006;SA500 white;40mm Mylar Drivers, 1.2m Cable, 105g, 20-20000Hz;0;5;40962;ab Lager;0.1;5.06E+11;39;RHA;Kopfh√∂rer;;
+30 10 0004;SA700 Couture Vintage;40mm Mylar Drivers, 1.2m Cable, 105g, 20-20000Hz;0;5;40962;ab Lager;0.1;5.06E+12;59;RHA;Kopfh√∂rer;;
+30 10 0005;MA350 ;Noise isolating alu, 16-22000Hz, 103dB, 16 Ohms;0;5;40962;ab Lager;0.1;5.06E+12;39;RHA;In Ear Kopfh√∂rer;;
+40 00 0002;Integraged Ampifier;Metal Housing, 2 RCA in, 3.5mm in Front, 20W, 20 - 20KHz, 140x48x160mm;0;10;40962;ab Lager;1.2;4.71E+12;179;Brik;Mini HiFi System;Verst√§rker;
 40 00 0003;D/A Converter;3 Digital Input, USB - Opt - Coax, Best performance for CD/MP3;0;10;40962;ab Lager;1;4.71E+12;179;Brik;Mini HiFi System;D/A Converter;
 40 00 0004;Bluetooth Stage;Enjoy Wireless Music, Easy to use, up to 50m;0;10;40962;ab Lager;1;4.71E+12;199;Brik;Mini HiFi System;Bluetooth;
 40 00 0005;Internet Radio;Wireless/Ethernet, Internet and FM, Remote;0;10;40962;ab Lager;1;4.71E+12;239;Brik;Mini HiFi System;Internet Radio;
@@ -82,7 +82,7 @@ ArtikelNr;HerstellerNr;Bezeichnung;Einkaufspreis;Lagerbestand;Lieferdatum;Liefer
 10 50 0093;Casa DAB/DAB+ Stereo;2x15W, 40-20kHz, iDock, FM, Dual Alarm, IR RC;0;10;40962;new;1.5;4.71E+12;449;Auluxe;Digitalradio;DAB+;
 10 50 0091;K2 ;DAB/DAB+/IP Radio, FM, iDock, Aluminium, Oled, Dual Alarm, IR RC;0;10;40962;new;1.5;5.06E+12;449;Revo;Digitalradio;Hybrid Radio;
 10 50 0095;R5 b;"FM, Rechargeable battery, Loudspeaker 3"", Aux";0;10;40962;new;1.5;5.42E+12;109;Artsound;FM Radio;Rechargeable battery;black
-10 50 0096;R5 we;"FM, Rechargeable battery, Loudspeaker 3"", Aux";0;10;40962;new;1.5;5.42E+12;119;Artsound;FM Radio;Rechargeable battery;black/wengÇ
+10 50 0096;R5 we;"FM, Rechargeable battery, Loudspeaker 3"", Aux";0;10;40962;new;1.5;5.42E+12;119;Artsound;FM Radio;Rechargeable battery;black/weng√©
 10 50 0097;R5H GW;"FM, Rechargeable battery, Loudspeaker 3"", Aux";0;10;40962;new;1.5;5.42E+12;129;Artsound;FM Radio;Rechargeable battery;high glossy white
 10 50 0098;R5 s.gl.;"FM, Rechargeable battery, Loudspeaker 3"", Aux";0;10;40962;new;1.5;5.42E+12;129;Artsound;FM Radio;Rechargeable battery;silver/ leather green
 10 50 0099;R11 w;"FM/AM, Loudspeaker 3"", Amplifier 7 W, Aux";0;10;40962;new;1.5;5.42E+12;129;Artsound;FM Radio;Wooden cabinet;high glossy white

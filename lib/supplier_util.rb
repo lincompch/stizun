@@ -200,7 +200,7 @@ class SupplierUtil
     si.name += " (#{data[:name03]})" unless data[:name03].blank?
     si.name = si.name.strip
     si.name = si.name.gsub("ß","ss")
-    si.manufacturer = "#{data[:manufacturer]}"
+    si.manufacturer = "#{data[:manufacturer]}" unless data[:manufacturer].blank?
     si.product_link = "#{data[:product_link]}"
     si.pdf_url= "#{data[:pdf_url]}"
     si.weight = data[:weight].gsub(",",".").to_f
