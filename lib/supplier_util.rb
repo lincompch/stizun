@@ -26,6 +26,10 @@ class SupplierUtil
         unless value.nil? or @csv_parse_options[:quote_char].nil?
           result = value.match(/^#{@csv_parse_options[:quote_char]}(.*)#{@csv_parse_options[:quote_char]}/)
           value = result[1] unless result.nil?
+          # Unescape the double-quote-char escapes in this special case
+          if @csv_parse_options[:quote_char] == '"'
+            value.gsub!('""','"')
+          end
         end
         data[k] = value
       end
