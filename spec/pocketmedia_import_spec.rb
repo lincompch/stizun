@@ -18,12 +18,11 @@ describe PocketmediaUtil do
 
 
       supply_item_should_be(supplier, "10 50 0086", { :name => "WLAN, Internet TV / Radio, 4.3\" TFT, Remote Control, Clock",
-                                              :category01 => "Internetradio",
-                                              :category02 => "Internet TV",
-                                              :weight => 0.7,
-                                              :purchase_price => BigDecimal.new("0.0")
+                                                      :category01 => "Internetradio",
+                                                      :category02 => "Internet TV",
+                                                      :weight => 0.7,
+                                                      :purchase_price => BigDecimal.new("0.0")}
                            )
-
     end
-
+  end
 end
