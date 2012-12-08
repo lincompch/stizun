@@ -26,7 +26,7 @@ class PocketmediaUtil < SupplierUtil
                       :price_excluding_vat => 3,
                       :stock_level => 4,
                       :manufacturer_product_code => 1,
-                      :manufacturer => nil,
+                      :manufacturer => 10,
                       :weight => 7,
                       :pdf_url => nil,
                       :product_link => nil,
