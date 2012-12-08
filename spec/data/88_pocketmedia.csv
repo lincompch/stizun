@@ -1,0 +1,90 @@
+ArtikelNr;HerstellerNr;Bezeichnung;Einkaufspreis;Lagerbestand;Lieferdatum;LieferdatumText;Gewicht;EAN;Verkaufspreis;Marke;Kategorie1;Kategorie2;Details
+;;;;;;;;;;;;;
+10 50 0086;DR800-TV;"WLAN, Internet TV / Radio, 4.3"" TFT, Remote Control, Clock";0;10;40962;ab Lager;0.7;4.03E+12;179;Albrecht;Internetradio;Internet TV;
+80 10 0012;DV100WP;Waterproof (30m), 4GB, 22g, up to 2hrs.;0;10;40962;ab Lager;0.1;4.03E+12;99;Albrecht;Mini Kamera;;
+80 10 0013;DV300GP;GPS Recording, Speed Indicator, CD Card up to 32GB;0;10;40962;ab Lager;0.1;4.03E+12;179;Albrecht;Mini Kamera;;
+10 50 0080;DR314 IR 4 Lines;DAB+, DAB, FM, LCD, Wecker, Sleep;0;10;40962;ab Lager;2;4.03E+12;229;Albrecht;Digitalradio;Hybrid Radio;
+10 50 0081;DR315 IR 4 Lines;Wi-Fi, DAB, FM, LCD, Wecker, Sleep;0;0;40962;E.O.L.;2;4.03E+12;299;Albrecht;Digitalradio;DAB+;
+10 50 0062;DR410 black;Portable Wi-Fi / FM Radio, Battery;0;10;40962;ab Lager;1;4.03E+12;99;Albrecht;Digitalradio;Internet Radio;
+90 60 0001;TV-200;"DVB-T, 150g, UHF, 3"" LTPS TFT, 960x240, 350 nits, Contrast 300:1";0;4;40962;ab Lager;1;4.03E+12;249;Albrecht;Fernseher;DVB-T;"3.5"""
+95 99 0021;LCB-010;Water Proof Bag for digi Cam;0;10;40962;ab Lager;0.1;4.71E+12;49;Lavod;Bag;Waterproof;
+70 10 0208;LFA-299x black;4GB, Music Tube Waterproof MP3, Armband set;0;10;40962;ab Lager;0.1;4.71E+12;99;Lavod;MP3;Waterproof;
+70 10 0210;LFB-615C silver;4GB, Led Flash, FM Radio, Loudspeaker;0;10;40962;ab Lager;0.3;4.71E+12;119;Lavod;Lautsprecher;Waterproof;
+95 99 0019;LMB-007;Waterproof Bag, necklace Type;0;10;40962;ab Lager;0.1;4.71E+12;29;Lavod;Bag;Waterproof;
+95 99 0020;LMB-008;Water Proof Music Bag, Armband, necklace;0;10;40962;ab Lager;0.1;4.71E+12;49;Lavod;Bag;Waterproof;
+10 50 0078;Axis;DAB/DAB+/IP/Last FM, Touch Panel, Mono, LAN, Wifi;0;10;40962;ab Lager;0.5;5.06E+12;329;Revo;Digitalradio;Hybrid Radio;
+10 50 0082;Axis white Edition;DAB/DAB+/IP/Last FM, Touch Panel, Mono, LAN, Wifi;0;0;40962;no stock;0.5;5.06E+12;329;Revo;Digitalradio;Hybrid Radio;
+10 50 0031;Blik DAB+ black;DAB+,FM, Alarm clock,LCD, sleep;0;10;40962;ab Lager;1;5.06E+12;149;Revo;Digitalradio;DAB+;
+10 50 0032;Blik DAB+ white;DAB+,FM, Alarm clock,LCD, sleep;0;10;40962;ab Lager;1;5.06E+12;149;Revo;Digitalradio;DAB+;
+10 50 0064;Domino D1 black;DAB/DAB+, OLED Display, Joystick, iPod/iPhone, Alarm;0;10;40962;ab Lager;1.5;5.06E+12;229;Revo;Digitalradio;DAB+;
+10 50 0068;Domino D3 black;DAB/DAB+/IP Radio, FM;0;10;40962;ab Lager;2;5.06E+12;349;Revo;Digitalradio;Hybrid Radio;
+10 50 0094;Heritage G2 walnut;DAB/DAB+/IP Radio, FM, iPod, iPhone, Aluminium, Oled;0;10;40962;ab Lager;2;5.06E+12;479;Revo;Digitalradio;Hybrid Radio;
+10 50 0079;Heritage H3 black;DAB/DAB+/IP Radio, FM, iPod, iPhone, Aluminium, Oled;0;10;40962;ab Lager;2;5.06E+12;399;Revo;Digitalradio;Hybrid Radio;
+10 50 0046;i Blik DAB+ black;DAB+,FM, Alarm clock,LCD, sleep made for IPOD;0;10;40962;ab Lager;1;5.06E+12;199;Revo;Digitalradio;DAB+;
+10 50 0063;Mondo DAB+ silver;DAB+ Adaptor for HiFi System;0;10;40962;ab Lager;1;5.06E+12;169;Revo;Digitalradio;DAB+;
+10 50 0037;Mondo WiFi black;Wi-Fi Adaptor for HiFi System;0;10;40962;ab Lager;1;5.06E+12;229;Revo;Digitalradio;Internet Radio;
+10 50 0087;Pico DAB+ DR;DAB Band III, FM Radio, Waterproof;0;10;40962;new;1.5;5.06E+12;;Revo;Digitalradio;DAB+;
+10 50 0088;Pico RS black;DAB+, WiFi, LAN, Li-Ion;0;10;40962;new;2;5.06E+12;379;Revo;Digitalradio;Hybrid Radio;
+10 50 0058;Uno2 black;DAB/DAB+, III, FM Radio, remote control;0;10;40962;ab Lager;1.5;5.06E+12;169;Revo;Digitalradio;DAB+;
+90 60 0007;Goal;"Handeld TV, 3.5"", DVB-T, EPG, Record";0;10;40962;ab Lager;1;7.64E+12;139;Sayva;Fernseher;DVB-T;"3.5"""
+90 60 0008;Papillon;"Handeld TV, 4.3"", DVB-T, Record, Video, Audio, Touch";0;10;40962;ab Lager;1;7.64E+12;199;Sayva;Fernseher;DVB-T;"4.3"""
+10 50 0075;Piccolo white;DAB+,FM, battery ;0;10;40962;ab Lager;0.5;7.64E+12;59;Sayva;Digitalradio;DAB+;
+10 50 0072;Primo black;DAB+,FM, Alarm clock,LCD, stereo;0;10;40962;ab Lager;1.5;7.64E+12;199;Sayva;Digitalradio;Hybrid Radio;
+40 10 0039;360 black;Portable Capsule Speaker ;0;0;40962;E.O.L.;0.1;94922242389;25;Veho;Lautsprecher;Capsule;
+40 10 0050;360 Bluetooth black;Portable Bluetooth Capsule Speaker ;0;10;40962;ab Lager;0.1;1.09E+12;45;Veho;Lautsprecher;Wireless;
+40 10 0099;Battery Skin for iPad black;Pebble Smartskin 6000mAH Battery Skin;0;0;40962;E.O.L.;0.4;1.09E+12;59;Veho;iPad Skin mit Akku;;
+40 10 0041;Mimi Wifi white;2.4GHz Wifi Speaker with Dongle;0;10;40962;ab Lager;0.7;1.09E+12;49;Veho;Lautsprecher;Wireless;
+80 10 0011;Muvi HD7 black;Veho Muvi HD7 Mini Camcorder with Remote Control and Wide Angle Lens;0;0;40962;E.O.L.;0.2;1.09E+12;149;Veho;Camcorder;Micro;
+40 10 0032;Xmin Max II Stereo red XAM7;X-mini Capsule Speaker, 178g, 5W;0;10;40962;ab Lager;0.3;8.89E+12;69;XMI;Lautsprecher;Capsule;
+40 10 0034;Xmini Happy black XAM5;X-mini Capsule Speaker, 88g, MP3;0;10;40962;ab Lager;0.4;8.89E+12;95;XMI;Lautsprecher;Capsule;2GB
+40 10 0030 ;Xmini II Mono black XAM4;X-mini Capsule Speaker, 83g, 11 Hrs;0;10;40962;ab Lager;0.3;8.89E+12;35;XMI;Lautsprecher;Capsule;
+40 10 0035;Xmini II Mono red XAM4;X-mini Capsule Speaker, 83g, 11 Hrs;0;10;40962;ab Lager;0.3;8.89E+12;35;XMI;Lautsprecher;Capsule;
+40 10 0036;Xmini II Mono white XAM4;X-mini Capsule Speaker, 83g, 11 Hrs;0;10;40962;ab Lager;0.3;8.89E+12;35;XMI;Lautsprecher;Capsule;
+40 10 0052;Xmini II Mono pink XAM4;X-mini Capsule Speaker, 83g, 11 Hrs;0;10;40962;ab Lager;0.1;8.89E+12;35;XMI;Lautsprecher;Capsule;
+40 10 0051;Xmini II Mono silver XAM4;X-mini Capsule Speaker, 83g, 11 Hrs;0;10;40962;ab Lager;0.1;8.89E+12;35;XMI;Lautsprecher;Capsule;
+40 10 0059;Xmini II Mono green XAM4;X-mini Capsule Speaker, 83g, 11 Hrs;0;10;40962;ab Lager;0.1;8.89E+12;35;XMI;Lautsprecher;Capsule;
+40 10 0060;Xmini II Mono purple XAM4;X-mini Capsule Speaker, 83g, 11 Hrs;0;10;40962;ab Lager;0.1;8.89E+12;35;XMI;Lautsprecher;Capsule;
+40 10 0061;Xmini II Mono blue XAM4;X-mini Capsule Speaker, 83g, 11 Hrs;0;10;40962;ab Lager;0.1;8.89E+12;35;XMI;Lautsprecher;Capsule;
+40 10 0062;Xmini II Mono orange XAM7;X-mini Capsule Speaker, 83g, 11 Hrs;0;10;40962;ab Lager;0.1;8.89E+12;35;XMI;Lautsprecher;Capsule;
+40 10 0031;Xmini Max II Stereo black XAM7;X-mini Capsule Speaker, 178g, 5W;0;10;40962;ab Lager;0.3;8.89E+12;69;XMI;Lautsprecher;Capsule;
+40 10 0033;Xmini Max II Stereo white XAM7;X-mini Capsule Speaker, 178g, 5W;0;10;40962;ab Lager;0.3;8.89E+12;69;XMI;Lautsprecher;Capsule;
+40 10 0053;Xmini Max V1.1 Stereo black XAM9;X-mini Capsule Speaker, 100g, 3.5W, 10hrs.;0;10;40962;ab Lager;0.1;8.89E+12;44;XMI;Lautsprecher;Capsule;
+40 10 0054;Xmini Max V1.1 Stereo red XAM9;X-mini Capsule Speaker, 100g, 3.5W, 10hrs.;0;10;40962;ab Lager;0.1;8.89E+12;44;XMI;Lautsprecher;Capsule;
+40 10 0047;Xmini V1.1 black XAM8;X-mini Capsule Speaker, 58g, 2W, 6hrs.;0;10;40962;ab Lager;0.1;8.89E+12;25;XMI;Lautsprecher;Capsule;
+40 10 0048;Xmini V1.1 red XAM8;X-mini Capsule Speaker, 58g, 2W, 6hrs.;0;10;40962;ab Lager;0.1;8.89E+11;25;XMI;Lautsprecher;Capsule;
+40 10 0069;Xmini Kai;X-mini Capsule Speaker, 95g, 2.5W, bluetooth;0;10;40962;ab Lager;0.3;8.89E+12;99;XMI;Lautsprecher;Capsule;
+40 10 0049;Adosa;Stereo Speaker 2x2.5W, USB Power;0;10;40962;ab Lager;0.1;7.64E+12;29;Sayva;Lautsprecher;PC Loudspeaker;
+10 50 0083;Cosmo;DAB+ Adaptor, DAB/DAB+/DMB-R/FM Radio, Alarm, 3.5mm line out, Remote;0;10;40962;ab Lager;0.3;7.64E+12;69;Sayva;Digitalradio;DAB+;
+30 10 0001;SA850 black;40mm titanium-coated Mylar Drivers, 1.2m Cable, 105g, 16-22000Hz;0;5;40962;ab Lager;0.1;5.06E+12;59;RHA;Kopfh”rer;;
+30 10 0002;SA500 black;40mm Mylar Drivers, 1.2m Cable, 105g, 20-20000Hz;0;5;40962;ab Lager;0.1;5.06E+12;39;RHA;Kopfh”rer;;
+30 10 0006;SA500 white;40mm Mylar Drivers, 1.2m Cable, 105g, 20-20000Hz;0;5;40962;ab Lager;0.1;5.06E+11;39;RHA;Kopfh”rer;;
+30 10 0004;SA700 Couture Vintage;40mm Mylar Drivers, 1.2m Cable, 105g, 20-20000Hz;0;5;40962;ab Lager;0.1;5.06E+12;59;RHA;Kopfh”rer;;
+30 10 0005;MA350 ;Noise isolating alu, 16-22000Hz, 103dB, 16 Ohms;0;5;40962;ab Lager;0.1;5.06E+12;39;RHA;In Ear Kopfh”rer;;
+40 00 0002;Integraged Ampifier;Metal Housing, 2 RCA in, 3.5mm in Front, 20W, 20 - 20KHz, 140x48x160mm;0;10;40962;ab Lager;1.2;4.71E+12;179;Brik;Mini HiFi System;Verst„rker;
+40 00 0003;D/A Converter;3 Digital Input, USB - Opt - Coax, Best performance for CD/MP3;0;10;40962;ab Lager;1;4.71E+12;179;Brik;Mini HiFi System;D/A Converter;
+40 00 0004;Bluetooth Stage;Enjoy Wireless Music, Easy to use, up to 50m;0;10;40962;ab Lager;1;4.71E+12;199;Brik;Mini HiFi System;Bluetooth;
+40 00 0005;Internet Radio;Wireless/Ethernet, Internet and FM, Remote;0;10;40962;ab Lager;1;4.71E+12;239;Brik;Mini HiFi System;Internet Radio;
+40 00 0006;Phono Stage;MM/MC Selection, Deliver the real sound of Vinyl;0;10;40962;ab Lager;1;4.71E+12;139;Brik;Mini HiFi System;Phono;
+40 00 0007;Power Master;Provide stable power, Clean Look, Space saving, on/off one step;0;10;40962;ab Lager;2;4.71E+12;199;Brik;Mini HiFi System;Power supply;
+40 10 0066;Xmini Rave XAM10 black;X-mini Capsule Speaker, 98g FM-Radio Receiver;0;10;40962;ab Lager;0.1;8.89E+12;59;XMI;Lautsprecher;Capsule;
+10 50 0090;DR400;Portable Wi-Fi / FM Radio, rechargeable Battery,  up to 3hrs;0;10;40962;ab Lager;0.5;4.03E+12;99;Albrecht;Internetradio;;
+40 30 0001;Wowee One black;Gel Audio Speaker, 2W, 200g, up to 20hrs;0;10;40962;ab Lager;0.2;5.06E+12;69;Wowee;Lautsprecher;Gel Audio;
+40 30 0002;Wowee One white;Gel Audio Speaker, 2W, 200g, up to 20hrs;0;10;40962;ab Lager;0.2;5.06E+12;69;Wowee;Lautsprecher;Gel Audio;
+40 30 0004;Wowee One Slim black;Gel Audio Speaker, 2W, 120g, up to 10hrs;0;10;40962;ab Lager;0.12;5.06E+12;99;Wowee;Lautsprecher;Gel Audio;
+40 30 0005;Wowee One Slim white;Gel Audio Speaker, 2W, 120g, up to 10hrs;0;10;40962;ab Lager;0.12;5.06E+12;99;Wowee;Lautsprecher;Gel Audio;
+40 10 0063;360GUM;Rechargeable battery, 2x 2 watt. 3.5mm jack;0;10;40962;ab Lager;0.1;1.09E+12;39;Veho;Lautsprecher;Capsule;
+40 10 0043;USB Fan black;USB Fan Desktop;0;10;40962;ab Lager;0.2;94922287014;19.9;Veho;Ventilator;;
+95 99 0035;Power Adaptor Brik;Brik Power Adaptor for Brik Amplifier 19V/3.42A;0;10;40962;ab Lager;0.2;7.64E+12;39;Brik;AC/DC for Amplifier;;
+95 99 0008;AC/DC 12V Brik;Adaptor for Brik Components;0;10;40962;ab Lager;0.2;7.64E+12;29;Brik;12V Adaptor;;
+40 10 0070;DEW black mini Hifi;2.1 Channels, Tot 44W, THD 1%;0;10;40962;ab Lager;1.5;4.71E+12;299;Auluxe;2.1 for PC;;
+40 10 0071;DEW white mini Hifi;2.1 Channels, Tot 44W, THD 1%;0;10;40962;ab Lager;1.5;4.71E+12;299;Auluxe;2.1 for PC;;
+40 10 0072;Ease Wood;2.1 Channels, Tot 34W, THD 1%;0;10;40962;ab Lager;1.5;4.71E+12;249;Auluxe;2.1 for PC;;
+10 50 0093;Casa DAB/DAB+ Stereo;2x15W, 40-20kHz, iDock, FM, Dual Alarm, IR RC;0;10;40962;new;1.5;4.71E+12;449;Auluxe;Digitalradio;DAB+;
+10 50 0091;K2 ;DAB/DAB+/IP Radio, FM, iDock, Aluminium, Oled, Dual Alarm, IR RC;0;10;40962;new;1.5;5.06E+12;449;Revo;Digitalradio;Hybrid Radio;
+10 50 0095;R5 b;"FM, Rechargeable battery, Loudspeaker 3"", Aux";0;10;40962;new;1.5;5.42E+12;109;Artsound;FM Radio;Rechargeable battery;black
+10 50 0096;R5 we;"FM, Rechargeable battery, Loudspeaker 3"", Aux";0;10;40962;new;1.5;5.42E+12;119;Artsound;FM Radio;Rechargeable battery;black/weng‚
+10 50 0097;R5H GW;"FM, Rechargeable battery, Loudspeaker 3"", Aux";0;10;40962;new;1.5;5.42E+12;129;Artsound;FM Radio;Rechargeable battery;high glossy white
+10 50 0098;R5 s.gl.;"FM, Rechargeable battery, Loudspeaker 3"", Aux";0;10;40962;new;1.5;5.42E+12;129;Artsound;FM Radio;Rechargeable battery;silver/ leather green
+10 50 0099;R11 w;"FM/AM, Loudspeaker 3"", Amplifier 7 W, Aux";0;10;40962;new;1.5;5.42E+12;129;Artsound;FM Radio;Wooden cabinet;high glossy white
+50 00 0020;Speaky black;Talk time 6hrs, Standby time (days) 38, Bluetooth Spec. V3.0, ;0;10;40962;new;0.1;4.90E+12;69;Bluetrek;Car Kit;Motion sensor;
+50 00 0021;Speaky pink;Talk time 6hrs, Standby time (days) 38, Bluetooth Spec. V3.0, ;0;10;40962;new;0.1;4.90E+12;69;Bluetrek;Car Kit;Motion sensor;

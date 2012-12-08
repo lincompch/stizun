@@ -349,12 +349,14 @@ class Product < ActiveRecord::Base
       end
       categories_string = categories_arr.join("|")
     end
+
+    base_url = "http://www.lincomp.ch"
     # We use string interpolation notation (#{foo}) so that nil errors are already
     # handled gracefully without any extra work.
     ["#{id}", "#{manufacturer}" ,"#{manufacturer_product_code}", "#{name}",\
      "#{description}", "#{price.rounded}", "#{taxed_price.rounded}", "#{shipped_price}",\
      "#{taxes}", "#{c.shipping_cost.rounded}", "#{stock}", "#{availability}", "#{weight}",\
-     "http://www.lincomp.ch/products/#{self.id}","#{image_link}","#{factsheet_link}","#{ean_code}",\
+     "#{base_url}/products/#{self.id}","#{base_url}/#{image_link}","#{base_url}/#{factsheet_link}","#{ean_code}",\
      "#{categories_string}","#{c.total_taxed_shipping_price.rounded}"]
   end
   
