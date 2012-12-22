@@ -322,7 +322,7 @@ class Product < ActiveRecord::Base
   def self.csv_header
     ["id","manufacturer","manufacturer_product_code","name","description",\
      "price_excluding_vat", "price_including_vat", "price_including_shipping",\
-     "vat", "shipping_cost", "stock", "availability", "weight_in_kg", "link",\
+     "vat", "shipping_cost_excluding_vat", "stock", "availability", "weight_in_kg", "link",\
      "image_link","factsheet_link","ean_code","categories", "shipping_cost_including_vat"]
   end
   
