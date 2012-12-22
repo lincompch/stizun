@@ -329,6 +329,7 @@ class Product < ActiveRecord::Base
   # Convert this particular product instance into a CSV-compatible representation
   # that matches the header columns as given by Product.csv_header
   def to_csv_array
+    base_url = "http://www.lincomp.ch"
     c = Cart.new
     c.add_product(self)
     shipped_price = (taxed_price.rounded + c.shipping_cost.rounded)
@@ -337,10 +338,10 @@ class Product < ActiveRecord::Base
       availability = "ask"
     end
     unless product_pictures.main.empty?
-      image_link = product_pictures.main.first.file.url
+      image_link = base_url + "/" + product_pictures.main.first.file.url
     end
     unless attachments.empty?
-      factsheet_link = attachments.first.file.url
+      factsheet_link = base_url + "/" + attachments.first.file.url
     end
     unless categories.empty?
       categories_arr = [] 
@@ -350,13 +351,12 @@ class Product < ActiveRecord::Base
       categories_string = categories_arr.join("|")
     end
 
-    base_url = "http://www.lincomp.ch"
     # We use string interpolation notation (#{foo}) so that nil errors are already
     # handled gracefully without any extra work.
     ["#{id}", "#{manufacturer}" ,"#{manufacturer_product_code}", "#{name}",\
      "#{description}", "#{price.rounded}", "#{taxed_price.rounded}", "#{shipped_price}",\
      "#{taxes}", "#{c.shipping_cost.rounded}", "#{stock}", "#{availability}", "#{weight}",\
-     "#{base_url}/products/#{self.id}","#{base_url}/#{image_link}","#{base_url}/#{factsheet_link}","#{ean_code}",\
+     "#{base_url}/products/#{self.id}","#{image_link}","#{factsheet_link}","#{ean_code}",\
      "#{categories_string}","#{c.total_taxed_shipping_price.rounded}"]
   end
   
