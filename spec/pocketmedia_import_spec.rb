@@ -11,9 +11,9 @@ describe PocketmediaUtil do
 
   describe "importing supply items from CSV" do
 
-    it "should import 88 items" do
-      PocketmediaTestHelper.import_from_file(Rails.root + "spec/data/88_pocketmedia.csv")
-      SupplyItem.count.should == 88
+    it "should import 83 items" do
+      PocketmediaTestHelper.import_from_file(Rails.root + "spec/data/85_pocketmedia.csv")
+      SupplyItem.count.should == 83
       supplier = Supplier.where(:name => 'Pocketmedia').first
 
 
@@ -21,7 +21,7 @@ describe PocketmediaUtil do
                                                       :category01 => "Internetradio",
                                                       :category02 => "Internet TV",
                                                       :weight => 0.7,
-                                                      :purchase_price => BigDecimal.new("0.0")}
+                                                      :purchase_price => BigDecimal.new("110.0")}
                            )
     end
   end
