@@ -338,10 +338,10 @@ class Product < ActiveRecord::Base
       availability = "ask"
     end
     unless product_pictures.main.empty?
-      image_link = base_url + product_pictures.main.first.file.url
+      image_link = base_url + product_pictures.main.first.file.url unless product_pictures.main.first.file.blank?
     end
     unless attachments.empty?
-      factsheet_link = base_url + attachments.first.file.url
+      factsheet_link = base_url + attachments.first.file.url unless attachments.first.file.blank?
     end
     unless categories.empty?
       categories_arr = [] 
