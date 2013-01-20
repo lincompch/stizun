@@ -176,7 +176,5 @@ class IngramUtil < SupplierUtil
     end
 
   end
-
-
   
 end

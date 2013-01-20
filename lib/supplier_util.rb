@@ -195,33 +195,56 @@ class SupplierUtil
     CategoryDispatcher.create_unique_combinations_for(@supplier)
   end
 
+  # Take all the raw data about a supply item and return a nice, meaningful string for its name, which can
+  # be different between suppliers and is therefore handled in the supplier-specific subclasses
+  def construct_supply_item_name(data)
+
+    # The subclass hasn't done anything, so let's set it to some reasonable defaults
+    if @supply_item_name.nil?
+      @supply_item_name = "#{data[:name01]}"
+      @supply_item_name += " #{data[:name02]}" unless data[:name02].blank?
+      @supply_item_name += " (#{data[:name03]})" unless data[:name03].blank?
+    end
+
+    @supply_item_name = @supply_item_name.strip
+    @supply_item_name = @supply_item_name.gsub("ß","ss")
+    return @supply_item_name
+  end
+
+  # Take all the raw data about a supply item and return a nice, meaningful string for its description, which can
+  # be different between suppliers and is therefore handled in the supplier-specific subclasses
+  def construct_supply_item_description(data)
+    # The subclass hasn't done anything, so let's set it to some reasonable defaults
+    if @description.nil?
+      @description = "#{data[:description01].to_s}"
+      @description += " #{data[:description02].to_s}" unless data[:description02].blank?
+    end
+    @description = @description.strip
+    @description = @description.gsub("ß","ss")
+    return @description
+  end
+
   def new_supply_item(data)
-    si = @supplier.supply_items.new
-    si.supplier_product_code = data[:supplier_product_code]
-    si.ean_code = data[:ean_code]
-    si.name = "#{data[:name01]}"
-    si.name += " #{data[:name02]}" unless data[:name02].blank?
-    si.name += " (#{data[:name03]})" unless data[:name03].blank?
-    si.name = si.name.strip
-    si.name = si.name.gsub("ß","ss")
-    si.manufacturer = "#{data[:manufacturer]}" unless data[:manufacturer].blank?
-    si.product_link = "#{data[:product_link]}"
-    si.pdf_url= "#{data[:pdf_url]}"
-    si.weight = data[:weight].gsub(",",".").to_f
-    si.manufacturer_product_code = "#{data[:manufacturer_product_code]}"
-    si.description = "#{data[:description01].to_s.gsub("ß","ss")}"
-    si.description += "#{data[:description02].to_s.gsub("ß","ss")}" unless data[:description02].blank?
-    si.description = si.description.strip
-    si.purchase_price = BigDecimal.new(data[:price_excluding_vat].to_s.gsub(",",".").gsub("'",""))
+    @si = @supplier.supply_items.new
+    @si.name = construct_supply_item_name(data)
+    @si.description = construct_supply_item_description(data)
+    @si.supplier_product_code = data[:supplier_product_code]
+    @si.ean_code = data[:ean_code]
+    @si.manufacturer = "#{data[:manufacturer]}" unless data[:manufacturer].blank?
+    @si.product_link = "#{data[:product_link]}"
+    @si.pdf_url= "#{data[:pdf_url]}"
+    @si.weight = data[:weight].gsub(",",".").to_f
+    @si.manufacturer_product_code = "#{data[:manufacturer_product_code]}"
+    @si.purchase_price = BigDecimal.new(data[:price_excluding_vat].to_s.gsub(",",".").gsub("'",""))
     # TODO: Read actual tax percentage from import file and create class as needed
-    #si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
-    si.stock = data[:stock_level].gsub("'","").to_i
-    si.image_url = "#{data[:image_url].strip}" unless data[:image_url].blank?
-    si.description_url = "#{data[:description_url].strip}" unless data[:description_url].blank?
-    si.category01 = "#{data[:category01]}"
-    si.category02 = "#{data[:category02]}"
-    si.category03 = "#{data[:category03]}"
-    return si
+    #@si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
+    @si.stock = data[:stock_level].gsub("'","").to_i
+    @si.image_url = "#{data[:image_url].strip}" unless data[:image_url].blank?
+    @si.description_url = "#{data[:description_url].strip}" unless data[:description_url].blank?
+    @si.category01 = "#{data[:category01]}"
+    @si.category02 = "#{data[:category02]}"
+    @si.category03 = "#{data[:category03]}"
+    return @si
   end
 
   # If you want to implement a live update method for your own supplier util, subclass this class and override

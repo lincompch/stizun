@@ -30,6 +30,7 @@ describe JetUtil do
       SupplyItem.all.collect(&:ean_code).uniq.should_not == [nil] # Not all items have EAN codes, only 97 do
     end
 
+
   end
 
 end

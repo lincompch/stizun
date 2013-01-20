@@ -17,7 +17,7 @@ describe PocketmediaUtil do
       supplier = Supplier.where(:name => 'Pocketmedia').first
 
 
-      supply_item_should_be(supplier, "10 50 0086", { :name => "WLAN, Internet TV / Radio, 4.3\" TFT, Remote Control, Clock",
+      supply_item_should_be(supplier, "10 50 0086", { :name => "Albrecht DR800-TV (4032661274809)",
                                                       :category01 => "Internetradio",
                                                       :category02 => "Internet TV",
                                                       :weight => 0.7,
@@ -25,4 +25,37 @@ describe PocketmediaUtil do
                            )
     end
   end
+
+
+  it "should construct a nice name for supply items" do
+    data = {} 
+    data[:name01] = "HP"
+    data[:name02] = "Super-Special Paper"
+    data[:name03] = "Of Extreme Quality"
+    data[:ean_code] = "0123ABC123"
+    data[:manufacturer] = "Hewlett-Packard"
+    data[:supplier_product_code] = "1ABC XYZ"
+    data[:manufacturer_product_code] = "HP Ugly Description Lala"
+    data[:description01] = "Some Description"
+    data[:description02] = "Some Second Description"
+    pmu = PocketmediaUtil.new
+    pmu.construct_supply_item_name(data).should == "#{data[:manufacturer]} #{data[:manufacturer_product_code]} (#{data[:ean_code]})"
+  end
+
+  it "should construct a nice description for supply items" do
+    data = {} 
+    data[:name01] = "HP"
+    data[:name02] = "Super-Special Paper"
+    data[:name03] = "Of Extreme Quality"
+    data[:ean_code] = "0123ABC123"
+    data[:manufacturer] = "Hewlett-Packard"
+    data[:supplier_product_code] = "1ABC XYZ"
+    data[:manufacturer_product_code] = "HP Ugly Description Lala"
+    data[:description01] = "Some Description"
+    data[:description02] = "Some Second Description"
+    pmu = PocketmediaUtil.new
+    pmu.construct_supply_item_description(data).should == "#{data[:name01]}"
+  end
+
+
 end

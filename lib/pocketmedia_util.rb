@@ -50,4 +50,18 @@ class PocketmediaUtil < SupplierUtil
     super
   end
 
+  # Take all the raw data about a supply item and return a nice, meaningful string for its name, which can
+  # be different between suppliers and is therefore handled in the supplier-specific subclasses
+  def construct_supply_item_name(data)
+    @supply_item_name = "#{data[:manufacturer]}"
+    @supply_item_name += " #{data[:manufacturer_product_code]}" unless data[:manufacturer_product_code].blank?
+    @supply_item_name += " (#{data[:ean_code]})" unless data[:ean_code].blank?
+    super
+  end
+
+  def construct_supply_item_description(data)
+    @description = data[:name01]
+    super
+  end
+
 end
