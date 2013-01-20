@@ -65,5 +65,19 @@ class AlltronUtil < SupplierUtil
     super
   end
 
+  # Take all the raw data about a supply item and return a nice, meaningful string for its name, which can
+  # be different between suppliers and is therefore handled in the supplier-specific subclasses
+  def construct_supply_item_name(data)
+    @supply_item_name = "#{data[:name01]}"
+    @supply_item_name += " #{data[:name02]}" unless data[:name02].blank?
+    @supply_item_name += " (#{data[:name03]})" unless data[:name03].blank?
+    super
+  end
+
+  def construct_supply_item_description(data)
+    @description = "#{data[:description01].to_s}"
+    @description += " #{data[:description02].to_s}" unless data[:description02].blank?
+    super
+  end
 
 end
