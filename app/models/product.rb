@@ -595,9 +595,17 @@ class Product < ActiveRecord::Base
   end
   
   def alternative_supply_items
-    SupplyItem.where("manufacturer_product_code != ''")\
-              .where(:manufacturer_product_code => supply_item.manufacturer_product_code)\
-              .where("id <> #{supply_item.id}").order("purchase_price ASC")
+    candidates = SupplyItem.where("manufacturer_product_code != ''")\
+                           .where(:manufacturer_product_code => supply_item.manufacturer_product_code)\
+                           .where("id <> #{supply_item.id}")\
+                           .where("((manufacturer IS NULL) or (manufacturer = '') or  (manufacturer LIKE '#{self.manufacturer[0]}%'))")\
+                           .order("purchase_price ASC")
+    # If there is an EAN in addition to the manufacturer product code, compare those as well and
+    # discard things that don't match
+    if self.ean_code
+      candidates = candidates.where(:ean_code => self.ean_code)
+    end
+    return candidates
   end
 
   def sync_supply_item_information
@@ -649,7 +657,13 @@ class Product < ActiveRecord::Base
     unless self.supply_item.nil?
       potentially_cheaper_supply_items = SupplyItem.in_stock.available.where("manufacturer_product_code != ''")\
                                                                       .where(:manufacturer_product_code => self.supply_item.manufacturer_product_code)\
+                                                                      .where("((manufacturer IS NULL) or (manufacturer = '') or  (manufacturer LIKE '#{self.manufacturer[0]}%'))")\
                                                                       .order("purchase_price ASC")
+
+      if self.ean_code
+        potentially_cheaper_supply_items = potentially_cheaper_supply_items.where(:ean_code => self.ean_code)
+      end
+
       cheaper_supply_items = potentially_cheaper_supply_items.select{|si|
         if si.supplier and !si.supplier.margin_ranges.empty?
           margin_ranges = si.supplier.margin_ranges

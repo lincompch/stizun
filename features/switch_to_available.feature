@@ -4,11 +4,13 @@ Funktionalität: Switch to available automatisieren
 
   Grundlage: Supplier und deren Supply Items existieren 
     Angenommen es gibt folgende Supply Items:
-    |name                |manufacturer_product_code|ean_code|supplier_product_code|supplier         |price|stock|
-    |Disktation DS110j_1w|123                      |XYZ12   |1                    |Alltron AG       |100.0|10|
-    |Disktation DS110j_1w|123                      |XYZ12   |2                    |Ingram Micro GmbH|200.0|10|
-    |Disktation DS110j_1w|123                      |XYZ12   |3                    |jET Schweiz IT AG|300.0|10|
-    |Disktation DS110j_1w|                         |XYZ12   |4                    |jET Schweiz IT AG|300.0|10|
+    |name                |manufacturer|manufacturer_product_code|ean_code|supplier_product_code|supplier         |price|stock|
+    |Disktation DS110j_1w|Synology    |123                      |XYZ12   |1                    |Alltron AG       |100.0|10|
+    |Disktation DS110j_1w|Synology    |123                      |XYZ12   |2                    |Ingram Micro GmbH|200.0|10|
+    |Disktation DS110j_1w|Synology    |123                      |XYZ12   |3                    |jET Schweiz IT AG|300.0|10|
+    |Disktation DS110j_1w|Synology    |                         |XYZ12   |4                    |jET Schweiz IT AG|300.0|10|
+    |Disktation DS110j_1w|Cisco       |123                      |        |5                    |Alltron AG       |50.0 |10|
+    |Hänsel und Gretel   |Grimm       |123                      |GR123   |6                    |Alltron AG       |5.0|10|
     Und ein Produkt "Disktation DS110j_1w" mit Manufacturer Product Code "123" und Supplier Product Code "1"
     Und das Produkt ist verbunden mit dem Supply Item mit Supplier Product Code "1"
     
@@ -31,9 +33,18 @@ Funktionalität: Switch to available automatisieren
     Wenn das Supply Item "3" vom Supplier "jET Schweiz IT AG" nicht mehr verfügbar ist
     Dann ist das Produkt nicht verfügbar 
 
-  Szenario: Supply Items, die keinen Manufacturer Product Code haben, werden in all diesen vergleichen übersprungen
+  Szenario: Supply Items, die keinen Manufacturer Product Code haben, werden in all diesen Vergleichen übersprungen
     Angenommen alle Supply Items sind verfügbar
     Dann erscheint das Supply Item "4" vom Supplier "jET Schweiz IT AG" nicht als mögliche Alternative für automatisches Switch-To
+
+  Szenario: Supply Items, die zwar den gleichen Mfg-Code haben, deren EAN aber abweicht (weil total anderes Produkt), gelten nicht als Alternativen
+    Angenommen alle Supply Items sind verfügbar
+    # Hänsel und Gretel haben zwar 123 als Mfg-Code, nicht aber die passende EAN XYZ12
+    Dann erscheint das Supply Item "6" vom Supplier "Alltron AG" nicht als mögliche Alternative für automatisches Switch-To
+
+  Szenario: Supply Items ohne EAN, deren Manufacturer nicht mit dem gleichen Anfangsbuchstaben beginnt wie das auszuwechselnde Produkt, gelten nicht als Alternativen
+    Angenommen alle Supply Items sind verfügbar
+    Dann erscheint das Supply Item "5" vom Supplier "Alltron AG" nicht als mögliche Alternative für automatisches Switch-To
 
   Szenario: Geht ein aktuell dem Produkt zugewiesenes Supply Item auf 0, sucht das System die nächstgünstigste Alternative bei anderen Suppliern
     Angenommen alle Supply Items sind verfügbar
