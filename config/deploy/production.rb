@@ -102,7 +102,7 @@ namespace :deploy do
 
 end
 
-after "deploy:create_symlink", :link_config
+before "deploy:create_symlink", :link_config
 after "link_config", :precompile_assets
 after "deploy:restart", "stop_sphinx"
 after "link_config", "link_files"
