@@ -598,8 +598,12 @@ class Product < ActiveRecord::Base
     candidates = SupplyItem.where("manufacturer_product_code != ''")\
                            .where(:manufacturer_product_code => supply_item.manufacturer_product_code)\
                            .where("id <> #{supply_item.id}")\
-                           .where("((manufacturer IS NULL) or (manufacturer = '') or  (manufacturer LIKE '#{self.manufacturer[0]}%'))")\
                            .order("purchase_price ASC")
+
+    unless self.manufacturer.blank?
+      candidates = candidates.where("((manufacturer IS NULL) or (manufacturer = '') or  (manufacturer LIKE '#{self.manufacturer[0]}%'))")
+    end
+
     # If there is an EAN in addition to the manufacturer product code, compare those as well and
     # discard things that don't match
     if self.ean_code
@@ -657,8 +661,11 @@ class Product < ActiveRecord::Base
     unless self.supply_item.nil?
       potentially_cheaper_supply_items = SupplyItem.in_stock.available.where("manufacturer_product_code != ''")\
                                                                       .where(:manufacturer_product_code => self.supply_item.manufacturer_product_code)\
-                                                                      .where("((manufacturer IS NULL) or (manufacturer = '') or  (manufacturer LIKE '#{self.manufacturer[0]}%'))")\
                                                                       .order("purchase_price ASC")
+
+      unless self.manufacturer.blank?
+        potentially_cheaper_supply_items = potentially_cheaper_supply_items.where("((manufacturer IS NULL) or (manufacturer = '') or  (manufacturer LIKE '#{self.manufacturer[0]}%'))")
+      end
 
       if self.ean_code
         potentially_cheaper_supply_items = potentially_cheaper_supply_items.where(:ean_code => self.ean_code)
