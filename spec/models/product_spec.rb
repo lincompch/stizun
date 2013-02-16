@@ -205,6 +205,24 @@ describe Product do
       product.reload.name.should == "Style of Supply Item Two"
     end
 
+
+    it "should extract URLs from its own description and attach them to itself" do
+      product = FactoryGirl.build(:product, :name => 'URLified product')
+      product.description = "This product has a datasheet at http://www.example.com/product1 and its product manager can be reached at mailto:foo@example.com. Also, see http://www.example.com/about for company information"
+      product.save.should == true
+      product.links.collect(&:url).include?("http://www.example.com/product1").should eq true
+      product.links.collect(&:url).include?("mailto:foo@example.com").should eq false
+      product.links.collect(&:url).include?("http://www.example.com/about").should eq true
+    end
+
+    it "should not extract URLs that are already there" do
+      product = FactoryGirl.build(:product, :name => 'URLified product 2')
+      product.description = "This product has a datasheet at http://www.example.com and its product manager can be reached at http://www.example.com . Also, see http://www.example.com for company information"
+      product.save.should == true
+      product.links.collect(&:url).to_a.should == ["http://www.example.com"]
+      product.links.count.should == 1 
+    end
+
   end
   
   describe "a componentized product" do

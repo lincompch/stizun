@@ -31,6 +31,7 @@ class Product < ActiveRecord::Base
 
   has_many :notifications
   has_many :users, :through => :notifications
+  has_many :links
  
   scope :featured, :conditions => { :is_featured => true }
   scope :available, :conditions => { :is_available => true }
@@ -45,6 +46,7 @@ class Product < ActiveRecord::Base
   before_save :update_notifications, :sync_supply_item_information
   before_create :try_to_get_product_description
   after_create :try_to_get_product_files  
+  after_save :extract_urls_from_description
 
   def update_notifications
     price_relevant_fields = ["purchase_price", "sales_price"]
@@ -702,6 +704,13 @@ class Product < ActiveRecord::Base
 
   def alternative_available_supply_items
     self.alternative_supply_items.in_stock.available
+  end
+  
+  def extract_urls_from_description
+    found_links = URI.extract(self.description, "http")
+    found_links.each do |fl|
+      self.links.create(:url => fl) unless self.links.exists?(:url => fl)
+    end
   end
 
   private
