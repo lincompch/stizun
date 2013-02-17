@@ -59,5 +59,13 @@ module ProductsHelper
     new_params['ofield'] = field
     return link_to string, new_params
   end
+
+  def product_link(link)
+    if link.description.blank?
+      return link_to link.url, link.url
+    else
+      return link_to link.description, link.url
+    end
+  end
   
 end

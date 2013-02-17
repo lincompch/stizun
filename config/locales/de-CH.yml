@@ -393,6 +393,7 @@ de-CH:
       product: "Produkt"
       rebate: "Rabatt"
       description: "Beschreibung"
+      links: "Links zum Produkt"
       short_description: "Kurzbeschreibung"
       no_picture: "Kein Bild für dieses Produkt"
       search_query_too_short: "Ihr Suchbegriff ist zu kurz. Verwenden Sie bitte mindestens 3 Buchstaben."
