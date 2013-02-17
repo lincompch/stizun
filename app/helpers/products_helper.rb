@@ -72,7 +72,7 @@ module ProductsHelper
     if stock == 0
       return t('stizun.product.not_in_stock')
     else
-      return stock + " " + t('stizun.product.pcs_in_stock_short')
+      return stock.to_s + " " + t('stizun.product.pcs_in_stock_short')
     end
   end
   
