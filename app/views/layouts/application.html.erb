@@ -64,7 +64,6 @@
             <li class="nav_menu_item"><%= link_to "Versandkosten", :controller => 'page', :action => 'shipping' %></li>
             <li class="nav_menu_item"><%= link_to "Einkaufswagen", cart_path %></li>
             <li class="nav_menu_item"><%= link_to "Zur Kasse", new_order_path %></li>
-            <li class="nav_menu_item"><%= link_to "AGB", :controller => 'page', :action => 'tos' %></li>
             <li class="nav_menu_item"><%= link_to "Kontakt", :controller => 'page', :action => 'contact' %></li>
 
           </ul>
@@ -159,12 +158,13 @@
 
               <div id="ft_btm">
                   <div id="ft_left">
+                    <%= link_to "Allgemeine Geschäftsbedingungen (AGB)", :controller => :page, :action => :tos %>
 
 
                   </div>
 
                   <div id="ft_val">
-                      &copy; 2010 - 2011 Lincomp GmbH, 2007 - 2010 JM Cahenzli AG<br />
+                      &copy; 2010 - 2013 Lincomp GmbH, 2007 - 2010 JM Cahenzli AG<br />
                   </div>
 
 
