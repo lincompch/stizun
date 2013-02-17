@@ -67,5 +67,13 @@ module ProductsHelper
       return link_to link.description, link.url
     end
   end
+
+  def show_stock(stock)
+    if stock == 0
+      return t('stizun.product.not_in_stock')
+    else
+      return stock + " " + t('stizun.product.pcs_in_stock_short')
+    end
+  end
   
 end

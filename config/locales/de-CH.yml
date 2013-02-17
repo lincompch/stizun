@@ -388,6 +388,7 @@ de-CH:
       no_shipped_orders: "Es sind noch keine Bestellungen versandt worden."
     product:
       pcs_in_stock_short: "Stück an Lager"
+      not_in_stock: "Verfügbarkeit auf Anfrage / Momentan nicht verfügbar / Herstellung jeweils auf Bestellung"
       no_products: "Diese Produkteliste ist leer."
       products: "Produkte"
       product: "Produkt"
