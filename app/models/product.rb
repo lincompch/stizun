@@ -709,6 +709,7 @@ class Product < ActiveRecord::Base
   def extract_urls_from_description
     found_links = URI.extract(self.description, "http")
     found_links.each do |fl|
+      fl.gsub!(/[\.|,]+$/, "") # Strip . and , from the end, as they might be sentence punctuation from the description
       self.links.create(:url => fl) unless self.links.exists?(:url => fl)
     end
   end
