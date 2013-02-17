@@ -36,6 +36,10 @@
     <h4><%= t('stizun.product.description') %></h4>
     <p><%= Sanitize.clean(@product.description, Sanitize::Config::STIZUN).html_safe %></p>
 
+
+    <%= render :partial => "shared/share_buttons" %>
+
+
     <% if @product.links.count > 0 %>
       <h4><%= t('stizun.product.links') %></h4>
       <ul>

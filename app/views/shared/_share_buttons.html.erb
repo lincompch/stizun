@@ -1,0 +1,15 @@
+<% current_url = "http://#{request.host}#{request.fullpath}" %>
+
+<div id="share-buttons">
+  <a href="http://twitter.com/share"
+    class="twitter-share-button"
+    data-count="horizontal">Tweet this</a>
+  <script type="text/javascript"
+    src="http://platform.twitter.com/widgets.js">
+  </script>
+  <div class="facebook-share-button">
+    <iframe src="http://www.facebook.com/plugins/like.php?href=<%= URI::encode(current_url) %>&amp;layout=button_count&amp;show_faces=false&amp;width=200&amp;action=like&amp;colorscheme=light&amp;height=21"
+      scrolling="no" frameborder="0" style="border:none;overflow:hidden; width:200px; height:21px;" allowTransparency="true"></iframe>
+  </div> 
+
+</div>
