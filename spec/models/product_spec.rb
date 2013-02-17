@@ -223,6 +223,15 @@ describe Product do
       product.links.count.should == 1 
     end
 
+    it "should ignore the punctuation at the end of URLs" do
+      product = FactoryGirl.build(:product, :name => 'URLified product 2')
+      product.description = "This product has a datasheet at http://www.example.com. And its product manager can be reached at http://www.example.com, or perhaps at http://www.example.com."
+      product.save.should == true
+      product.links.collect(&:url).to_a.should == ["http://www.example.com"]
+      product.links.count.should == 1 
+    end
+
+
   end
   
   describe "a componentized product" do
