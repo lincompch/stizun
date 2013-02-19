@@ -231,7 +231,23 @@ describe Product do
       product.links.count.should == 1 
     end
 
+    it "should, when switching supply items, add any new URLs it finds to the product" do
 
+      product = FactoryGirl.build(:product, :name => 'Product One')
+      product.name.should == "Product One"
+      supply_item1 = FactoryGirl.build(:supply_item, :name => 'Supply Item One', :description => 'http://www.example.com', :manufacturer_product_code => 'ABC123')
+      supply_item2 = FactoryGirl.build(:supply_item, :name => 'Supply Item Two', :description => 'http://www.other.example.com', :manufacturer_product_code => 'ABC123')
+      
+      product.supply_item = supply_item1
+      product.save
+      product.links.count.should == 1
+      product.supply_item = supply_item2
+      if product.save == false
+        binding.pry
+      end
+      product.save.should == true
+      product.reload.links.count.should == 2
+    end
   end
   
   describe "a componentized product" do
