@@ -182,4 +182,37 @@ describe AlltronUtil do
     end
   end
 
+
+  it "should construct a default name for supply items" do
+    data = {} 
+    data[:name01] = "HP"
+    data[:name02] = "Super-Special Paper"
+    data[:name03] = "Of Extreme Quality"
+    data[:ean_code] = "0123ABC123"
+    data[:manufacturer] = "Hewlett-Packard"
+    data[:supplier_product_code] = "1ABC XYZ"
+    data[:manufacturer_product_code] = "HP Ugly Description Lala"
+    data[:description01] = "Some Description"
+    data[:description02] = "Some Second Description"
+    data[:product_link] = "http://www.example.com"
+    au = AlltronUtil.new
+    au.construct_supply_item_name(data).should == "#{data[:name01]} #{data[:name02]} (#{data[:name03]})"
+  end
+
+  it "should construct a default description for supply items" do
+    data = {} 
+    data[:name01] = "HP"
+    data[:name02] = "Super-Special Paper"
+    data[:name03] = "Of Extreme Quality"
+    data[:ean_code] = "0123ABC123"
+    data[:manufacturer] = "Hewlett-Packard"
+    data[:supplier_product_code] = "1ABC XYZ"
+    data[:manufacturer_product_code] = "HP Ugly Description Lala"
+    data[:description01] = "Some Description"
+    data[:description02] = "Some Second Description"
+    data[:product_link] = "http://www.example.com"
+    au = AlltronUtil.new
+    au.construct_supply_item_description(data).should == "#{data[:description01]} #{data[:description02]}"
+  end
+
 end
