@@ -215,4 +215,11 @@ describe AlltronUtil do
     au.construct_supply_item_description(data).should == "#{data[:description01]} #{data[:description02]}"
   end
 
+  it "should correctly construct all data even for pesky problematic items" do
+    au = AlltronUtil.new
+    au.import_supply_items(Rails.root + "spec/data/alltron_problematic_router.csv")
+    si = SupplyItem.where(:supplier_product_code => '233063').first
+    si.description.should == "Huawei B593: LTE/UMTS/HSDPA Modemrouter, 150Mbps/42.2Mbps download, WLAN, 4xLAN,USB, 2xRJ-11 Telefon Das schnellste 3G/4G Modemrouter auf der Welt. Unterstützt bis 2 analoge Festnetztelefone für Telefonieren über das 3G/4G LTE Datennetz."
+  end
+
 end
