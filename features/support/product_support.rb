@@ -20,7 +20,9 @@ def create_product(prod)
     prod['description'].blank? ? description = "No description" : description = prod['description']
     
     is_featured = false
-    is_featured = true if prod['featured'] == "yes"
+    is_featured = true if ["yes", "true", "1"].include?(prod['featured'])
+    is_visible = true
+    is_visible = false if ["no", "false", "0"].include?(prod['visible'])
     
     supplier = Supplier.find_by_name(prod['supplier'])
 
@@ -32,7 +34,8 @@ def create_product(prod)
                              :tax_class_id => tax_class,
                              :purchase_price => purchase_price,
                              :manufacturer_product_code => manufacturer_product_code,
-                             :is_featured => is_featured).first
+                             :is_featured => is_featured,
+                             :is_visible => is_visible).first
     if product.nil?
       product = Product.create(:name => prod['name'],
                                :description => description,
@@ -42,7 +45,8 @@ def create_product(prod)
                                :tax_class => tax_class,
                                :purchase_price => purchase_price,
                                :manufacturer_product_code => manufacturer_product_code,
-                               :is_featured => is_featured)
+                               :is_featured => is_featured,
+                               :is_visible => is_visible)
     end
   if prod['category']
     category = Category.where(:name => prod['category']).first

@@ -71,7 +71,7 @@ class Product < ActiveRecord::Base
     has categories(:id), :as => :category_id
     
     # attributes
-    has(:id, created_at, updated_at, is_available, is_featured)
+    has(:id, created_at, updated_at, is_available, is_featured, is_visible)
     
     set_property :delta => true
   end
@@ -82,6 +82,11 @@ class Product < ActiveRecord::Base
     }
   }
   
+  sphinx_scope(:sphinx_visible) {
+    {
+    :with => { :is_visible => 1}
+    }
+  }
 
   sphinx_scope(:sphinx_featured) {
     {

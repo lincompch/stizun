@@ -159,6 +159,12 @@
     <td>Featured product</td>
   </tr>
 
+  <tr>
+    <td><%= f.check_box :is_visible %> </td>
+    <td>Visible</td>
+  </tr>
+
+
 </table>
 
 <%= f.hidden_field :supply_item_id unless @product.supply_item_id.blank? %>

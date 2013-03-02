@@ -1,6 +1,7 @@
 Given /^the following products exist\(table\):$/ do |table|
   table.hashes.each do |prod|
     product = create_product(prod)
+    product.should_not == false
  end
 end
 
@@ -19,5 +20,19 @@ Then /^category: "([^"]*)" should contain product: "([^"]*)"$/ do |category, pro
   category = Category.find_by_name(category)
   product = Product.find_by_name(product)
   category.products.should include(product)
+end
+
+
+Wenn /^ich mir die erste Seite der Gesamt\-Produktliste anschaue$/ do
+  visit "/products" 
+end
+
+Dann /^sehe ich das Produkt "(.*?)"$/ do |name|
+  page.has_css?("table.productlist tr", :text => name, :maximum => 1).should == true
+  #find("table.productlist tr", :text => name).should_not == nil
+end
+
+Dann /^sehe ich das Produkt "(.*?)" nicht$/ do |name|
+  page.has_css?("table.productlist tr", :text => name).should == false
 end
 
