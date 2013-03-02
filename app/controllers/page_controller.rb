@@ -10,6 +10,10 @@ class PageController < ApplicationController
     render_custom_page(self.action_name.to_s)
   end
 
+  def about
+    render_custom_page(self.action_name.to_s)
+  end
+
   def contact
     render_custom_page(self.action_name.to_s)
   end
