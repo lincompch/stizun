@@ -12,7 +12,6 @@ Funktionalität: Produkte
     |jET-Notebook XYZ             |Alle Produkte|Alltron AG|100.0         |yes      |yes       |
     |Gartentisch Ikea Surströmming|Alle Produkte|Alltron AG|100.0         |yes      |no        |
 
-  @javascript
   Szenario: Nur diejenigen Produkte anzeigen, die als visible markiert sind
     Wenn ich mir die erste Seite der Gesamt-Produktliste anschaue
     Dann sehe ich das Produkt "Debian GNU/Linux USB-Stick"
