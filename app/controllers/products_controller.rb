@@ -23,7 +23,7 @@ class ProductsController < ApplicationController
         with.merge!(:category_id => params[:category_id])
       end
       
-      @products = Product.sphinx_visible.search(keyword,
+      @products = Product.sphinx_available.sphinx_visible.search(keyword,
                                                   :conditions => conditions,
                                                   :with => with,
                                                   :order => order_string,

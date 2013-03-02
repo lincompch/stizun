@@ -1,8 +1,8 @@
 class PageController < ApplicationController
 
   def index
-    @products = Product.available.on_sale.paginate(:page => params[:page])
-    @featured_products = Product.available.featured.paginate(:page => params[:page])
+    @products = Product.visible.available.on_sale.paginate(:page => params[:page])
+    @featured_products = Product.visible.available.featured.paginate(:page => params[:page])
     render_custom_page(self.action_name.to_s)
   end
 
