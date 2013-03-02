@@ -35,6 +35,7 @@ class Product < ActiveRecord::Base
  
   scope :featured, :conditions => { :is_featured => true }
   scope :available, :conditions => { :is_available => true }
+  scope :visible, :conditions => { :is_visible => true }
   scope :supplied, :conditions => "supply_item_id IS NOT NULL"
   scope :loss_leaders, :conditions => { :is_loss_leader => true }
   scope :on_sale, :conditions => { :sale_state => true }
