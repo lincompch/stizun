@@ -1,7 +1,7 @@
 
 <% begin %>
  <% invoice = Rails.root + "custom/views/invoices/invoice.html.erb" %>
- <%= render :file => invoice %>
+ <%= render 'invoice' %>
 <% rescue %>
 
 <h2><%= t("stizun.invoice.invoice")%> <%= @invoice.document_id %></h2>
