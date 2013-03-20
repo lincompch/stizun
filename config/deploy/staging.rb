@@ -3,7 +3,7 @@ set :rvm_type, :user
 set :rvm_ruby_string, '1.9.3-p327'        # Or whatever env you want it to run in.
 require "bundler/capistrano"
 
-set :rvm_type, :user
+set :rvm_type, :system
 
 set :application, "lincomp"
 
