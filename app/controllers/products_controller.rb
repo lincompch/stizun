@@ -54,6 +54,8 @@ class ProductsController < ApplicationController
           end          
         end
         session[:return_to] = product_path(@product)
+
+        @title = "Lincomp: #{@product.manufacturer} - #{@product.name} - #{@product.manufacturer_product_code}"
       rescue ActiveRecord::RecordNotFound
         logger.error("Attempt to access invalid product #{params[:id]}" )
         flash[:notice] = "Invalid product"

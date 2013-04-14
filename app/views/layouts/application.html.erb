@@ -4,7 +4,7 @@
   <head>
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <title>Lincomp</title>
+    <title><% if @title %><%= @title %><% else %>Lincomp<% end %></title>
     <%= csrf_meta_tag %>
     <%= #stylesheet_link_tag "general" 
     %>
