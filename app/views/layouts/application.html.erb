@@ -185,6 +185,10 @@
     <!-- /WRAPPER -->
 
 
+    <% if File.exists?(Rails.root + "custom/piwik.html") %>
+      <%= File.read(Rails.root + "custom/piwik.html").html_safe %>
+    <% end %>
+
   </body>
 </html>
 
