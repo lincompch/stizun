@@ -80,6 +80,7 @@ class CartsController < ApplicationController
     # This is reused as the checkout view
     @cart = Cart.get_from_session(session)
     live_update_products
+    @piwik = cart_to_piwik(@cart)
   end
   
 
@@ -90,6 +91,23 @@ class CartsController < ApplicationController
         line.product.reload
       end
     end
+
   end
   
+  def cart_to_piwik(cart)
+    require Rails.root + "lib/piwik"
+    binding.pry
+    piwik = ""
+    cart.lines.each do |cl|
+      categories = ""
+      categories = cl.product.categories.collect(&:name) unless cl.product.categories.empty?
+      piwik += piwik_ecommerce_item(cl.product.id, cl.product.name, 
+                                    categories, cl.product.taxed_price.rounded,
+                                    cl.quantity)
+    end
+
+    piwik += piwik_ecommerce_cart(cart.document_id, cart.taxed_price.rounded.to_f, cart.products_taxed_price.rounded.to_f, cart.taxes.rounded.to_f, cart.total_taxed_shipping_price.rounded.to_f)
+
+    return piwik
+  end
 end

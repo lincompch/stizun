@@ -17,6 +17,7 @@ class OrdersController < ApplicationController
       @order = load_order
       @order.shipping_address = Address.new
       @order.billing_address = Address.new
+      @piwik = cart_to_piwik(@cart)
     end
   end
   
@@ -107,4 +108,19 @@ class OrdersController < ApplicationController
     end
   end
   
+  def cart_to_piwik(cart)
+    require Rails.root + "lib/piwik"
+    piwik = ""
+    cart.lines.each do |cl|
+      categories = ""
+      categories = cl.product.categories.collect(&:name) unless cl.product.categories.empty?
+      piwik += piwik_ecommerce_item(cl.product.id, cl.product.name, 
+                                    categories, cl.product.taxed_price.rounded,
+                                    cl.quantity)
+    end
+
+    piwik += piwik_track_ecommerce_cart_update(cart.taxed_price.rounded.to_f)
+
+    return piwik
+  end
 end

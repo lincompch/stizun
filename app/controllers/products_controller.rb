@@ -54,6 +54,8 @@ class ProductsController < ApplicationController
           end          
         end
         session[:return_to] = product_path(@product)
+        require Rails.root + "lib/piwik"
+        @piwik = piwik_set_ecommerce_view(@product.id, @product.name, @product.categories.collect(&:name)[0..4].as_json, @product.taxed_price.rounded.to_f)
 
         @title = "Lincomp: #{@product.manufacturer} - #{@product.name} - #{@product.manufacturer_product_code}"
       rescue ActiveRecord::RecordNotFound
