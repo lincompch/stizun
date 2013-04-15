@@ -5,6 +5,8 @@ class InvoicesController < ApplicationController
      if @invoice.nil?
        flash[:error] = "This invoice does not exist."
        redirect_to root_path
+     else
+       @piwik = order_to_piwik(@invoice.order) unless @invoice.order.nil?
      end
   end
   
@@ -17,6 +19,22 @@ class InvoicesController < ApplicationController
       end
     end
   
+  end
+  
+  def order_to_piwik(order)
+    require Rails.root + "lib/piwik"
+    piwik = ""
+    order.lines.each do |cl|
+      categories = ""
+      categories = cl.product.categories.collect(&:name) unless cl.product.categories.empty?
+      piwik += piwik_ecommerce_item(cl.product.id, cl.product.name, 
+                                    categories, cl.product.taxed_price.rounded,
+                                    cl.quantity)
+    end
+
+    piwik += piwik_ecommerce_order(order.document_id, order.taxed_price.rounded.to_f, order.products_taxed_price.rounded.to_f, order.taxes.rounded.to_f, order.total_taxed_shipping_price.rounded.to_f)
+
+    return piwik
   end
   
 end
