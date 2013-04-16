@@ -1,6 +1,6 @@
   def piwik_ecommerce_item(sku, name = nil, category = nil, price = 0.0, qty = 0)
     if category.is_a?(Array)
-      category = category[0..4].as_json
+      category = category[0..4].as_json.to_s.gsub("\"","'")
     else
       category = "'#{category}'"
     end
@@ -35,7 +35,7 @@
 
   def piwik_set_ecommerce_view(sku, name, category, price)
     if category.is_a?(Array)
-      category = category[0..4].as_json
+      category = category[0..4].as_json.to_s.gsub("\"","'")
     else
       category = "'#{category}'"
     end
