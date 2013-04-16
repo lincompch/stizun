@@ -32,7 +32,7 @@ class InvoicesController < ApplicationController
                                     cl.quantity)
     end
 
-    piwik += piwik_ecommerce_order(order.document_id, order.taxed_price.rounded.to_f, order.products_taxed_price.rounded.to_f, order.taxes.rounded.to_f, order.taxed_price.rounded.to_f)
+    piwik += piwik_ecommerce_order(order.document_id, order.taxed_price.rounded.to_f, order.products_taxed_price.rounded.to_f, order.taxes.rounded.to_f, order.total_taxed_shipping_price.rounded.to_f)
 
     return piwik
   end
