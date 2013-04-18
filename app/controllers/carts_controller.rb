@@ -105,7 +105,7 @@ class CartsController < ApplicationController
                                     cl.quantity)
     end
 
-    piwik += piwik_ecommerce_cart(cart.document_id, cart.taxed_price.rounded.to_f, cart.products_taxed_price.rounded.to_f, cart.taxes.rounded.to_f, cart.total_taxed_shipping_price.rounded.to_f)
+    piwik += piwik_track_ecommerce_cart_update(cart.taxed_price.rounded.to_f)
 
     return piwik
   end
