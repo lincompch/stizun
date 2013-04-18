@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
-  before_filter :set_locale
+  before_filter :set_locale, :setup_piwik
   #helper_method :current_user_session, :current_user
 
   def require_user
@@ -26,6 +26,17 @@ class ApplicationController < ActionController::Base
     #I18n.locale = params[:locale]
     # Currently hard-coded during development
     I18n.locale = :"de-CH"
+  end
+
+  def setup_piwik
+    @piwik_address = nil
+    @piwik_cookie_domain = nil
+
+    begin
+      @piwik_address = ConfigurationItem.get("piwik_address").value
+      @piwik_cookie_domain = ConfigurationItem.get("piwik_cookie_domain").value
+    rescue
+    end
   end
   
   private
