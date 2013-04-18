@@ -72,7 +72,6 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'spork'
   gem 'launchy'
-  gem 'ZenTest'
   gem 'pry'
   gem 'warbler', :platform => :jruby
   gem 'selenium-webdriver'

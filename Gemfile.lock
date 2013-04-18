@@ -1,7 +1,6 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    ZenTest (4.8.2)
     actionmailer (3.2.12)
       actionpack (= 3.2.12)
       mail (~> 2.4.4)
@@ -296,7 +295,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  ZenTest
   activerecord-jdbcmysql-adapter
   acts_as_tree
   awesome_nested_set
