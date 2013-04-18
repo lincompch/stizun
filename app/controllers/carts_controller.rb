@@ -96,7 +96,6 @@ class CartsController < ApplicationController
   
   def cart_to_piwik(cart)
     require Rails.root + "lib/piwik"
-    binding.pry
     piwik = ""
     cart.lines.each do |cl|
       categories = ""
