@@ -38,8 +38,9 @@ class PageController < ApplicationController
     @shipping_calculator = ShippingCalculator.get_default
     @table = []
     @shipping_calculator.configuration.shipping_costs.each do |c|
+      price = BigDecimal.new((c[:price] + (c[:price] / BigDecimal.new("100.0")) * @shipping_calculator.tax_class.percentage).to_s).rounded
       @table << {:weight_min => c[:weight_min], :weight_max => c[:weight_max], 
-                 :price => BigDecimal.new((c[:price] + (c[:price] / BigDecimal.new("100.0")) * @shipping_calculator.tax_class.percentage).to_s).rounded}
+                 :price => price}
     end
     
   end
