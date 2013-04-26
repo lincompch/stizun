@@ -1,12 +1,13 @@
 require 'ostruct'
 
 class ShippingCalculator < ActiveRecord::Base
-      
   serialize :configuration, OpenStruct
   belongs_to :tax_class
   validates_presence_of :tax_class_id, :name
   validates_uniqueness_of :name
 
+  # So that any inherited calculators think they are the base
+  # class (ShippingCalculator)
   def self.inherited(child)  
     child.instance_eval do
       def model_name

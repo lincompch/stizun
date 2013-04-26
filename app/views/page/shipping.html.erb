@@ -14,7 +14,6 @@
       <li><%= t("stizun.shipping.from_minimum_item_count", {count: @minimum_item_count})%></li>
     <% end %>
   </ul>
-  <p><%= t("stizun.shipping.it_does_not_matter_which_one") %></p>
 <% end %>
 
 
@@ -34,12 +33,12 @@
     </tr>
   </thead>
   
-  <% @shipping_calculator.configuration.shipping_costs.each do |sc| %>
+  <% @table.each do |sc| %>
   
     <tr class="<%= cycle('odd', 'even')%>">
       <td><%= sc[:weight_min] / 1000.0 %> kg</td>
       <td><%= sc[:weight_max] / 1000.0 %> kg</td>
-      <td><%= pretty_price(sc[:price]) %> <%= t("stizun.general.excluding_vat")%></td>
+      <td><%= pretty_price(sc[:price]) %> <%= t("stizun.general.including_vat")%></td>
   <% end %>
   
   <tfoot>

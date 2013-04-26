@@ -3,17 +3,8 @@ module ProductsHelper
   
   def product_rounded_price(product)
     if product.on_sale?
-      
-      # This replicates the behavior found in the Product model: Percentage rebate
-      # overrides absolute rebate
-      if product.absolute_rebate?
-        rebate_string = product.absolute_rebate
-      elsif product.percentage_rebate?
-        rebate_string = product.percentage_rebate.to_s + "%"
-      end
-      
-      "<span class='sales_price'>#{pretty_price(product.taxed_price.rounded)}</span><br>"\
-      "<span class='rebate_string'>#{rebate_string} #{t('stizun.product.rebate')}</span>"
+      "<span class='former_price'>#{pretty_price(product.taxed_price.rounded + product.rebate.rounded)}</span><br>"\
+      "<span class='reduced_price'>#{pretty_price(product.taxed_price.rounded)}</span>"
     else
       pretty_price(product.taxed_price.rounded)
     end
