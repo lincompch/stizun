@@ -4,12 +4,12 @@ class UsersController < ApplicationController
   
   def show
     @user = @current_user
-    @invoices = @user.invoices.unpaid
-    @orders_to_ship = @user.orders.to_ship
-    @orders_awaiting_payment = @user.orders.awaiting_payment
-    @orders_processing = @user.orders.processing
-    @orders_unprocessed = @user.orders.unprocessed
-    @last_shipped_orders = @user.orders.shipped.limit(5)
+    @invoices = @user.invoices.unpaid.order("created_at DESC")
+    @orders_to_ship = @user.orders.to_ship.order("created_at DESC")
+    @orders_awaiting_payment = @user.orders.awaiting_payment.order("created_at DESC")
+    @orders_processing = @user.orders.processing.order("created_at DESC")
+    @orders_unprocessed = @user.orders.unprocessed.order("created_at DESC")
+    @last_shipped_orders = @user.orders.shipped.order("created_at DESC").limit(5)
     @addresses = @user.addresses.active
     @notifications = @user.notifications
 
