@@ -2,24 +2,7 @@
 
 <p><%= t("stizun.shipping.our_shipping_fees_are_as_follows") %>:</p>
 
-
-<% if (!@minimum_item_count.nil? or @minimum_order_amount.nil?) %>
-  <h4><%= t("stizun.shipping.free_shipping") %></h4>
-  <p><%= t("stizun.shipping.free_shipping_is_possible_if_one_of_the_following_occurs") %></p>
-  <ul>
-    <% if !@minimum_order_amount.nil? %>
-      <li><%= t("stizun.shipping.from_minimum_amount", {currency: @currency, price:  "%05.2f" % @minimum_order_amount})%></li>
-    <% end %>
-    <% if !@minimum_item_count.nil? %>
-      <li><%= t("stizun.shipping.from_minimum_item_count", {count: @minimum_item_count})%></li>
-    <% end %>
-  </ul>
-<% end %>
-
-
 <h4><%= t("stizun.shipping.normal_shipping_fees") %></h4>
-
-<p><%= t("stizun.shipping.if_your_order_does_not_qualify_for_free_shipping")%>:</p>
 
 
 <!-- TODO: Render a different partial depending on which calculator is in use, and make that partial responsible for knowing how to display that particular calculator's shipping costs -->
@@ -50,3 +33,19 @@
   </tfoot>
   
 </table>
+
+
+<% if (!@minimum_item_count.nil? or @minimum_order_amount.nil?) %>
+  <h4><%= t("stizun.shipping.free_shipping") %></h4>
+  <p><%= t("stizun.shipping.free_shipping_is_possible_if_one_of_the_following_occurs") %></p>
+  <ul>
+    <% if !@minimum_order_amount.nil? %>
+      <li><%= t("stizun.shipping.from_minimum_amount", {currency: @currency, price:  "%05.2f" % @minimum_order_amount})%></li>
+    <% end %>
+    <% if !@minimum_item_count.nil? %>
+      <li><%= t("stizun.shipping.from_minimum_item_count", {count: @minimum_item_count})%></li>
+    <% end %>
+  </ul>
+<% end %>
+
+

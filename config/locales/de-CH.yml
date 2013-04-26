@@ -371,7 +371,7 @@ de-CH:
       overview: "Bestellungsübersicht"
       shipping_cost: "Versandkosten"
       included_vat: "Enthaltene MwSt."
-      shopping_cart_empty: "Ihr Einkaufswagen ist leer. Sie können nicht weiter zur Kasse."
+      shopping_cart_empty: "Sie können nicht weiter zur Kasse."
       thanks_for_your_order: "Danke für Ihre Bestellung! Bitte bezahlen Sie diese Rechnung."
       problem_with_your_order: "Es gibt ein Problem mit Ihrer Bestellung"
       orders_awaiting_payment: "Unbezahlte Bestellungen"
