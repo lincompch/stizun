@@ -60,7 +60,7 @@ class ProductsController < ApplicationController
         @title = "Lincomp: #{@product.manufacturer} - #{@product.name} - #{@product.manufacturer_product_code}"
       rescue ActiveRecord::RecordNotFound
         logger.error("Attempt to access invalid product #{params[:id]}" )
-        flash[:notice] = "Invalid product"
+        flash[:notice] = "Dieses Produkt ist nicht mehr erhältlich."
         redirect_to :action => :index
       end     
     end
