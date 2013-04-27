@@ -20,6 +20,8 @@
         <%= hidden_field_tag "product_id", @product.id %>
         <%= submit_tag t("stizun.cart.add_to_cart") %>
       <% end -%>
+
+      <p><%=product_to_mailto(@product).html_safe%></p>
       <p><a href="#price_updates">Preis-Updates abonnieren</a></p>
     </div>
 

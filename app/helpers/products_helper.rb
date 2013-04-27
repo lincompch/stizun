@@ -1,3 +1,4 @@
+# encoding: utf-8
 module ProductsHelper
   
   
@@ -67,4 +68,14 @@ module ProductsHelper
     end
   end
   
+
+  def product_to_mailto(product)
+    subject = "Beratung erwünscht zu '#{product.name}'"
+    body =  "Liebe Lincomp\n\n"
+    body += "Ich habe folgendes Produkt in Ihrem Shop entdeckt:\n\n"
+    body += "#{product.name}, Lincomp-ID: #{product.id}\n\n"
+    body += "Bitte beantworten Sie mir dazu folgende Fragen:\n\n"
+    return mail_to "info@lincomp.ch", "Beratung zu diesem Produkt", :subject => subject, :body => body
+  end
+
 end

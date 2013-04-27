@@ -60,6 +60,10 @@ class IngramUtil < SupplierUtil
   # Output: A hash with the product ID as an index, pointing to a hash of arrays of changes with
   #         the changed attribute as an index (similar to ActiveRecord changes)
   def self.live_update(object)
+    # Can't work without these two
+    if (APP_CONFIG['ingram_customer_number'].blank? or APP_CONFIG['ingram_password'].blank?)
+      return []
+    end
 
     logger = Logger.new("#{Rails.root}/log/ingram_live_update_#{Time.now.strftime("%Y-%m-%d")}.log")
     
