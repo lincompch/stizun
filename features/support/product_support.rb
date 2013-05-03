@@ -10,6 +10,7 @@ def create_product(prod)
     weight = 0
     weight = prod['weight'].to_f unless prod['weight'].nil?
     manufacturer_product_code = prod['manufacturer_product_code']
+    stock = prod['stock'].to_i unless prod['stock'].nil?
 
     tax_percentage = prod['tax_percentage'] || 8.0
     tax_class = TaxClass.where(:percentage => tax_percentage).first unless tax_percentage.nil?
@@ -23,6 +24,8 @@ def create_product(prod)
     is_featured = true if ["yes", "true", "1"].include?(prod['featured'])
     is_visible = true
     is_visible = false if ["no", "false", "0"].include?(prod['visible'])
+    is_build_to_order = false
+    is_build_to_order = true if ["yes", "true", "1"].include?(prod['build_to_order'])
     
     supplier = Supplier.find_by_name(prod['supplier'])
 
@@ -35,7 +38,9 @@ def create_product(prod)
                              :purchase_price => purchase_price,
                              :manufacturer_product_code => manufacturer_product_code,
                              :is_featured => is_featured,
-                             :is_visible => is_visible).first
+                             :is_visible => is_visible,
+                             :is_build_to_order => is_build_to_order,
+                             :stock => stock).first
     if product.nil?
       product = Product.create(:name => prod['name'],
                                :description => description,
@@ -46,7 +51,9 @@ def create_product(prod)
                                :purchase_price => purchase_price,
                                :manufacturer_product_code => manufacturer_product_code,
                                :is_featured => is_featured,
-                               :is_visible => is_visible)
+                               :is_visible => is_visible,
+                               :is_build_to_order => is_build_to_order,
+                               :stock => stock)
     end
   if prod['category']
     category = Category.where(:name => prod['category']).first

@@ -35,3 +35,19 @@ Then /^the category "([^\"]*)" should contain a product named "([^\"]*)"$/ do |a
   @cat.products.should include @prod
 end
 
+When /^I view the product "(.*?)"$/ do |product_name|
+  prods = all("tr", :text => product_name)
+  prods.first.find("a").click
+end
+
+Then /^I should be informed that this laptop is build\-to\-order$/ do
+  box = find("#add_to_cart_box")
+  box.find(".stock").text.should == "Fertigung in der Schweiz innert 1 - 2 Tagen nach Auftrag"
+end
+
+Then /^I should see a stock level of (\d+)$/ do |stock_level|
+  box = find("#add_to_cart_box")
+  box.find(".stock").text.match(/^#{stock_level}/).should_not == nil
+end
+
+

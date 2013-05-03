@@ -64,3 +64,17 @@ Feature: Browse products
       | Penguin  |
       | Fish     |
       | Duckling |
+
+    @foop
+    Scenario: Build-to-order products
+      Given the following products exist(table):
+      | name        | category | supplier   | purchase_price | manufacturer_product_code | stock | build_to_order |
+      | jET Laptop  | Laptops  | Alltron AG |          100.0 | foo1                      | 0     | yes      |
+      | Dell Laptop | Laptops  | Alltron AG |          100.0 | foo2                      | 10    | no      |
+      When the Sphinx indexes are updated
+      And I view the category "Laptops"
+      And I view the product "jET Laptop"
+      Then I should be informed that this laptop is build-to-order 
+      And I view the category "Laptops"
+      And I view the product "Dell Laptop"
+      Then I should see a stock level of 10 

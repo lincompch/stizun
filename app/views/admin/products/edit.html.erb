@@ -243,7 +243,7 @@ $(function() {
   <% else %>
     <tr>
       <td><%= f.label :stock, "Stock level" %></td>
-      <td><%= f.text_field :stock, :size => 4 %></td>
+      <td><%= f.text_field :stock, :size => 4 %> <%= f.check_box :is_build_to_order %> Build-to-order</td>
     </tr>
   <% end %>
 
