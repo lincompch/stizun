@@ -565,7 +565,9 @@ class Product < ActiveRecord::Base
   
   def sync_from_supply_item(supply_item = self.supply_item)
     self.name = supply_item.name
-    self.description = supply_item.description unless (supply_item.description.blank? or !supply_item.description_url.blank?)
+    unless self.is_description_protected?
+      self.description = supply_item.description unless (supply_item.description.blank? or !supply_item.description_url.blank?)
+    end
     self.stock = supply_item.stock
     self.purchase_price = supply_item.purchase_price
     self.manufacturer = supply_item.manufacturer

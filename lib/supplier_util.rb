@@ -49,6 +49,7 @@ class SupplierUtil
 
   def update_supply_item(supply_item, data)
     normalized_price = data[:price_excluding_vat].to_s.gsub(",",".").gsub("'","")
+    overwrite_field(supply_item, "description", construct_supply_item_description(data))
     overwrite_field(supply_item, "purchase_price", normalized_price) unless normalized_price.to_f == 0.0
     overwrite_field(supply_item, "stock", data[:stock_level].gsub("'","").to_i)
     overwrite_field(supply_item, "weight", data[:weight].gsub(",",".").to_f)

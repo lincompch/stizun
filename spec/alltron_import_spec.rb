@@ -222,4 +222,29 @@ describe AlltronUtil do
     si.description.should == "Huawei B593: LTE/UMTS/HSDPA Modemrouter, 150Mbps/42.2Mbps download, WLAN, 4xLAN,USB, 2xRJ-11 Telefon Das schnellste 3G/4G Modemrouter auf der Welt. Unterstützt bis 2 analoge Festnetztelefone für Telefonieren über das 3G/4G LTE Datennetz."
   end
 
+  it "should not overwrite the product description if it is locked" do
+      AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron.csv")
+      SupplyItem.count.should == 4
+
+      SupplyItem.all.each do |si|
+        p = Product.new_from_supply_item(si)
+        p.save
+      end
+
+      Product.count.should == 4
+
+      p1 = Product.where(:supplier_product_code => '1028').first
+      p2 = Product.where(:supplier_product_code => '1116').first
+
+      p1.is_description_protected = true
+      p1.save.should == true
+      p2.is_description_protected = false
+      p2.save.should == true
+
+      AlltronTestHelper.update_from_file(Rails.root + "spec/data/4_alltron_changed_descriptions.csv")
+
+      (p1.reload.description =~ /^CHANGED/).should == nil
+      (p2.reload.description =~ /^CHANGED/).should == 0
+  end
+
 end
