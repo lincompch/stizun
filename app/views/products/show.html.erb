@@ -13,7 +13,7 @@
       <% end %>
 
       <p class="price"><%= product_rounded_price(@product).html_safe %></p>
-      <p class="stock"><%= show_stock(@product) %></p>
+      <p class="stock"><%= show_stock(@product).html_safe %></p>
 
       <%= form_tag "/carts/add_product", :method => 'get' do -%>
         <%= text_field_tag "quantity", 1, :size => 3 %>

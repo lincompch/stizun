@@ -62,7 +62,9 @@ module ProductsHelper
 
   def show_stock(product)
     if product.is_build_to_order?
-      return "Fertigung in der Schweiz innert 1 - 2 Tagen nach Auftrag"
+      html = "<h4>Fertigung nach Auftrag</h4>"
+      html += "<ul><li>Montage in der Schweiz</li>"
+      html += "<li>Kundenwünsche möglich</li></ul>"
     else
       if product.stock == 0
         return t('stizun.product.not_in_stock')

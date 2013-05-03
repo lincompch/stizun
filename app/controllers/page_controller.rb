@@ -10,8 +10,8 @@ class PageController < ApplicationController
     render_custom_page(self.action_name.to_s)
   end
 
+  # Uses the built-in default page
   def about
-    render_custom_page(self.action_name.to_s)
   end
 
   def contact
