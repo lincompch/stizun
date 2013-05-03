@@ -57,7 +57,6 @@
             <li class="nav_menu_item"><%= link_to "Home", root_path %></li>
             <% unless user_signed_in?%>
               <li class="nav_menu_item"><%= link_to "Einloggen", new_user_session_path %></li>
-              <li class="nav_menu_item"><%= link_to "Konto erstellen", new_user_registration_path %></li>
             <% else %>
               <li class="nav_menu_item"><%= link_to "Ausloggen", destroy_user_session_path %></li>
               <li class="nav_menu_item"><%= link_to "Mein Konto", user_path(current_user) %></li>
