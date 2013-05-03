@@ -27,7 +27,7 @@ Instead of a list of all class selectors,
 you can use the generic selector below, but it's slower:
 [class*="icon-"] {
 */
-.icon-shopping-cart, .icon-cart, .icon-cart-2, .icon-cart-3, .icon-bubbles, .icon-user, .icon-envelope, .icon-envelope-alt, .icon-envelop, .icon-mail, .icon-user-2, .icon-cart-4, .icon-user-3, .icon-users, .icon-user-4, .icon-user-5, .icon-users-2, .icon-bubbles-2, .icon-bubbles-3, .icon-bubbles-4, .icon-tux, .icon-list, .icon-list-2, .icon-list-3, .icon-th-list, .icon-list-ul, .icon-list-4, .icon-list-nested {
+.icon-shopping-cart, .icon-cart, .icon-cart-2, .icon-cart-3, .icon-bubbles, .icon-user, .icon-envelope, .icon-envelope-alt, .icon-envelop, .icon-mail, .icon-user-2, .icon-cart-4, .icon-user-3, .icon-users, .icon-user-4, .icon-user-5, .icon-users-2, .icon-bubbles-2, .icon-bubbles-3, .icon-bubbles-4, .icon-tux, .icon-list, .icon-list-2, .icon-list-3, .icon-th-list, .icon-list-ul, .icon-list-4, .icon-list-nested, .icon-new {
 	font-family: 'icomoon';
 	speak: none;
 	font-style: normal;
@@ -120,4 +120,7 @@ you can use the generic selector below, but it's slower:
 }
 .icon-list-nested:before {
 	content: "\e014";
+}
+.icon-new:before {
+	content: "\e016";
 }

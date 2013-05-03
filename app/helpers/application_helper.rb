@@ -61,6 +61,12 @@ module ApplicationHelper
     return output
    end
    
+
+
+ def danger_icon
+   return '<span class="icon-new" style="font-size: 14pt; color: #ff0000; margin-right: 0.8em"></span>'
+ end
+
   # RSS feed fetch helper   
   def display_rss_feed(limit = 10)
 
