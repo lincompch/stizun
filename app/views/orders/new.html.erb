@@ -60,7 +60,7 @@
   <%= select_tag(:billing_address_id, options_for_select( Address.option_hash_for_select(current_user)) ) %>
   <p><%= t("stizun.order.or_enter_new_address")%></p> <% end %>
   
-  <p><%= danger_icon.html_safe %><strong>Wir können nicht an Postfächer liefern.</strong></p>
+  <p><strong>Wir können nicht an Postfächer liefern.</strong></p>
 
   <table class="address" id="billing_address">
     <tr>
@@ -101,7 +101,7 @@
   <% end %>
 
 
-  <p style="border-bottom: 1px solid #ddd;">
+  <p style="border-bottom: 1px solid #c0c0c0;">
   <h3><%= t("stizun.address.shipping_address")%></h3>
 
   <p><%= t("stizun.order.leave_this_empty_to_ship_to_billing_address")%></p>
@@ -119,7 +119,7 @@
   <%= sa.error_messages %>
 
 
-  <p><span class="icon-new" style="font-size: 14pt; color: #ff8200; margin-right: 0.8em"></span><strong>Wir können nicht an Postfächer liefern.</strong></p>
+  <p></span><strong>Wir können nicht an Postfächer liefern.</strong></p>
 
   <table class="address" id="shipping_address">
     <tr>
