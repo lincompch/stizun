@@ -4,13 +4,24 @@ class ContactMailer < ActionMailer::Base
   default :from => APP_CONFIG['default_from_email'] || 'stizun@localhost'
 
   def send_email(from, data)
-    if data[:reason] == "question"
+    @body = data[:body]
+    @reason = data[:reason]
+    
+    if @reason == "question"
       prefix = "[Frage]"
     else
       prefix = "[Kontakt]"
     end
+  
+    if data[:subject].blank?
+      subject = "Kein Betreff"
+    else
+      subject = data[:subject]
+    end
 
-    mail(:from => from, :subject => "#{prefix} #{data[:subject]}", :body => data[:body])
+    mail(:from => from, :subject => "#{prefix} #{subject}") do |format|
+      format.text
+    end
   end
 
 end
