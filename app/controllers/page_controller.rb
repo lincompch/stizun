@@ -1,3 +1,4 @@
+#encoding: utf-8
 class PageController < ApplicationController
 
   def index
@@ -15,7 +16,23 @@ class PageController < ApplicationController
   end
 
   def contact
-    render_custom_page(self.action_name.to_s)
+    if request.post?
+
+      if ContactMailer.send_email(params[:from], :data => {:subject => params[:subject], 
+                                                       :reason => params[:reason],
+                                                       :body => params[:body]})
+        redirect_to :controller => :page, :action => :contact_thanks
+      else
+        flash[:error] = "Ihre Nachricht konnte nicht übermittelt werden. Haben Sie eine gültige E-Mail-Adresse angegeben?"
+      end
+    else
+      if @current_user
+        @email = @current_user.email
+      end
+    end
+  end
+
+  def contact_thanks
   end
   
   def shipping
