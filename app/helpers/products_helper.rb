@@ -65,11 +65,12 @@ module ProductsHelper
       html = "<h4>Fertigung nach Auftrag</h4>"
       html += "<ul><li>Montage in der Schweiz</li>"
       html += "<li>Kundenwünsche möglich</li></ul>"
+      return html
     else
       if product.stock == 0
-        return t('stizun.product.not_in_stock')
+        return "<p>" + t('stizun.product.not_in_stock') + "</p>"
       else
-        return product.stock.to_s + " " + t('stizun.product.pcs_in_stock_short')
+        return "<p>" + product.stock.to_s + " " + t('stizun.product.pcs_in_stock_short') + "</p>"
       end
     end
   end

@@ -42,7 +42,7 @@ end
 
 Then /^I should be informed that this laptop is build\-to\-order$/ do
   box = find("#add_to_cart_box")
-  box.find(".stock").text.should =~ /Fertigung nach Auftrag/
+  box.find(".stock").text.match(/Fertigung nach Auftrag/).should_not == nil
 end
 
 Then /^I should see a stock level of (\d+)$/ do |stock_level|
