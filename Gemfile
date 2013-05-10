@@ -10,7 +10,8 @@ gem 'jquery-rails'
 # Offers Rails 2 f.error_messages etc. helpers on forms
 gem 'dynamic_form'
 
-gem 'devise', '<2.0.0' 
+gem 'devise'
+gem 'devise-encryptable'
 gem 'rails3-generators'
 gem 'rack-ssl-enforcer'
 

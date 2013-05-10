@@ -1,3 +1,4 @@
+#encoding: utf-8
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -7,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   def require_user
     unless current_user
-      flash[:error] = "You must be logged in."
+      flash[:error] = "Sie müssen eingeloggt sein, um auf diese Seite zuzugreifen."
       redirect_to new_user_session_path
       return false
     end
@@ -18,6 +19,21 @@ class ApplicationController < ActionController::Base
       flash[:error] = I18n.t("stizun.account.only_for_not_logged_in")
       redirect_to root_path
       return false
+    end
+  end
+
+  def after_sign_in_path_for(resource)
+    if resource.is_a?(User)
+      url_for :controller => "/users", :action => :show
+    end
+  end
+
+  def after_sign_out_path_for(resource_or_scope)
+    # Doesn't make sense to redirect to a page that requires login!
+    if resource_or_scope == :user and !request.referrer.match(/users/).nil?
+      root_path
+    else
+      request.referrer
     end
   end
 
@@ -38,19 +54,5 @@ class ApplicationController < ActionController::Base
     rescue
     end
   end
-  
-  private
-  
-  #def current_user_session
-    #return @current_user_session if defined?(@current_user_session)
-    #@current_user_session = UserSession.find
-  #end
-
-  #def current_user
-    #return @current_user if defined?(@current_user)
-    #@current_user = current_user_session && current_user_session.user
-  #end
-  
-
 
 end
