@@ -44,4 +44,4 @@ config/*.sphinx.conf
 tmp/**/*
 public/system/files/**/*
 public/uploads/tmp/**/*
-
+*.swp
