@@ -8,14 +8,19 @@
 <table>
   
   <tr>
-    <td>E-Mail-Adresse:</td><td><%= text_field_tag :from, nil, :size => 40 %></td>
+    <td>E-Mail-Adresse:</td><td><%= text_field_tag :from, @email, :size => 40 %></td>
   </tr>
   <tr>
     <td>Betreff:</td><td><%= text_field_tag :subject, nil, :size => 60 %></td>
   </tr>
 
   <tr>
-    <td>Art der Anfrage:</td><td><%= text_field_tag :reason, 'question' %></td>
+    <td>Art der Anfrage:</td>
+    <td>
+      <%= radio_button_tag :reason, 'question', :selected %>Allgemeine Frage<br>
+      <%= radio_button_tag :reason, 'complaint' %>Reklamation<br>
+      <%= radio_button_tag :reason, 'contact' %>Anderes
+    </td>
   </tr>
 
   <tr>

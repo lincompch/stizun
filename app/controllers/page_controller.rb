@@ -17,15 +17,16 @@ class PageController < ApplicationController
 
   def contact
     if request.post?
-
-      if ContactMailer.send_email(params[:from], :data => {:subject => params[:subject], 
+      begin
+        ContactMailer.send_email(params[:from], {:subject => params[:subject], 
                                                        :reason => params[:reason],
-                                                       :body => params[:body]})
+                                                       :body => params[:body]}).deliver
         redirect_to :controller => :page, :action => :contact_thanks
-      else
+      rescue
         flash[:error] = "Ihre Nachricht konnte nicht übermittelt werden. Haben Sie eine gültige E-Mail-Adresse angegeben?"
       end
     else
+      @email = nil
       if @current_user
         @email = @current_user.email
       end

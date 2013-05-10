@@ -9,6 +9,8 @@ class ContactMailer < ActionMailer::Base
     
     if @reason == "question"
       prefix = "[Frage]"
+    elsif @reason == "complaint"
+      prefix = "[Reklamation]"
     else
       prefix = "[Kontakt]"
     end
