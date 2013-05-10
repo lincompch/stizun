@@ -239,11 +239,13 @@ $(function() {
     <tr>
       <td><%= f.label :stock, "Stock level (max.)" %></td>
       <td><%= @product.stock %></td>
+      <td></td><td></td>
     </tr>
   <% else %>
     <tr>
       <td><%= f.label :stock, "Stock level" %></td>
       <td><%= f.text_field :stock, :size => 4 %> <%= f.check_box :is_build_to_order %> Build-to-order</td>
+      <td></td><td></td>
     </tr>
   <% end %>
 
@@ -251,16 +253,19 @@ $(function() {
   <tr>
     <td><%= f.check_box :is_available %> </td>
     <td>Available for sale</td>
+    <td><%= f.check_box :is_description_protected %></td><td>Description is protected from auto-overwrite</td>
   </tr>
 
   <tr>
     <td><%= f.check_box :is_featured %> </td>
     <td>Featured product</td>
+    <td></td><td></td>
   </tr>
 
   <tr>
     <td><%= f.check_box :is_visible %> </td>
     <td>Visible</td>
+    <td></td><td></td>
   </tr>
 
 
