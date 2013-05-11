@@ -40,7 +40,7 @@ class ProductsController < ApplicationController
     def show
         
       begin
-        @product = Product.available.visible.find(params[:id])
+        @product = Product.available.find(params[:id])
         unless @product.supplier.nil? or @product.supplier.utility_class_name.blank?
           begin
             require Rails.root + "lib/#{@product.supplier.utility_class_name.underscore}"
