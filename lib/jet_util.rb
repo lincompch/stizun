@@ -61,8 +61,8 @@ class JetUtil < SupplierUtil
       res = Net::HTTP.get_response(URI.parse(url))
       case res
       when Net::HTTPSuccess 
-        #description = self.sanitize_product_description(res.body.force_encoding("ISO-8859-1").encode("UTF-8")) # When jET change their encoding, you need to change this
-        description = self.sanitize_product_description(res.body) # This week, jET seems to use UTF-8. But sometimes they use Latin-1. In all cases, the HTML is invalid and the server headers are not present. Someone should configure that company's server properly and generate some valid HTML...
+        description = self.sanitize_product_description(res.body.force_encoding("UTF-8")) # When jET change their encoding, you need to change this
+        #description = self.sanitize_product_description(res.body) # This week, jET seems to use UTF-8. But sometimes they use Latin-1. In all cases, the HTML is invalid and the server headers are not present. Someone should configure that company's server properly and generate some valid HTML...
 
         # Normalize all headers above level 5 to level 5 -- looks like crap otherwise when used in our pages
         description_html = Nokogiri::HTML(description)
