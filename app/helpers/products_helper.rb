@@ -62,9 +62,11 @@ module ProductsHelper
 
   def show_stock(product)
     if product.is_build_to_order?
-      html = "<h4>Fertigung nach Auftrag</h4>"
+      html = "<div id='build_to_order_box'>"
+      html += "<h4>Fertigung nach Auftrag</h4>"
       html += "<ul><li>Montage in der Schweiz</li>"
       html += "<li>Kundenwünsche möglich</li></ul>"
+      html += "</div>"
       return html
     else
       if product.stock == 0

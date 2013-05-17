@@ -1,3 +1,6 @@
+<h2>Mein Konto</h2>
+
+<p>Eingeloggt als: <%=h @user.email %></p>
 
 <div id="tabs">
   <ul>
@@ -5,7 +8,7 @@
     <li><a href="#tabs-2"><%= t("stizun.account.invoices") %></a></li>
     <li><a href="#tabs-3"><%= t("stizun.address.addresses") %></a></li>
     <li><a href="#tabs-4"><%= t("stizun.account.product_alerts") %></a></li>
-    <li><a href="#tabs-5"><%= t("stizun.account.account_information") %></a></li>
+    <!-- <li><a href="#tabs-5"><%= t("stizun.account.account_information") %></a></li>-->
   </ul>
   <div id="tabs-1">
     <h3><%= t("stizun.account.your_pending_orders") %></h3>
@@ -97,17 +100,8 @@
     <%= render :partial => 'notification/notifications' %>
   </div>
 
-  <div id="tabs-5">
-    <h2><%= t("stizun.account.account_information") %></h2>
-    <table>
-      <td class="bold"><%= t("stizun.account.email") %></td>
-      <td><%=h @user.email %> (<%= t("stizun.account.also_your_login") %>)</td>
-    </table>
-    <p class="rightalign">
-      <!-- <%= link_to t("stizun.users.change_password_or_email"), edit_user_registration_path(current_user) %> -->
-    </p>
-  </div>
+  <!-- <div id="tabs-5">
+  </div> -->
 
 </div>
 
-<p><%= link_to("Logout", destroy_user_session_path) if current_user %></p>
