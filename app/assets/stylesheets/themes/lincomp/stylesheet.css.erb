@@ -78,7 +78,7 @@ td {
 }
 
 #wrapper {
-	width: 1000px;
+	width: 1200px;
 	height: 100%;
 	margin-right: auto;
 	margin-left: auto;
@@ -91,7 +91,7 @@ td {
 #header {
 	height: 80px;
 	top: 0px;
-	width: 1000px;
+	width: 1200px;
 	position: absolute;
   background: #fff;
 }
@@ -106,7 +106,7 @@ td {
 	background-color: #545454;
   height: 35px;
 	padding-left: 25px;
-	width: 975px;
+	width: 1175px;
 	position: absolute;
 	top: 80px;
 }
@@ -177,7 +177,7 @@ td {
 #content {
   background: #FFFFFF;
 	padding-top: 20px;
-	width: 1000px;
+	width: 1200px;
 	position: absolute;
 	top: 115px;
 }
@@ -185,7 +185,7 @@ td {
 #ct_main {
 	float: left;
 	top: 0;
-	width: 740px;
+	width: 840px;
 	padding-left: 35px;
 
 }
@@ -203,13 +203,13 @@ td {
 
 #rightcolumn {
   float: right;
-  width: 188px;
+  width: 288px;
   margin-top: 12px;
 }
 
 .box {
   margin-bottom: 10px;
-  width: 188px;
+  width: 288px;
 }
 .box_ct {
   background: #fafafa;
@@ -263,7 +263,7 @@ td {
 #ft_top {
   background-image: url('<%= asset_path 'themes/lincomp/bg_ct_btm-white.png'%>');
 	height: 34px;
-	width: 1000px;
+	width: 1200px;
 	padding-top: 20px;
 	color: #666666;
 }
@@ -272,7 +272,7 @@ td {
   background-color: #EFEFEF;
 
   height: 206px;
-	width: 1000px;
+	width: 1200px;
 	font-family: "Bitstream Vera Sans", "Vera Sans", "Deja Vu Sans", "Helvetica", sans-serif;
 	font-weight: bold;
 	color: #999999;
@@ -583,6 +583,10 @@ a.exx {
   padding-top: 5px;
 }
 
+#sidebar_cart table {
+  width: 100%;
+}
+
 
 /* Loads of button handling */
 
@@ -816,15 +820,18 @@ div.cartbuttons p {
 }
 
 div.cartbuttons input.real_button, div.cartbuttons a.fake_button {
-  width: 160px;
+  width: 260px;
 }
 
 div.cartbuttons a.fake_button {
   display: block;
-  width: 150px;
-
+  width: 250px;
 }
 
+div.cartbuttons input.real_button {
+  height: 25px;
+
+}
 
 td.price {
   white-space: nowrap;
@@ -867,9 +874,16 @@ span.reduced_price {
 }
 
 
+div.addthis_toolbox {
+  position: fixed;
+  left: 110px;
+  top: 130px;
+}
+
 /* jQuery UI overrides */
 
 .ui-widget {
   font-size: 10pt;
 
 }
+

@@ -16,7 +16,7 @@
         <% @cart.cart_lines.each do |cart_line| %>
           <tr>
           <%= f.fields_for "cart_lines[]", cart_line do |cl_fields| %>
-            <td><%= cl_fields.text_field :quantity, :size => 2, :style => 'width: 1em' %></td>
+            <td><%= cl_fields.text_field :quantity, :size => 5, :style => 'width: 2em' %></td>
             <td><%= link_to cart_line.product.name, cart_line.product %></td>
             <td class="exx"><%= link_to("X", {:controller => 'carts', :action => 'remove_all', :product_id => cart_line.product}, {:class => 'exx'}) %></td>
           <% end %>
@@ -24,7 +24,7 @@
       <% end %>
       </table>
 
-      <table>
+      <table class="totals">
         <tr>
           <td><%= t("stizun.general.products") %>:</td>
           <td class="price"><%= pretty_price(@cart.products_taxed_price, "") %></td>

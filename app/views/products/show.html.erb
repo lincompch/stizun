@@ -41,8 +41,6 @@
     <h4><%= t('stizun.product.description') %></h4>
     <p><%= Sanitize.clean(@product.description, Sanitize::Config::STIZUN).html_safe %></p>
 
-    <%= render :partial => "shared/share_buttons" %>
-
     <%= render :partial => "product_links" %>
 
     <div id="price_update_box">
