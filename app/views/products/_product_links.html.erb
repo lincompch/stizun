@@ -1,0 +1,10 @@
+<% if @product.product_link or @product.attachments.count > 0 %>
+  <h4><%= t('stizun.product.links') %></h4>
+  <ul>
+    <% if @product.product_link %>
+      <li><%= product_link(@product.product_link) %></li>
+    <% end %>
+    <%= attachment_links(@product).html_safe %>
+  </ul>
+<% end %>
+
