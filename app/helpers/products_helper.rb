@@ -52,12 +52,22 @@ module ProductsHelper
     return link_to string, new_params
   end
 
-  def product_link(link)
-    if link.description.blank?
-      return link_to link.url, link.url
-    else
-      return link_to link.description, link.url
+  def product_link(url)
+    return link_to "Herstellerlink", url
+  end
+
+  def attachment_links(product)
+    html = ""
+    if product.attachments.count > 0
+      product.attachments.each_with_index do |att, i|
+        unless att.file.to_s.blank?
+          number = nil
+          number = " #{i + 1}" unless i == 0
+          html += "<li>" + link_to("Datenblatt#{number}", att.file.url) + "</li>\n"
+        end
+      end
     end
+    return html
   end
 
   def show_stock(product)

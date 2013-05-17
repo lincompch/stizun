@@ -41,31 +41,9 @@
     <h4><%= t('stizun.product.description') %></h4>
     <p><%= Sanitize.clean(@product.description, Sanitize::Config::STIZUN).html_safe %></p>
 
-
     <%= render :partial => "shared/share_buttons" %>
 
-
-    <% if @product.links.count > 0 %>
-      <h4><%= t('stizun.product.links') %></h4>
-      <ul>
-        <% @product.links.each do |link| %>
-          <li><%= product_link(link) %></li>
-        <% end %>
-      </ul>
-    <% end %>
-
-
-    <% if @product.attachments.count > 0 %>
-      <h4><%= t('stizun.product.attachments') %></h4>
-      <ul>
-        <% @product.attachments.each do |att| %>
-	  <% unless att.file.blank? %>
-            <li><%= link_to File.basename(att.file.current_path), att.file.url %></li>
-	  <% end %>
-        <% end %>
-      </ul>
-    <% end %>
-
+    <%= render :partial => "product_links" %>
 
     <div id="price_update_box">
       <a name="price_updates"></a>
