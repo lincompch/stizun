@@ -8,7 +8,7 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require "jquery.jstree/jquery.jstree"
-//= require "jquery.fancybox/jquery.fancybox-1.3.3.pack"
+//= require "jquery.fancybox/jquery.fancybox.pack"
 //= require jExpand
 //= require jquery-cookie
 //= require batch

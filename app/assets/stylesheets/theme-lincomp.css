@@ -2,4 +2,5 @@
  *= require_self
  *= require ./themes/lincomp/stylesheet
  *= require ./themes/lincomp/errors
+ *= require "lightbox/lightbox"
  */

@@ -15,16 +15,11 @@
 
       $(document).ready(function() {
         $("a.fancybox").fancybox({
-          'hideOnContentClick': false,
-          'titlePosition'   : 'outside',
-          'overlayColor'    : '#444',
-          'overlayOpacity'  : 0.9,
-          'width'           : '90%',
-          'height'          : '90%',
-          'autoScale'       : false,
-          'transitionIn'    : 'none',
-          'transitionOut'   : 'none',
-          'type'            : 'iframe'
+          width       : parseInt($(window).width() * 0.9),
+          minHeight       : parseInt($(window).height() * 0.9),
+          openEffect    : 'none',
+          closeEffect   : 'none',
+          type            : 'iframe'
         });
       });
 

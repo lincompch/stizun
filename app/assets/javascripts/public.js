@@ -11,6 +11,6 @@
 //= require_tree "./jquery.treeview"
 //= require jExpand
 //= require application
-//= require_self
+//= require lightbox
 //
 
