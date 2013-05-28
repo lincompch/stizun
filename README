@@ -2,35 +2,14 @@
 General information
 ===================
 
-Stizun is a deliberately simplistic e-commerce solution written
-in Ruby on Rails.
+This is what powers Lincomp, my online store. The system focuses on
+a lot of automation in the backend, e.g. automatically retrieving new
+prices and products from CSV files, automatically switching to the
+chepest one offered by any supplier, etc.
 
-Main features:
+It's probably useless for you, but we've put the source out there
+anyhow.
 
- * Unique shipping calculation system for stores that don't have
-   their own warehouses but ship directly from suppliers to their
-   customers (just-in-time). Can also calculate shipping for a mix
-   of various suppliers in one order.
-
- * Importers for product catalog CSV files of large European distributors 
-   (Ingram Micro, Alltron, jET). Can be extended with your own CSV importers.
-
- * UUID-based invoice generator: Users don't need to remember their
-   login details just to follow a link from an e-mail to their
-   invoice.
-
- * Automatic assignment of any supplier's products to your own product
-   category tree after every import. This way, a single employee
-   can manage hundreds of thousands of products and tens of thousands
-   of product updates per day.
-
-This store is used in production at http://www.lincomp.ch
-
-The admin interface is not pretty, but it's working and is reliable. The
-instance at lincomp.ch has successfully imported and handled several tens
-of millions of supply item and product updates over the years.
-
-If you want to make a prettier admin interface, please feel free.
 
 Requirements
 ============
