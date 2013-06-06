@@ -360,7 +360,6 @@ de-CH:
       no_unpaid_invoices: "Sie haben momentan keine unbezahlten Rechnungen."
     order:
       place_order: "Bestellen"
-      order_summary: "Zusammenfassung Ihrer Bestellung"
       payment_method: "Zahlungsart"
       select_payment_method: "Wählen Sie Ihre Zahlungsart:"
       leave_this_empty_to_ship_to_billing_address: "Wenn Sie diese Adresse leer lassen, schicken wir die Ware an die Rechnungsadresse."

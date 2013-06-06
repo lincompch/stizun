@@ -12,17 +12,6 @@
 <% end %>
 
 
-<h4><%= t("stizun.order.order_summary") %></h4>
-
-<%= form_for @cart do |f| %>
-  <div id="order_table">
-  <%= render :partial => 'documents/document_table', :locals => { :document => @cart, :f => f } %>
-  </div>
-  
-  <p class="bottomline lightgrey"></p>
-
-  
-<% end %>
 
 <%= form_for @order do |f| %>
 
@@ -149,6 +138,15 @@
 
 
   <p style="border-bottom: 1px solid #ddd;">
+
+
+<h3>Zusammenfassung Ihrer Bestellung</h3>
+
+<div id="order_table">
+<%= render :partial => 'documents/document_table', :locals => { :document => @cart } %>
+</div>
+
+<p class="bottomline lightgrey"></p>
 
 <p><%= t("stizun.order.notification_email_explanation") %></p>
 
