@@ -40,8 +40,12 @@ class OrdersController < ApplicationController
     # TODO: Ugly as sin. Improve.
     billing_address = get_address(params[:billing_address_id], params[:billing_address])
     @order.billing_address = billing_address
-    shipping_address = get_address(params[:shipping_address_id], params[:shipping_address])
-    @order.shipping_address = shipping_address
+
+    shipping_address = nil
+    if params[:shipping_address_id] or params[:shipping_address]
+      shipping_address = get_address(params[:shipping_address_id], params[:shipping_address])
+      @order.shipping_address = shipping_address
+    end
     
     if current_user
       unless params[:save_shipping_address].blank?
