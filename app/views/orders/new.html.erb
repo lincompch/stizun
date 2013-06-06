@@ -19,35 +19,22 @@
   <%= render :partial => 'documents/document_table', :locals => { :document => @cart, :f => f } %>
   </div>
   
-  <p></p>
+  <p class="bottomline lightgrey"></p>
 
-  <table>
-  <tr>
-    <td style="vertical-align: middle">
-    <%= submit_tag(t("stizun.cart.update_quantities"), {:class => 'real_button'}) %>
-    </td>  
-    <td style="vertical-align: middle">
-    </td>
-  </tr>
-</table>
   
 <% end %>
 
 <%= form_for @order do |f| %>
-
-  <% if current_user %>
-  <%= render :partial => "user_information" %>
-  <% end %>
 
   <h4><%= t("stizun.order.payment_method") %></h4>
   <% if current_user and current_user.payment_methods.count > 0 %>
   <p><%= t("stizun.order.select_payment_method") %></p>
   <%= f.select(:payment_method_id, options_from_collection_for_select(current_user.payment_methods, :id, :name) ) %>
   <% else %>
-  <p><%= t("stizun.order.if_you_had_an_account") %></p>
+  <p>Vorkasse (Banküberweisung, PayPal oder Kreditkarte)</p>
   <% end %>
 
-  <p style="border-bottom: 1px solid #c0c0c0;">
+  <p class="bottomline lightgray">
 
   <h3><%= t("stizun.address.billing_address")%></h3>
 
@@ -58,7 +45,8 @@
   <% if current_user %>
   <p><%= t("stizun.order.use_saved_address") %></p>
   <%= select_tag(:billing_address_id, options_for_select( Address.option_hash_for_select(current_user)) ) %>
-  <p><%= t("stizun.order.or_enter_new_address")%></p> <% end %>
+  <p><%= t("stizun.order.or_enter_new_address")%></p> 
+  <% end %>
   
   <p><strong>Wir können nicht an Postfächer liefern.</strong></p>
 
@@ -101,7 +89,7 @@
   <% end %>
 
 
-  <p style="border-bottom: 1px solid #c0c0c0;">
+  <p class="bottomline lightgray">
   <h3><%= t("stizun.address.shipping_address")%></h3>
 
   <p><%= t("stizun.order.leave_this_empty_to_ship_to_billing_address")%></p>

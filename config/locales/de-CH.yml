@@ -379,7 +379,6 @@ de-CH:
       no_orders_awaiting_payment: "Keine unbezahlten Bestellungen"
       no_orders_in_processing_or_ready_to_ship: "Keine Bestellungen in Bearbeitung"
       also_past_orders: "auch vergangene"
-      if_you_had_an_account: "Wenn Sie ein Konto bei uns hätten und eingeloggt wären, könnten Sie hier Ihre Zahlungsart auswählen."
       notification_email_explanation: "Nach Ihrer Bestellung schicken wir automatisch eine Bestätigung per E-Mail an alle angegebenen E-Mail-Adressen (sowohl die der Versand- wie die der Rechnungsadresse). Ausserdem erhalten Sie Ihre Rechnung ebenfalls per E-Mail an diese Adressen."
       terms_explanation: "Mit Ihrer Bestellung akzeptieren Sie unsere allgemeinen Geschäftsbedingungen."
       i_accept_terms: "Ich akzeptiere die Allgemeinen Geschäftsbedingungen (AGB)"
