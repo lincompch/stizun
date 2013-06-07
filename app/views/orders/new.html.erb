@@ -46,51 +46,56 @@
   <%= ba.error_messages %>
 
   <% if current_user %>
-  <p><%= radio_button_tag 'billing_address_source', 'saved_address', true %><%= label_tag 'billing_address_source_saved_address', 'Gespeicherte Adresse benutzen'%></p>
-  <%= select_tag(:billing_address_id, options_for_select( Address.option_hash_for_select(current_user)) ) %>
-  <p><%= radio_button_tag 'billing_address_source', 'new_address' %><%= label_tag 'billing_address_source_new_address', 'Neue Adresse eingeben'%></p> 
+  <p><%= radio_button_tag('billing_address_source', 'saved_address', true, :id => 'billing_address_source_saved_address') %><%= label_tag 'billing_address_source_saved_address', 'Gespeicherte Adresse benutzen'%></p>
+
+  <div id="billing_address_selector">
+    <%= select_tag(:billing_address_id, options_for_select( Address.option_hash_for_select(current_user)) ) %>
+  </div>
+
+  <p><%= radio_button_tag 'billing_address_source', 'new_address', false, :id => 'billing_address_source_new_address' %><%= label_tag 'billing_address_source_new_address', 'Neue Adresse eingeben'%></p> 
   <% end %>
   
-  <p><strong>Wir können nicht an Postfächer liefern.</strong></p>
+  <div id="billing_address_form">
+    <p><strong>Wir können nicht an Postfächer liefern.</strong></p>
 
-  <table class="address" id="billing_address">
-    <tr>
-      <td><%= ba.label :company,  t('stizun.address.attributes.company') %> </td>
-      <td><%= ba.text_field :company, :size => 45 %></td>
-    </tr>
-    <tr>
-      <td>
-        <%= ba.label :firstname, t('stizun.address.attributes.firstname') %>/<%= ba.label :lastname, t('stizun.address.attributes.lastname') %>
-      </td>
-      <td><%= ba.text_field :firstname, :size => 18 %> <%= ba.text_field :lastname, :size => 18 %></td>
-    </tr>
-    <tr>
-      <td><%= ba.label :email, t('stizun.address.attributes.email') %> </td>
-      <td><%= ba.text_field :email %></td>
-    </tr>
-    <tr>
-      <td><%= ba.label :street, t('stizun.address.attributes.street') %> </td>
-      <td><%= ba.text_field :street %></td>
-    </tr>
-    <tr>
-      <td>
-        <%= ba.label :postalcode, t('stizun.address.attributes.postalcode') %>/<%= ba.label :city, t('stizun.address.attributes.city') %>
-      </td>
-      <td><%= ba.text_field :postalcode, :size => 6 %><%= ba.text_field :city, :size => 20 %></td>
-    </tr>
-    <tr>
-      <td><%= ba.label :country_id, t('stizun.address.attributes.country') %> </td>
-      <td><%= ba.collection_select(:country_id, Country.all, :id, :name) %></td>
-    </tr>
-    <% if current_user %>
-    <tr>
-      <td></td>
-      <td><%= check_box_tag :save_billing_address %>  <%= t("stizun.order.save_address")%></td>
-    </tr>
-    <% end %>
-  </table>
+    <table class="address" id="billing_address">
+      <tr>
+        <td><%= ba.label :company,  t('stizun.address.attributes.company') %> </td>
+        <td><%= ba.text_field :company, :size => 45 %></td>
+      </tr>
+      <tr>
+        <td>
+          <%= ba.label :firstname, t('stizun.address.attributes.firstname') %>/<%= ba.label :lastname, t('stizun.address.attributes.lastname') %>
+        </td>
+        <td><%= ba.text_field :firstname, :size => 18 %> <%= ba.text_field :lastname, :size => 18 %></td>
+      </tr>
+      <tr>
+        <td><%= ba.label :email, t('stizun.address.attributes.email') %> </td>
+        <td><%= ba.text_field :email %></td>
+      </tr>
+      <tr>
+        <td><%= ba.label :street, t('stizun.address.attributes.street') %> </td>
+        <td><%= ba.text_field :street %></td>
+      </tr>
+      <tr>
+        <td>
+          <%= ba.label :postalcode, t('stizun.address.attributes.postalcode') %>/<%= ba.label :city, t('stizun.address.attributes.city') %>
+        </td>
+        <td><%= ba.text_field :postalcode, :size => 6 %><%= ba.text_field :city, :size => 20 %></td>
+      </tr>
+      <tr>
+        <td><%= ba.label :country_id, t('stizun.address.attributes.country') %> </td>
+        <td><%= ba.collection_select(:country_id, Country.all, :id, :name) %></td>
+      </tr>
+      <% if current_user %>
+      <tr>
+        <td></td>
+        <td><%= check_box_tag :save_billing_address %>  <%= t("stizun.order.save_address")%></td>
+      </tr>
+      <% end %>
+    </table>
+    </div>
   <% end %>
-
 
   <% if current_user %>
     <p class="bottomline lightgray">
@@ -98,15 +103,18 @@
 
     <p><%= t("stizun.order.leave_this_empty_to_ship_to_billing_address")%></p>
 
-    <p><%= radio_button_tag 'shipping_address_source', 'saved_address', true %><%= label_tag 'shipping_address_source_saved_address', 'Gespeicherte Adresse benutzen'%></p>
-    <%= select_tag(:shipping_address_id, options_for_select( Address.option_hash_for_select(current_user))) %>
-    <p><%= radio_button_tag 'shipping_address_source', 'new_address' %><%= label_tag 'shipping_address_source_new_address', 'Neue Adresse eingeben'%></p> 
+    <p><%= radio_button_tag 'shipping_address_source', 'saved_address', true, :id => 'shipping_address_source_saved_address' %><%= label_tag 'shipping_address_source_saved_address', 'Gespeicherte Adresse benutzen'%></p>
+    <div id="shipping_address_selector">
+      <%= select_tag(:shipping_address_id, options_for_select( Address.option_hash_for_select(current_user))) %>
+    </div>
+    <p><%= radio_button_tag 'shipping_address_source', 'new_address', false, :id => 'shipping_address_source_new_address' %><%= label_tag 'shipping_address_source_new_address', 'Neue Adresse eingeben'%></p> 
 
     <%= fields_for :shipping_address, @order.shipping_address do |sa| %>
 
       <%= sa.error_messages %>
 
 
+    <div id="shipping_address_form">
       <p></span><strong>Wir können nicht an Postfächer liefern.</strong></p>
 
       <table class="address" id="shipping_address">
@@ -147,6 +155,7 @@
       </table>
     <% end %>
 
+  </div>
   <% end %>
 
 
@@ -168,3 +177,50 @@
 <p><%= submit_tag t("stizun.order.submit_order") %></p>
 
 <% end %>
+
+
+
+<script type="text/javascript">
+
+      var show_billing_selector = function(event) {
+        $('#billing_address_form').fadeOut();
+        $('#billing_address_selector').slideDown();
+      };
+
+      var show_billing_form = function(event) {
+        $('#billing_address_selector').fadeOut();
+        $('#billing_address_form').slideDown();
+      };
+
+      var billing_address_switcher = function() {
+        $('#billing_address_source_saved_address').change(show_billing_selector);
+        $('#billing_address_source_new_address').change(show_billing_form);
+        $('#billing_address_selector').show();
+        $('#billing_address_form').hide();
+      };
+
+      var show_shipping_selector = function(event) {
+        $('#shipping_address_form').fadeOut();
+        $('#shipping_address_selector').slideDown();
+      };
+
+      var show_shipping_form = function(event) {
+        $('#shipping_address_selector').fadeOut();
+        $('#shipping_address_form').slideDown();
+      };
+
+      var shipping_address_switcher = function() {
+        $('#shipping_address_source_saved_address').change(show_shipping_selector);
+        $('#shipping_address_source_new_address').change(show_shipping_form);
+        $('#shipping_address_selector').show();
+        $('#shipping_address_form').hide();
+      };
+
+
+      $(document).ready(function() {
+        billing_address_switcher();
+        shipping_address_switcher();
+      });
+
+</script>
+
