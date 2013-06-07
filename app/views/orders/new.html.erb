@@ -218,8 +218,11 @@
 
 
       $(document).ready(function() {
-        billing_address_switcher();
-        shipping_address_switcher();
+        $('#billing_address_form').show();
+        <% if current_user %>
+          billing_address_switcher();
+          shipping_address_switcher();
+        <% end %>
       });
 
 </script>
