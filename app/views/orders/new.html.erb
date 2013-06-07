@@ -16,6 +16,9 @@
 
 </div>
 
+
+<p class="bottomline lightgray">
+
 <% end %>
 
 
@@ -26,15 +29,6 @@
 
 <%= form_for @order do |f| %>
 
-  <h4><%= t("stizun.order.payment_method") %></h4>
-  <% if current_user and current_user.payment_methods.count > 0 %>
-  <p><%= t("stizun.order.select_payment_method") %></p>
-  <%= f.select(:payment_method_id, options_from_collection_for_select(current_user.payment_methods, :id, :name) ) %>
-  <% else %>
-  <p>Vorkasse (Banküberweisung, PayPal oder Kreditkarte)</p>
-  <% end %>
-
-  <p class="bottomline lightgray">
   <% if current_user %>
   <h3>Rechnungsadresse</h3>
   <% else %>
@@ -169,6 +163,17 @@
 </div>
 
 <p class="bottomline lightgray"></p>
+
+  <h3><%= t("stizun.order.payment_method") %></h3>
+  <% if current_user and current_user.payment_methods.count > 0 %>
+  <p><%= t("stizun.order.select_payment_method") %></p>
+  <%= f.select(:payment_method_id, options_from_collection_for_select(current_user.payment_methods, :id, :name) ) %>
+  <% else %>
+  <p>Vorkasse (Banküberweisung, PayPal oder Kreditkarte)</p>
+  <% end %>
+
+  <p class="bottomline lightgray">
+
 
 <p><%= t("stizun.order.notification_email_explanation") %></p>
 
