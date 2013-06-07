@@ -76,7 +76,7 @@ group :test, :development do
   gem 'pry'
   gem 'warbler', :platform => :jruby
   gem 'selenium-webdriver'
-  #gem 'therubyracer', '>= 0.8.2'
+  gem 'therubyracer'
 end
 
 group :test do 

@@ -1,4 +1,4 @@
-<h3><%= t("stizun.order.place_order") %></h3>
+<h1>Bestellen</h1>
 
 <%= error_messages_for(:order) %>
 <%= error_messages_for(:cart) %>
@@ -7,10 +7,21 @@
 <%= error_messages_for(:address) %>
 
 
+<% unless current_user %>
+
+<div class="bordered">
+
+<p>Möchten Sie Ihre Adressen speichern und verwalten, eine von der Rechnungsadresse abweichende Lieferadresse verwenden oder Ihre Zahlungsart verändern können? Dann <%= link_to 'richten Sie sich ein Kunden-Konto ein', :controller => 'users', :action => 'sign_up' %>. Mit einem Konto können Sie ausserdem Ihre Bestellungen leichter verfolgen.</p>
+<p>Haben Sie bereits ein Konto? <%= link_to "Loggen Sie sich ein", :controller => 'users', :action => 'sign_in' %>, bevor Sie mit der Bestellung fortfahren.</p>
+
+</div>
+
+<% end %>
+
+
 <% unless @product_updates.nil? or @product_updates.empty? %>
   <%= render :partial => 'carts/product_updates' %>
 <% end %>
-
 
 
 <%= form_for @order do |f| %>
@@ -24,17 +35,20 @@
   <% end %>
 
   <p class="bottomline lightgray">
-
-  <h3><%= t("stizun.address.billing_address")%></h3>
+  <% if current_user %>
+  <h3>Rechnungsadresse</h3>
+  <% else %>
+  <h3>Rechnungs- und Lieferadresse</h3>
+  <% end %>
 
   <%= fields_for :billing_address, @order.billing_address do |ba| %>
  
   <%= ba.error_messages %>
 
   <% if current_user %>
-  <p><%= t("stizun.order.use_saved_address") %></p>
+  <p><%= radio_button_tag 'billing_address_source', 'saved_address', true %><%= label_tag 'billing_address_source_saved_address', 'Gespeicherte Adresse benutzen'%></p>
   <%= select_tag(:billing_address_id, options_for_select( Address.option_hash_for_select(current_user)) ) %>
-  <p><%= t("stizun.order.or_enter_new_address")%></p> 
+  <p><%= radio_button_tag 'billing_address_source', 'new_address' %><%= label_tag 'billing_address_source_new_address', 'Neue Adresse eingeben'%></p> 
   <% end %>
   
   <p><strong>Wir können nicht an Postfächer liefern.</strong></p>
@@ -78,62 +92,61 @@
   <% end %>
 
 
-  <p class="bottomline lightgray">
-  <h3><%= t("stizun.address.shipping_address")%></h3>
-
-  <p><%= t("stizun.order.leave_this_empty_to_ship_to_billing_address")%></p>
-
-  
   <% if current_user %>
-  <p><%= t("stizun.order.use_saved_address") %></p>
-  <%= select_tag(:shipping_address_id, options_for_select( Address.option_hash_for_select(current_user))) %>
+    <p class="bottomline lightgray">
+    <h3>Lieferadresse</h3>
 
-  <p><%= t("stizun.order.or_enter_new_address")%></p>
-  <% end %>
+    <p><%= t("stizun.order.leave_this_empty_to_ship_to_billing_address")%></p>
 
-  <%= fields_for :shipping_address, @order.shipping_address do |sa| %>
+    <p><%= radio_button_tag 'shipping_address_source', 'saved_address', true %><%= label_tag 'shipping_address_source_saved_address', 'Gespeicherte Adresse benutzen'%></p>
+    <%= select_tag(:shipping_address_id, options_for_select( Address.option_hash_for_select(current_user))) %>
+    <p><%= radio_button_tag 'shipping_address_source', 'new_address' %><%= label_tag 'shipping_address_source_new_address', 'Neue Adresse eingeben'%></p> 
 
-  <%= sa.error_messages %>
+    <%= fields_for :shipping_address, @order.shipping_address do |sa| %>
+
+      <%= sa.error_messages %>
 
 
-  <p></span><strong>Wir können nicht an Postfächer liefern.</strong></p>
+      <p></span><strong>Wir können nicht an Postfächer liefern.</strong></p>
 
-  <table class="address" id="shipping_address">
-    <tr>
-      <td><%= sa.label :company, t('stizun.address.attributes.company')  %> </td>
-      <td><%= sa.text_field :company, :size => 45 %></td>
-    </tr>
-    <tr>
-      <td>
-        <%= sa.label :firstname, t('stizun.address.attributes.firstname') %>/<%= sa.label :lastname, t('stizun.address.attributes.lastname') %>
-      </td>
-      <td><%= sa.text_field :firstname, :size => 18 %> <%= sa.text_field :lastname, :size => 18 %></td>
-    </tr>
-    <tr>
-      <td><%= sa.label :email, t('stizun.address.attributes.email') %> </td>
-      <td><%= sa.text_field :email %></td>
-    </tr>
-    <tr>
-      <td><%= sa.label :street, t('stizun.address.attributes.street') %> </td>
-      <td><%= sa.text_field :street %></td>
-    </tr>
-    <tr>
-      <td>
-        <%= sa.label :postalcode, t('stizun.address.attributes.postalcode') %>/<%= sa.label :city, t('stizun.address.attributes.city') %>
-      </td>
-      <td><%= sa.text_field :postalcode, :size => 6 %><%= sa.text_field :city, :size => 20 %></td>
-    </tr>
-    <tr>
-      <td><%= sa.label :country_id, t('stizun.address.attributes.country')  %> </td>
-      <td><%= sa.collection_select(:country_id, Country.all, :id, :name) %></td>
-    </tr>
-    <% if current_user %>
-    <tr>
-      <td></td>
-      <td><%= check_box_tag :save_shipping_address %> <%= t("stizun.order.save_address")%></td>
-    </tr>
+      <table class="address" id="shipping_address">
+        <tr>
+          <td><%= sa.label :company, t('stizun.address.attributes.company')  %> </td>
+          <td><%= sa.text_field :company, :size => 45 %></td>
+        </tr>
+        <tr>
+          <td>
+            <%= sa.label :firstname, t('stizun.address.attributes.firstname') %>/<%= sa.label :lastname, t('stizun.address.attributes.lastname') %>
+          </td>
+          <td><%= sa.text_field :firstname, :size => 18 %> <%= sa.text_field :lastname, :size => 18 %></td>
+        </tr>
+        <tr>
+          <td><%= sa.label :email, t('stizun.address.attributes.email') %> </td>
+          <td><%= sa.text_field :email %></td>
+        </tr>
+        <tr>
+          <td><%= sa.label :street, t('stizun.address.attributes.street') %> </td>
+          <td><%= sa.text_field :street %></td>
+        </tr>
+        <tr>
+          <td>
+            <%= sa.label :postalcode, t('stizun.address.attributes.postalcode') %>/<%= sa.label :city, t('stizun.address.attributes.city') %>
+          </td>
+          <td><%= sa.text_field :postalcode, :size => 6 %><%= sa.text_field :city, :size => 20 %></td>
+        </tr>
+        <tr>
+          <td><%= sa.label :country_id, t('stizun.address.attributes.country')  %> </td>
+          <td><%= sa.collection_select(:country_id, Country.all, :id, :name) %></td>
+        </tr>
+        <% if current_user %>
+        <tr>
+          <td></td>
+          <td><%= check_box_tag :save_shipping_address %> <%= t("stizun.order.save_address")%></td>
+        </tr>
+        <% end %>
+      </table>
     <% end %>
-  </table>
+
   <% end %>
 
 
@@ -143,10 +156,10 @@
 <h3>Zusammenfassung Ihrer Bestellung</h3>
 
 <div id="order_table">
-<%= render :partial => 'documents/document_table', :locals => { :document => @cart } %>
+  <%= render :partial => 'documents/document_table', :locals => { :document => @cart, :f => f } %>
 </div>
 
-<p class="bottomline lightgrey"></p>
+<p class="bottomline lightgray"></p>
 
 <p><%= t("stizun.order.notification_email_explanation") %></p>
 

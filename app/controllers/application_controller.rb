@@ -24,7 +24,13 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource.is_a?(User)
-      url_for :controller => "/users", :action => :show
+      # Don't want to break the user's order flow by redirecting them to their account page, so
+      # let's continue in the order process instead.
+      if params[:original_referrer] =~ /orders\/new$/
+        params[:original_referrer]
+      else
+        url_for :controller => "/users", :action => :show
+      end
     end
   end
 

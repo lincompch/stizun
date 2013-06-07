@@ -9,6 +9,9 @@
   <%= f.check_box :remember_me %><%= f.label t("stizun.user_sessions.stay_logged_in") %><br />
   <br />
   <%= f.submit  t('stizun.user_sessions.log_in') %>
+
+
+  <%= hidden_field_tag 'original_referrer', request.referrer %>
 <% end %>
 
 <p>
