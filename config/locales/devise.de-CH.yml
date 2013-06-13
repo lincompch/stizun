@@ -7,6 +7,7 @@ de-CH:
       not_found: "nicht gefunden"
       already_confirmed: "wurde bereits bestätigt"
       not_locked: "war nicht gesperrt"
+      not_saved: "Problem beim Speichern"
 
   devise:
     failure:
@@ -17,25 +18,28 @@ de-CH:
       invalid_token: "Ungültiger Authentifizierungstoken."
       timeout: "Ihre Sitzung ist abgelaufen, bitte melden Sie sich erneut an, um fortzufahren."
       inactive: "Ihr Konto wurde noch nicht aktiviert."
+      already_authenticated: "Sie sind bereits eingeloggt."
     sessions:
       signed_in: 'Sie sind jetzt eingeloggt.'
       signed_out: 'Sie sind jetzt ausgeloggt.'
     passwords:
       send_instructions: "Sie werden in ein paar Minuten eine E-Mail erhalten, die beschreibt, wie Sie Ihr Passwort zurücksetzen können."
-      updated: "Dein Passwort wurde erfolgreich geändert. Sie bist nun angemeldet."
+      updated: "Ihr Passwort wurde erfolgreich geändert. Sie sind nun angemeldet."
     confirmations:
       send_instructions: "Sie werden in ein paar Minuten eine E-Mail erhalten, die beschreibt, wie Sie Ihr Konto bestätigen können."
       confirmed: "Ihr Konto wurde erfolgreich bestätigt. Sie sind nun angemeldet."
     registrations:
       signed_up: "Sie haben sich erfolgreich registriert. Sofern aktiviert, wurde Ihnen eine Bestätigung per E-Mail gesendet."
-      updated: "Dein Konto wurde aktualisiert."
-      destroyed: "Tschüss! Dein Konto wurde erfolgreich gekündigt. Wir hoffen dich bald wiederzusehen."
+      updated: "Ihr Konto wurde aktualisiert."
+      destroyed: "Ihr Konto wurde gekündigt. Wir hoffen, Sie trotzdem bald wiederzusehen."
       error: "Das Konto konnte nicht erstellt werden."
     unlocks:
       send_instructions: "Sie werden in ein paar Minuten eine E-Mail erhalten, die beschreibt, wie Sie Ihr Konto entsperren können."
       unlocked: "Ihr Konto wurde erfolgreich entsperrt. Sie sind nun angemeldet."
     mailer:
-      confirmation_instructions: "Instruktionen zur Bestätigung"
-      reset_password_instructions: "Instruktionen zum Zurücksetzen des Passworts"
-      unlock_instructions: "Instruktionen zum Entsperren"
-
+      confirmation_instructions:
+        subject: "Instruktionen für die Bestätigung des Kontos"
+      reset_password_instructions:
+        subject: "Instruktionen, um ein neues Passwort zu setzen"
+      unlock_instructions:
+        subject: "Instruktionen für die Entsperrung Ihres Kontos"

@@ -8,7 +8,7 @@ set :application, "lincomp"
 
 set :scm, :git
 set :repository, "git://github.com/psy-q/stizun.git"
-set :branch, "master"
+set :branch, "redesigned_checkout"
 set :deploy_via, :remote_cache
 set :keep_releases, 2
 
