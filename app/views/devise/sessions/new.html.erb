@@ -1,3 +1,5 @@
+<h2>Einloggen</h2>
+
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <br />
   <%= f.label :email, t('stizun.users.attributes.email') %><br />
@@ -13,6 +15,8 @@
 
   <%= hidden_field_tag 'original_referrer', request.referrer %>
 <% end %>
+
+<p></p>
 
 <p class="lightgray bottomline"></p>
 
