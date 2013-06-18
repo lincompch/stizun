@@ -129,7 +129,8 @@ Feature: Ordering
       And the subject of e-mail 1 should be "[Local Shop] Elektronische Rechnung"
 
     Scenario: Complete checkout with different shipping address
-      Given the following products exist(table):
+      Given I am logged in as "foo@bar.com"
+      And the following products exist(table):
       | name              | category | supplier   | purchase_price | weight |
       | Fish              | Animals  | Alltron AG |          100.0 |   10.0 |
       | Terminator T-1000 | Cyborgs  | Alltron AG |          100.0 |   10.0 |
