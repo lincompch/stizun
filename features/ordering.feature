@@ -62,6 +62,7 @@ Feature: Ordering
        And I add the product "Fish" to my cart 1 times
        And I visit the checkout
       Then I should see an order summary
+      When I choose "billing_address_source_new_address"
       When I fill in the following within "#billing_address":
       | Firma          | Some Company             |
       | Vorname        | Dude                     |
@@ -137,6 +138,7 @@ Feature: Ordering
       And I view the category "Cyborgs"
       And I add the product "Terminator T-1000" to my cart 2 times
       When I visit the checkout
+      And I choose "billing_address_source_new_address"
       And I fill in the following within "#billing_address":
       | Firma          | Some Company             |
       | Vorname        | Dude                     |
@@ -146,6 +148,7 @@ Feature: Ordering
       | PLZ            | 8000                     |
       | Stadt          | Sometown                 |
       And I select "USAnia" from "Land" within "#billing_address"
+      And I choose "shipping_address_source_new_address"
       And I fill in the following within "#shipping_address":
       | Firma          | Some Other Company            |
       | Vorname        | Other Dude                    |

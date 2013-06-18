@@ -106,7 +106,7 @@ end
 
 
 When /^I visit the checkout$/ do
-  visit cart_path
+  visit root_path 
   click_link "Weiter zur Kasse"
 end
 
@@ -122,7 +122,7 @@ Then /^I should see an order summary$/ do
 end
 
 Then /^my cart should contain a product named "([^\"]*)"$/ do |arg1|
-  visit cart_path
+  visit root_path
   page.should have_content(arg1)
 end
 
@@ -130,9 +130,9 @@ Then /^my cart should contain a product named "([^\"]*)" (\d+) times$/ do |name,
   visit cart_path
   #page.should have_selector("input", :name => 'cart_line[quantity]', :value => arg2)
   #page.should have_content(arg1)
-  all("#cart_table tr").each do |line|
+  all("#sidebar_cart tr").each do |line|
     if line.text =~ /#{name}/
-      line.find("td.qty input").value.to_i.should == quantity.to_i
+      line.find("input").value.to_i.should == quantity.to_i
     end
   end
 
