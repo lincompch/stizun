@@ -61,9 +61,9 @@
               <li class="nav_menu_item"><%= link_to "Ausloggen", destroy_user_session_path, :method => :delete %></li>
               <li class="nav_menu_item"><%= link_to "Mein Konto", user_path(current_user) %></li>
             <% end %>
-            <li class="nav_menu_item"><%= link_to "AGB", :controller => :page, :action => :tos %></li>
-            <li class="nav_menu_item"><%= link_to "Versandkosten", :controller => 'page', :action => 'shipping' %></li>
-            <li class="nav_menu_item"><%= link_to "Kontakt", :controller => 'page', :action => 'contact' %></li>
+            <li class="nav_menu_item"><%= link_to "AGB", :controller => "/page", :action => :tos %></li>
+            <li class="nav_menu_item"><%= link_to "Versandkosten", :controller => '/page', :action => 'shipping' %></li>
+            <li class="nav_menu_item"><%= link_to "Kontakt", :controller => '/page', :action => 'contact' %></li>
 
           </ul>
 
@@ -159,7 +159,7 @@
 
               <div id="ft_btm">
                   <div id="ft_left">
-                    <%= link_to "Impressum", :controller => :page, :action => :about %>
+                    <%= link_to "Impressum", :controller => "/page", :action => :about %>
 
 
                   </div>
