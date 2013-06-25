@@ -1,3 +1,12 @@
-<h3>Home page</h3>
+<div id="special_offers">
+<h3>Unsere Aktionsangebote</h3>
+  <%= render :partial => 'products/special_offers' %>
+</div>
 
-<p>Create a file called custom/pages/index.html.erb to override this page.</p>
+<div id="featured_products">
+<h3>Aktuelle, neue Produkte</h3>
+  <%= render :partial => 'products/featured_products' %>
+</div>
+
+  <p>Fehlt Ihnen ein Produkt in unserem Sortiment? <%= link_to 'Schreiben Sie uns', 'mailto:info@lincomp.ch' %>, und wir machen Ihnen gerne eine Offerte.</p>
+

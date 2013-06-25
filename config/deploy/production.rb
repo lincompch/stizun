@@ -19,7 +19,6 @@ set :deploy_to, "/home/lincomp/production"
 set :db_config, "/home/lincomp/database_prod.yml"
 set :stizun_config, "/home/lincomp/stizun.yml"
 set :email_config, "/home/lincomp/email.yml"
-set :custom_directory, "/home/lincomp/custom"
 
 role :web, "lincomp@www.lincomp.ch"                          # Your HTTP server, Apache/etc
 role :app, "lincomp@www.lincomp.ch"                          # This may be the same as your `Web` server
@@ -85,11 +84,6 @@ task :stop_sphinx do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:stop"
 end
 
-task :overwrite_custom do
-  run "cd #{release_path} && rm -rf #{release_path}/custom"
-  run "ln -s #{custom_directory} #{release_path}/custom"
-end
-
 task :precompile_assets do
   run "cd #{release_path} && RAILS_ENV=production bundle exec rake assets:precompile"
 end
@@ -109,6 +103,5 @@ after "link_config", "link_files"
 before "migrate_database", "retrieve_db_config"
 before "configure_sphinx", "migrate_database"
 after "link_config", "configure_sphinx"
-after "link_config", "overwrite_custom"
 after "deploy:restart", "start_sphinx"
 after "deploy", "deploy:cleanup"

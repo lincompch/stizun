@@ -1,4 +1,53 @@
+<h4>Zahlungsinformationen für Banküberweisungen</h4>
 
-<% payment_info = Rails.root + "custom/views/invoices/_payment_information" %>
+<p>Falls Sie per Vorkasse oder elektronischer Rechnung bezahlen, überweisen Sie bitte den oben angegebenen Totalbetrag auf das folgende Konto:</p>
 
-<%= render :file => payment_info rescue nil %>
+<table>
+
+  <tr>
+   <td>Einzahlung für:</td><td>Raiffeisenbank Erlinsbach<br>Hauptstrasse 34<br>5015 Erlinsbach SO</td>
+  </tr>
+
+  <tr>
+   <td>IBAN:</td><td><strong>CH35 8094 0000 0210 8998 6</strong></td>
+  </tr>
+  <tr>
+   <td>Clearing:</td><td>80940</td>
+  </tr>
+  <!--<tr>
+   <td>Konto:</td><td>40556526</td>
+  </tr>-->
+  <tr>
+   <td>Postkonto der Bank:</td><td>50-4377-5</td>
+  </tr>
+
+  <tr>
+    <td>Zu Gunsten von:</td><td>Lincomp GmbH<br>Hornstrasse 12a<br>5015 Erlinsbach SO</td>
+  </tr>
+
+</table>
+<p>Sollten Sie Probleme mit Ihrer Zahlung haben, <%= link_to 'wenden Sie sich an uns', 'mailto:info@lincomp.ch' %>.</p>
+
+
+<h4>Bezahlen mit Kreditkarte oder PayPal</h4>
+
+<p>Gegen eine <strong>zusätzliche Bearbeitungsgebühr von 4 &#37;</strong> des Gesamttotals können Sie diese Rechnung auch per Kreditkarte oder PayPal begleichen. Der Gesamtpreis wäre dann CHF <%= (@invoice.taxed_price * BigDecimal.new("1.04")).rounded %>. Falls Sie dieses Angebot nutzen möchten, verwenden Sie diesen Button:</p>
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+  <input type="hidden" name="cmd" value="_xclick">
+  <input type="hidden" name="business" value="XNKX2ZMBT5H9G">
+  <input type="hidden" name="amount" value="<%= (@invoice.taxed_price * BigDecimal.new("1.04")).rounded %>">
+  <input type="hidden" name="currency_code" value="CHF">
+  <input type="hidden" name="item_name" value="<%= "Lincomp-Rechnung " + @invoice.document_id %>">
+  <input type="hidden" name="no_note" value="1">
+  <input type="hidden" name="shopping_url" value="http://www.lincomp.ch">
+  <input type="hidden" name="return" value="http://www.lincomp.ch">
+  <input type="hidden" name="cancel_return" value="http://www.lincomp.ch">
+
+<input type="hidden" name="hosted_button_id" value="ZFJYNSMPRK4Y8">
+<input type="image" src="https://www.paypalobjects.com/de_DE/CH/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
+
+</form>
+
+<p>Sie benötigen dafür <strong>nicht zwingend</strong> einen PayPal-Account. Orientieren Sie sich an den Kreditkarten-Logos auf der PayPal-Website. Dort finden Sie einen Link, mit dem Sie ohne PayPal-Account per Kreditkarte bezahlen können.</p>
+
