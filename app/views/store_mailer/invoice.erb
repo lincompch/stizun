@@ -1,15 +1,36 @@
-Hi there.
+Liebe Lincomp-Kundin
+Lieber Lincomp-Kunde
 
-This is an e-mail message. Maybe you already guessed that.
+Dies ist die elektronische Rechnung Nr. <%= "#{@invoice.document_id}" %> zu
+Ihrer Bestellung Nr. <%= "#{@invoice.order.document_id}" %>.
 
-Pay us lots of money for stuff. This is the stuff:
+Rechnungsdetails und Zahlungsanweisungen finden Sie hier:
 
-<% @invoice.invoice_lines.each do |il| %>
-<%= "#{il.quantity.to_s}x #{il.text}. #{pretty_price(il.taxed_price)}" %>
-<% end %>
+<%= url_for :only_path => false, :controller => 'invoices', :action => 'uuid', :uuid => @invoice.uuid %>
 
-Total: <%= pretty_price(@invoice.taxed_price) %>
+** WICHTIG: Wir bearbeiten Ihre Bestellung erst nach Eingang der       **
+**          Zahlung.                                                   **
+**                                                                     **
+**          Bitte beachten Sie, dass wir Ihre Bestellung stornieren    **
+**          müssen, falls Ihre Zahlung in den nächsten 10 Tagen nicht  **
+**          bei uns eintrifft.                                         **
+**                                                                     **
+**          Lieferung auf Rechnung ist nur für Firmen möglich.         **
 
-Come on. You know you'd love to pay. Here's a link for payment details:
+Alle Rechnungs- und Bestellungs-Informationen finden Sie ausserdem in Ihrem
+persönlichen Konto unter:
 
-<%= url_for :controller => 'invoices', :action => 'uuid', :uuid => @invoice.uuid %>
+http://www.lincomp.ch/users/me
+
+Falls Sie als Zahlungsart "Papier-Rechnung/Oranger Einzahlungsschein"
+gewählt haben, können Sie mit der Zahlung selbstverständlich abwarten,
+bis die physische Rechnung bei Ihnen eintrifft.
+
+
+Freundliche Grüsse
+
+Lincomp GmbH
+
+--
+
+info@lincomp.ch | http://www.lincomp.ch

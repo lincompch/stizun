@@ -1,11 +1,62 @@
-Hi there.
+Liebe Lincomp-Kundin
+Lieber Lincomp-Kunde
 
-This is an e-mail message. Maybe you already guessed that.
-
-Here's some random computer parts for you to enjoy:
+Vielen Dank für Ihre Bestellung. Wir bestätigen den Erhalt wie folgt: 
 
 <% @order.order_lines.each do |ol| %>
-<%= "#{ol.quantity.to_s}x #{ol.text}. #{pretty_price(ol.taxed_price)}" %>
+  <%= "#{ol.quantity.to_s}x #{ol.product.name}" %>
 <% end %>
 
-Great, isn't it? We knew you'd love that.
+
+== Bezahlung und Versand ==
+
+1. Vorkasse mit elektronischer Rechnung                                
+
+Haben Sie per Vorkasse bestellt, erhalten Sie in einer separaten Nachricht
+eine elektronische Rechnung. Bitte überweisen Sie den Betrag per Bank- 
+Überweisung an das dort angegebene Konto. Nach Erhalt des gesamten Betrags
+verschicken wir die bestellten Artikel.
+
+WICHTIG: Wir bearbeiten Ihre Bestellung erst nach Eingang der Zahlung.
+
+
+2. Kreditkarte, Moneybookers, PayPal
+
+In diesem Fall haben Sie den Betrag bereits überwiesen. Sie erhalten keine
+separate Rechnung von uns. Bitte behalten Sie stattdessen die Zahlungs-
+bestätigung des jeweiligen Bezahldienstes.
+
+Wir versenden die Artikel umgehend nach Bestätigung durch den Bezahldienst,
+generell sind das wenige Stunden nach Eingang der Bestellung.
+
+
+3. Rechnung mit Einzahlungsschein
+
+Um per Rechnung zu bezahlen, müssen wir Ihnen zuerst die Berechtigung
+für diese Zahlungsart erteilen. Schreiben Sie hierfür an info@lincomp.ch
+und wir führen Sie gerne durch die weiteren Schritte.
+
+Auf Rechnung bestellte Ware wird direkt nach Eingang der Bestellung 
+versandt. Sie erhalten eine separate Rechnung mit Einzahlungsschein 
+per Post.
+
+
+== Status Ihrer Bestellung ==
+
+Den Zustand Ihrer Bestellung (in Bearbeitung, bezahlt, versandt usw.)
+können Sie jederzeit in Ihrem persönlichen Konto nachsehen:
+
+http://www.lincomp.ch/users/me
+
+Dort finden Sie auch vergangene Bestellungen, können Ihre Adressliste
+bearbeiten usw.
+
+
+Freundliche Grüsse
+
+Lincomp GmbH
+
+--
+
+info@lincomp.ch | http://www.lincomp.ch
+

@@ -6,18 +6,6 @@ class StoreMailer < ActionMailer::Base
   default :from => @from
   default :bcc => @from
   
-  def self.template_path(view_basename)
-    path = Rails.root + "custom/store_mailer/#{view_basename}"
-    if path.exist?
-      template_dir = path
-    else
-      template_dir = Rails.root + "app/views/store_mailer/#{view_basename}"
-    end
-    
-    "#{template_dir.to_s}"
-  end
-  
-  
   def order_confirmation(user, order)
     @from = APP_CONFIG['default_from_email'] || 'stizun@localhost'
     @user = user # This variable is never used?
@@ -27,7 +15,7 @@ class StoreMailer < ActionMailer::Base
     mail(:to => order.notification_email_addresses,
          :bcc => @from,
          :subject => subject) do |format|
-      format.text { render :file => StoreMailer.template_path("order_confirmation") }
+      format.text { render :file => "order_confirmation" }
     end
   end
 
@@ -40,7 +28,7 @@ class StoreMailer < ActionMailer::Base
          :subject => subject) do |format|
       
       
-      format.text { render :file => StoreMailer.template_path("invoice") }
+      format.text { render :file => "invoice" }
     end
   end
 
@@ -53,7 +41,7 @@ class StoreMailer < ActionMailer::Base
          :subject => subject) do |format|
       
       
-      format.text { render :file => StoreMailer.template_path("payment_reminder") }
+      format.text { render :file => "payment_reminder" }
     end
   end
 
@@ -64,7 +52,7 @@ class StoreMailer < ActionMailer::Base
     mail(:to => order.notification_email_addresses,
          :bcc => @from,
          :subject => subject) do |format|
-      format.text { render :file => StoreMailer.template_path("shipping_notification") }
+      format.text { render :file => "shipping_notification" }
     end
   end
   
@@ -76,7 +64,7 @@ class StoreMailer < ActionMailer::Base
     mail(:to => email,
          :bcc => @from,
          :subject => subject) do |format|
-      format.text { render :file => StoreMailer.template_path("product_notification") }
+      format.text { render :file => "product_notification" }
     end
   end
 
@@ -89,7 +77,7 @@ class StoreMailer < ActionMailer::Base
     mail(:to => order.notification_email_addresses,
          :bcc => @from,
          :subject => subject) do |format|
-      format.text { render :file => StoreMailer.template_path("auto_cancellation") }
+      format.text { render :file => "auto_cancellation" }
     end
   end
 

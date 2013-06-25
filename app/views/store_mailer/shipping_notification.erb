@@ -1,18 +1,37 @@
-Hi there.
+Liebe Lincomp-Kundin
+Lieber Lincomp-Kunde
 
-Your stuff is on its way!
+Die bestellte Ware aus Bestellung <%= @order.document_id %> ist auf dem Weg zu Ihnen.
 
 <% if @order.has_tracking_information? %>
-To track your order, click the following tracking links: 
+Um Ihr(e) Paket(e) zu verfolgen, verwenden Sie bitte die folgenden Links:
+
 
   <% @order.tracking_codes.each_with_index do |tc, i| %>
 
-  Package no. <%= i + 1 %>
+  Paket Nr. <%= i + 1 %>
 
   <%= raw tc.tracking_url %>
-  Carrier: <%= "#{tc.shipping_carrier.name}" %>
-  Tracking number: <%= tc.tracking_code %>
+  Lieferdienst: <%= "#{tc.shipping_carrier.name}" %>
+  Tracking-Nummer: <%= tc.tracking_code %>
   <% end %>
 <% end %>
 
-That's just the kind of news you'd been waiting for, no?
+Falls Sie ein persönliches Konto bei Lincomp eingerichtet haben, können
+Sie die Paketverfolgung auch jederzeit über Ihre persönliche Seite
+starten:
+
+http://www.lincomp.ch/users/me
+
+Dort finden Sie auch vergangene Bestellungen, können Ihre Adressliste
+bearbeiten usw.
+
+
+Freundliche Grüsse
+
+Lincomp GmbH
+
+--
+
+info@lincomp.ch | http://www.lincomp.ch
+
