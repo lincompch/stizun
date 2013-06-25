@@ -15,7 +15,7 @@ class StoreMailer < ActionMailer::Base
     mail(:to => order.notification_email_addresses,
          :bcc => @from,
          :subject => subject) do |format|
-      format.text { render :file => "order_confirmation" }
+      format.text
     end
   end
 
@@ -28,7 +28,7 @@ class StoreMailer < ActionMailer::Base
          :subject => subject) do |format|
       
       
-      format.text { render :file => "invoice" }
+      format.text
     end
   end
 
@@ -41,7 +41,7 @@ class StoreMailer < ActionMailer::Base
          :subject => subject) do |format|
       
       
-      format.text { render :file => "payment_reminder" }
+      format.text
     end
   end
 
@@ -52,7 +52,7 @@ class StoreMailer < ActionMailer::Base
     mail(:to => order.notification_email_addresses,
          :bcc => @from,
          :subject => subject) do |format|
-      format.text { render :file => "shipping_notification" }
+      format.text
     end
   end
   
@@ -64,7 +64,7 @@ class StoreMailer < ActionMailer::Base
     mail(:to => email,
          :bcc => @from,
          :subject => subject) do |format|
-      format.text { render :file => "product_notification" }
+      format.text
     end
   end
 
@@ -77,7 +77,7 @@ class StoreMailer < ActionMailer::Base
     mail(:to => order.notification_email_addresses,
          :bcc => @from,
          :subject => subject) do |format|
-      format.text { render :file => "auto_cancellation" }
+      format.text
     end
   end
 
