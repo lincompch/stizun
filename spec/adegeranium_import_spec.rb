@@ -18,7 +18,7 @@ describe AdegeraniumUtil do
 
       supply_item_should_be(supplier, "ADE50075", { :name => "ADE!geranium",
                                               :weight => 0.0,
-                                              :purchase_price => BigDecimal.new("694.45"),
+                                              :purchase_price => BigDecimal.new("744.45"),
                                               :stock => 0} )
     end
 

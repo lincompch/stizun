@@ -48,7 +48,7 @@ class SupplierUtil
   end
 
   def update_supply_item(supply_item, data)
-    normalized_price = data[:price_excluding_vat].to_s.gsub(",",".").gsub("'","")
+    normalized_price = calculate_price(data)
     overwrite_field(supply_item, "description", construct_supply_item_description(data))
     overwrite_field(supply_item, "purchase_price", normalized_price) unless normalized_price.to_f == 0.0
     overwrite_field(supply_item, "stock", data[:stock_level].gsub("'","").to_i)
@@ -196,6 +196,18 @@ class SupplierUtil
     CategoryDispatcher.create_unique_combinations_for(@supplier)
   end
 
+  def calculate_price(data)
+    price = BigDecimal.new("0.0")
+    if data[:price_excluding_vat] and data[:additional_cost]
+      price_excluding_vat = BigDecimal.new(data[:price_excluding_vat].to_s.gsub(",",".").gsub("'",""))
+      additional_cost = BigDecimal.new(data[:additional_cost].to_s.gsub(",",".").gsub("'",""))
+      price = price_excluding_vat + additional_cost
+    elsif data[:price_excluding_vat]
+      price = BigDecimal.new(data[:price_excluding_vat].to_s.gsub(",",".").gsub("'",""))
+    end
+    return BigDecimal.new(price)
+  end
+
   # Take all the raw data about a supply item and return a nice, meaningful string for its name, which can
   # be different between suppliers and is therefore handled in the supplier-specific subclasses
   def construct_supply_item_name(data)
@@ -228,7 +240,7 @@ class SupplierUtil
       @si.weight = data[:weight].gsub(",",".").to_f
     end
     @si.manufacturer_product_code = "#{data[:manufacturer_product_code]}"
-    @si.purchase_price = BigDecimal.new(data[:price_excluding_vat].to_s.gsub(",",".").gsub("'",""))
+    @si.purchase_price = calculate_price(data) 
     # TODO: Read actual tax percentage from import file and create class as needed
     #@si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
     @si.stock = data[:stock_level].gsub("'","").to_i unless data[:stock_level].nil?

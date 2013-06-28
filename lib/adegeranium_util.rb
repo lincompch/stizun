@@ -28,7 +28,8 @@ class AdegeraniumUtil < SupplierUtil
                       :category01 => nil, #'Kategorie 1',
                       :category02 => nil, #'Kategorie 2',
                       :category03 => nil, #'Kategorie 3'}
-                      :ean_code => nil
+                      :ean_code => nil,
+                      :additional_cost => 4
                       }
 
     # Possible options:
