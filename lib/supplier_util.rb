@@ -217,16 +217,20 @@ class SupplierUtil
     @si.name = construct_supply_item_name(data)
     @si.description = construct_supply_item_description(data)
     @si.supplier_product_code = data[:supplier_product_code]
-    @si.ean_code = data[:ean_code]
+    @si.ean_code = data[:ean_code] unless data[:ean_code].blank?
     @si.manufacturer = "#{data[:manufacturer]}" unless data[:manufacturer].blank?
-    @si.product_link = "#{data[:product_link]}"
+    @si.product_link = "#{data[:product_link]}" unless data[:product_link].blank?
     @si.pdf_url= "#{data[:pdf_url]}"
-    @si.weight = data[:weight].gsub(",",".").to_f
+    if data[:weight].nil?
+      @si.weight = 0.0
+    else
+      @si.weight = data[:weight].gsub(",",".").to_f
+    end
     @si.manufacturer_product_code = "#{data[:manufacturer_product_code]}"
     @si.purchase_price = BigDecimal.new(data[:price_excluding_vat].to_s.gsub(",",".").gsub("'",""))
     # TODO: Read actual tax percentage from import file and create class as needed
     #@si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
-    @si.stock = data[:stock_level].gsub("'","").to_i
+    @si.stock = data[:stock_level].gsub("'","").to_i unless data[:stock_level].nil?
     @si.image_url = "#{data[:image_url].strip}" unless data[:image_url].blank?
     @si.description_url = "#{data[:description_url].strip}" unless data[:description_url].blank?
     @si.category01 = "#{data[:category01]}"
