@@ -199,13 +199,15 @@ class SupplierUtil
   def calculate_price(data)
     price = BigDecimal.new("0.0")
     if data[:price_excluding_vat] and data[:additional_cost]
-      price_excluding_vat = BigDecimal.new(data[:price_excluding_vat].to_s.gsub(",",".").gsub("'",""))
-      additional_cost = BigDecimal.new(data[:additional_cost].to_s.gsub(",",".").gsub("'",""))
-      price = price_excluding_vat + additional_cost
+      price = sanitize_price(data[:price_excluding_vat].to_s) + sanitize_price(data[:additional_cost].to_s)
     elsif data[:price_excluding_vat]
-      price = BigDecimal.new(data[:price_excluding_vat].to_s.gsub(",",".").gsub("'",""))
+      price = sanitize_price(data[:price_excluding_vat].to_s)
     end
     return BigDecimal.new(price)
+  end
+
+  def sanitize_price(price_string)
+    return BigDecimal.new(price_string.gsub(",",".").gsub("'",""))
   end
 
   # Take all the raw data about a supply item and return a nice, meaningful string for its name, which can
