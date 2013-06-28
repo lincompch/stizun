@@ -217,6 +217,7 @@ class SupplierUtil
     @si.name = construct_supply_item_name(data)
     @si.description = construct_supply_item_description(data)
     @si.supplier_product_code = data[:supplier_product_code]
+    @si.ean_code = "" # Use a blank code as default
     @si.ean_code = data[:ean_code] unless data[:ean_code].blank?
     @si.manufacturer = "#{data[:manufacturer]}" unless data[:manufacturer].blank?
     @si.product_link = "#{data[:product_link]}" unless data[:product_link].blank?
