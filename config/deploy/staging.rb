@@ -8,7 +8,7 @@ set :application, "lincomp"
 
 set :scm, :git
 set :repository, "git://github.com/psy-q/stizun.git"
-set :branch, "redesigned_checkout"
+set :branch, "master"
 set :deploy_via, :remote_cache
 set :keep_releases, 2
 
@@ -19,9 +19,9 @@ set :deploy_to, "/home/web/test.lincomp.org/test"
 set :db_config, "/home/web/test.lincomp.org/database_test.yml"
 set :stizun_config, "/home/web/test.lincomp.org/stizun.yml"
 
-role :web, "lincomp@test.lincomp.org"                          # Your HTTP server, Apache/etc
-role :app, "lincomp@test.lincomp.org"                          # This may be the same as your `Web` server
-role :db,  "lincomp@test.lincomp.org", :primary => true # This is where Rails migrations will run
+role :web, "lincomp@test.lincomp.ch"                          # Your HTTP server, Apache/etc
+role :app, "lincomp@test.lincomp.ch"                          # This may be the same as your `Web` server
+role :db,  "lincomp@test.lincomp.ch", :primary => true # This is where Rails migrations will run
 
 task :link_config do
   on_rollback { run "rm #{release_path}/config/database.yml" }
