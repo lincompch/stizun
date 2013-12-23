@@ -519,7 +519,7 @@ class Product < ActiveRecord::Base
     price_update_logger ||= Logger.new("#{Rails.root}/log/price_and_stock_update_#{DateTime.now.to_s.gsub(":","-")}.log")
     
     Product.suspended_delta do
-      Product.supplied.each do |p|
+      Product.supplied.find_each do |p|
         # The supply item is no longer available, thus we need to
         # make our own copy of it unavailable as well
 
