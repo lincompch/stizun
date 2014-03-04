@@ -30,6 +30,9 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'paperclip', ">= 3.0.2"
 
+gem 'capistrano', '~> 2.15', :group => :development
+gem 'capistrano-ext', :group => :development
+gem 'rvm-capistrano', :group => :development
 
 platforms :ruby do
   gem 'mysql2'
