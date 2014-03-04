@@ -7,6 +7,10 @@ gem 'jruby-openssl', :platform => :jruby
 # Allows UJS with jQuery
 gem 'jquery-rails'
 
+# Add this to prevent an error:
+# https://stackoverflow.com/questions/18736166/warbler-no-such-file-to-load-zip-zip
+gem 'zip-zip', :platform => :jruby
+
 # Offers Rails 2 f.error_messages etc. helpers on forms
 gem 'dynamic_form'
 
