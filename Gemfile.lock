@@ -342,3 +342,4 @@ DEPENDENCIES
   warbler
   will_paginate (= 3.0.0)
   xpath
+  zip-zip
