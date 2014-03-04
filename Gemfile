@@ -2,8 +2,8 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.2.12'
 gem 'jruby-openssl', :platform => :jruby
-gem 'torquebox', :platform => :jruby
-gem 'torquebox-server', :platform => :jruby
+#gem 'torquebox', :platform => :jruby
+#gem 'torquebox-server', :platform => :jruby
 # Allows UJS with jQuery
 gem 'jquery-rails'
 
