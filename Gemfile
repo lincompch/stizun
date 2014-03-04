@@ -58,6 +58,8 @@ gem 'nokogiri'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'daemons'
+gem 'therubyracer', :platform => :ruby
+gem 'therubyrhino', :platform => :jruby
 
 group :assets do
   gem 'sass-rails'
@@ -79,7 +81,6 @@ group :test, :development do
   gem 'pry'
   gem 'warbler', :platform => :jruby
   gem 'selenium-webdriver'
-  gem 'therubyracer'
 end
 
 group :test do 
