@@ -36,6 +36,8 @@ module Stizun
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :"de-CH"
+    config.i18n.available_locales = [:"de-CH", :de]
+    config.i18n.enforce_available_locales = true
 
     # For some reason, on some servers Rails is stubborn and will _not_ respect default_locale. That's
     # why we set locale explicitly.
