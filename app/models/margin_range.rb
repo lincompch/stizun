@@ -50,7 +50,7 @@ class MarginRange < ActiveRecord::Base
     time_window = 24.hours
     recently_udpated = MarginRange.all.select{|mr| mr if mr.updated_at > DateTime.now - time_window}
 
-    Product.suspended_delta do
+    ThinkingSphinx::Deltas.suspend :product do
       Product.available.each do |p|
 
         unless p.margin_ranges.empty?

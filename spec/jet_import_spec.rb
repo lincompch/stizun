@@ -6,7 +6,7 @@ require_relative '../lib/jet_util'
 describe JetUtil do
   before(:each) do
     SupplyItem.count.should == 0
-    Supplier.find_or_create_by_name(:name => "jET Schweiz IT AG")
+    Supplier.find_or_create_by(:name => "jET Schweiz IT AG")
   end
 
   describe "importing supply items from CSV" do

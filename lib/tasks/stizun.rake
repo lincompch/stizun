@@ -24,8 +24,8 @@ namespace :stizun do
   task :test do
       Rake::Task["db:migrate:reset"].invoke
       Rake::Task["db:seed"].invoke
-      Rake::Task["ts:conf"].invoke
-      Rake::Task["ts:reindex"].invoke
+      Rake::Task["ts:configure"].invoke
+      Rake::Task["ts:rebuild"].invoke
       puts "Running rspec tests"
       puts `bundle exec rspec --format d --format html --out tmp/rspec.html spec/`
       raise "tests failed" if $?.exitstatus > 0

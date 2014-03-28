@@ -6,7 +6,7 @@ require_relative '../lib/pocketmedia_util'
 describe PocketmediaUtil do
   before(:each) do
     SupplyItem.count.should == 0
-    Supplier.find_or_create_by_name(:name => "Pocketmedia")
+    Supplier.find_or_create_by(:name => "Pocketmedia")
   end
 
   describe "importing supply items from CSV" do

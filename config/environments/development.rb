@@ -15,9 +15,7 @@ Stizun::Application.configure do
   # since you don't have to restart the webserver when you make code changes.
   config.cache_classes = false
 
-  # Log error messages when you accidentally call methods on nil.
-  config.whiny_nils = true
-# Show full error reports and disable caching
+  # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   # config.action_view.debug_rjs             = true
   config.action_controller.perform_caching = false
@@ -48,16 +46,7 @@ Stizun::Application.configure do
 
   config.action_mailer.default_url_options = { :host => "localhost:3000" }
 
-
-
-  # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
-
-  # Log the query plan for queries taking more than this (works
-  # with SQLite, MySQL, and PostgreSQL)
-  config.active_record.auto_explain_threshold_in_seconds = 0.5
-
-
   config.log_level = :debug
+  config.eager_load = false
 end
 

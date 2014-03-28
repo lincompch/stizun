@@ -3,11 +3,11 @@ class CategoryDispatcher < ActiveRecord::Base
   validates_presence_of :level_01
   has_and_belongs_to_many :categories
 
-  scope :without_categories, lambda {
+  scope :without_categories, -> {
     includes(:categories).where("categories.id IS NULL")
   }
 
-  scope :with_categories, lambda {
+  scope :with_categories, -> {
     includes(:categories).where("categories.id IS NOT NULL")
   }
 

@@ -6,7 +6,7 @@ require_relative '../lib/alltron_util'
 describe AlltronUtil do
   before(:each) do
     SupplyItem.count.should == 0
-    Supplier.find_or_create_by_name(:name => "Alltron AG")
+    Supplier.find_or_create_by(:name => "Alltron AG")
   end
 
   describe "importing supply items from CSV" do
