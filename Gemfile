@@ -33,7 +33,7 @@ gem 'paperclip', ">= 3.0.2"
 gem 'pickle', :groups => [:test, :development]
 gem 'pry', :groups => [:test, :development]
 gem 'rack-ssl-enforcer'
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.17'
 gem 'rails3-generators'
 gem 'rspec-rails', :groups => [:test, :development]
 gem 'ruby-progressbar'
