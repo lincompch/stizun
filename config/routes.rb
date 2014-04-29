@@ -103,6 +103,7 @@ Stizun::Application.routes.draw do
   # End of namespace admin
 
   match 'invoice/:uuid' => 'invoices#uuid', :via => [:get]
+  match 'carts/add_product' => 'carts#add_product', :via => [:post]
   match '/' => 'page#index', :via => [:get]
   match '/:controller(/:action(/:id))', :via => [:get]
 

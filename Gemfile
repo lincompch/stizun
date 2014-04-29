@@ -13,7 +13,7 @@ gem 'cucumber', :groups => [:test, :development]
 gem 'cucumber-rails', ">= 1.2.0", :require => false, :group => :test
 gem 'daemons'
 gem 'database_cleaner', :groups => [:test, :development]
-gem 'devise', '>= 3.2.4'
+gem 'devise'#, '>= 3.2.4'
 gem 'devise-encryptable'
 gem 'dynamic_form' # Offers Rails 2 f.error_messages etc. helpers on forms
 gem 'factory_girl', :groups => [:test, :development]

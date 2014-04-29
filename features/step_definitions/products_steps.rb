@@ -2,7 +2,8 @@ Given /^the following products exist\(table\):$/ do |table|
   table.hashes.each do |prod|
     product = create_product(prod)
     product.should_not == false
- end
+  end
+  ThinkingSphinx::Test.index
 end
 
 Then "I see the following featured products:" do |table|
