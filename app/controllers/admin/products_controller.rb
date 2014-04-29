@@ -63,7 +63,7 @@ class Admin::ProductsController <  Admin::BaseController
   end
 
   def create
-    @product = Product.create(params[:product])
+    @product = Product.create(product_params)
     if @product.save
       flash[:notice] = "Product created."
       redirect_to edit_admin_product_path(@product)
@@ -175,6 +175,14 @@ class Admin::ProductsController <  Admin::BaseController
     @cheaper_supply_items = @product.cheaper_supply_items
   end
 
+  private
+
+  def product_params
+    params.require(:product).permit(:manufacturer_product_code, :product_link, :name, :short_description, :description,
+                                    :weight, :supplier_id, :supplier_product_code, :purchase_price, 
+                                    :tax_class_id, :sales_price, :stock, :is_build_to_order, :is_available, :is_description_protected, 
+                                    :is_featured, :is_visible, :category_ids => [])
+  end
 
 end
 
