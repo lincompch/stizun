@@ -37,7 +37,6 @@ gem 'rails', '3.2.17'
 gem 'rails3-generators'
 gem 'rspec-rails', :groups => [:test, :development]
 gem 'ruby-progressbar'
-gem 'rvm-capistrano', :group => :development
 gem 'sanitize'
 gem 'sass-rails', :group => :assets
 gem 'selenium-webdriver', :groups => [:test, :development]
