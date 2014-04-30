@@ -61,6 +61,7 @@ Feature: Create and manage products
       Given a category: "computers" exists with name: "computers"
       Given a product: "pc" exists with name: "pc"
       And a product: "laptop" exists with name: "laptop"
+      And the Sphinx indexes are updated
       And I am on the admin products page
       Then I should see "Not editing multiple products"
       And I check product: "pc"'s first checkbox
