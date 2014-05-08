@@ -107,7 +107,8 @@ class SupplierUtil
 
     SupplyItem.expire_category_tree_cache(@supplier)
     # Update the local supply item's information using the line from the CSV file
-    SupplyItem.suspended_delta do
+    
+    ThinkingSphinx::Deltas.suspend :supply_item do
       # Deactivate the supply item if the line's not there anymore
       to_delete.each do |td|
         supply_item = @supplier.supply_items.where(:supplier_product_code => td).first
@@ -146,7 +147,7 @@ class SupplierUtil
   #                                             [supplier_product_code2, stock_level]]
   # The updates array must be set up in a method in the descending class (e.g. AlltronUtil)
   def quick_update_stock(filename)
-    SupplyItem.suspended_delta do
+    ThinkingSphinx::Deltas.suspend :supply_item do
       @updates.each do |upd|
         si = @supplier.supply_items.where(:supplier_product_code => upd[0]).first
         unless si.nil?
@@ -169,7 +170,7 @@ class SupplierUtil
     # @supplier = The supplier to import for (an AR object)
     SupplyItem.expire_category_tree_cache(@supplier)
 
-    SupplyItem.suspended_delta do
+    ThinkingSphinx::Deltas.suspend :supply_item do
       File.open(filename, "r:utf-8").each_with_index do |line, i|
         next if i == 0 # We skip the first line, it only contains header information
         data = parse_line(line)

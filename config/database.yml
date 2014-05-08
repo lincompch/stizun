@@ -23,13 +23,13 @@ development:
   adapter: mysql2
   host: localhost
   database: stizun_dev
-  user: root
+  username: root
   password: 
 
 test:
   adapter: mysql2
   host: localhost
   database: stizun_test
-  user: root
+  username: root
   password: 
 <% end %>

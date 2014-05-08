@@ -1,5 +1,8 @@
 Given /^there is a user with e-mail address "([^\"]*)" and password "([^\"]*)"$/ do |email, password|
-  @user = User.find_or_create_by_email(:email => email, :password => password, :password_confirmation => password)
+  @user = User.where(:email => email).first
+  if @user.nil?
+    @user = User.create(:email => email, :password => password, :password_confirmation => password)
+  end
   # Try to make sure the user actually has been saved at some point
   @user.id.should_not == nil
 end

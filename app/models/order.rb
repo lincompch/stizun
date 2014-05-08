@@ -75,16 +75,15 @@ class Order < StaticDocument
   
   # === Named scopes
   
-  scope :unprocessed, :conditions => { :status_constant => Order::UNPROCESSED }
-  scope :processing, :conditions => { :status_constant => Order::PROCESSING }
-  scope :awaiting_payment, :conditions => { :status_constant => Order::AWAITING_PAYMENT }
-  scope :shipped, :conditions => { :status_constant => Order::SHIPPED }
-  scope :to_ship, :conditions => { :status_constant => Order::TO_SHIP }
-  scope :canceled, :conditions => { :status_constant => Order::CANCELED }
+  scope :unprocessed, -> { where(:status_constant => Order::UNPROCESSED) }
+  scope :processing, -> { where( :status_constant => Order::PROCESSING ) }
+  scope :awaiting_payment, -> { where( :status_constant => Order::AWAITING_PAYMENT ) }
+  scope :shipped, -> { where( :status_constant => Order::SHIPPED ) }
+  scope :to_ship, -> { where( :status_constant => Order::TO_SHIP ) }
+  scope :canceled, -> { where( :status_constant => Order::CANCELED ) }
 
-  scope :pending_from_user_perspective, :conditions => "status_constant == ?" # TODO: is this working yet?
-  
-  # TODO: Verify if this is working
+  scope :pending_from_user_perspective, -> { where("status_constant == ?") } # TODO: is this working yet?
+
   before_save { |record|
     if record.shipping_address.blank?
       record.shipping_address = record.billing_address

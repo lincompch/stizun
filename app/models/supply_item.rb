@@ -1,5 +1,5 @@
-
 class SupplyItem < ActiveRecord::Base
+  include ThinkingSphinx::Scopes
 
   #validates_presence_of :stock, :weight, :name
   #validates_numericality_of :stock, :weight, :purchase_price
@@ -74,38 +74,17 @@ class SupplyItem < ActiveRecord::Base
 
   # === Named scopes
 
-  scope :available, :conditions => { :status_constant => SupplyItem::AVAILABLE }
-  scope :deleted, :conditions => { :status_constant => SupplyItem::DELETED }
-  scope :unavailable, :conditions => [ "status_constant <> #{SupplyItem::AVAILABLE}"]
+  scope :available, -> { where(:status_constant => SupplyItem::AVAILABLE) }
+  scope :deleted, -> { where(:status_constant => SupplyItem::DELETED) }
+  scope :unavailable, -> { where([ "status_constant <> #{SupplyItem::AVAILABLE}"]) }
 
-  scope :fresh, :conditions => { :workflow_status_constant => SupplyItem::FRESH }
-  scope :rejected, :conditions => { :workflow_status_constant => SupplyItem::REJECTED }
-  scope :checked, :conditions => { :workflow_status_constant => SupplyItem::CHECKED }
+  scope :fresh, -> { where(:workflow_status_constant => SupplyItem::FRESH) }
+  scope :rejected, -> { where(:workflow_status_constant => SupplyItem::REJECTED) }
+  scope :checked, -> { where(:workflow_status_constant => SupplyItem::CHECKED) }
 
-  scope :in_stock, :conditions => 'stock > 0'
+  scope :in_stock, -> { where('stock > 0') }
 
-  scope :distinct_categories, select("DISTINCT(category_string)").order("category_string DESC")
-  # Thinking Sphinx configuration
-  # Must come AFTER associations
-  define_index do
-    # fields
-    indexes(:name, :sortable => true)
-    indexes(:category_string, :sortable => true)
-    indexes(:manufacturer, :sortable => true)
-    indexes(:supplier_product_code, :sortable => true)
-    indexes(:manufacturer_product_code, :sortable => true)
-    
-    indexes description
-    #indexes category_id
-    indexes status_constant
-
-    # attributes
-    has created_at, updated_at
-    has supplier_id
-    # has category(:ancestry), :as => :category_ids, :type => :multi
-
-    set_property :delta => true
-  end
+  scope :distinct_categories, -> { select("DISTINCT(category_string)").order("category_string DESC")}
 
   # Sphinx scopes
   sphinx_scope(:sphinx_available_items) {
@@ -113,7 +92,6 @@ class SupplyItem < ActiveRecord::Base
     :conditions => { :status_constant => SupplyItem::AVAILABLE }
     }
   }
-
 
   def self.category_tree(supplier)
     all_categories = distinct_categories.where(:supplier_id => supplier).map(&:category_string)
@@ -139,7 +117,7 @@ class SupplyItem < ActiveRecord::Base
   end
 
   def component_of
-    product_sets = ProductSet.find_all_by_component_id(self.id)
+    product_sets = ProductSet.where(:component_id => self.id)
     product_sets.collect(&:product).uniq.compact
   end
 
@@ -271,4 +249,3 @@ class SupplyItem < ActiveRecord::Base
     end
   end
 end
-

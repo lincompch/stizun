@@ -1,13 +1,13 @@
 class Product < ActiveRecord::Base
-  
+  include ThinkingSphinx::Scopes
+
   validates_uniqueness_of :manufacturer_product_code, :allow_nil => true, :allow_blank => true
   validates_presence_of :name, :description, :weight, :tax_class, :supplier
   validates_numericality_of :purchase_price, :weight
-  
+
   # Something's not right here when creating independent products
   #validates_uniqueness_of :supply_item_id
-  
-  
+
   # Self-referential association to build products out of
   # other products (e.g. a PC out of components)
   #
@@ -15,33 +15,33 @@ class Product < ActiveRecord::Base
   # product.product_sets.first.price.rounded
   has_many :components, :through => :product_sets
   has_many :product_sets, :foreign_key => 'product_id', :class_name => 'ProductSet'
-  
+
   has_many :product_pictures
   has_many :attachments
-  
+
   belongs_to :tax_class
   belongs_to :supply_item
   has_many :document_lines
   has_many :static_document_lines
   has_and_belongs_to_many :categories
-  
+
   belongs_to :supplier
-  
+
   has_many :margin_ranges
 
   has_many :notifications
   has_many :users, :through => :notifications
   has_many :links
- 
-  scope :featured, :conditions => { :is_featured => true }
-  scope :available, :conditions => { :is_available => true }
-  scope :visible, :conditions => { :is_visible => true }
-  scope :supplied, :conditions => "supply_item_id IS NOT NULL"
-  scope :loss_leaders, :conditions => { :is_loss_leader => true }
-  scope :on_sale, :conditions => { :sale_state => true }
-  scope :having_unavailable_supply_item, joins(:supply_item).where("supply_items.status_constant != #{SupplyItem::AVAILABLE}")
-  
-  
+
+  scope :featured, -> { where(:is_featured => true) }
+  scope :available, -> { where(:is_available => true) }
+  scope :visible, -> { where(:is_visible => true) }
+  scope :supplied, -> { where("supply_item_id IS NOT NULL") }
+  scope :loss_leaders, -> { where(:is_loss_leader => true) }
+  scope :on_sale, -> { where(:sale_state => true) }
+  scope :having_unavailable_supply_item, -> { joins(:supply_item).where("supply_items.status_constant != #{SupplyItem::AVAILABLE}") }
+
+
   # === AR callbacks
   before_save :calculate_rounding_component, :set_explicit_sale_state, :cache_calculations
   before_save :update_notifications, :sync_supply_item_information
@@ -52,7 +52,7 @@ class Product < ActiveRecord::Base
   def update_notifications
     price_relevant_fields = ["purchase_price", "sales_price"]
     relevant_changes = self.changes.keys & price_relevant_fields
-        
+
     if relevant_changes.size > 0
       Notification.where(:product == self).each do |notification|
         notification.set_active
@@ -60,29 +60,12 @@ class Product < ActiveRecord::Base
     end
   end
 
-  # Thinking Sphinx configuration
-  # Must come AFTER associations
-  define_index do
-    # fields
-    indexes(:name, :sortable => true)
-    indexes purchase_price, :sortable => true
-    indexes supplier_id, manufacturer, short_description, description, supplier_product_code, manufacturer_product_code
-    
-    has(:cached_taxed_price, :sortable => true)
-    has categories(:id), :as => :category_id
-    
-    # attributes
-    has(:id, created_at, updated_at, is_available, is_featured, is_visible)
-    
-    set_property :delta => true
-  end
-
   sphinx_scope(:sphinx_available) {
     {
     :with => { :is_available => 1}
     }
   }
-  
+
   sphinx_scope(:sphinx_visible) {
     {
     :with => { :is_visible => 1}
@@ -95,7 +78,7 @@ class Product < ActiveRecord::Base
     }
   }
 
-  
+
   # Pagination with will_paginate
   def self.per_page
     return 30
@@ -105,15 +88,15 @@ class Product < ActiveRecord::Base
     self.cached_price = gross_price - calculate_rebate(gross_price)
     self.cached_taxed_price = cached_price + taxes
   end
-  
+
   def price
     cached_price || gross_price - calculate_rebate(gross_price)
   end
-  
+
   def taxed_price
     cached_taxed_price || price + taxes
   end
-  
+
   # The gross price is the price + margin (or sales price, in case of absolutely
   # priced goods). Taxes and rebate are not yet processed here.
   def gross_price
@@ -122,14 +105,14 @@ class Product < ActiveRecord::Base
     else
       absolutely_priced? ? gross_price = sales_price : gross_price = calculated_gross_price
     end
-     
+
     return gross_price
   end
-  
+
   def calculate_rebate(full_price)
     rebate = BigDecimal.new("0")
     end_date = rebate_until || DateTime.new(1940,01,01) 
-    
+
     if DateTime.now < end_date
       if absolute_rebate?
         rebate = absolute_rebate
@@ -146,27 +129,27 @@ class Product < ActiveRecord::Base
     end 
     return rebate
   end
-  
+
   def rebate
     calculate_rebate(gross_price)
   end
-  
+
   def absolute_rebate?
     !absolute_rebate.blank? and absolute_rebate > 0
   end
-  
+
   def percentage_rebate?
     !percentage_rebate.blank? and percentage_rebate > 0
   end
-  
-  
+
+
   # Returns the taxes owed on the sales price of a product. 
   def taxes
     calculation = BigDecimal.new("0")
     absolutely_priced? ? base_price = sales_price : base_price = gross_price
     calculation = ( (base_price - rebate) / BigDecimal.new("100.0")) * tax_class.percentage
   end
-  
+
   def margin
     if componentized?
       component_margin
@@ -178,7 +161,7 @@ class Product < ActiveRecord::Base
       end
     end
   end
-  
+
   # Calculates all three pricing items (gross price, margin and compound purchase price) for products
   # that consist of multiple products. This assigns all three results in one go so that
   # a lot less calculation is necessary.
@@ -196,7 +179,7 @@ class Product < ActiveRecord::Base
           purchase_price += ps.purchase_price # Convenience method that does ps.quantity * ps.component.purchase_price
         end
       end
-                  
+
       margin = (purchase_price / BigDecimal.new("100.0")) * self.applicable_margin_percentage_for_price(purchase_price) # Must not call through self.margin_percentage, because otherwise an infinite loop occurs
       gross_price = purchase_price + margin
       margin = BigDecimal.new(margin.to_s)
@@ -205,12 +188,12 @@ class Product < ActiveRecord::Base
     @component_pricing ||= [gross_price, margin, purchase_price]
     return @component_pricing
   end
-  
+
   def component_gross_price
     calculate_component_pricing
     return @component_pricing[0] + rounding_component
   end
-  
+
   def component_margin    
     calculate_component_pricing
     return @component_pricing[1]
@@ -308,7 +291,7 @@ class Product < ActiveRecord::Base
     p.purchase_price = si.purchase_price
     # Can be improved by flexibly reading the tax percentage from the CSV file in a first
     # step and then assigning it to a supply item, and THEN reading a proper TaxClass object from there
-    p.tax_class = TaxClass.find_or_create_by_percentage("8.0", {:name => "Auto-created default"})
+    p.tax_class = TaxClass.find_or_create_by(:percentage => "8.0", :name => "Auto-created default")
     p.supplier_id = si.supplier_id
     p.supply_item_id = si.id
     p.weight = si.weight
@@ -518,7 +501,7 @@ class Product < ActiveRecord::Base
   def self.update_price_and_stock
     price_update_logger ||= Logger.new("#{Rails.root}/log/price_and_stock_update_#{DateTime.now.to_s.gsub(":","-")}.log")
     
-    Product.suspended_delta do
+    ThinkingSphinx::Deltas.suspend :product do
       Product.supplied.find_each do |p|
         # The supply item is no longer available, thus we need to
         # make our own copy of it unavailable as well

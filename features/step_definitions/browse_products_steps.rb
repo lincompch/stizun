@@ -1,5 +1,5 @@
 Given /^a category named "([^\"]*)" exists$/ do |arg1|
-  @category = Category.find_or_create_by_name(:name => arg1)
+  @category = Category.find_or_create_by(:name => arg1)
 end
 
 When /^I view the product list$/ do

@@ -25,9 +25,9 @@ class Invoice < StaticDocument
 
   # === Named scopes
 
-  scope :unpaid, :conditions => { :status_constant => Invoice::UNPAID }
-  scope :paid, :conditions => { :status_constant => Invoice::PAID }
-  scope :canceled, :conditions => { :status_constant => Invoice::CANCELED }
+  scope :unpaid, -> { where(:status_constant => Invoice::UNPAID) }
+  scope :paid, -> { where(:status_constant => Invoice::PAID) }
+  scope :canceled, -> { where(:status_constant => Invoice::CANCELED) }
 
   
   # === Methods

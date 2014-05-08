@@ -27,7 +27,7 @@ class OrdersController < ApplicationController
     @orders = []
     
     if params[:user_id]
-      if current_user == User.find(params[:user_id])
+      if current_user == User.find(general_params[:user_id])
         @orders = Order.where(:user_id => current_user.id).order('status_constant ASC, created_at DESC')
       end
     end
@@ -35,24 +35,25 @@ class OrdersController < ApplicationController
   
   
   def create
-    @order = Order.new(params[:order])
+    #@order = Order.new(params[:order])
+    @order = Order.new(order_params)
 
     # TODO: Ugly as sin. Improve.
-    billing_address = get_address(params[:billing_address_id], params[:billing_address])
+    billing_address = get_address(billing_address_params[:billing_address_id], billing_address_params[:billing_address])
     @order.billing_address = billing_address
 
     shipping_address = nil
-    if params[:shipping_address_id] or params[:shipping_address]
-      shipping_address = get_address(params[:shipping_address_id], params[:shipping_address])
+    if shipping_address_params[:shipping_address_id] or shipping_address_params[:shipping_address]
+      shipping_address = get_address(shipping_address_params[:shipping_address_id], shipping_address_params[:shipping_address])
       @order.shipping_address = shipping_address
     end
     
     if current_user
-      unless params[:save_shipping_address].blank?
+      unless general_params[:save_shipping_address].blank?
         current_user.addresses << shipping_address
       end
 
-      unless params[:save_billing_address].blank?
+      unless general_params[:save_billing_address].blank?
         current_user.addresses << billing_address
       end
       current_user.orders << @order
@@ -127,4 +128,18 @@ class OrdersController < ApplicationController
 
     return piwik
   end
+
+  def order_params
+    params.require(:order).permit()
+  end
+  def shipping_address_params
+    params.permit(:shipping_address_id, :shipping_address => [:company, :firstname, :lastname, :email, :street, :postalcode, :city, :country_id])
+  end
+  def billing_address_params
+    params.permit(:billing_address_id, :billing_address => [:company, :firstname, :lastname, :email, :street, :postalcode, :city, :country_id])
+  end
+  def general_params
+    params.permit(:save_billing_address, :save_shipping_address, :user_id)
+  end
+
 end

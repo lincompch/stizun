@@ -6,7 +6,7 @@ require_relative '../lib/adegeranium_util'
 describe AdegeraniumUtil do
   before(:each) do
     SupplyItem.count.should == 0
-    Supplier.find_or_create_by_name(:name => "ADE!Geranium")
+    Supplier.find_or_create_by(:name => "ADE!Geranium")
   end
 
   describe "importing supply items from CSV" do
