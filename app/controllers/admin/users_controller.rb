@@ -1,7 +1,20 @@
 class Admin::UsersController < Admin::BaseController
 
   def index
-    @users = User.paginate(:page => params[:page], :per_page => 50)
+    if params[:search]
+      @email = params[:search][:email] || ""
+      @firstname = params[:search][:firstname] || ""
+      @lastname = params[:search][:lastname] || ""
+      @company = params[:search][:company] || ""
+      @users = User.all
+      @users = @users.where("users.email LIKE ?", "%#{@email}%") unless @email.blank?
+      @users = @users.where("addresses.firstname LIKE ?", "%#{@firstname}%").joins(:addresses).uniq unless @firstname.blank?
+      @users = @users.where("addresses.lastname LIKE ?", "%#{@lastname}%").joins(:addresses).uniq unless @lastname.blank?
+      @users = @users.where("addresses.company LIKE ?", "%#{@company}%").joins(:addresses).uniq unless @company.blank?
+      @users = @users.paginate(:page => params[:page], :per_page => 50)
+    else
+      @users = User.paginate(:page => params[:page], :per_page => 50)
+    end
   end
 
   def edit
