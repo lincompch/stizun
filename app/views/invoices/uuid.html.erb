@@ -1,9 +1,3 @@
-
-<% begin %>
- <% invoice = Rails.root + "custom/views/invoices/invoice.html.erb" %>
- <%= render 'invoice' %>
-<% rescue %>
-
 <h2><%= t("stizun.invoice.invoice")%> <%= @invoice.document_id %></h2>
 
 <%= t("stizun.invoice.invoice_date")%>: <%= short_date(@invoice.created_at) %>
@@ -49,7 +43,4 @@
   <p>Gewählte Zahlungsart: <%= @invoice.payment_method.name %></p>
   
   <%= render :partial => 'payment_information' %>
-<% end %>
-
-
 <p id="print_link"><%= link_to_function("Drucken", "javascript:print()") %></p>
