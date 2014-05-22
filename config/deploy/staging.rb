@@ -74,7 +74,7 @@ end
 
 
 task :configure_sphinx do
-  run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:configure && RAILS_ENV=production bundle exec rake ts:rebuild"
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:configure && RAILS_ENV=production bundle exec rake ts:index"
 end
 
 task :start_sphinx do
