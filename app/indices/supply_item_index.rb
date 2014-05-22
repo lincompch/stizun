@@ -7,7 +7,6 @@ ThinkingSphinx::Index.define :supply_item, :with => :active_record do
   indexes(:manufacturer_product_code, :sortable => true)
 
   indexes description
-  #indexes category_id
   indexes status_constant
 
   # attributes
