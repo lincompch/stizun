@@ -27,6 +27,7 @@ Feature: Browse products
       |nil        |nil      |0.0              |
       And there is a payment method called "Prepay" which is the default
 
+    @javascript
     Scenario: Browse all products
       Given the following products exist(table):
       |name        |category               |supplier  |purchase_price|manufacturer_product_code|

@@ -40,7 +40,7 @@ Feature: Create and manage products
       And I assign the product to the category "Notebooks"
       And I click the create button
       Then I should see "Product created." in the fancybox
-      And there should be a product called "Lenovo T400"
+      Then there should be a product called "Lenovo T400"
       And the category "Notebooks" should contain a product named "Lenovo T400"
 
     @javascript
@@ -61,6 +61,7 @@ Feature: Create and manage products
       Given a category: "computers" exists with name: "computers"
       Given a product: "pc" exists with name: "pc"
       And a product: "laptop" exists with name: "laptop"
+      And the Sphinx indexes are updated
       And I am on the admin products page
       Then I should see "Not editing multiple products"
       And I check product: "pc"'s first checkbox

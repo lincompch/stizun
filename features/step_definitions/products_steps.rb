@@ -2,7 +2,8 @@ Given /^the following products exist\(table\):$/ do |table|
   table.hashes.each do |prod|
     product = create_product(prod)
     product.should_not == false
- end
+  end
+  ThinkingSphinx::Test.index
 end
 
 Then "I see the following featured products:" do |table|
@@ -11,9 +12,9 @@ Then "I see the following featured products:" do |table|
   end
 end
 
-When /^I check #{capture_model}'s first checkbox$/ do |model_name|
-  model = model!(model_name)
-  check("product_id_#{model.id}")
+When /^I check product: "([^"]*)"'s first checkbox$/ do |product_name|
+  product = Product.find_by(:name => product_name)
+  check("product_id_#{product.id}")
 end
 
 Then /^category: "([^"]*)" should contain product: "([^"]*)"$/ do |category, product|
@@ -36,3 +37,6 @@ Dann /^sehe ich das Produkt "(.*?)" nicht$/ do |name|
   page.has_css?("table.productlist tr", :text => name).should == false
 end
 
+Given /^I reload the page$/ do
+  visit(current_path)
+end

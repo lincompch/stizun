@@ -65,5 +65,6 @@ Stizun::Application.configure do
 
   config.middleware.use Rack::SslEnforcer, :only => [/^\/admin/, /^\/users/, /^\/orders/, /^\/login/, /\/^user_sessions/]
 
+  config.eager_load = true
 end
 

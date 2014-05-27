@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -25,6 +25,12 @@ class User < ActiveRecord::Base
   
   def add_default_payment_method
     self.payment_methods << PaymentMethod.get_default
+  end
+
+  private
+
+  def user_params
+    params.required(:person).permit(:email, :password, :password_confirmation, :remember_me)
   end
   
 end

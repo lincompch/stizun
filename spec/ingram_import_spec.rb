@@ -6,7 +6,7 @@ require_relative '../lib/ingram_util'
 describe IngramUtil do
   before(:each) do
     SupplyItem.count.should == 0
-    supplier = Supplier.find_or_create_by_name(:name => "Ingram Micro GmbH")
+    supplier = Supplier.find_or_create_by(:name => "Ingram Micro GmbH")
     supplier.name.should == "Ingram Micro GmbH"
   end
 

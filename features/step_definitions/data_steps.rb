@@ -1,5 +1,5 @@
 Given /^a country called "([^"]*)" exists$/ do |name|
-  @country = Country.find_or_create_by_name(name)
+  @country = Country.find_or_create_by(:name => name)
 end
 
 Given /^there is a configuration item named "([^\"]*)" with value "([^\"]*)"$/ do |name, value|

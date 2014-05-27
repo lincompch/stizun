@@ -37,7 +37,7 @@ class Admin::HistoriesController <  Admin::BaseController
       end
       
       @histories = History.for_day(@target_date)\
-                          .find(:all, :conditions => conditions, :order => "created_at DESC")\
+                          .where(conditions, :order => "created_at DESC")\
                           .paginate(:page => params[:page], :per_page => 100)
     else
       @histories = [] 

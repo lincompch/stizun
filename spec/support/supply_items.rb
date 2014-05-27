@@ -1,7 +1,7 @@
 def create_supply_items(supplier, array = [])
   
   items = []  
-  tc = TaxClass.find_or_create_by_percentage(:percentage => "8.0", :name => "8.0")
+  tc = TaxClass.find_or_create_by(:percentage => "8.0", :name => "8.0")
   
   if array.empty?
     items << SupplyItem.create(:supplier => supplier, :name => 'BD-Drive', :purchase_price => "250.0", :weight => 2.0)

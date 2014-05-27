@@ -45,3 +45,5 @@ tmp/**/*
 public/system/files/**/*
 public/uploads/tmp/**/*
 *.swp
+public/system/**/*
+public/uploads/**/*

@@ -5,6 +5,7 @@ class Category < ActiveRecord::Base
   has_and_belongs_to_many :category_dispatchers
 
   acts_as_nested_set :order => "name"
+  #acts_as_nested_set
 
   after_save :expire_cache_fragments
   after_destroy :expire_cache_fragments

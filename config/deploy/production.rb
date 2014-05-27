@@ -1,7 +1,3 @@
-require "rvm/capistrano"                  # Load RVM's capistrano plugin.
-set :rvm_type, :system
-set :rvm_ruby_string, '2.1.0'        # Or whatever env you want it to run in.
-
 require "bundler/capistrano"
 
 set :application, "lincomp"
@@ -73,7 +69,7 @@ end
 
 
 task :configure_sphinx do
-  run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:conf && RAILS_ENV=production bundle exec rake ts:reindex"
+  run "cd #{release_path} && RAILS_ENV=production bundle exec rake ts:configure && RAILS_ENV=production bundle exec rake ts:index"
 end
 
 task :start_sphinx do

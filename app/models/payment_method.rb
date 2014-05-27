@@ -10,7 +10,7 @@ class PaymentMethod < ActiveRecord::Base
   def self.get_default
     # If no default is in the database, create a conservative one 
     # automatically so we can at least guarantee that one exists at any time.
-    return self.first(:conditions => { :default => true }) || \
+    return self.where(:default => true).first || \
            self.create(:name => 'Auto-created default', 
                        :default => true)
   end

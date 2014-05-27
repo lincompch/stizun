@@ -1,5 +1,5 @@
 class ProductPicture < ActiveRecord::Base
-  scope :main, :conditions => { :is_main_picture => true }
+  scope :main, -> { where(:is_main_picture => true) }
 
   belongs_to :product
 

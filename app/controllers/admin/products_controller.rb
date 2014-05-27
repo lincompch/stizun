@@ -63,7 +63,7 @@ class Admin::ProductsController <  Admin::BaseController
   end
 
   def create
-    @product = Product.create(params[:product])
+    @product = Product.create(product_params)
     if @product.save
       flash[:notice] = "Product created."
       redirect_to edit_admin_product_path(@product)
@@ -154,9 +154,9 @@ class Admin::ProductsController <  Admin::BaseController
   end
 
   def update_multiple
-    @products = Product.find(params[:product_ids])
+    @products = Product.find(product_id_params[:product_ids])
     @products.each do |product|
-      product.update_attributes!(params[:product].reject { |k,v| v.blank? })
+      product.update_attributes!(product_params.reject { |k,v| v.blank? })
     end
     cookies[:batch] = nil
     flash[:notice] = "Updated products!"
@@ -175,6 +175,18 @@ class Admin::ProductsController <  Admin::BaseController
     @cheaper_supply_items = @product.cheaper_supply_items
   end
 
+  private
+
+  def product_params
+    params.require(:product).permit(:manufacturer_product_code, :product_link, :name, :short_description, :description,
+                                    :weight, :supplier_id, :supplier_product_code, :purchase_price, 
+                                    :tax_class_id, :sales_price, :stock, :is_build_to_order, :is_available, :is_description_protected, 
+                                    :is_featured, :is_visible, :category_ids => [])
+  end
+
+  def product_id_params
+    params.permit(:product_ids => [])
+  end
 
 end
 

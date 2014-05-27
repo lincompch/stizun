@@ -15,14 +15,16 @@ class Admin::SupplyItemsController < Admin::BaseController
     
     order = params[:order].to_sym unless params[:order].blank?
     
-    @supply_items = @supplier.supply_items.sphinx_available_items.search(keyword,
-                                                  :conditions => conditions,
-                                                  :per_page => SupplyItem.per_page,
-                                                  :page => params[:page],
-                                                  :max_matches => 100000,
-                                                  :order => order,
-                                                  :sort_mode => sort_mode,
-                                                  :include => :product) # eager loading speeds up this view from e.g. 2500 ms to 1900 ms
+    @supply_items = SupplyItem.sphinx_available_items
+                              .search(keyword,
+                                      :conditions => conditions,
+                                      :per_page => SupplyItem.per_page,
+                                      :page => params[:page],
+                                      :max_matches => 100000,
+                                      :order => order,
+                                      :sort_mode => sort_mode,
+                                      :include => :product,
+                                      :with => {:supplier_id => @supplier.id})
   end
 
   def update

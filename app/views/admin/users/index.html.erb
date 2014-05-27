@@ -1,5 +1,19 @@
 <h1>Listing users</h1>
 
+<%= form_tag({}, {:method => 'get'}) do %>
+  <p>
+   Email: 
+   <%= text_field :search, :email, :size => 15, :value => (@email || "") %>
+   Firstname: 
+   <%= text_field :search, :firstname, :size => 15, :value => (@firstname || "")  %>
+   Lastname: 
+   <%= text_field :search, :lastname, :size => 15, :value => (@lastname || "")  %>
+   Company: 
+   <%= text_field :search, :company, :size => 15, :value => (@company || "") %>
+
+<%= submit_tag 'Search' %>
+  </p>
+<% end %>
 
 <%= will_paginate @users %>
 

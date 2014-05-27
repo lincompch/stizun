@@ -15,8 +15,8 @@ class Address < ActiveRecord::Base
   
   validate :disallow_poboxes
 
-  scope :active, :conditions => {:status => 'active'}
-  scope :deleted, :conditions => {:status => 'deleted'}
+  scope :active, -> { where(:status => 'active')}
+  scope :deleted, -> {where(:status => 'deleted')}
 
   
   def one_line_summary

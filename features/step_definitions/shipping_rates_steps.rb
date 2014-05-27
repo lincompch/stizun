@@ -1,6 +1,6 @@
 Given /^there is a default shipping calculator of type ShippingCalculatorBasedOnWeight called "([^\"]*)" with the following costs:$/ do |name, table|  
   
-  tax_class = TaxClass.find_or_create_by_percentage(:percentage => 8.0, :name => "8.0%")
+  tax_class = TaxClass.find_or_create_by(:percentage => 8.0, :name => "8.0%")
   @shipping_calculator = ShippingCalculatorBasedOnWeight.create(:name => name, :tax_class => tax_class)
   
   # Only create and assign new costs if we don't have any yet on this 
@@ -57,7 +57,7 @@ end
 
 Given /^there are the following suppliers:$/ do |table|  
   table.hashes.each do |sup|
-    supplier = Supplier.find_or_create_by_name(sup['name'])
+    supplier = Supplier.find_or_create_by(:name => sup['name'])
  end
 end
 

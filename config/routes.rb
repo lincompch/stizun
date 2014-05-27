@@ -13,8 +13,8 @@ Stizun::Application.routes.draw do
   #match 'login' => 'user_sessions#new', :as => :login
   #match 'logout' => 'user_sessions#destroy', :as => :logout
 
-  match 'products/unsubscribe/:remove_hash' => 'notification#destroy', :as => :unsubscribe_product
-  match 'notifications' => 'notification#index', :as => :notifications
+  match 'products/unsubscribe/:remove_hash' => 'notification#destroy', :as => :unsubscribe_product, :via => [:get, :post]
+  match 'notifications' => 'notification#index', :as => :notifications, :via => [:get]
 
   resources :categories do
     resources :products
@@ -31,8 +31,8 @@ Stizun::Application.routes.draw do
     resources :shipping_costs
   end
 
-  match '/admin' => 'admin/dashboard#index', :as => :admin
-  match '/users/me' => "users#show", :as => :show_current_profile
+  match '/admin' => 'admin/dashboard#index', :as => :admin, :via => [:get]
+  match '/users/me' => "users#show", :as => :show_current_profile, :via => [:get]
   # Namespace admin
   namespace :admin do
 
@@ -102,9 +102,10 @@ Stizun::Application.routes.draw do
   end
   # End of namespace admin
 
-  match 'invoice/:uuid' => 'invoices#uuid'
-  match '/' => 'page#index'
-  match '/:controller(/:action(/:id))'
+  match 'invoice/:uuid' => 'invoices#uuid', :via => [:get]
+  match 'carts/add_product' => 'carts#add_product', :via => [:post]
+  match '/' => 'page#index', :via => [:get]
+  match '/:controller(/:action(/:id))', :via => [:get]
 
   root :to => "page#index"
 end
