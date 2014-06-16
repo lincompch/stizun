@@ -92,7 +92,7 @@ class Admin::ProductsController <  Admin::BaseController
 
   def update
     @product = Product.find(params[:id])
-    @product.update_attributes(params[:product])
+    @product.product_params
 
     # The "add component" button was pressed -- refactor this into a separate
     # page inside a fancybox and a separate controller method once the component
