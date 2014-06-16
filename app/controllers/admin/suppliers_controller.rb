@@ -40,7 +40,7 @@ class Admin::SuppliersController < Admin::BaseController
   # POST /suppliers
   # POST /suppliers.xml
   def create
-    @supplier = Supplier.new(params[:supplier])
+    @supplier = Supplier.new(supplier_params)
 
     respond_to do |format|
       if @supplier.save
@@ -60,7 +60,7 @@ class Admin::SuppliersController < Admin::BaseController
     @supplier = Supplier.find(params[:id])
 
     respond_to do |format|
-      if @supplier.update_attributes(params[:supplier])
+      if @supplier.update_attributes(supplier_attributes)
         flash[:notice] = 'Supplier was successfully updated.'
         format.html { redirect_to(admin_supplier_path(@supplier)) }
         format.xml  { head :ok }
@@ -93,5 +93,11 @@ class Admin::SuppliersController < Admin::BaseController
     redirect_to :action => 'index'
   end
 
+
+  private
+
+  def supplier_params
+    params.require(:supplier).permit(:name, :address_id)
+end
 
 end

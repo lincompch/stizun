@@ -5,7 +5,7 @@ class Admin::TaxClassesController < Admin::BaseController
   end
   
   def create
-    @tax_class = TaxClass.create(params[:tax_class])
+    @tax_class = TaxClass.create(tax_class_params)
     if @tax_class.save
       #redirect_to admin_tax_class_path(@tax_class)
       redirect_to admin_tax_classes_path
@@ -29,7 +29,7 @@ class Admin::TaxClassesController < Admin::BaseController
   
   def update
     @tax_class = TaxClass.find(params[:id])
-    @tax_class.update_attributes(params[:tax_class])
+    @tax_class.update_attributes(tax_class_params)
     @tax_class.save
   end
   
@@ -39,5 +39,11 @@ class Admin::TaxClassesController < Admin::BaseController
       redirect_to admin_tax_classes_path
     end
   end
-  
+
+
+  private
+
+  def tax_class_params
+    params.require(:tax_class).permit(:name, :percentage)
+  end
 end
