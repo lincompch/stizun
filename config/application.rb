@@ -31,7 +31,7 @@ module Stizun
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :"de-CH"
     config.i18n.available_locales = [:"de-CH", :de]
-    config.i18n.enforce_available_locales = true
+    config.i18n.enforce_available_locales = false
 
     # For some reason, on some servers Rails is stubborn and will _not_ respect default_locale. That's
     # why we set locale explicitly.
