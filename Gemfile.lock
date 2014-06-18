@@ -127,8 +127,8 @@ GEM
     method_source (0.8.2)
     middleware (0.1.0)
     mime-types (1.25.1)
-    mini_magick (3.7.0)
-      subexec (~> 0.2.1)
+    mini_magick (3.3)
+      subexec (~> 0.1.0)
     mini_portile (0.5.3)
     minitest (4.7.5)
     multi_json (1.10.1)
@@ -213,7 +213,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
-    subexec (0.2.3)
+    subexec (0.1.0)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
@@ -266,7 +266,7 @@ DEPENDENCIES
   jruby-openssl
   later_dude (>= 0.3.1)
   launchy
-  mini_magick
+  mini_magick (~> 3.3.0)
   mysql2
   nokogiri
   paperclip (>= 3.0.2)
