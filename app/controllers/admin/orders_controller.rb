@@ -75,7 +75,7 @@ class Admin::OrdersController <  Admin::BaseController
   
   def update
     @order = Order.find(params[:id])
-    @order.update_attributes(params[:order])
+    @order.update_attributes(params.permit![:order])
 
     if @order.save
       flash[:notice] = "Order updated."
