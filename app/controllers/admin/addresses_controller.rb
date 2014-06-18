@@ -7,7 +7,7 @@ class Admin::AddressesController < Admin::BaseController
 
   def update
     @address = Address.find(params[:id])
-    @address.update_attributes(params[:address])
+    @address.update_attributes(params.permit![:address])
     if @address.save
       flash[:notice] = "Address saved."
     else

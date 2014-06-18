@@ -29,7 +29,7 @@ class Admin::SupplyItemsController < Admin::BaseController
 
   def update
     @supply_item = SupplyItem.find(params[:id])
-    @updated = @supply_item.update_attributes(params[:supply_item])
+    @updated = @supply_item.update_attributes(params.permit![:supply_item])
 
     respond_to do |format|
       format.html do

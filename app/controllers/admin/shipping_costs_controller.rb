@@ -60,7 +60,7 @@ class Admin::ShippingCostsController < Admin::BaseController
     @shipping_cost = ShippingCost.find(params[:id])
 
     respond_to do |format|
-      if @shipping_cost.update_attributes(params[:shipping_cost])
+      if @shipping_cost.update_attributes(params.permit![:shipping_cost])
         flash[:notice] = 'ShippingCost was successfully updated.'
         format.html { redirect_to(admin_shipping_cost_path(@shipping_cost)) }
         format.xml  { head :ok }

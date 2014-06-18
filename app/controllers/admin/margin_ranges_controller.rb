@@ -76,7 +76,7 @@ class Admin::MarginRangesController < Admin::BaseController
     @supplier = @margin_range.supplier if @margin_range.supplier
 
     respond_to do |format|
-      if @margin_range.update_attributes(params[:margin_range])
+      if @margin_range.update_attributes(params.permit![:margin_range])
         flash[:notice] = 'MarginRange was successfully updated.'
         format.html { redirect_to(admin_margin_ranges_path(:supplier_id => @margin_range.supplier_id, :product_id => @margin_range.product_id)) }
         format.xml  { head :ok }

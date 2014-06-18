@@ -37,7 +37,7 @@ class Admin::ProductPicturesController < Admin::BaseController
   def update
     puts "da shit dates up"
     @product_picture = ProductPicture.find(params[:id])
-    @product_picture.update_attributes(params[:product_picture])
+    @product_picture.update_attributes(params.permit![:product_picture])
 
     if params[:set_main_picture] == "true"
       @product_picture.set_main_picture

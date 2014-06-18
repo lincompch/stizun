@@ -33,7 +33,7 @@ class Admin::CategoryDispatchersController < Admin::BaseController
   def update
     filter = params[:filter] || nil
     @category_dispatcher = CategoryDispatcher.find(params[:id])
-    if @category_dispatcher.update_attributes(params[:category_dispatcher])
+    if @category_dispatcher.update_attributes(params.permit![:category_dispatcher])
       redirect_to :action => :index, :filter => filter
       flash[:notice] = "Dispatcher '#{@category_dispatcher.to_s}' updated"
     else

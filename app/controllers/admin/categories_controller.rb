@@ -11,7 +11,7 @@ class Admin::CategoriesController < Admin::BaseController
   
   def create
     @category = Category.new
-    @category.update_attributes(params[:category])
+    @category.update_attributes(params.permit![:category])
     if @category.save
       expire_fragment('frontend_category_tree')
       flash[:notice] = "Category created."
@@ -28,7 +28,7 @@ class Admin::CategoriesController < Admin::BaseController
   
   def update
     @category = Category.find(params[:id])
-    @category.update_attributes(params[:category])
+    @category.update_attributes(params.permit![:category])
     
     if @category.save
       expire_fragment('frontend_category_tree')
