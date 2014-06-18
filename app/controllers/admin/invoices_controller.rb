@@ -128,7 +128,7 @@ class Admin::InvoicesController <  Admin::BaseController
   
   def update
     @invoice = Invoice.find(params[:id])
-    @invoice.update_attributes(params[:invoice])
+    @invoice.update_attributes(params.permit![:invoice])
     
     if @invoice.save
       flash[:notice] = "Invoice updated."
