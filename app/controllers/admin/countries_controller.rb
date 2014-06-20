@@ -28,7 +28,7 @@ class Admin::CountriesController <  Admin::BaseController
   
   def update
     @country = Country.find(params[:id])
-    @country.update_attributes(params[:country])
+    @country.update_attributes(params.permit![:country])
     @country.save
   end
   

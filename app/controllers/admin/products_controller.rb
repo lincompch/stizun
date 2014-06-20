@@ -23,6 +23,7 @@ class Admin::ProductsController <  Admin::BaseController
 
      # Resource was accessed in nested form through /admin/categories/n/products
     if params[:category_id]
+asdfasdf
       @category = Category.find params[:category_id]
       # Which categories to display on top of the product list for deeper
       # navigation into the category tree.
@@ -91,7 +92,7 @@ class Admin::ProductsController <  Admin::BaseController
 
   def update
     @product = Product.find(params[:id])
-    @product.update_attributes(params[:product])
+    @product.update_attributes(product_params)
 
     # The "add component" button was pressed -- refactor this into a separate
     # page inside a fancybox and a separate controller method once the component
@@ -180,7 +181,9 @@ class Admin::ProductsController <  Admin::BaseController
     params.require(:product).permit(:manufacturer_product_code, :product_link, :name, :short_description, :description,
                                     :weight, :supplier_id, :supplier_product_code, :purchase_price, 
                                     :tax_class_id, :sales_price, :stock, :is_build_to_order, :is_available, :is_description_protected, 
-                                    :is_featured, :is_visible, :category_ids => [])
+                                    :is_featured, :is_visible, :manufacturer, :ean_code, :rebate, :rebate_until, :percentage_rebate, 
+                                    :absolute_rebate, :is_loss_leader, :is_description_protected, :category_ids => [])
+
   end
 
   def product_id_params

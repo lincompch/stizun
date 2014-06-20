@@ -25,7 +25,7 @@ class Admin::UsersController < Admin::BaseController
 
   def update
     @user = User.find(params[:id])
-    @user.update_attributes(params[:user])
+    @user.update_attributes(params.permit![:user])
     if @user.save
       flash[:notice] = "User updated."
     else

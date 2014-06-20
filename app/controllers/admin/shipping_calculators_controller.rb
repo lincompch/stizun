@@ -32,7 +32,7 @@ class Admin::ShippingCalculatorsController < Admin::BaseController
 
   # POST /admin/shipping_calculators
   def create
-    klass = params[:shipping_calculator_class]
+    klass = params.permit![:shipping_calculator_class]
     
     if klass == "ShippingCalculatorBasedOnWeight"
       @shipping_calculator = ShippingCalculatorBasedOnWeight.new(params[:shipping_calculator])

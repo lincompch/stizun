@@ -185,7 +185,7 @@
     </div>
     <!-- /WRAPPER -->
 
-    <% if @piwik_address and @piwik_cookie_domain %> 
+    <% if !@piwik_address.blank? and !@piwik_cookie_domain.blank? %> 
       <!-- Piwik -->
       <script type="text/javascript">
         var _paq = _paq || [];

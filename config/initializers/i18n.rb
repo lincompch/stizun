@@ -1,1 +1,1 @@
-I18n.enforce_available_locales = true
+I18n.enforce_available_locales = false

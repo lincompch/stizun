@@ -24,7 +24,7 @@ gem 'jquery-rails'
 gem 'jruby-openssl', :platform => :jruby
 gem 'later_dude', '>= 0.3.1'
 gem 'launchy', :groups => [:test, :development]
-gem 'mini_magick'
+gem 'mini_magick', '~> 3.3.0'
 gem 'mysql2', :platform => :ruby
 gem 'nokogiri'
 gem 'paperclip', ">= 3.0.2"

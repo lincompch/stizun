@@ -18,7 +18,7 @@ class Admin::ProductPicturesController < Admin::BaseController
   def create
     @product = Product.find(params[:product_id])
     unless params[:product_picture][:file].blank?
-      @product_picture = @product.product_pictures.build(params[:product_picture])
+      @product_picture = @product.product_pictures.build(params.permit![:product_picture])
       if @product_picture.save!
         flash[:info] = "Product picture created"
         redirect_to edit_admin_product_path(@product)
@@ -37,7 +37,7 @@ class Admin::ProductPicturesController < Admin::BaseController
   def update
     puts "da shit dates up"
     @product_picture = ProductPicture.find(params[:id])
-    @product_picture.update_attributes(params[:product_picture])
+    @product_picture.update_attributes(params.permit![:product_picture])
 
     if params[:set_main_picture] == "true"
       @product_picture.set_main_picture
