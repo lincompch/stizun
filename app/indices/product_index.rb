@@ -1,4 +1,4 @@
-ThinkingSphinx::Index.define :product, :with => :active_record do
+ThinkingSphinx::Index.define :product, :with => :active_record, :delta => true do
 
   indexes(:name, :sortable => true)
   indexes purchase_price, :sortable => true
@@ -9,7 +9,5 @@ ThinkingSphinx::Index.define :product, :with => :active_record do
 
   # attributes
   has(:id, created_at, updated_at, is_available, is_featured, is_visible)
-
-  set_property :delta => true
 end
 

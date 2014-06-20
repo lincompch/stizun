@@ -1,4 +1,4 @@
-ThinkingSphinx::Index.define :supply_item, :with => :active_record do
+ThinkingSphinx::Index.define :supply_item, :with => :active_record, :delta => true do
 
   indexes(:name, :sortable => true)
   indexes(:category_string, :sortable => true)
@@ -13,6 +13,4 @@ ThinkingSphinx::Index.define :supply_item, :with => :active_record do
   has created_at, updated_at
   has supplier_id
   # has category(:ancestry), :as => :category_ids, :type => :multi
-
-  set_property :delta => true
 end

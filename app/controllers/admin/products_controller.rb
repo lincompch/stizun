@@ -41,7 +41,6 @@ class Admin::ProductsController <  Admin::BaseController
 
       keyword = Riddle.escape(keyword) unless keyword.nil?
 
-      
       @products =       Product.search(keyword,
                                       :conditions => conditions,
                                       :with => with,
