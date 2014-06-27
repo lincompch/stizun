@@ -1,24 +1,3 @@
-
-<% jruby = defined?(JRUBY_VERSION)  %>
-
-<% if jruby == "constant" %>
-development:
-  adapter: jdbcmysql
-  host: localhost
-  database: stizun_dev
-  encoding: utf8
-  username: root
-  password: 
-
-test:
-  adapter: jdbcmysql
-  host: localhost
-  encoding: utf8
-  database: stizun_test
-  username: root
-  password: 
-
-<% else %>
 development:
   adapter: mysql2
   host: localhost
@@ -32,4 +11,3 @@ test:
   database: stizun_test
   username: root
   password: 
-<% end %>
