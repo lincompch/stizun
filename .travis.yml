@@ -2,7 +2,7 @@ language: ruby
 rvm:
   - 1.9.3
 #  - 2.1.1
-  - jruby-19mode
+#  - jruby-19mode
 env: DISPLAY=:99.0
 before_script:
   - mysql -e 'create database stizun_test;'
@@ -13,4 +13,4 @@ before_install:
   - "sudo apt-get install sphinxsearch firefox fluxbox"
 bundler_args: --without development
 # uncomment this line if your project needs to run something other than `rake`:
-script: bundle exec rake stizun:test 
+script: ./script/run_tests.sh
