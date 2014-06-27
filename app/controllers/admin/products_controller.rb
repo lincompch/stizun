@@ -23,7 +23,6 @@ class Admin::ProductsController <  Admin::BaseController
 
      # Resource was accessed in nested form through /admin/categories/n/products
     if params[:category_id]
-asdfasdf
       @category = Category.find params[:category_id]
       # Which categories to display on top of the product list for deeper
       # navigation into the category tree.
