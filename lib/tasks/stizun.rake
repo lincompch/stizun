@@ -20,19 +20,5 @@ namespace :stizun do
      pb.finish
    end
 
-
-  task :test do
-      Rake::Task["db:migrate:reset"].invoke
-      Rake::Task["db:seed"].invoke
-      Rake::Task["ts:configure"].invoke
-      Rake::Task["ts:generate"].invoke
-      puts "Running rspec tests"
-      puts `bundle exec rspec --format d --format html --out tmp/rspec.html spec/`
-      raise "tests failed" if $?.exitstatus > 0
-      puts "Running Cucumber tests"
-      puts `bundle exec cucumber -f pretty`
-      raise "tests failed" if $?.exitstatus > 0
-  end
-
 end
 
