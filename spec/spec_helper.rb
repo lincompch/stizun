@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'spork'
+require 'capybara/rspec'
 
 # Code coverage tool that supports Ruby 1.9 and Rails 3
 # require 'simplecov'

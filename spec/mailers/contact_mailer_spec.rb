@@ -1,7 +1,7 @@
 #encoding: utf-8
 require "spec_helper"
 
-describe ContactMailer do
+describe ContactMailer, :type => :feature do
 
 
   before(:all) do
@@ -43,6 +43,15 @@ describe ContactMailer do
     email = ContactMailer.send_email(@from, data).deliver
     email.body.to_s.should == "Liebe Lincomp\n\nIch habe folgendes Anliegen:\n\nFoo\n\nDanke für die Beantwortung und freundliche Grüsse\n"
     ActionMailer::Base.deliveries.size.should == 1
+  end
+
+  it "should work when used in a web form" do
+    visit "/page/contact"
+    fill_in "from", with: "john.doe@example.org"
+    fill_in "subject", with: "this is a test"
+    fill_in "body", with: "this is also a test"
+    click_button("Anfrage abschicken")
+    expect(page).to have_content("Danke für Ihre Mitteilung")
   end
 
 

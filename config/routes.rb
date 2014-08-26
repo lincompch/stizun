@@ -105,6 +105,7 @@ Stizun::Application.routes.draw do
   match 'invoice/:uuid' => 'invoices#uuid', :via => [:get]
   match 'carts/add_product' => 'carts#add_product', :via => [:post]
   match '/' => 'page#index', :via => [:get]
+  match '/page/contact' => 'page#contact', :via => [:post]
   match '/:controller(/:action(/:id))', :via => [:get]
 
   root :to => "page#index"
