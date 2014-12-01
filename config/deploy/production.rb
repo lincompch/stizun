@@ -3,7 +3,7 @@ require "bundler/capistrano"
 set :application, "lincomp"
 
 set :scm, :git
-set :repository, "git://github.com/lincomp/stizun.git"
+set :repository, "git://github.com/lincompch/stizun.git"
 set :branch, "master"
 set :deploy_via, :remote_cache
 set :keep_releases, 2
