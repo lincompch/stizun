@@ -20,7 +20,7 @@ class Admin::SupplyItemsController < Admin::BaseController
                                       :conditions => conditions,
                                       :per_page => SupplyItem.per_page,
                                       :page => params[:page],
-                                      :max_matches => 100000,
+                                      :max_matches => 1000000,
                                       :order => order,
                                       :sort_mode => sort_mode,
                                       :include => :product,
