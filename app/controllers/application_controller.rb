@@ -4,8 +4,14 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   before_filter :set_locale, :setup_piwik
+  before_filter :kick_out_unwanted_users
   #helper_method :current_user_session, :current_user
 
+  def kick_out_unwanted_users
+    if current_user && current_user.email =~ /.*\.disabled/
+      sign_out current_user
+    end
+  end
   def require_user
     unless current_user
       flash[:error] = "Sie müssen eingeloggt sein, um auf diese Seite zuzugreifen."
