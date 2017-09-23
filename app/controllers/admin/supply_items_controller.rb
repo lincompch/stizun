@@ -51,7 +51,7 @@ class Admin::SupplyItemsController < Admin::BaseController
   end
 
   def create
-    @supply_item = SupplyItem.new(params[:supply_item])
+    @supply_item = SupplyItem.new(params.permit![:supply_item])
     @supplier = Supplier.find(params[:supplier_id])
     @supply_item.supplier = @supplier
     if @supply_item.save
