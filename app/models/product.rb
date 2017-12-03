@@ -291,7 +291,11 @@ class Product < ActiveRecord::Base
     p.purchase_price = si.purchase_price
     # Can be improved by flexibly reading the tax percentage from the CSV file in a first
     # step and then assigning it to a supply item, and THEN reading a proper TaxClass object from there
-    p.tax_class = TaxClass.find_or_create_by(:percentage => "8.0", :name => "Auto-created default")
+    if DateTime.new(2018, 01, 01) > DateTime.now
+      p.tax_class = TaxClass.find_or_create_by(:percentage => "7.7", :name => "Auto-created 7.7")
+    else
+      p.tax_class = TaxClass.find_or_create_by(:percentage => "8.0", :name => "Auto-created default")
+    end
     p.supplier_id = si.supplier_id
     p.supply_item_id = si.id
     p.weight = si.weight
