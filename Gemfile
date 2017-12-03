@@ -7,7 +7,7 @@ gem 'awesome_nested_set', :git => 'https://github.com/collectiveidea/awesome_nes
 gem 'capistrano', '~> 2.15', :group => :development
 gem 'capistrano-ext', :group => :development
 gem 'capybara', :groups => [:test, :development]
-gem 'carrierwave'
+gem 'carrierwave', '0.11.2'
 gem 'ckeditor'
 gem 'cucumber', :groups => [:test, :development]
 gem 'cucumber-rails', ">= 1.2.0", :require => false, :group => :test
