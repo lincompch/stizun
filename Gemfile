@@ -37,7 +37,7 @@ gem 'rails3-generators'
 gem 'rspec-rails', :groups => [:test, :development]
 gem 'ruby-progressbar'
 gem 'sanitize'
-gem 'selenium-webdriver', "~> 3.2", :groups => [:test, :development]
+gem 'selenium-webdriver', :groups => [:test, :development]
 gem 'spork', :groups => [:test, :development]
 gem 'therubyracer', :platform => :ruby
 gem 'therubyrhino', :platform => :jruby
