@@ -247,8 +247,6 @@ class SupplierUtil
     end
     si.manufacturer_product_code = "#{data[:manufacturer_product_code]}"
     si.purchase_price = calculate_price(data) 
-    # TODO: Read actual tax percentage from import file and create class as needed
-    #si.tax_class = TaxClass.find_by_percentage(8.0) or TaxClass.first
     si.stock = data[:stock_level].gsub("'","").to_i unless data[:stock_level].nil?
     si.image_url = "#{data[:image_url].strip}" unless data[:image_url].blank?
     si.description_url = "#{data[:description_url].strip}" unless data[:description_url].blank?
