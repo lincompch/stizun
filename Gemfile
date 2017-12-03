@@ -18,7 +18,8 @@ gem 'devise-encryptable'
 gem 'dynamic_form' # Offers Rails 2 f.error_messages etc. helpers on forms
 gem 'factory_girl', :groups => [:test, :development]
 gem 'factory_girl_rails', :groups => [:test, :development]
-gem 'feedjira', :platform => :ruby
+# We don't offer feeds anymore
+#gem 'feedjira', :platform => :ruby
 gem 'jdbc-mysql', :platform => :jruby
 gem 'jquery-rails'
 gem 'jruby-openssl', :platform => :jruby
@@ -36,7 +37,7 @@ gem 'rails3-generators'
 gem 'rspec-rails', :groups => [:test, :development]
 gem 'ruby-progressbar'
 gem 'sanitize'
-gem 'selenium-webdriver', :groups => [:test, :development]
+gem 'selenium-webdriver', "~> 3.2", :groups => [:test, :development]
 gem 'spork', :groups => [:test, :development]
 gem 'therubyracer', :platform => :ruby
 gem 'therubyrhino', :platform => :jruby
