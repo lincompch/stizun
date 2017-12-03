@@ -1,14 +1,18 @@
 language: ruby
 rvm:
   - 2.1.6
-env: DISPLAY=:99.0
+env: 
+  - DISPLAY=:99.0
+  - MOZ_HEADLESS=1
+addons:
+  firefox: latest
 before_script:
   - mysql -e 'create database stizun_test;'
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 before_install:
   - "sudo apt-get update"
-  - "sudo apt-get install sphinxsearch firefox fluxbox"
+  - "sudo apt-get install sphinxsearch fluxbox"
 bundler_args: --without development
 # uncomment this line if your project needs to run something other than `rake`:
 script: ./script/run_tests.sh
