@@ -5,7 +5,7 @@ require_relative '../lib/alltron_util'
 
 describe AlltronUtil do
   before(:each) do
-    SupplyItem.count.should == 0
+    expect(SupplyItem.count).to eq(0)
     Supplier.find_or_create_by(:name => "Alltron AG")
   end
 
@@ -13,7 +13,7 @@ describe AlltronUtil do
 
     it "should import 500 items" do
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
-      SupplyItem.count.should == 500
+      expect(SupplyItem.count).to eq(500)
       supplier = Supplier.where(:name => 'Alltron AG').first
 
 
@@ -48,20 +48,20 @@ describe AlltronUtil do
     end
 
     it "should change items that have products when the items changed in the CSV file" do
-      SupplyItem.count.should == 0
+      expect(SupplyItem.count).to eq(0)
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
-      SupplyItem.count.should == 500
+      expect(SupplyItem.count).to eq(500)
 
       # Create products so only those get updated
       codes = [1289, 2313, 3188, 5509, 6591]
       codes.each do |code|
           supply_item = SupplyItem.where(:supplier_product_code => code).first
           product = Product.new_from_supply_item(supply_item)
-          product.save.should == true
+          expect(product.save).to be true
       end
 
       AlltronTestHelper.update_from_file(Rails.root + "spec/data/500_products_with_5_changes.csv")
-      SupplyItem.count.should == 500
+      expect(SupplyItem.count).to eq(500)
       supplier = Supplier.where(:name => 'Alltron AG').first
 
 
@@ -91,11 +91,11 @@ describe AlltronUtil do
     # It's only very very slow to use import_from_file when we already know that all the
     # potentially changed items are already in the DB
     it "importing over an older data set should update supply items even when there are no products available for them" do
-      SupplyItem.count.should == 0
+      expect(SupplyItem.count).to eq(0)
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
-      SupplyItem.count.should == 500
+      expect(SupplyItem.count).to eq(500)
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products_with_5_changes.csv")
-      SupplyItem.count.should == 500
+      expect(SupplyItem.count).to eq(500)
       supplier = Supplier.where(:name => 'Alltron AG').first
 
 
@@ -124,21 +124,14 @@ describe AlltronUtil do
 
     it "should mark items as deleted when they were removed from the CSV file" do
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
-      SupplyItem.count.should == 500
+      expect(SupplyItem.count).to eq(500)
       supplier = Supplier.where(:name => 'Alltron AG').first
       product_codes = [1227, 1510, 1841, 1847, 2180, 2193, 2353, 2379, 3220, 4264, 5048, 5768, 5862, 5863, 8209]
 
-      # Create products so only those get updated/marked deleted
-      # product_codes.each do |code|
-      #   supply_item = SupplyItem.where(:supplier_product_code => code).first
-      #   product = Product.new_from_supply_item(supply_item)
-      #   product.save.should == true
-      # end
-
       AlltronTestHelper.update_from_file(Rails.root + "spec/data/485_products.csv")
-      SupplyItem.count.should == 500
+      expect(SupplyItem.count).to eq(500)
       # The others should *not* be deleted
-      SupplyItem.available.where(:supplier_id => supplier).count.should == 485
+      expect(SupplyItem.available.where(:supplier_id => supplier).count).to eq(485)
 
       ids = SupplyItem.where(:supplier_product_code => product_codes, :supplier_id => supplier).collect(&:id)
       supply_items_should_be_marked_deleted(ids, supplier)
@@ -149,23 +142,23 @@ describe AlltronUtil do
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/500_products.csv")
       supply_item = SupplyItem.where(:supplier_product_code => 1227).first
       product = Product.new_from_supply_item(supply_item)
-      product.save.should == true
-      product.available?.should == true
+      expect(product.save).to be true
+      expect(product.available?).to be true
       AlltronTestHelper.update_from_file(Rails.root + "spec/data/485_products.csv")
       supply_item.reload
-      supply_item.status_constant.should == SupplyItem::DELETED
+      expect(supply_item.status_constant).to eq(SupplyItem::DELETED)
 
       product.reload
-      product.available?.should == false
+      expect(product.available?).to be(false)
 
     end
 
     it "should import some EAN codes for supply items" do
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron.csv")
-      SupplyItem.count.should == 4
+      expect(SupplyItem.count).to eq(4)
       valid_codes = ["","4015867568453","4902580320744"]
       SupplyItem.all.each do |si|
-        valid_codes.include?(si.ean_code).should == true
+        expect(valid_codes.include?(si.ean_code)).to be(true)
       end
     end
   end
@@ -177,7 +170,7 @@ describe AlltronUtil do
       product_codes = SupplyItem.all.collect(&:supplier_product_code) #[1028, 1116, 1227, 1257]
       product_codes.each do |pc|
         si = SupplyItem.where(:supplier_product_code => pc).first
-        si.stock.should == 999
+        expect(si.stock).to eq(999)
       end
     end
   end
@@ -196,7 +189,7 @@ describe AlltronUtil do
     data[:description02] = "Some Second Description"
     data[:product_link] = "http://www.example.com"
     au = AlltronUtil.new
-    au.construct_supply_item_name(data).should == "#{data[:name01]} #{data[:name02]} (#{data[:name03]})"
+    expect(au.construct_supply_item_name(data)).to eq("#{data[:name01]} #{data[:name02]} (#{data[:name03]})")
   end
 
   it "should construct a default description for supply items" do
@@ -212,39 +205,39 @@ describe AlltronUtil do
     data[:description02] = "Some Second Description"
     data[:product_link] = "http://www.example.com"
     au = AlltronUtil.new
-    au.construct_supply_item_description(data).should == "#{data[:description01]} #{data[:description02]}"
+    expect(au.construct_supply_item_description(data)).to eq("#{data[:description01]} #{data[:description02]}")
   end
 
   it "should correctly construct all data even for pesky problematic items" do
     au = AlltronUtil.new
     au.import_supply_items(Rails.root + "spec/data/alltron_problematic_router.csv")
     si = SupplyItem.where(:supplier_product_code => '233063').first
-    si.description.should == "Huawei B593: LTE/UMTS/HSDPA Modemrouter, 150Mbps/42.2Mbps download, WLAN, 4xLAN,USB, 2xRJ-11 Telefon Das schnellste 3G/4G Modemrouter auf der Welt. Unterstützt bis 2 analoge Festnetztelefone für Telefonieren über das 3G/4G LTE Datennetz."
+    expect(si.description).to eq("Huawei B593: LTE/UMTS/HSDPA Modemrouter, 150Mbps/42.2Mbps download, WLAN, 4xLAN,USB, 2xRJ-11 Telefon Das schnellste 3G/4G Modemrouter auf der Welt. Unterstützt bis 2 analoge Festnetztelefone für Telefonieren über das 3G/4G LTE Datennetz.")
   end
 
   it "should not overwrite the product description if it is locked" do
       AlltronTestHelper.import_from_file(Rails.root + "spec/data/4_alltron.csv")
-      SupplyItem.count.should == 4
+      expect(SupplyItem.count).to eq(4)
 
       SupplyItem.all.each do |si|
         p = Product.new_from_supply_item(si)
         p.save
       end
 
-      Product.count.should == 4
+      expect(Product.count).to eq(4)
 
       p1 = Product.where(:supplier_product_code => '1028').first
       p2 = Product.where(:supplier_product_code => '1116').first
 
       p1.is_description_protected = true
-      p1.save.should == true
+      expect(p1.save).to be(true)
       p2.is_description_protected = false
-      p2.save.should == true
+      expect(p2.save).to be(true)
 
       AlltronTestHelper.update_from_file(Rails.root + "spec/data/4_alltron_changed_descriptions.csv")
 
-      (p1.reload.description =~ /^CHANGED/).should == nil
-      (p2.reload.description =~ /^CHANGED/).should == 0
+      expect((p1.reload.description =~ /^CHANGED/)).to be(nil)
+      expect((p2.reload.description =~ /^CHANGED/)).to eq(0)
   end
 
 end

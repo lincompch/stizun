@@ -32,10 +32,10 @@ end
 def supply_item_should_be(supplier, supplier_product_code, attributes = {})
   si = supplier.supply_items.where(:supplier_product_code => supplier_product_code).first
   attributes.each do |k,v|
-    si.send(k).should == v
+    expect(si.send(k)).to eq(v)
   end
 end
 
 def supply_items_should_be_marked_deleted(ids, supplier)
-  SupplyItem.where(:id => ids, :supplier_id => supplier).collect(&:status_constant).uniq.first.should == SupplyItem::DELETED
+  expect(SupplyItem.where(:id => ids, :supplier_id => supplier).collect(&:status_constant).uniq.first).to eq(SupplyItem::DELETED)
 end
