@@ -37,7 +37,7 @@ class Admin::ProductsController <  Admin::BaseController
       conditions[:manufacturer] = params[:manufacturer] unless params[:manufacturer].blank?
 
       with = {}
-      with.merge!(:category_id => params[:category_id]) unless params[:category_id].blank?
+      with.merge!(:category_id => params[:category_id].to_i) unless params[:category_id].blank?
 
       keyword = Riddle.escape(keyword) unless keyword.nil?
 

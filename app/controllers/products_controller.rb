@@ -21,7 +21,7 @@ class ProductsController < ApplicationController
       
       if params[:category_id]
         @category = Category.find params[:category_id]
-        with.merge!(:category_id => params[:category_id])
+        with.merge!(:category_id => params[:category_id].to_i)
       end
       
       @products = Product.sphinx_available.sphinx_visible.search(keyword,
