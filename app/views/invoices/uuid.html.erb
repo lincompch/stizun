@@ -43,4 +43,4 @@
   <p>Gewählte Zahlungsart: <%= @invoice.payment_method.name %></p>
   
   <%= render :partial => 'payment_information' %>
-<p id="print_link"><%= link_to_function("Drucken", "javascript:print()") %></p>
+  <p id="print_link"><%= link_to 'Drucken', '#', :onclick => 'javascript:print()' %></p>
