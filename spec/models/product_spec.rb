@@ -13,7 +13,7 @@ describe Product do
     
     it "should have a tax class" do
       @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => "8.0")
-      TaxClass.where(:name => 'Test Tax Class', :percentage => "8.0").first.should_not == nil
+      expect(TaxClass.where(:name => 'Test Tax Class', :percentage => "8.0").first).to_not be_nil
     end
   end
   

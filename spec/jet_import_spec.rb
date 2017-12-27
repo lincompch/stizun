@@ -27,7 +27,7 @@ describe JetUtil do
     it "should import some EAN codes for supply items" do
       JetTestHelper.import_from_file(Rails.root + "spec/data/jet_products.utf8.csv")
       SupplyItem.count.should == 101
-      SupplyItem.all.collect(&:ean_code).uniq.should_not == [nil] # Not all items have EAN codes, only 97 do
+      expect(SupplyItem.all.collect(&:ean_code).uniq).to_not be([nil]) # Not all items have EAN codes, only 97 do
     end
 
 

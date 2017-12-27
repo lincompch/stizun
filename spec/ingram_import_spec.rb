@@ -225,8 +225,8 @@ describe IngramUtil do
       IngramTestHelper.import_from_file(Rails.root + "spec/data/4_im.csv")
       SupplyItem.count.should == 4
       SupplyItem.all.each do |si|
-        si.ean_code.should_not == ""
-        si.ean_code.should_not == nil
+        expect(si.ean_code).to_not be("")
+        expect(si.ean_code).to_not be_nil
       end
     end
 
