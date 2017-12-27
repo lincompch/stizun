@@ -32,7 +32,7 @@ gem 'paperclip', ">= 3.0.2"
 gem 'pickle', :groups => [:test, :development]
 gem 'pry', :groups => [:test, :development]
 gem 'rack-ssl-enforcer'
-gem 'rails', '4.0.5'
+gem 'rails', '4.2.10'
 gem 'rails3-generators'
 gem 'rspec-rails', :groups => [:test, :development]
 gem 'ruby-progressbar'
@@ -41,7 +41,7 @@ gem 'selenium-webdriver', :groups => [:test, :development]
 gem 'spork', :groups => [:test, :development]
 gem 'therubyracer', :platform => :ruby
 gem 'therubyrhino', :platform => :jruby
-gem 'thinking-sphinx'
+gem 'thinking-sphinx', :git => 'https://github.com/pat/thinking-sphinx.git', :branch => 'develop'
 gem 'trinidad', :platform => :jruby
 gem 'uuidtools'
 gem 'warbler', :platform => :jruby, :groups => :development

@@ -8,6 +8,6 @@ ThinkingSphinx::Index.define :product, :with => :active_record, :delta => true d
   has categories(:id), :as => :category_id
 
   # attributes
-  has(:id, created_at, updated_at, is_available, is_featured, is_visible)
+  has(created_at, updated_at, is_available, is_featured, is_visible)
 end
 

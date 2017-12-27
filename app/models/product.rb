@@ -48,6 +48,7 @@ class Product < ActiveRecord::Base
   before_create :try_to_get_product_description
   after_create :try_to_get_product_files  
   after_save :extract_urls_from_description
+  after_save ThinkingSphinx::RealTime.callback_for(:product)
 
   def update_notifications
     price_relevant_fields = ["purchase_price", "sales_price"]

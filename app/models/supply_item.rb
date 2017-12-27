@@ -14,6 +14,7 @@ class SupplyItem < ActiveRecord::Base
   before_save :normalize_stock, :handle_supply_item_deletion, :handle_supply_item_reactivation
   after_save :generate_categories, :auto_create_products
   after_create :auto_create_products
+  after_save ThinkingSphinx::RealTime.callback_for(:supply_item)
 
   def self.per_page
     return 100

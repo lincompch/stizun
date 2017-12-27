@@ -8,7 +8,7 @@ class AddUsergroups < ActiveRecord::Migration
       t.integer :usergroup_id
       t.integer :user_id
     end
-    Usergroup.find_or_create_by_name(:name => 'Admins', :is_admin => true)
+    Usergroup.find_or_create_by(:name => 'Admins', :is_admin => true)
   end
 
   def self.down
