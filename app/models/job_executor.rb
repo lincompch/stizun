@@ -1,39 +1,4 @@
-
-# This class helps us schedule delayed jobs by setting everying up for a specific job, e.g.
-# requiring external libraries, instantiating objects, running methods on them...
 class JobExecutor
-
-  # Go through all the job configurations, see if any of the repetition configurations affect today.
-  # If they affect today, schedule the job at the right time today via Delayed::Job's run_at option.
-  # If they don't affect today, ignore them.
-  def self.schedule_jobs
-    todays_configurations = JobConfiguration.affecting_day(Date.today)
-    todays_configurations.each do |jc|
-      self.handle_job_submission(jc)
-    end
-  end
-
-  def self.handle_job_submission(job_configuration)
-    # Since this was called from a list of jobs affecting today, we know the correct run_at time must be sometime today
-    # We set run_at to this, as our basic date and time, then configure more the minute and hour later
-    if job_configuration.job_repetition
-      run_at = DateTime.parse("#{job_configuration.job_repetition.hour}:#{job_configuration.job_repetition.minute}").in_time_zone("UTC")
-    elsif job_configuration.run_at
-      run_at = job_configuration.run_at.in_time_zone("UTC")
-    end
-
-    # Don't submit jobs for run_at times that are in the past anyhow
-    if run_at > DateTime.now
-      matches = []
-      jobs = Delayed::Job.where(:run_at => run_at)
-      jobs.each do |job|
-        if job_configuration.equal_to_job?(job) == true
-          matches << true
-        end
-      end
-      job_configuration.submit_delayed_job(run_at) if (matches.uniq == [false] or matches == [])
-    end
-  end
 
   def self.require_utility_class(supplier)
     class_path = Rails.root + "lib/#{supplier.utility_class_name.underscore}"
