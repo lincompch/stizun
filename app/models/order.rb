@@ -194,7 +194,7 @@ class Order < StaticDocument
     # that we can rescue?
     require 'net/smtp'
     begin
-      StoreMailer.order_confirmation(user, self).deliver
+      StoreMailer.order_confirmation(user, self).deliver_now
     rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
       History.add("Could not send order confirmation for order  #{self.document_id} during checkout: #{e.to_s}", History::GENERAL, self)
     end
@@ -251,7 +251,7 @@ class Order < StaticDocument
       # that we can rescue?
       require 'net/smtp'
       begin
-        StoreMailer.shipping_notification(self).deliver
+        StoreMailer.shipping_notification(self).deliver_now
       rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
         History.add("Could not send shipping notification for order  #{self.document_id}: #{e.to_s}", History::GENERAL, self)
       end
@@ -275,7 +275,7 @@ class Order < StaticDocument
     Order.awaiting_payment.each do |o|
       if o.auto_cancel == true and o.created_at < (DateTime.now - 10.days)
         o.cancel
-        StoreMailer.auto_cancellation(o).deliver
+        StoreMailer.auto_cancellation(o).deliver_now
       end
     end
   end

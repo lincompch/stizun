@@ -62,9 +62,6 @@ class Admin::InvoicesController <  Admin::BaseController
     if !@order.invoiced?
       @invoice = Invoice.new_from_order(@order)
       if @invoice.save
-      # redirect_to admin_invoice_path(@invoice)
-        # Delivery is now done as after_create filter in Invoice
-        #StoreMailer.invoice(@invoice).deliver
         flash[:notice] = "Invoice created."
         redirect_to :back
       else
@@ -83,7 +80,7 @@ class Admin::InvoicesController <  Admin::BaseController
     @invoice = Invoice.find(params[:id])
     if @invoice
       address_string = @invoice.notification_email_addresses.join(", ")
-      if StoreMailer.invoice(@invoice).deliver  
+      if StoreMailer.invoice(@invoice).deliver_now
         flash[:notice] = "Invoice resent to: #{address_string}"
       else
         flash[:error] = "Mail system error while delivering invoice."
@@ -98,7 +95,7 @@ class Admin::InvoicesController <  Admin::BaseController
     @invoice = Invoice.find(params[:id])
     if @invoice
       address_string = @invoice.notification_email_addresses.join(", ")
-      if StoreMailer.payment_reminder(@invoice).deliver
+      if StoreMailer.payment_reminder(@invoice).deliver_now
         new_reminder_count = @invoice.reminder_count + 1
         @invoice.update_attributes(:reminder_count => new_reminder_count,
                                    :last_reminded_at => DateTime.now)        

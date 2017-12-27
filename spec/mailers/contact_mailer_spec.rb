@@ -10,6 +10,7 @@ describe ContactMailer, :type => :feature do
   end
 
   before(:each) do
+    ActionMailer::Base.deliveries.clear
     @default_to = APP_CONFIG['default_to_email'] || 'stizun@localhost'
     @from = "email@example.com"
   end

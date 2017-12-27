@@ -30,7 +30,7 @@ class Notification < ActiveRecord::Base
   
   def self.deliver_emails
      where(:active => true).group_by{ |m| m.email }.each do |email, notifications|
-       StoreMailer.product_notification(email, notifications).deliver
+       StoreMailer.product_notification(email, notifications).deliver_now
        notifications.each {|notification| notification.deactivate }
      end
   end

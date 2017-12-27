@@ -148,7 +148,7 @@ class Invoice < StaticDocument
     unless self.status_constant == Invoice::PAID
       require 'net/smtp'
       begin
-        StoreMailer.invoice(self).deliver
+        StoreMailer.invoice(self).deliver_now
       rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
         History.add("Could not send invoice for #{self.document_id} during checkout: #{e.to_s}", History::GENERAL, self)
       end

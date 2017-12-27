@@ -36,6 +36,7 @@ Stizun::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
   config.assets.compile = true
+  config.serve_static_files = true
 
   # Additional assets to precompile that would otherwise be ignored
   #config.assets.precompile += %w( stylesheet.css print.css stylesheets/templates/lincomp/stylesheet.css stylesheets/templates/lincomp/print.css )

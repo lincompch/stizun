@@ -18,7 +18,7 @@ class PageController < ApplicationController
       begin
         ContactMailer.send_email(params[:from], {:subject => params[:subject], 
                                                        :reason => params[:reason],
-                                                       :body => params[:body]}).deliver
+                                                       :body => params[:body]}).deliver_now
         redirect_to :controller => :page, :action => :contact_thanks
       rescue
         flash[:error] = "Ihre Nachricht konnte nicht übermittelt werden. Haben Sie eine gültige E-Mail-Adresse angegeben?"

@@ -1,0 +1,1 @@
+Rails.application.config.assets.precompile += %w( theme-lincomp.css theme-lincomp-print.css general.css fonts.css general_admin.css admin_blank.css in_place_styles.css modal.css scaffold.css public.js administration.js )
