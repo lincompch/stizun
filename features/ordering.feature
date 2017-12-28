@@ -20,20 +20,20 @@ Feature: Ordering
       And there is a configuration item named "vat_number" with value "1234"
       And there is a configuration item named "currency" with value ""
 
-    @javascript
     Scenario: Add to cart
       Given the following products exist(table):
       | name | category | supplier   | manufacturer_product_code | purchase_price |
       | Fish | Animals  | Alltron AG | fishy                     |         100.0 |
+      And the Sphinx indexes are updated
       When I view the category "Animals"
       And I add the product "Fish" to my cart 1 times
       Then my cart should contain a product named "Fish"
 
-    @javascript
     Scenario: Add to cart multiple times
       Given the following products exist(table):
       | name | category | supplier   | manufacturer_product_code | purchase_price |
       | Fish | Animals  | Alltron AG | fishy                     |         100.0 |
+      And the Sphinx indexes are updated
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       Then my cart should contain a product named "Fish" 4 times
@@ -43,6 +43,7 @@ Feature: Ordering
       Given the following products exist(table):
       | name | category | supplier   | manufacturer_product_code | purchase_price | weight |
       | Fish | Animals  | Alltron AG | fishy                     |         100.0 | 10.0 |
+      And the Sphinx indexes are updated
       When I view the category "Animals"
       And I add the product "Fish" to my cart 1 times
       And I visit the checkout
@@ -91,12 +92,12 @@ Feature: Ordering
        And the invoice should show a grand total of 221.40
        And the invoice should show a shipping cost including VAT of 108.0
 
-    @javascript
     Scenario: View checkout
       Given the following products exist(table):
       | name              | category | supplier   | purchase_price | weight |
       | Fish              | Animals  | Alltron AG |          100.0 |   10.0 |
       | Terminator T-1000 | Cyborgs  | Alltron AG |          100.0 |   10.0 |
+      And the Sphinx indexes are updated
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       And I view the category "Cyborgs"
@@ -109,6 +110,7 @@ Feature: Ordering
       | name              | category | supplier   | purchase_price | weight |
       | Fish              | Animals  | Alltron AG |          100.0 |   10.0 |
       | Terminator T-1000 | Cyborgs  | Alltron AG |          100.0 |   10.0 |
+      And the Sphinx indexes are updated
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       And I view the category "Cyborgs"
@@ -137,6 +139,7 @@ Feature: Ordering
       | name              | category | supplier   | purchase_price | weight |
       | Fish              | Animals  | Alltron AG |          100.0 |   10.0 |
       | Terminator T-1000 | Cyborgs  | Alltron AG |          100.0 |   10.0 |
+      And the Sphinx indexes are updated
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       And I view the category "Cyborgs"
@@ -174,6 +177,7 @@ Feature: Ordering
       When the following products exist(table):
       | name              | category | supplier   | purchase_price | weight |
       | Fish              | Animals  | Alltron AG |          100.0 |   10.0 |
+      And the Sphinx indexes are updated
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       When I visit the checkout
@@ -199,6 +203,7 @@ Feature: Ordering
       When the following products exist(table):
       | name              | category | supplier   | purchase_price | weight |
       | Fish              | Animals  | Alltron AG |          100.0 |   10.0 |
+      And the Sphinx indexes are updated
       When I view the category "Animals"
       And I add the product "Fish" to my cart 4 times
       When I visit the checkout
