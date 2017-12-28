@@ -124,7 +124,7 @@
   </tr>
   <tr>
     <td><%= f.label :tax_class_id, "Tax Class" %></td>
-    <td><%= f.collection_select(:tax_class_id, TaxClass.find(:all, :order => 'name ASC'), :id, :name, {:prompt => true}) %></td>
+    <td><%= f.collection_select(:tax_class_id, TaxClass.all.order('name ASC'), :id, :name, {:prompt => true}) %></td>
   </tr>
 
   <tr>

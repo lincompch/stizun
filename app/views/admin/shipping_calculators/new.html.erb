@@ -8,7 +8,7 @@
     <%= f.label :type, t('stizun.general.type') %>: 
       <%= select_tag 'shipping_calculator_class', 
           options_for_select([[t("stizun.shipping_calculator.shipping_calculator_based_on_weight"), 'ShippingCalculatorBasedOnWeight']]) %><br>
-      <%= f.label :tax_class_id, t("activerecord.models.tax_class") %>: <%= f.collection_select(:tax_class_id, TaxClass.find(:all, :order => 'name ASC'), :id, :name, {:prompt => true}) %><br> 
+      <%= f.label :tax_class_id, t("activerecord.models.tax_class") %>: <%= f.collection_select(:tax_class_id, TaxClass.all.order('name ASC'), :id, :name, {:prompt => true}) %><br> 
           
     <%= f.submit t("stizun.shipping_calculator.create_shipping_calculator") %>
     

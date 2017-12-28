@@ -13,7 +13,7 @@
   <tr>
     <td><%= f.label :payment_method_ids, "Authorized payment methods" %></td>
     <td><%= f.collection_select :payment_method_ids, 
-            PaymentMethod.find(:all), 
+            PaymentMethod.all, 
             :id, :name, 
             { :selected => @user.payment_method_ids }, 
             { :multiple => true, :name => 'user[payment_method_ids][]' }  %></td>

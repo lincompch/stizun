@@ -17,7 +17,7 @@ When /^I set the tax class to "([^\"]*)"$/ do |arg1|
   
   # TODO: This is dummy material -- needs to be updated with an elegant way to specify
   # both tax class names and tax class percentages in the .feature
-  @tc = TaxClass.find_by_name(arg1)
+  @tc = TaxClass.find_by(:name => arg1)
   @product.tax_class = @tc
 end
 
