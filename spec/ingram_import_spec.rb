@@ -83,13 +83,6 @@ describe IngramUtil do
       supplier = Supplier.where(:name => 'Ingram Micro GmbH').first
       product_codes = ["0711642", "0712027", "0712259", "0712530", "0712577", "07701A5", "07701F4", "07702U8", "07702V2", "0770987"]
 
-      # Create products so only those get updated/marked deleted
-      # product_codes.each do |code|
-      #   supply_item = SupplyItem.where(:supplier_product_code => code).first
-      #   product = Product.new_from_supply_item(supply_item)
-      #   product.save.should == true
-      # end
-
       IngramTestHelper.update_from_file(Rails.root + "spec/data/360_im_products.csv")
       expect(SupplyItem.count).to eq 370 # but 10 of them marked deleted
       # The others should *not* be deleted

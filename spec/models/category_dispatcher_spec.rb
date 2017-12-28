@@ -10,9 +10,9 @@ describe CategoryDispatcher do
   it "should require three category levels to work" do
     category_dispatcher = FactoryGirl.create(:category_dispatcher)
     category_dispatcher.level_01 = nil
-    category_dispatcher.save.should == false
+    expect(category_dispatcher.save).to eq false
     category_dispatcher.level_01 = "foo"
-    category_dispatcher.save.should == true
+    expect(category_dispatcher.save).to eq true
   end
 
 
@@ -35,7 +35,7 @@ describe CategoryDispatcher do
     category_dispatcher.categories = [category3]
     category_dispatcher.save
 
-    CategoryDispatcher.dispatch(["Root Category", "Second-level Category", "Third-level Category"]).should == [category3]
+    expect(CategoryDispatcher.dispatch(["Root Category", "Second-level Category", "Third-level Category"])).to eq [category3]
   end
 
   it "should not slot things anyhwere if the target is not set" do
@@ -51,7 +51,7 @@ describe CategoryDispatcher do
     category2.parent = category1
     category2.save
 
-    CategoryDispatcher.dispatch(["Root Category", "Second-level Category", "Third-level Category"]).should == false
+    expect(CategoryDispatcher.dispatch(["Root Category", "Second-level Category", "Third-level Category"])).to eq false
   end
 
   it "should not slot things anyhwere if there is no dispatcher for that combination" do
@@ -72,7 +72,7 @@ describe CategoryDispatcher do
     category_dispatcher.categories = [category3]
     category_dispatcher.save
 
-    CategoryDispatcher.dispatch(["Root Category", "Second-level Category", "Third-level Category"]).should == false
+    expect(CategoryDispatcher.dispatch(["Root Category", "Second-level Category", "Third-level Category"])).to eq false
   end
 
   it "should determine the unique combinations of categories and levels for a supplier" do
@@ -101,10 +101,10 @@ describe CategoryDispatcher do
 
 
     CategoryDispatcher.create_unique_combinations_for(s)
-    s.category_dispatchers.group(:level_01, :level_02, :level_03).count.should == {
+    expect(s.category_dispatchers.group(:level_01, :level_02, :level_03).count).to eq({
         ["Hund", "Katze", "Maus"]=> 1,
         ["One", "Two", "Three"]=> 1,
         ["Four", "Five", "Six"]=> 1
-    }
+    })
   end
 end

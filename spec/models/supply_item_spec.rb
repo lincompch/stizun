@@ -6,9 +6,9 @@ describe SupplyItem do
     it "should generate categories string after save" do
       supplier = FactoryGirl.create(:supplier, :name => "Supplier 1")
       supply_item = FactoryGirl.build(:supply_item, :supplier => supplier)
-      supply_item.category_string.should == nil
+      expect(supply_item.category_string).to eq nil
       supply_item.save!
-      supply_item.category_string.should == "Supplier 1 :: category1 :: category2 :: category3"
+      expect(supply_item.category_string).to eq "Supplier 1 :: category1 :: category2 :: category3"
     end
   end
 
@@ -23,7 +23,7 @@ describe SupplyItem do
 
       supply_item.stock = -1
       supply_item.save
-      product.is_available.should == true
+      expect(product.is_available).to eq true
     end
 
     it "should not disable its product if there is enough stock" do
@@ -33,7 +33,7 @@ describe SupplyItem do
       product.save
       supply_item.stock = 10
       supply_item.save
-      product.is_available.should == true
+      expect(product.is_available).to eq true
     end
   end
 
@@ -57,10 +57,10 @@ describe SupplyItem do
 
       
       expensive_product = Product.new_from_supply_item(expensive_supply_item)
-      expensive_product.save.should == true
-      expensive_product.cheaper_supply_items.count.should == 1
-      expensive_product.cheaper_supply_items.include?(cheap_supply_item).should == true
-      expensive_product.cheaper_supply_items.include?(expensive_supply_item).should == false
+      expect(expensive_product.save).to eq true
+      expect(expensive_product.cheaper_supply_items.count).to eq 1
+      expect(expensive_product.cheaper_supply_items.include?(cheap_supply_item)).to eq true
+      expect(expensive_product.cheaper_supply_items.include?(expensive_supply_item)).to eq false
     end
 
     it "should not offer any cheaper supply items if their prices match exactly" do
@@ -81,10 +81,10 @@ describe SupplyItem do
 
       
       expensive_product = Product.new_from_supply_item(expensive_supply_item)
-      expensive_product.save.should == true
-      expensive_product.cheaper_supply_items.count.should == 0
-      expensive_product.cheaper_supply_items.include?(cheap_supply_item).should == false
-      expensive_product.cheaper_supply_items.include?(expensive_supply_item).should == false
+      expect(expensive_product.save).to eq true
+      expect(expensive_product.cheaper_supply_items.count).to eq 0
+      expect(expensive_product.cheaper_supply_items.include?(cheap_supply_item)).to eq false
+      expect(expensive_product.cheaper_supply_items.include?(expensive_supply_item)).to eq false
     end
 
     it "should not offer a supply item as cheaper if the margin makes it more expensive" do
@@ -113,9 +113,9 @@ describe SupplyItem do
 
       
       expensive_product = Product.new_from_supply_item(expensive_supply_item)
-      expensive_product.save.should == true
-      expensive_product.cheaper_supply_items.count.should == 0
-      expensive_product.cheaper_supply_items.include?(cheap_supply_item).should == false
+      expect(expensive_product.save).to eq true
+      expect(expensive_product.cheaper_supply_items.count).to eq 0
+      expect(expensive_product.cheaper_supply_items.include?(cheap_supply_item)).to eq false
     end
 
 

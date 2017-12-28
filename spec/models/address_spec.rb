@@ -20,7 +20,7 @@ describe Address do
       a.postalcode = "blah"
       a.email = "foo@bar.com"
       a.country = Country.first
-      a.save.should == true
+      expect(a.save).to eq true
 
       ConfigurationItem.create(:key => "disallow_pobox_in_addresses", :value => "1")
       b = Address.new
@@ -31,15 +31,15 @@ describe Address do
       b.postalcode = "blah"
       b.email = "foo@bar.com"
       b.country = Country.first
-      b.save.should == false
+      expect(b.save).to eq false
       b.street = "postfach"
-      b.save.should == false
+      expect(b.save).to eq false
       b.street = "boîte postale"
-      b.save.should == false
+      expect(b.save).to eq false
       b.street = "case postale"
-      b.save.should == false
+      expect(b.save).to eq false
       b.street = "somewherestreet"
-      b.save.should == true
+      expect(b.save).to eq true
     end
 
 end

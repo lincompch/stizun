@@ -31,8 +31,8 @@ describe StaticDocument do
     # DatabaseCleaner or something seems to mess up these things royally on some machines, but not on others.
     # That's why we have to test explictly (what a waste of time!)
     sc = ShippingCalculator.get_default
-    sc.tax_class.percentage.to_f.should == 8.2
-    sc.name.should == 'For Testing Rounding'
+    expect(sc.tax_class.percentage.to_f).to eq 8.2
+    expect(sc.name).to eq 'For Testing Rounding'
 
     @supplier = FactoryGirl.create(:supplier)
     
@@ -44,25 +44,25 @@ describe StaticDocument do
                   :city => 'Somewhere',
                   :email => 'lala@lala.com',
                   :country => Country.first)    
-    @address.save.should == true
+    expect(@address.save).to eq true
     
     # Again, DatabaseCleaner does not seem to be able to clean up after itself properly
     Product.destroy_all
     p1 = Product.new(:name => "foo",  :manufacturer_product_code => 'bar124', :description => "bar", :weight => 5.5, :supplier => @supplier, :tax_class => tax_class, :purchase_price => "118.27", :direct_shipping => true, :is_available => true)
-    p1.save.should == true
+    expect(p1.save).to eq true
     p2 = Product.new(:name => "foo 2", :manufacturer_product_code => 'bar123', :description => "bar 2", :weight => 10.0, :supplier => @supplier, :tax_class => tax_class, :purchase_price => "236.22", :direct_shipping => true, :is_available => true)
-    p2.save.should == true
+    expect(p2.save).to eq true
 
   end
 
 
   context "the product involved" do
     it "should not round its gross price" do
-      Product.where(:name => 'foo').first.gross_price.to_s.should == "124.1835"
+      expect(Product.where(:name => 'foo').first.gross_price.to_s).to eq "124.1835"
     end
 
     it "should not round its taxes" do
-      Product.where(:name => 'foo').first.taxes.to_s.should == "10.183047"
+      expect(Product.where(:name => 'foo').first.taxes.to_s).to eq "10.183047"
     end
   end
   
@@ -73,53 +73,53 @@ describe StaticDocument do
       c.add_product(Product.where(:name => 'foo').first)
       c.add_product(Product.where(:name => 'foo 2').first)
       c.save
-      c.lines.count.should == 2
+      expect(c.lines.count).to eq 2
 
-      c.shipping_taxes.to_s.should == "1.64"
-      c.shipping_cost.to_s.should == "20.0"
-      c.total_taxed_shipping_price.to_s.should == "21.64"
+      expect(c.shipping_taxes.to_s).to eq "1.64"
+      expect(c.shipping_cost.to_s).to eq "20.0"
+      expect(c.total_taxed_shipping_price.to_s).to eq "21.64"
 
 
-      c.lines[0].taxed_price.to_s.should == "134.35"
-      c.lines[0].gross_price.to_s.should == "124.1835"
-      c.lines[0].price.to_s.should == "124.2"
-      c.lines[0].taxes.to_s.should == "10.183047"
+      expect(c.lines[0].taxed_price.to_s).to eq "134.35"
+      expect(c.lines[0].gross_price.to_s).to eq "124.1835"
+      expect(c.lines[0].price.to_s).to eq "124.2"
+      expect(c.lines[0].taxes.to_s).to eq "10.183047"
 
-      c.lines[1].taxed_price.to_s.should == "268.35"
-      c.lines[1].gross_price.to_s.should == "248.031"
-      c.lines[1].price.to_s.should == "248.05"
-      c.lines[1].taxes.to_s.should == "20.338542"
+      expect(c.lines[1].taxed_price.to_s).to eq "268.35"
+      expect(c.lines[1].gross_price.to_s).to eq "248.031"
+      expect(c.lines[1].price.to_s).to eq "248.05"
+      expect(c.lines[1].taxes.to_s).to eq "20.338542"
 
-      c.products_taxed_price.to_s.should == "402.7"
-      c.products_price.to_s.should == "372.25"
-      c.taxed_price.to_s.should == "424.34"
-      c.taxes.to_s.should == "30.521589"
-      c.total_taxed_shipping_price.to_s.should == "21.64"
+      expect(c.products_taxed_price.to_s).to eq "402.7"
+      expect(c.products_price.to_s).to eq "372.25"
+      expect(c.taxed_price.to_s).to eq "424.34"
+      expect(c.taxes.to_s).to eq "30.521589"
+      expect(c.total_taxed_shipping_price.to_s).to eq "21.64"
 
       o = Order.new_from_cart(c)
       o.shipping_address = Address.first
       o.billing_address = Address.first
-      o.save.should == true
+      expect(o.save).to eq true
 
-      o.shipping_taxes.to_s.should == "1.64"
-      o.shipping_cost.to_s.should == "20.0"
-      o.total_taxed_shipping_price.to_s.should == "21.64"
+      expect(o.shipping_taxes.to_s).to eq "1.64"
+      expect(o.shipping_cost.to_s).to eq "20.0"
+      expect(o.total_taxed_shipping_price.to_s).to eq "21.64"
 
-      o.lines[0].taxed_price.to_s.should == "134.35"
-      o.lines[0].gross_price.should == c.lines[0].gross_price # The same since we're at qty = 1
-      o.lines[0].single_untaxed_price.should == c.lines[0].gross_price # The same since we're at qty = 1
-      o.lines[0].single_price.to_s.should == "134.35"
-      o.lines[0].taxes.to_s.should == "10.183047"
+      expect(o.lines[0].taxed_price.to_s).to eq "134.35"
+      expect(o.lines[0].gross_price).to eq c.lines[0].gross_price # The same since we're at qty = 1
+      expect(o.lines[0].single_untaxed_price).to eq c.lines[0].gross_price # The same since we're at qty = 1
+      expect(o.lines[0].single_price.to_s).to eq "134.35"
+      expect(o.lines[0].taxes.to_s).to eq "10.183047"
 
-      o.lines[1].taxed_price.to_s.should == "268.35"
-      o.lines[1].gross_price.should == c.lines[1].gross_price # The same since we're at qty = 1
-      o.lines[1].single_untaxed_price.should == c.lines[1].gross_price # The same since we're at qty = 1
-      o.lines[1].single_price.to_s.should == "268.35"
-      o.lines[1].taxes.to_s.should == "20.338542"
+      expect(o.lines[1].taxed_price.to_s).to eq "268.35"
+      expect(o.lines[1].gross_price).to eq c.lines[1].gross_price # The same since we're at qty = 1
+      expect(o.lines[1].single_untaxed_price).to eq c.lines[1].gross_price # The same since we're at qty = 1
+      expect(o.lines[1].single_price.to_s).to eq "268.35"
+      expect(o.lines[1].taxes.to_s).to eq "20.338542"
 
-      o.products_taxed_price.to_s.should == "402.7"
-      o.taxed_price.to_s.should == "424.34"
-      o.taxes.to_s.should == "30.521589"
+      expect(o.products_taxed_price.to_s).to eq "402.7"
+      expect(o.taxed_price.to_s).to eq "424.34"
+      expect(o.taxes.to_s).to eq "30.521589"
 
     end
 
@@ -130,39 +130,39 @@ describe StaticDocument do
       c = Cart.new
       c.add_product(Product.where(:name => 'foo').first, 863)
       c.save
-      c.lines.count.should == 1
+      expect(c.lines.count).to eq 1
 
-      c.shipping_taxes.to_s.should == "389.5"
-      c.shipping_cost.to_s.should == "4750.0"
-      c.total_taxed_shipping_price.to_s.should == "5139.5"
+      expect(c.shipping_taxes.to_s).to eq "389.5"
+      expect(c.shipping_cost.to_s).to eq "4750.0"
+      expect(c.total_taxed_shipping_price.to_s).to eq "5139.5"
 
-      c.lines[0].taxed_price.to_s.should == "115958.35"
-      c.lines[0].gross_price.to_s.should == "107170.3605"
-      c.lines[0].price.to_s.should == "107170.35"
-      c.lines[0].taxes.to_s.should == "8787.969561"
+      expect(c.lines[0].taxed_price.to_s).to eq "115958.35"
+      expect(c.lines[0].gross_price.to_s).to eq "107170.3605"
+      expect(c.lines[0].price.to_s).to eq "107170.35"
+      expect(c.lines[0].taxes.to_s).to eq "8787.969561"
 
-      c.products_taxed_price.to_s.should == "115958.35"
-      c.products_price.to_s.should == "107170.35"
+      expect(c.products_taxed_price.to_s).to eq "115958.35"
+      expect(c.products_price.to_s).to eq "107170.35"
       
-      c.taxed_price.to_s.should == "121097.85"
-      c.taxes.to_s.should == "8787.969561"
+      expect(c.taxed_price.to_s).to eq "121097.85"
+      expect(c.taxes.to_s).to eq "8787.969561"
 
       o = Order.new_from_cart(c)
       o.shipping_address = Address.first
       o.billing_address = Address.first
-      o.save.should == true
+      expect(o.save).to eq true
  
-      o.shipping_taxes.to_s.should == "389.5"
-      o.shipping_cost.to_s.should == "4750.0"
-      o.total_taxed_shipping_price.to_s.should == "5139.5"
+      expect(o.shipping_taxes.to_s).to eq "389.5"
+      expect(o.shipping_cost.to_s).to eq "4750.0"
+      expect(o.total_taxed_shipping_price.to_s).to eq "5139.5"
 
-      o.lines[0].taxed_price.should == c.lines[0].taxed_price
-      o.lines[0].gross_price.should == c.lines[0].gross_price
-      o.lines[0].taxes.should == c.lines[0].taxes
+      expect(o.lines[0].taxed_price).to eq c.lines[0].taxed_price
+      expect(o.lines[0].gross_price).to eq c.lines[0].gross_price
+      expect(o.lines[0].taxes).to eq c.lines[0].taxes
 
-      o.products_taxed_price.should == c.products_taxed_price
-      o.taxed_price.should == c.taxed_price
-      o.taxes.should == c.taxes
+      expect(o.products_taxed_price).to eq c.products_taxed_price
+      expect(o.taxed_price).to eq c.taxed_price
+      expect(o.taxes).to eq c.taxes
     end
 
   end

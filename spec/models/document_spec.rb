@@ -28,11 +28,11 @@ describe Document do
                   :city => 'Somewhere',
                   :email => 'lala@lala.com',
                   :country => Country.first)    
-    @address.save.should == true
+    expect(@address.save).to eq true
     
     
     p = Product.new(:name => "foo", :description => "bar", :weight => 5.5, :supplier => @supplier, :tax_class => @tax_class, :purchase_price => BigDecimal.new("100.0"), :direct_shipping => true, :is_available => true)
-    p.save.should == true
+    expect(p.save).to eq true
     
   end
   
@@ -42,11 +42,11 @@ describe Document do
       c = Cart.new
       c.add_product(Product.first)
       c.save
-      c.products_taxed_price.should >= 120
+      expect(c.products_taxed_price).to be >= 120
       # Before tax, this product would cost 100.00. After tax, 150.00. The minimum amount
       # for free shipping is 120.00, so we should offer free shipping now.
-      c.shipping_cost.should == BigDecimal.new("0.0")
-      c.shipping_taxes.should == BigDecimal.new("0.0")
+      expect(c.shipping_cost).to eq BigDecimal.new("0.0")
+      expect(c.shipping_taxes).to eq BigDecimal.new("0.0")
     end
     
     it "should report the correct total including taxes and shipping" do
@@ -55,9 +55,9 @@ describe Document do
       c.add_product(Product.first)
       c.save
       
-      c.shipping_cost.should == BigDecimal.new("0.0")
-      c.shipping_taxes.should == BigDecimal.new("0.0")
-      c.taxed_price.should == c.products_taxed_price # No added shipping!
+      expect(c.shipping_cost).to eq BigDecimal.new("0.0")
+      expect(c.shipping_taxes).to eq BigDecimal.new("0.0")
+      expect(c.taxed_price).to eq c.products_taxed_price # No added shipping!
     end
   end
   

@@ -14,15 +14,15 @@ describe ProductRoundingCalculator do
       mr.start_price = nil
       mr.end_price = nil
       mr.margin_percentage = 5.0
-      mr.save.should == true      
+      expect(mr.save).to eq true      
       p = FactoryGirl.build(:product)
       p.tax_class = tc
       p.purchase_price = BigDecimal.new("123.45")
-      p.save.should == true
+      expect(p.save).to eq true
       
-      p.rounding_component.should == BigDecimal.new("0.679047619048E-2")
+      expect(p.rounding_component).to eq BigDecimal.new("0.679047619048E-2")
 
-      (p.taxed_price.rounded % 5).to_s.should == "0.0" # Should end up rounded to something that ends in 0.05
+      expect((p.taxed_price.rounded % 5).to_s).to eq "0.0" # Should end up rounded to something that ends in 0.05
     end    
 
     it "should work also with products that have a percentage rebate" do
@@ -34,15 +34,15 @@ describe ProductRoundingCalculator do
       mr.start_price = nil
       mr.end_price = nil
       mr.margin_percentage = 5.0
-      mr.save.should == true      
+      expect(mr.save).to eq true      
       p = FactoryGirl.build(:product)
       p.tax_class = tc
       p.purchase_price = BigDecimal.new("123.45")
       p.rebate_until = DateTime.now + 1.year
       p.percentage_rebate = BigDecimal.new("8.4")
-      p.save.should == true
+      expect(p.save).to eq true
 
-      (p.taxed_price.rounded % 5).to_s.should == "0.0" # Should end up rounded to something that ends in 0.05
+      expect((p.taxed_price.rounded % 5).to_s).to eq "0.0" # Should end up rounded to something that ends in 0.05
     end    
 
     it "should work also with products that have an absolute rebate" do
@@ -54,15 +54,15 @@ describe ProductRoundingCalculator do
       mr.start_price = nil
       mr.end_price = nil
       mr.margin_percentage = 5.0
-      mr.save.should == true      
+      expect(mr.save).to eq true      
       p = FactoryGirl.build(:product)
       p.tax_class = tc
       p.purchase_price = BigDecimal.new("123.45")
       p.rebate_until = DateTime.now + 1.year
       p.absolute_rebate = BigDecimal.new("20.0")
-      p.save.should == true
+      expect(p.save).to eq true
 
-      (p.taxed_price.rounded % 5).to_s.should == "0.0" # Should end up rounded to something that ends in 0.05
+      expect((p.taxed_price.rounded % 5).to_s).to eq "0.0" # Should end up rounded to something that ends in 0.05
     end    
 
   end
@@ -76,9 +76,9 @@ describe ProductRoundingCalculator do
                                                                                :margin_percentage => BigDecimal.new("5.0"), 
                                                                                :tax_percentage => BigDecimal.new("8.0"),
                                                                                :rebate => BigDecimal.new("0.0"))
-    rounding_component.should == BigDecimal.new("0.679047619048E-2")
+    expect(rounding_component).to eq BigDecimal.new("0.679047619048E-2")
     new_purchase_price = BigDecimal.new("123.45") + rounding_component
-    new_purchase_price.should == BigDecimal.new("0.12345679047619048E3")
+    expect(new_purchase_price).to eq BigDecimal.new("0.12345679047619048E3")
 
   end
 
@@ -90,7 +90,7 @@ describe ProductRoundingCalculator do
                                                                                :margin_percentage => BigDecimal.new("5.0"), 
                                                                                :tax_percentage => BigDecimal.new("8.0"),
                                                                                :rebate => BigDecimal.new("0.0"))
-    rounding_component.should == BigDecimal.new("0.0")
+    expect(rounding_component).to eq BigDecimal.new("0.0")
 
   end
 

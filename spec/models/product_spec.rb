@@ -6,9 +6,9 @@ describe Product do
 
   describe "the system in general" do
     it "should have some supply items" do
-      supplier = create_supplier("Alltron AG")
+      @supplier = create_supplier("Alltron AG")
       supply_items = create_supply_items(@supplier)
-      supply_items.count.should > 0
+      expect(supply_items.count).to be > 0
     end
     
     it "should have a tax class" do
@@ -22,7 +22,7 @@ describe Product do
       @tax_class = TaxClass.create(:name => 'Test Tax Class', :percentage => "8.0")
       @supplier = create_supplier("Alltron AG")
       supply_items = create_supply_items(@supplier)
-      supply_items.count.should > 0 
+      expect(supply_items.count).to be > 0 
       @suplier = Supplier.where(:name => 'Alltron AG').first
       p = Product.new
       p.tax_class = @tax_class
@@ -36,7 +36,7 @@ describe Product do
       p.manufacturer_product_code = mfg_code
       p.weight = 1.0
       p.supplier = @supplier
-      p.save.should == true
+      expect(p.save).to eq true
     end
 
     
@@ -48,7 +48,7 @@ describe Product do
       si = FactoryGirl.build(:supply_item)
       si.image_url = "https://www.google.ch/images/srpr/logo3w.png"
       si.pdf_url = "http://www.scala-lang.org/sites/default/files/linuxsoft_archives/docu/files/ScalaByExample.pdf"
-      si.save.should == true
+      expect(si.save).to eq true
       
       p.supply_item = si
       if Product.last
@@ -57,14 +57,14 @@ describe Product do
         mfg_code = "mfg baz 0"
       end
       p.manufacturer_product_code = mfg_code
-      p.save.should == true
+      expect(p.save).to eq true
       p.try_to_get_product_files
       
       image_path = "#{download_dir}/#{p.supply_item.id}_#{File.basename(si.image_url)}"
       pdf_path = "#{download_dir}/#{p.supply_item.id}_#{File.basename(si.pdf_url)}"
       puts image_path, pdf_path
-      File.exist?(image_path).should == true
-      File.exist?(pdf_path).should == true
+      expect(File.exist?(image_path)).to eq true
+      expect(File.exist?(pdf_path)).to eq true
     end
     
     it "should use the most specific margin range available to it for price calculation" do
@@ -73,7 +73,7 @@ describe Product do
       product = FactoryGirl.build(:product)
       product.purchase_price = "100.0"
       product.supplier = supplier
-      product.save.should == true
+      expect(product.save).to eq true
 
       MarginRange.destroy_all # Sometimes FactoryGirl.build goes a little overboard creating associated records
 
@@ -82,28 +82,28 @@ describe Product do
       mr0.start_price = nil
       mr0.end_price = nil
       mr0.margin_percentage = 10.0
-      mr0.save.should == true
+      expect(mr0.save).to eq true
 
-      product.margin_percentage.should == 10.0
+      expect(product.margin_percentage).to eq 10.0
       
       mr1 = FactoryGirl.build(:margin_range)
       mr1.start_price = nil
       mr1.end_price = nil
       mr1.supplier = supplier
       mr1.margin_percentage = 20.0
-      mr1.save.should == true
+      expect(mr1.save).to eq true
       supplier.reload
-      product.margin_percentage.should == 20.0
+      expect(product.margin_percentage).to eq 20.0
 
       mr2 = FactoryGirl.build(:margin_range)
       mr2.start_price = nil
       mr2.end_price = nil
       mr2.product = product
       mr2.margin_percentage = 30.0
-      mr2.save.should == true
+      expect(mr2.save).to eq true
       product.reload
 
-      product.margin_percentage.should == 30.0
+      expect(product.margin_percentage).to eq 30.0
 
     end
 
@@ -129,18 +129,18 @@ describe Product do
       
       si = supplier.supply_items.first
       p = Product.new_from_supply_item(si)
-      p.name.should == "Switchable Supply Item"
-      p.weight.should == 20.0
-      p.manufacturer_product_code.should == "ABC"
-      p.supplier_product_code.should == "123"
-      p.supplier.should == supplier
-      p.save.should == true
+      expect(p.name).to eq "Switchable Supply Item"
+      expect(p.weight).to eq 20.0
+      expect(p.manufacturer_product_code).to eq "ABC"
+      expect(p.supplier_product_code).to eq "123"
+      expect(p.supplier).to eq supplier
+      expect(p.save).to eq true
       
       p.supply_item = supplier2.supply_items.first
-      p.save.should == true
-      p.supplier.should == supplier2
-      p.supplier_product_code.should == "12345"
-      p.supply_item.name.should == "Switchable Supply Item From Company 2"
+      expect(p.save).to eq true
+      expect(p.supplier).to eq supplier2
+      expect(p.supplier_product_code).to eq "12345"
+      expect(p.supply_item.name).to eq "Switchable Supply Item From Company 2"
 
     end
     
@@ -166,87 +166,87 @@ describe Product do
       items.each do |item_data|
         si = supplier.supply_items.create(item_data)
          p = Product.new_from_supply_item(si)
-         p.save.should == true
+         expect(p.save).to eq true
       end
       
        
       SupplyItem.all.each do |si|
         si.purchase_price = si.purchase_price + 20
         si.stock = si.stock + 20
-        si.save.should == true
+        expect(si.save).to eq true
       end
       
       Product.update_price_and_stock
       
       p1 = Product.where(:supplier_product_code => 123).first
       p2 = Product.where(:supplier_product_code => 124).first
-      p1.purchase_price.should == BigDecimal("70.0")
-      p1.stock.should == 220
-      p2.purchase_price.should == BigDecimal("40.0")
-      p2.stock.should == 70
+      expect(p1.purchase_price).to eq BigDecimal("70.0")
+      expect(p1.stock).to eq 220
+      expect(p2.purchase_price).to eq BigDecimal("40.0")
+      expect(p2.stock).to eq 70
     end
 
     it "should, when switching supply items, change its name to match the naming style of the supply item it is being switched to" do
 
       product = FactoryGirl.build(:product, :name => 'Product One')
-      product.name.should == "Product One"
+      expect(product.name).to eq "Product One"
       supply_item1 = FactoryGirl.build(:supply_item, :name => 'Style of Supply Item One', :manufacturer_product_code => 'ABC123')
       supply_item2 = FactoryGirl.build(:supply_item, :name => 'Style of Supply Item Two', :manufacturer_product_code => 'ABC123')
       
       product.supply_item = supply_item1
       product.save
-      product.name.should == "Style of Supply Item One"
+      expect(product.name).to eq "Style of Supply Item One"
 
       product.supply_item = supply_item2
       if product.save == false
         binding.pry
       end
-      product.save.should == true
-      product.reload.name.should == "Style of Supply Item Two"
+      expect(product.save).to eq true
+      expect(product.reload.name).to eq "Style of Supply Item Two"
     end
 
 
     it "should extract URLs from its own description and attach them to itself" do
       product = FactoryGirl.build(:product, :name => 'URLified product')
       product.description = "This product has a datasheet at http://www.example.com/product1 and its product manager can be reached at mailto:foo@example.com. Also, see http://www.example.com/about for company information"
-      product.save.should == true
-      product.links.collect(&:url).include?("http://www.example.com/product1").should eq true
-      product.links.collect(&:url).include?("mailto:foo@example.com").should eq false
-      product.links.collect(&:url).include?("http://www.example.com/about").should eq true
+      expect(product.save).to eq true
+      expect(product.links.collect(&:url).include?("http://www.example.com/product1")).to be true
+      expect(product.links.collect(&:url).include?("mailto:foo@example.com")).to eq false
+      expect(product.links.collect(&:url).include?("http://www.example.com/about")).to eq true
     end
 
     it "should not extract URLs that are already there" do
       product = FactoryGirl.build(:product, :name => 'URLified product 2')
       product.description = "This product has a datasheet at http://www.example.com and its product manager can be reached at http://www.example.com . Also, see http://www.example.com for company information"
-      product.save.should == true
-      product.links.collect(&:url).to_a.should == ["http://www.example.com"]
-      product.links.count.should == 1 
+      expect(product.save).to eq true
+      expect(product.links.collect(&:url).to_a).to eq ["http://www.example.com"]
+      expect(product.links.count).to eq 1 
     end
 
     it "should ignore the punctuation at the end of URLs" do
       product = FactoryGirl.build(:product, :name => 'URLified product 2')
       product.description = "This product has a datasheet at http://www.example.com. And its product manager can be reached at http://www.example.com, or perhaps at http://www.example.com."
-      product.save.should == true
-      product.links.collect(&:url).to_a.should == ["http://www.example.com"]
-      product.links.count.should == 1 
+      expect(product.save).to eq true
+      expect(product.links.collect(&:url).to_a).to eq ["http://www.example.com"]
+      expect(product.links.count).to eq 1 
     end
 
     it "should, when switching supply items, add any new URLs it finds to the product" do
 
       product = FactoryGirl.build(:product, :name => 'Product One')
-      product.name.should == "Product One"
+      expect(product.name).to eq "Product One"
       supply_item1 = FactoryGirl.build(:supply_item, :name => 'Supply Item One', :description => 'http://www.example.com', :manufacturer_product_code => 'ABC123')
       supply_item2 = FactoryGirl.build(:supply_item, :name => 'Supply Item Two', :description => 'http://www.other.example.com', :manufacturer_product_code => 'ABC123')
       
       product.supply_item = supply_item1
       product.save
-      product.links.count.should == 1
+      expect(product.links.count).to eq 1
       product.supply_item = supply_item2
       if product.save == false
         binding.pry
       end
-      product.save.should == true
-      product.reload.links.count.should == 2
+      expect(product.save).to eq true
+      expect(product.reload.links.count).to eq 2
     end
   end
   
@@ -272,7 +272,7 @@ describe Product do
           FactoryGirl.create(:supply_item, si.merge!(:supplier => @supplier))
         end
         
-        SupplyItem.all.count.should == 5
+        expect(SupplyItem.all.count).to eq 5
     end
     
     after(:all) do
@@ -291,7 +291,7 @@ describe Product do
       p.add_component(SupplyItem.where(:name => 'Semi-broken case with PSU').first) 
       p.add_component(SupplyItem.where(:name => 'Defective screen').first) 
       p.save
-      p.components.count.should == 5
+      expect(p.components.count).to eq 5
     end
 
     it "should have a correct price, a total of constituent supply items" do
@@ -309,8 +309,8 @@ describe Product do
       p.add_component(SupplyItem.where(:name => 'Semi-broken case with PSU').first) 
       p.add_component(SupplyItem.where(:name => 'Defective screen').first) 
       p.save
-      p.purchase_price.should == (115 + 220 + 80 + 20 + 200) # The total of purchase prices
-      p.gross_price.should == (115 + 220 + 80 + 20 + 200) # The same, since we set MarginRange to be 0.0 above
+      expect(p.purchase_price).to eq (115 + 220 + 80 + 20 + 200) # The total of purchase prices
+      expect(p.gross_price).to eq (115 + 220 + 80 + 20 + 200) # The same, since we set MarginRange to be 0.0 above
     end
 
     it "should have correct taxes and sales price, based on the totals of all the constituent supply items' purchase prices plus a total margin" do
@@ -328,8 +328,8 @@ describe Product do
       p.add_component(SupplyItem.where(:name => 'Defective screen').first)
       p.tax_class = @tax_class
       p.save
-      p.taxes.should == 55.88
-      p.taxed_price.should == 754.38
+      expect(p.taxes).to eq 55.88
+      expect(p.taxed_price).to eq 754.38
     end
     
     it "should be affected by MarginRanges just like normal products" do
@@ -347,8 +347,8 @@ describe Product do
       p.add_component(SupplyItem.where(:name => 'Defective screen').first) 
       p.save
       total = 115 + 220 + 80 + 20 + 200
-      p.purchase_price.should == total # The total of purchase prices
-      p.gross_price.should == total + ((total / 100.0) * mr.margin_percentage)
+      expect(p.purchase_price).to eq total # The total of purchase prices
+      expect(p.gross_price).to eq total + ((total / 100.0) * mr.margin_percentage)
     end
     
   end # end componentized product

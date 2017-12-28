@@ -5,7 +5,7 @@ require_relative '../lib/pocketmedia_util'
 
 describe PocketmediaUtil do
   before(:each) do
-    SupplyItem.count.should == 0
+    expect(SupplyItem.count).to eq 0
     Supplier.find_or_create_by(:name => "Pocketmedia")
   end
 
@@ -13,7 +13,7 @@ describe PocketmediaUtil do
 
     it "should import 83 items" do
       PocketmediaTestHelper.import_from_file(Rails.root + "spec/data/85_pocketmedia.csv")
-      SupplyItem.count.should == 83
+      expect(SupplyItem.count).to eq 83
       supplier = Supplier.where(:name => 'Pocketmedia').first
 
 
@@ -39,7 +39,7 @@ describe PocketmediaUtil do
     data[:description01] = "Some Description"
     data[:description02] = "Some Second Description"
     pmu = PocketmediaUtil.new
-    pmu.construct_supply_item_name(data).should == "#{data[:manufacturer]} #{data[:manufacturer_product_code]} (#{data[:ean_code]})"
+    expect(pmu.construct_supply_item_name(data)).to eq "#{data[:manufacturer]} #{data[:manufacturer_product_code]} (#{data[:ean_code]})"
   end
 
   it "should construct a nice description for supply items" do
@@ -54,7 +54,7 @@ describe PocketmediaUtil do
     data[:description01] = "Some Description"
     data[:description02] = "Some Second Description"
     pmu = PocketmediaUtil.new
-    pmu.construct_supply_item_description(data).should == "#{data[:name01]}"
+    expect(pmu.construct_supply_item_description(data)).to eq "#{data[:name01]}"
   end
 
 
