@@ -54,12 +54,12 @@ Feature: Ordering
       And the order summary should contain shipping cost including VAT of 108.0
       And the order summary should contain a grand total of 221.40
 
-    @javascript
     Scenario: See correct totals on order listings in my user page
       Given I am logged in as "foo@bar.com"
       And the following products exist(table):
       | name | category | supplier   | manufacturer_product_code | purchase_price | weight |
       | Fish | Animals  | Alltron AG | fishy                     |         100.0 | 10.0 |
+      And the Sphinx indexes are updated
       When I view the category "Animals"
        And I add the product "Fish" to my cart 1 times
        And I visit the checkout
