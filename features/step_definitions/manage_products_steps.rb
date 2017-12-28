@@ -2,6 +2,7 @@
 Given 'the Sphinx indexes are updated' do
   # Update all indexes
   ThinkingSphinx::Test.index
+  sleep 3 
 end
 
 
