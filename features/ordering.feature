@@ -20,6 +20,7 @@ Feature: Ordering
       And there is a configuration item named "vat_number" with value "1234"
       And there is a configuration item named "currency" with value ""
 
+    @javascript
     Scenario: Add to cart
       Given the following products exist(table):
       | name | category | supplier   | manufacturer_product_code | purchase_price |
@@ -28,6 +29,7 @@ Feature: Ordering
       And I add the product "Fish" to my cart 1 times
       Then my cart should contain a product named "Fish"
 
+    @javascript
     Scenario: Add to cart multiple times
       Given the following products exist(table):
       | name | category | supplier   | manufacturer_product_code | purchase_price |
@@ -89,6 +91,7 @@ Feature: Ordering
        And the invoice should show a grand total of 221.40
        And the invoice should show a shipping cost including VAT of 108.0
 
+    @javascript
     Scenario: View checkout
       Given the following products exist(table):
       | name              | category | supplier   | purchase_price | weight |
