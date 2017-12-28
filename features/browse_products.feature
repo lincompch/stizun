@@ -27,26 +27,25 @@ Feature: Browse products
       |nil        |nil      |0.0              |
       And there is a payment method called "Prepay" which is the default
 
-    @javascript
     Scenario: Browse all products
       Given the following products exist(table):
       |name        |category               |supplier  |purchase_price|manufacturer_product_code|
       |Foobar 2000 |Metasyntactic Variables|Alltron AG|100.0         |foo1                     |
       |Fish        |Animals                |Alltron AG|100.0         |foo2                     |
       |Defender    |Arcade games           |Alltron AG|100.0         |foo3                     |
+      And the Sphinx indexes are updated
       When I view the product list
       Then I should see a product named "Foobar 2000"
       And I should see a product named "Fish"
       And I should see a product named "Defender"
 
-    @javascript
     Scenario: Browse products in a category
       Given the following products exist(table):
       |name        |category               |supplier  |purchase_price|manufacturer_product_code|
       |Foobar 2000 |Metasyntactic Variables|Alltron AG|100.0         |foo1                     |
       |Fish        |Animals                |Alltron AG|100.0         |foo2                     |
       |Defender    |Arcade games           |Alltron AG|100.0         |foo3                     |
-      When the Sphinx indexes are updated
+      And the Sphinx indexes are updated
       And I view the category "Animals"
       Then I should see a product named "Fish"
       And I should not see a product named "Defender"
@@ -66,7 +65,6 @@ Feature: Browse products
       | Fish     |
       | Duckling |
 
-    @foop
     Scenario: Build-to-order products
       Given the following products exist(table):
       | name        | category | supplier   | purchase_price | manufacturer_product_code | stock | build_to_order |
