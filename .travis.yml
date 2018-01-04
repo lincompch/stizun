@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 2.1.6
+  - 2.5.0
 env: 
   - MOZ_HEADLESS=1
 addons:
