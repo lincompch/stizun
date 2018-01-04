@@ -3,12 +3,9 @@ class History < ActiveRecord::Base
   
   # === Named scopes
   
-  scope :for_day, lambda { |date|
-      { :conditions => { 
-          :created_at => date.midnight..date.midnight + 1.day 
-        }
-      }
-  }
+  scope :for_day, ->(date) do
+      where(created_at: date.midnight..date.midnight + 1.day)
+  end
 
   # === Constants and associated methods
   
