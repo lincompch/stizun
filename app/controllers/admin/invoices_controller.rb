@@ -7,7 +7,7 @@ class Admin::InvoicesController <  Admin::BaseController
       total_maximum = params[:search_invoices][:total_maximum] unless (params[:search_invoices][:total_maximum].nil? or params[:search_invoices][:total_maximum].blank?)
       having_reminders = params[:search_invoices][:having_reminders] unless (params[:search_invoices][:having_reminders].nil? or params[:search_invoices][:having_reminders] == "0")
 
-      @invoices = Invoice.all(:order => 'created_at DESC').collect{|invoice|
+      @invoices = Invoice.all.order('created_at DESC').collect{|invoice|
 
         if keyword
           text = " #{invoice.document_id} "
@@ -52,7 +52,7 @@ class Admin::InvoicesController <  Admin::BaseController
         end
       }.compact
     else
-      @invoices = Invoice.all(:order => 'created_at DESC')
+      @invoices = Invoice.all.order('created_at DESC')
     end
   end
   

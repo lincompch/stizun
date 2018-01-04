@@ -7,7 +7,7 @@ class Admin::OrdersController <  Admin::BaseController
       total_maximum = params[:search_orders][:total_maximum] unless (params[:search_orders][:total_maximum].nil? or params[:search_orders][:total_maximum].blank?)
       #having_reminders = params[:search_orders][:having_reminders] unless (params[:search_orders][:having_reminders].nil? or params[:search_orders][:having_reminders] == "0")
 
-      @orders = Order.all(:order => 'created_at DESC').collect{|order|
+      @orders = Order.all.order('created_at DESC').collect{|order|
 
         if keyword
           text = " #{order.document_id} "
@@ -43,7 +43,7 @@ class Admin::OrdersController <  Admin::BaseController
         end
       }.compact
     else 
-      @orders = Order.all(:order => "created_at DESC")
+      @orders = Order.all.order("created_at DESC")
     end
   end
   
