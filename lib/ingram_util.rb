@@ -86,7 +86,6 @@ class IngramUtil < SupplierUtil
     # SYS=XML
 
     customer_no = APP_CONFIG['ingram_customer_number']
-    username = "CH27" + customer_no + "000"
     password = APP_CONFIG['ingram_password']
     
     if username.empty? or password.empty?
@@ -107,16 +106,16 @@ class IngramUtil < SupplierUtil
     
     require 'net/https'
 
-    host = "www.ingrammicro.de"
-    port = 443
-    path = "/cgi-bin/scripts/get_avail.pl?CCD=CH&BNR=27&KNR=#{customer_no}&SKU=#{supplier_product_code_string}&QTY=#{quantities}&SYS=CF"
-    
+    host = "www.ingrammicro.ch"
+    port = 80
+    #path = "/cgi-bin/scripts/get_avail.pl?CCD=CH&BNR=27&KNR=#{customer_no}&SKU=#{supplier_product_code_string}&QTY=#{quantities}&SYS=CF"
+    path = "/ebs/?action=PriceAndAvailability&company=CH&branch=27&customer=#{customer_no}&suffix=000&password=#{password}&sku=#{supplier_product_code_string}"
     begin
-      http = Net::HTTP.new(host, 443)
-      http.use_ssl = true
+      http = Net::HTTP.new(host, port)
+      http.use_ssl = false
       http.start do |http|
         req = Net::HTTP::Get.new(path)
-        req.basic_auth(username, password)
+        #req.basic_auth(username, password)
         logger.info "[#{DateTime.now.to_s}] Sending request to path: #{path}" 
         response = http.request(req)
 
