@@ -88,7 +88,7 @@ class IngramUtil < SupplierUtil
     customer_no = APP_CONFIG['ingram_customer_number']
     password = APP_CONFIG['ingram_password']
     
-    if username.empty? or password.empty?
+    if customer_no.empty? or password.empty?
       logger.error "[#{DateTime.now.to_s}] Live update will probably fail, either username or password are not set"
     end
     
