@@ -52,7 +52,99 @@ class IngramUtil < SupplierUtil
   def import_supply_items(filename = self.import_filename)
     super
   end
-  
+
+  def self.request_update(product_code, customer_no, password)
+    require 'net/https'
+    logger = Logger.new("#{Rails.root}/log/ingram_live_update_#{Time.now.strftime("%Y-%m-%d")}.log")
+    
+    host = "newport.ingrammicro.com"
+    port = 443
+    path = "/imxml"
+    begin
+      http = Net::HTTP.new(host, port)
+      http.use_ssl = true
+      http.start do |h|
+        xmlreq = "<PNARequest>
+        <Version>2.0</Version>
+        <TransactionHeader>
+        <SenderID>123456789</SenderID>
+        <ReceiverID>987654321</ReceiverID>
+        <CountryCode>CH</CountryCode>
+        <LoginID>#{customer_no}</LoginID>
+        <Password>#{password}</Password>
+        </TransactionHeader>
+        <PNAInformation SKU=\"#{product_code}\" ManufacturerPartNumber=\"\" Quantity=\"1\"
+        ReservedInventory =\"Y\"/>
+        <ShowDetail>1</ShowDetail>
+        </PNARequest>"
+
+        req = Net::HTTP::Post.new(path)
+        req.body = xmlreq
+        logger.info "[#{DateTime.now.to_s}] Sending request to path: #{path}" 
+        response = h.request(req)
+
+
+        if response.code == "200"
+          #logger.info "[#{DateTime.now.to_s}] Response body: #{response.body.split("\n").join("|")}"
+          xml = Nokogiri::XML(response.body)
+
+          if xml.at_css("ErrorStatus")
+            logger.error "#{xml.at_css('ErrorStatus').text}"
+            return {}
+          end
+
+          price = xml.at_css("UnitNetAmount").text.to_f
+          stock = xml.at_css("AvailableQuantity").text.to_i
+
+          if price.to_i == 0
+            logger.info "[#{DateTime.now.to_s}] Live update for product with supplier product code #{product_code} would have set our price to 0.0. Skipping this product."
+            return {} 
+          end
+
+          product = Product.where(:supplier_product_code => product_code).first
+          
+          # Skip if the product already had an update less than 30 minutes ago, and assign
+          # a reasonably early date if it is nil
+          product.auto_updated_at = DateTime.parse("1900-01-01") if product.auto_updated_at.nil?
+          return {} if (DateTime.now - 30.minutes) < product.auto_updated_at
+          
+          old_price = product.taxed_price.rounded
+          new_purchase_price = BigDecimal.new(price.to_s)
+          product.purchase_price = new_purchase_price
+          product.stock = stock
+          
+          if product.changes.empty?
+            logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there were no changes."
+          else
+            changes = product.changes.clone
+            product.auto_updated_at = DateTime.now
+            if product.save
+              changes.merge!({ "product_id" => product.id })
+              changes.merge!({ "price" => [old_price, product.taxed_price.rounded] }) unless changes['purchase_price'].blank?
+              changes.delete('auto_updated_at') # We're not interested in this, since it might happen that this is the only value that changed, and that's not very interesting
+              logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, changes: #{changes.inspect}"
+            else
+              logger.error "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there was an error saving them: #{product.errors.full_messages}"
+            end
+          end
+
+          return changes
+
+        else
+          logger.error "[#{DateTime.now.to_s}] Non-OK response. Response body: #{response.body.split("\n").join("|")}"
+          return {} 
+        end
+      end
+
+    rescue Exception => e
+      logger.error "[#{DateTime.now.to_s}] Exception during Ingram Micro HTTPS document lines/product live update"
+      logger.error e.message
+      logger.error e.backtrace.inspect
+      # A blank array indicates that nothing useful happened
+      return {} 
+    end
+  end
+
 
   # Update a product's information (stock level, price) from Ingram Micro's live update URL
   # Input: DocumentLines object if multiple products need to be updated (e.g. from a Cart object)
@@ -64,26 +156,6 @@ class IngramUtil < SupplierUtil
     if (APP_CONFIG['ingram_customer_number'].blank? or APP_CONFIG['ingram_password'].blank?)
       return []
     end
-
-    logger = Logger.new("#{Rails.root}/log/ingram_live_update_#{Time.now.strftime("%Y-%m-%d")}.log")
-    
-    # e.g. from Ingram Micro GmbH:
-    # http://CH27KNR000@www.ingrammicro.de/cgi-bin/scripts/get_avail.pl?CCD=CH&BNR=27&KNR=999999&SKU=016Z006~016Z007&QTY=10~100&SYS=CF
-    #
-    # KNR: ihre Kundennummer z.B. CH27620030000
-    # PWD: ihr Passwort für die INGRAM MICRO Online Systeme (IM.Order)
-    # CCD: CompanyCode "CH" für die Schweiz
-    # KNR: ihre sechsstellige Kundennummer
-    # BNR: BranchNbr  (27)
-    # SKU: INGRAM MICRO Artikelnummer mit ~ getrennt können auch mehrere Artikelnummern übergeben werden
-    # HST: Alternativ zur INGRAM MICRO Artikelnummer kann auch die Hersteller Artikelnummer übergeben werden. Auch hier können mehrere Artikel mit ~ getrennt übergeben werden.
-    # QTY: gewünschte Menge für jeden Artikel mit ~ getrennt (optional, Standard=1)
-    # SYS: steuert den Response. Mögliche Parameter sind CF, CF_QTY und XML.
-    #
-    # Response:
-    # SYS=CF     Artikelnummer;Lagerbestand;Preis in Schweizer Rappen;Zeit;Liefertermin;
-    # SYS=CF_QTY      Lagerbestand
-    # SYS=XML
 
     customer_no = APP_CONFIG['ingram_customer_number']
     password = APP_CONFIG['ingram_password']
@@ -100,86 +172,17 @@ class IngramUtil < SupplierUtil
       raise ArgumentError, "This method can only deal with Product objects or arrays of DocumentLines"
     end
     
-    supplier_product_codes = products.collect(&:supplier_product_code)
-    supplier_product_code_string = supplier_product_codes.join("~")
-    quantities = (["1"] * supplier_product_codes.size).join("~")
-    
-    require 'net/https'
-
-    host = "www.ingrammicro.ch"
-    port = 80
-    #path = "/cgi-bin/scripts/get_avail.pl?CCD=CH&BNR=27&KNR=#{customer_no}&SKU=#{supplier_product_code_string}&QTY=#{quantities}&SYS=CF"
-    path = "/ebs/?action=PriceAndAvailability&company=CH&branch=27&customer=#{customer_no}&suffix=000&password=#{password}&sku=#{supplier_product_code_string}"
-    begin
-      http = Net::HTTP.new(host, port)
-      http.use_ssl = false
-      http.start do |http|
-        req = Net::HTTP::Get.new(path)
-        #req.basic_auth(username, password)
-        logger.info "[#{DateTime.now.to_s}] Sending request to path: #{path}" 
-        response = http.request(req)
-
-        if response.code == "200"
-          logger.info "[#{DateTime.now.to_s}] Response body: #{response.body.split("\n").join("|")}"
-          total_changes = []
-          update_lines = response.body.split("\n")
-          update_lines.each do |line|
-            product_code, stock, price_in_cents, time, delivery_date = line.split(";")
-            if price_in_cents.to_i == 0
-              logger.info "[#{DateTime.now.to_s}] Live update for product with supplier product code #{product_code} would have set our price to 0.0. Skipping this product."
-              next
-            end
-
-            product = Product.where(:supplier_product_code => product_code).first
-            
-            # Skip if the product already had an update less than 30 minutes ago, and assign
-            # a reasonably early date if it is nil
-            product.auto_updated_at = DateTime.parse("1900-01-01") if product.auto_updated_at.nil?
-            next if (DateTime.now - 30.minutes) < product.auto_updated_at
-            
-            old_price = product.taxed_price.rounded
-            new_purchase_price = BigDecimal.new( (price_in_cents.to_i / 100.0).to_s )
-            new_stock = stock
-            product.purchase_price = new_purchase_price
-            product.stock = stock
-            
-            if product.changes.empty?
-              logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there were no changes."
-            else
-              changes = product.changes.clone
-              product.auto_updated_at = DateTime.now
-              if product.save
-                changes.merge!({ "product_id" => product.id })
-                changes.merge!({ "price" => [old_price, product.taxed_price.rounded] }) unless changes['purchase_price'].blank?
-                changes.delete('auto_updated_at') # We're not interested in this, since it might happen that this is the only value that changed, and that's not very interesting
-                logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, changes: #{changes.inspect}"
-              else
-                logger.error "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there was an error saving them: #{product.errors.full_messages}"
-              end
-              # Fill a hash with changes using the product id as key
-              total_changes << changes
-            end
-          end
-
-          return total_changes
-
-        else
-          logger.error "[#{DateTime.now.to_s}] Non-OK response. Response body: #{response.body.split("\n").join("|")}"
-          return []
-        end
+    changed = {} 
+    products.each do |p|
+      changes = request_update(p.supplier_product_code, customer_no, password)
+      if changes
+        changed[p.id] = changes
       end
-
-    rescue Exception => e
-      
-      logger.error "[#{DateTime.now.to_s}] Exception during Ingram Micro HTTPS document lines/product live update"
-      logger.error e.message
-      logger.error e.backtrace.inspect
-      # A blank array indicates that nothing useful happened
-      return []
     end
-
+    changed
   end
-  
+ 
+
   # Take all the raw data about a supply item and return a nice, meaningful string for its name, which can
   # be different between suppliers and is therefore handled in the supplier-specific subclasses
   def construct_supply_item_name(data)
