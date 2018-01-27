@@ -56,6 +56,8 @@ class IngramUtil < SupplierUtil
   def self.request_update(product_code, customer_no, password)
     require 'net/https'
     logger = Logger.new("#{Rails.root}/log/ingram_live_update_#{Time.now.strftime("%Y-%m-%d")}.log")
+
+    username = "CH" + customer_no + "XM"
     
     host = "newport.ingrammicro.com"
     port = 443
@@ -65,17 +67,18 @@ class IngramUtil < SupplierUtil
       http.use_ssl = true
       http.start do |h|
         xmlreq = "<PNARequest>
-        <Version>2.0</Version>
-        <TransactionHeader>
-        <SenderID>123456789</SenderID>
-        <ReceiverID>987654321</ReceiverID>
-        <CountryCode>CH</CountryCode>
-        <LoginID>#{customer_no}</LoginID>
-        <Password>#{password}</Password>
-        </TransactionHeader>
-        <PNAInformation SKU=\"#{product_code}\" ManufacturerPartNumber=\"\" Quantity=\"1\"
-        ReservedInventory =\"Y\"/>
-        <ShowDetail>1</ShowDetail>
+          <Version>2.0</Version>
+          <TransactionHeader>
+            <SenderID>123456789</SenderID>
+            <ReceiverID>987654321</ReceiverID>
+            <CountryCode>CH</CountryCode>
+            <LoginID>#{username}</LoginID>
+            <Password>#{password}</Password>
+            <TransactionID>54321</TransactionID>
+          </TransactionHeader>
+          <PNAInformation SKU=\"#{product_code}\" ManufacturerPartNumber=\"\" Quantity=\"1\"
+          ReservedInventory =\"Y\"/>
+          <ShowDetail>1</ShowDetail>
         </PNARequest>"
 
         req = Net::HTTP::Post.new(path)
@@ -88,13 +91,13 @@ class IngramUtil < SupplierUtil
           #logger.info "[#{DateTime.now.to_s}] Response body: #{response.body.split("\n").join("|")}"
           xml = Nokogiri::XML(response.body)
 
-          if xml.at_css("ErrorStatus")
+          if xml.at_css("ErrorStatus").text != ""
             logger.error "#{xml.at_css('ErrorStatus').text}"
             return {}
           end
 
-          price = xml.at_css("UnitNetAmount").text.to_f
-          stock = xml.at_css("AvailableQuantity").text.to_i
+          price = xml.at_css("Price").text.sub(',', '.').to_f
+          stock = xml.at_css("Availability").text.to_i
 
           if price.to_i == 0
             logger.info "[#{DateTime.now.to_s}] Live update for product with supplier product code #{product_code} would have set our price to 0.0. Skipping this product."
