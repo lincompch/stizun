@@ -175,11 +175,12 @@ class IngramUtil < SupplierUtil
       raise ArgumentError, "This method can only deal with Product objects or arrays of DocumentLines"
     end
     
-    changed = {} 
+    changed = [] 
     products.each do |p|
       changes = request_update(p.supplier_product_code, customer_no, password)
       if changes
-        changed[p.id] = changes
+        #changed[p.id] = changes
+        changed << changes
       end
     end
     changed
