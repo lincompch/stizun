@@ -4,7 +4,7 @@ class CartsController < ApplicationController
 
 
   def set_up_product_updates
-    @product_updates = nil
+    @product_updates = []
   end
   
   def add_product
