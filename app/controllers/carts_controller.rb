@@ -44,7 +44,7 @@ class CartsController < ApplicationController
   
   def checkout
     @cart = Cart.get_from_session(session)
-    live_update_products
+    #live_update_products
   end
   
   def change_quantity
@@ -79,7 +79,7 @@ class CartsController < ApplicationController
   def show
     # This is reused as the checkout view
     @cart = Cart.get_from_session(session)
-    live_update_products
+    #live_update_products
     @piwik = cart_to_piwik(@cart)
   end
   

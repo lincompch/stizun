@@ -13,7 +13,7 @@ class OrdersController < ApplicationController
       flash[:error] = I18n.t("stizun.order.shopping_cart_empty")
       redirect_to cart_path
     else
-      live_update_products
+      #live_update_products
       @order = load_order
       @order.shipping_address = Address.new
       @order.billing_address = Address.new
