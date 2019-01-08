@@ -459,8 +459,10 @@ class Product < ActiveRecord::Base
   
   def disable_product
     self.is_available = false
+    self.is_visible = false
     if self.save
       History.add("Disabled product #{self.to_s}.", History::PRODUCT_CHANGE, self)
+      History.add("Made product invisible #{self.to_s}.", History::PRODUCT_CHANGE, self)
     else
       History.add("Could not disable product #{self.to_s}.", History::PRODUCT_CHANGE, self)
     end
