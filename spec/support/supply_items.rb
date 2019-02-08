@@ -31,6 +31,7 @@ end
 
 def supply_item_should_be(supplier, supplier_product_code, attributes = {})
   si = supplier.supply_items.where(:supplier_product_code => supplier_product_code).first
+  expect(si).to_not be_nil
   attributes.each do |k,v|
     expect(si.send(k)).to eq(v)
   end

@@ -15,29 +15,29 @@ class IngramUtil < SupplierUtil
       @supplier.save
     end
     
-    @field_mapping = {:name01 => 3, #'HERSTELLER',
+    @field_mapping = {:name01 => 2, #'HERSTELLER',
                       :name02 => 6, #'ARTIKEL1',
                       :name03 => 5, #'HSTNUMMER',
                       :description01 => 7, #'ARTIKEL2',
                       :description02 => nil,
-                      :supplier_product_code => 4, #'ARTIKEL_NR',
+                      :supplier_product_code => 3, #'ARTIKEL_NR',
                       :price_excluding_vat => 15, #'EK',
                       :stock_level => 20, #'Vmenge',
                       :manufacturer_product_code => 5, #'HSTNUMMER',
-                      :manufacturer => 3, #'HERSTELLER',
-                      :weight => 32, #'Gewicht',
+                      :manufacturer => 2, #'HERSTELLER',
+                      :weight => 34, #'Gewicht',
                       :product_link => nil,
-                      :pdf_url => 24, #'DATENBLATT1',
-                      :image_url => 25, #'BILD1',
+                      :pdf_url => 26, #'DATENBLATT1',
+                      :image_url => 27, #'BILD1',
                       :category01 => 0, #'GRUPPE1',
                       :category02 => 1, #'GRUPPE2',
-                      :category03 => 2, #'GRUPPE3'}   
-                      :ean_code => 27
+                      :category03 => nil,   
+                      :ean_code => 29
                       }
     
     # Possible options:
     #   :col_sep => the separator character to split() on
-    @csv_parse_options = { :col_sep => "\t" }
+    @csv_parse_options = { :col_sep => "|" }
   end
   
   def self.data_directory
