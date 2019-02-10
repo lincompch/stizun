@@ -3,14 +3,19 @@ class CategoryDispatcher < ActiveRecord::Base
   validates_presence_of :level_01
   has_and_belongs_to_many :categories
 
+  before_save :update_category_count
+
   scope :without_categories, -> {
-    includes(:categories).where("categories.id IS NULL")
+    where("category_count = 0")
   }
 
   scope :with_categories, -> {
-    includes(:categories).where("categories.id IS NOT NULL")
+    where("category_count > 0")
   }
 
+  def update_category_count
+    self.category_count = self.categories.count
+  end
 
   def to_s
     return "#{level_01} :: #{level_02} :: #{level_03}"
