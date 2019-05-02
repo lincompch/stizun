@@ -1,0 +1,44 @@
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: Install required base packages
+      apt:
+        name: "{{item}}"
+        state: latest
+        update_cache: yes
+      loop:
+        - apache2
+        - dirmngr
+        - libmariadbclient-dev
+        - mariadb-server
+        - apt-transport-https
+        - ca-certificates
+        - build-essential
+        - libreadline-dev
+        - libxml2
+        - ruby
+        - sphinxsearch
+    
+    - gem:
+        name: bundler
+        state: present
+        version: 1.16.1
+
+    - name: Trust Phusion's repository
+      apt_key: 
+        keyserver: keyserver.ubuntu.com
+        id: "561F9B9CAC40B2F7"
+
+    - name: Add Phusion's repository
+      apt_repository: 
+        repo: deb https://oss-binaries.phusionpassenger.com/apt/passenger stretch main
+        state: present
+        update_cache: yes
+
+    - name: Install Phusion Passenger
+      apt:
+        name: libapache2-mod-passenger
+        state: latest
