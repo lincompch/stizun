@@ -9,6 +9,7 @@
         name: "{{item}}"
         state: latest
         update_cache: yes
+        cache_valid_time: 3600
       loop:
         - apache2
         - dirmngr
@@ -39,8 +40,25 @@
         repo: deb https://oss-binaries.phusionpassenger.com/apt/passenger stretch main
         state: present
         update_cache: yes
-
+  
     - name: Install Phusion Passenger
       apt:
         name: libapache2-mod-passenger
         state: latest
+
+    - name: Add backports
+      apt_repository:
+        repo: deb http://deb.debian.org/debian stretch-backports main
+        state: present
+        update_cache: yes
+    
+    - name: Install Certbot
+      apt:
+        name: "{{item}}"
+        state: latest
+        update_cache: yes
+        cache_valid_time: 3600
+        default_release: stretch-backports
+      loop:
+        - certbot
+        - python-certbot-apache
