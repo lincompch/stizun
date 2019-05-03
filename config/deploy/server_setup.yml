@@ -21,6 +21,8 @@
         - libxml2
         - ruby
         - sphinxsearch
+        - ruby-dev
+        - git
     
     - gem:
         name: bundler
