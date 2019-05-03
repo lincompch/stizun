@@ -49,5 +49,7 @@ Stizun::Application.configure do
 
   config.log_level = :debug
   config.eager_load = false
+  config.active_record.schema_format = :sql
+
 end
 
