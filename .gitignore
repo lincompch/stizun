@@ -48,3 +48,8 @@ public/uploads/tmp/**/*
 *.swp
 public/system/**/*
 public/uploads/**/*
+
+# Configs
+config/database.yml
+config/stizun.yml
+config/email.yml

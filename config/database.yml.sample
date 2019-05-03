@@ -1,0 +1,13 @@
+development:
+  adapter: mysql2
+  host: localhost
+  database: lincomp_dev
+  username: lincomp
+  password: lincomp
+
+test:
+  adapter: mysql2
+  host: localhost
+  database: stizun_test
+  username: root
+  password: 

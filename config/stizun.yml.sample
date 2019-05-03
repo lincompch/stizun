@@ -1,0 +1,18 @@
+production:
+  default_from_email: "info@lincomp.ch"
+  default_to_email: "root@localhost"
+  email_subject_prefix: "[Lincomp]"
+development:
+  default_from_email: "root@localhost"
+  default_to_email: "root@localhost"
+  email_subject_prefix: "[Local Shop]"
+  ingram_customer_number: "620030"
+  ingram_password: "bushAnHuAdd2"
+test:
+  default_from_email: "root@localhost"
+  default_to_email: "root@localhost"
+  email_subject_prefix: "[Local Shop]"
+cucumber:
+  default_from_email: "root@localhost"
+  default_to_email: "root@localhost"
+  email_subject_prefix: "[Local Shop]"
