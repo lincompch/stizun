@@ -13,7 +13,7 @@ gem 'cucumber', :groups => [:test, :development]
 gem 'cucumber-rails', ">= 1.2.0", :require => false, :group => :test
 gem 'daemons'
 gem 'database_cleaner', :groups => [:test, :development]
-gem 'devise'#, '>= 3.2.4'
+gem 'devise', '>= 4.7'
 gem 'devise-encryptable'
 gem 'dynamic_form' # Offers Rails 2 f.error_messages etc. helpers on forms
 gem 'factory_girl', :groups => [:test, :development]
@@ -23,10 +23,10 @@ gem 'factory_girl_rails', :groups => [:test, :development]
 gem 'jquery-rails', '~> 3.1.3'
 gem 'later_dude', '>= 0.3.1'
 gem 'launchy', :groups => [:test, :development]
-gem 'mini_magick', '~> 3.6.0'
+gem 'mini_magick', '~> 4.9.0'
 gem 'mysql2', :platform => :ruby
 gem 'nokogiri'
-gem 'paperclip', "~> 4.2.2"
+gem 'paperclip', ">= 5.2.0"
 gem 'pickle', :groups => [:test, :development]
 gem 'pry', :groups => [:test, :development]
 gem 'rack-ssl-enforcer'
