@@ -42,7 +42,7 @@ describe ContactMailer, :type => :feature do
   it "should include the right text in the message" do
     data = {:body => 'Foo'}
     email = ContactMailer.send_email(@from, data).deliver_now
-    expect(email.body.to_s).to eq "Liebe Lincomp\n\nIch habe folgendes Anliegen:\n\nFoo\n\nDanke für die Beantwortung und freundliche Grüsse\n"
+    expect(email.body.to_s).to eq "Liebe Lincomp\r\n\r\nIch habe folgendes Anliegen:\r\n\r\nFoo\r\n\r\nDanke für die Beantwortung und freundliche Grüsse\r\n"
     expect(ActionMailer::Base.deliveries.size).to eq 1
   end
 
