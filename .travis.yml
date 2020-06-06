@@ -7,10 +7,9 @@ addons:
   firefox: latest
 services:
   - mysql
+  - xvfb
 before_script:
   - mysql -e 'create database stizun_test;'
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
 before_install:
   - "sudo apt-get update"
   - "sudo apt-get install sphinxsearch"
