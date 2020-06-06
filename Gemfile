@@ -24,7 +24,7 @@ gem 'jquery-rails', '~> 3.1.3'
 gem 'later_dude', '>= 0.3.1'
 gem 'launchy', :groups => [:test, :development]
 gem 'mini_magick', '~> 4.9.0'
-gem 'mysql2', :platform => :ruby
+gem 'mysql2', '~> 0.4.10', :platform => :ruby
 gem 'nokogiri'
 gem 'paperclip', ">= 5.2.0"
 gem 'pickle', :groups => [:test, :development]
@@ -42,3 +42,5 @@ gem 'uuidtools'
 gem 'will_paginate'
 gem 'xpath', :groups => [:test, :development] # Capybara should resolve this...
 gem 'open_uri_redirections'
+gem 'sprockets', '>= 3.7.2'
+
