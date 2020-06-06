@@ -47,7 +47,7 @@ describe Product do
       p.supplier = @supplier
       si = FactoryGirl.build(:supply_item)
       si.image_url = "https://www.google.ch/images/srpr/logo3w.png"
-      si.pdf_url = "http://www.scala-lang.org/sites/default/files/linuxsoft_archives/docu/files/ScalaByExample.pdf"
+      si.pdf_url = "https://file-examples.com/wp-content/uploads/2017/10/file-sample_150kB.pdf"
       expect(si.save).to eq true
       
       p.supply_item = si

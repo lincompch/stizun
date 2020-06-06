@@ -12,7 +12,7 @@ class ProductSet < ActiveRecord::Base
     self.quantity * self.component.weight
   end
 
-  def cleanup
+  def self.cleanup
     ProductSet.all.each do |ps|
       ps.delete if ps.component.nil?
     end

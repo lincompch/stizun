@@ -1,3 +1,5 @@
+require 'open_uri_redirections'
+
 class FileDownloader
   
   attr_accessor :accepted_content_types
@@ -18,7 +20,7 @@ class FileDownloader
   # Gets a file and downloads it to a destination directory
   def by_http(url, destination_path)
     begin
-      open(url) do |input|
+      open(url, :allow_redirections => :safe) do |input|
         if @accepted_content_types.include?(input.content_type)
 
           if File.exists?(destination_path)

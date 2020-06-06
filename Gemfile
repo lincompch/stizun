@@ -41,3 +41,4 @@ gem 'thinking-sphinx', :git => 'https://github.com/pat/thinking-sphinx.git', :br
 gem 'uuidtools'
 gem 'will_paginate'
 gem 'xpath', :groups => [:test, :development] # Capybara should resolve this...
+gem 'open_uri_redirections'

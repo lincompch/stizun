@@ -53,3 +53,4 @@ public/uploads/**/*
 config/database.yml
 config/stizun.yml
 config/email.yml
+.vscode/settings.json
