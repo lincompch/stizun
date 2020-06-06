@@ -214,7 +214,7 @@ GEM
       slop (~> 3.4)
       spoon (~> 0.0)
     public_suffix (3.0.1)
-    rack (1.6.8)
+    rack (1.6.13)
     rack-ssl-enforcer (0.2.6)
     rack-test (0.6.3)
       rack (>= 1.0)
