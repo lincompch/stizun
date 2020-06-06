@@ -23,7 +23,7 @@ gem 'factory_girl_rails', :groups => [:test, :development]
 gem 'jquery-rails', '~> 3.1.3'
 gem 'later_dude', '>= 0.3.1'
 gem 'launchy', :groups => [:test, :development]
-gem 'mini_magick', '~> 3.6.0'
+gem 'mini_magick', '~> 4.9.4'
 gem 'mysql2', :platform => :ruby
 gem 'nokogiri'
 gem 'paperclip', "~> 4.2.2"
