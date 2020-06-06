@@ -187,6 +187,8 @@ GEM
     net-ssh (6.0.2)
     net-ssh-gateway (2.0.0)
       net-ssh (>= 4.0.0)
+    nio4r (2.5.2)
+    nio4r (2.5.2-java)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     nokogiri (1.10.9-java)
@@ -211,6 +213,10 @@ GEM
       method_source (~> 1.0)
       spoon (~> 0.0)
     public_suffix (4.0.5)
+    puma (4.3.5)
+      nio4r (~> 2.0)
+    puma (4.3.5-java)
+      nio4r (~> 2.0)
     rack (1.6.13)
     rack-ssl-enforcer (0.2.9)
     rack-test (0.6.3)
@@ -340,6 +346,7 @@ DEPENDENCIES
   paperclip (>= 5.2.0)
   pickle
   pry
+  puma
   rack-ssl-enforcer
   rails (= 4.2.10)
   rails3-generators

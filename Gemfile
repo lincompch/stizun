@@ -44,3 +44,4 @@ gem 'xpath', :groups => [:test, :development] # Capybara should resolve this...
 gem 'open_uri_redirections'
 gem 'sprockets', '>= 3.7.2'
 gem 'sass'
+gem 'puma', :groups => [:test]
