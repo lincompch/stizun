@@ -80,6 +80,9 @@ class SupplierUtil
   # If the item is there, we read the updated product information from the CSV file and update the
   # supply item and its related products.
   def update_supply_items(filename = self.import_filename)
+    # Hack: First get rid of all ProductSets that don't have any live components anymore, otherwise
+    # updates will fail on calculating the weight
+    ProductSet.cleanup
     available_supplier_product_codes = @supplier.supply_items.available.collect(&:supplier_product_code)
     to_delete = available_supplier_product_codes.dup
 
@@ -107,12 +110,12 @@ class SupplierUtil
 
     SupplyItem.expire_category_tree_cache(@supplier)
     # Update the local supply item's information using the line from the CSV file
-    
+
     ThinkingSphinx::Deltas.suspend :supply_item do
       # Deactivate the supply item if the line's not there anymore
       to_delete.each do |td|
         supply_item = @supplier.supply_items.where(:supplier_product_code => td).first
-        unless supply_item.nil?         
+        unless supply_item.nil?
           supply_item.status_constant = SupplyItem::DELETED
           if supply_item.save
             supplier_logger.info("[#{DateTime.now.to_s}] Marked Supply Item as deleted: #{supply_item.to_s}")
@@ -125,7 +128,7 @@ class SupplierUtil
       # Deactivate the supply item if the line's not there anymore
       to_reactivate.each do |td|
         supply_item = @supplier.supply_items.where(:supplier_product_code => td).first
-        unless supply_item.nil?         
+        unless supply_item.nil?
           supply_item.status_constant = SupplyItem::AVAILABLE
           if supply_item.save
             supplier_logger.info("[#{DateTime.now.to_s}] Reactivated supply item because it reappared in the CSV file: #{supply_item.to_s}")
@@ -246,7 +249,7 @@ class SupplierUtil
       si.weight = data[:weight].gsub(",",".").to_f
     end
     si.manufacturer_product_code = "#{data[:manufacturer_product_code]}"
-    si.purchase_price = calculate_price(data) 
+    si.purchase_price = calculate_price(data)
     si.stock = data[:stock_level].gsub("'","").to_i unless data[:stock_level].nil?
     si.image_url = "#{data[:image_url].strip}" unless data[:image_url].blank?
     si.description_url = "#{data[:description_url].strip}" unless data[:description_url].blank?

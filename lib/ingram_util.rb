@@ -14,7 +14,7 @@ class IngramUtil < SupplierUtil
       @supplier.name = "Ingram Micro GmbH"
       @supplier.save
     end
-    
+
     @field_mapping = {:name01 => 2, #'HERSTELLER',
                       :name02 => 6, #'ARTIKEL1',
                       :name03 => 5, #'HSTNUMMER',
@@ -31,23 +31,23 @@ class IngramUtil < SupplierUtil
                       :image_url => 27, #'BILD1',
                       :category01 => 0, #'GRUPPE1',
                       :category02 => 1, #'GRUPPE2',
-                      :category03 => nil,   
+                      :category03 => nil,
                       :ean_code => 29
                       }
-    
+
     # Possible options:
     #   :col_sep => the separator character to split() on
     @csv_parse_options = { :col_sep => "|" }
   end
-  
+
   def self.data_directory
     return Rails.root + "lib"
   end
-  
+
   def self.import_filename
     return @infile = self.data_directory + "something.txt"
   end
-  
+
   # Synchronize all supply items from a supplier's provided CSV file
   def import_supply_items(filename = self.import_filename)
     super
@@ -58,7 +58,7 @@ class IngramUtil < SupplierUtil
     logger = Logger.new("#{Rails.root}/log/ingram_live_update_#{Time.now.strftime("%Y-%m-%d")}.log")
 
     username = "CH" + customer_no + "XM"
-    
+
     host = "newport.ingrammicro.com"
     port = 443
     path = "/imxml"
@@ -83,7 +83,8 @@ class IngramUtil < SupplierUtil
 
         req = Net::HTTP::Post.new(path)
         req.body = xmlreq
-        logger.info "[#{DateTime.now.to_s}] Sending request to path: #{path}" 
+        req.content_type = 'text/xml'
+        logger.info "[#{DateTime.now.to_s}] Sending request to path: #{path}"
         response = h.request(req)
 
 
@@ -101,21 +102,21 @@ class IngramUtil < SupplierUtil
 
           if price.to_i == 0
             logger.info "[#{DateTime.now.to_s}] Live update for product with supplier product code #{product_code} would have set our price to 0.0. Skipping this product."
-            return {} 
+            return {}
           end
 
           product = Product.where(:supplier_product_code => product_code).first
-          
+
           # Skip if the product already had an update less than 30 minutes ago, and assign
           # a reasonably early date if it is nil
           product.auto_updated_at = DateTime.parse("1900-01-01") if product.auto_updated_at.nil?
           return {} if (DateTime.now - 30.minutes) < product.auto_updated_at
-          
+
           old_price = product.taxed_price.rounded
           new_purchase_price = BigDecimal.new(price.to_s)
           product.purchase_price = new_purchase_price
           product.stock = stock
-          
+
           if product.changes.empty?
             logger.info "[#{DateTime.now.to_s}] Live update for #{product} was triggered, but there were no changes."
           else
@@ -135,7 +136,7 @@ class IngramUtil < SupplierUtil
 
         else
           logger.error "[#{DateTime.now.to_s}] Non-OK response. Response body: #{response.body.split("\n").join("|")}"
-          return {} 
+          return {}
         end
       end
 
@@ -144,7 +145,7 @@ class IngramUtil < SupplierUtil
       logger.error e.message
       logger.error e.backtrace.inspect
       # A blank array indicates that nothing useful happened
-      return {} 
+      return {}
     end
   end
 
@@ -162,11 +163,11 @@ class IngramUtil < SupplierUtil
 
     customer_no = APP_CONFIG['ingram_customer_number']
     password = APP_CONFIG['ingram_password']
-    
+
     if customer_no.empty? or password.empty?
       logger.error "[#{DateTime.now.to_s}] Live update will probably fail, either username or password are not set"
     end
-    
+
     if object.is_a?(Product)
       products = [object]
     elsif object.is_a?(Array)
@@ -174,8 +175,8 @@ class IngramUtil < SupplierUtil
     else
       raise ArgumentError, "This method can only deal with Product objects or arrays of DocumentLines"
     end
-    
-    changed = [] 
+
+    changed = []
     products.each do |p|
       changes = request_update(p.supplier_product_code, customer_no, password)
       if changes
@@ -185,7 +186,7 @@ class IngramUtil < SupplierUtil
     end
     changed
   end
- 
+
 
   # Take all the raw data about a supply item and return a nice, meaningful string for its name, which can
   # be different between suppliers and is therefore handled in the supplier-specific subclasses
