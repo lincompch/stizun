@@ -7,7 +7,7 @@ gem 'capistrano', '~> 2.15', :group => :development
 gem 'capistrano-ext', :group => :development
 gem 'capistrano-rbenv', '1.0.5', :group => :development
 gem 'capybara', :groups => [:test, :development]
-gem 'carrierwave', '0.11.2'
+gem 'carrierwave', '1.3.2'
 gem 'ckeditor'
 gem 'cucumber', :groups => [:test, :development]
 gem 'cucumber-rails', ">= 1.2.0", :require => false, :group => :test
